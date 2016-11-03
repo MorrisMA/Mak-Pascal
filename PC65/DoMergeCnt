@@ -1,0 +1,21 @@
+./Debug/PC65 test/Sieve.pas test/Sieve.asm
+./Debug/PC65 test/Wolf.pas test/Wolf.asm
+./Debug/PC65 test/Newton.pas test/Newton.asm
+./Debug/PC65 test/Translat.pas test/Translat.asm
+./Debug/PC65 test/XRef.pas test/XRef.asm
+
+awk -f utils/ParsePascal.awk test/Sieve.asm > test/Sieve.a65
+awk -f utils/ParsePascal.awk test/Wolf.asm > test/Wolf.a65
+awk -f utils/ParsePascal.awk test/Newton.asm > test/Newton.a65
+awk -f utils/ParsePascal.awk test/Translat.asm > test/Translat.a65
+awk -f utils/ParsePascal.awk test/XRef.asm > test/XRef.a65
+
+awk -f utils/CntPascal.awk test/Sieve.a65 | sort > test/Sieve.p01
+awk -f utils/CntPascal.awk test/Wolf.a65 | sort > test/Wolf.p01
+awk -f utils/CntPascal.awk test/Newton.a65 | sort > test/Newton.p01
+awk -f utils/CntPascal.awk test/Translat.a65 | sort > test/Translat.p01
+awk -f utils/CntPascal.awk test/XRef.a65 | sort > test/XRef.p01
+
+awk -f utils/MergeCnt.awk test/Sieve.p01 test/Wolf.p01 test/Newton.p01 test/Translat.p01 test/XRef.p01 | sort > test/MergeCnt.dat
+
+

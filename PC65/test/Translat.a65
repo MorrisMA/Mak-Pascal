@@ -1,0 +1,681 @@
+			.STACK  1024
+			.CODE   
+n_004	.EQU  +6
+partbefore_005	.EQU  -2
+partafter_006	.EQU  -4
+part_008	.EQU  +6
+hundredsdigit_009	.EQU  -2
+tenspart_010	.EQU  -4
+tensdigit_011	.EQU  -6
+onesdigit_012	.EQU  -8
+digit_014	.EQU  +6
+_doones_013	.SUB
+			phx.w   
+			tsx.w   
+			lda.w   digit_014,B
+			cmp.w   #1
+			bne     L_017
+L_016	.LBL
+			psh.w   #S_018
+			psh.w   #0
+			psh.w   #4
+			jsr     _swrite
+			adj     #6
+			jmp     L_015
+L_017	.LBL
+			cmp.w   #2
+			bne     L_020
+L_019	.LBL
+			psh.w   #S_021
+			psh.w   #0
+			psh.w   #4
+			jsr     _swrite
+			adj     #6
+			jmp     L_015
+L_020	.LBL
+			cmp.w   #3
+			bne     L_023
+L_022	.LBL
+			psh.w   #S_024
+			psh.w   #0
+			psh.w   #6
+			jsr     _swrite
+			adj     #6
+			jmp     L_015
+L_023	.LBL
+			cmp.w   #4
+			bne     L_026
+L_025	.LBL
+			psh.w   #S_027
+			psh.w   #0
+			psh.w   #5
+			jsr     _swrite
+			adj     #6
+			jmp     L_015
+L_026	.LBL
+			cmp.w   #5
+			bne     L_029
+L_028	.LBL
+			psh.w   #S_030
+			psh.w   #0
+			psh.w   #5
+			jsr     _swrite
+			adj     #6
+			jmp     L_015
+L_029	.LBL
+			cmp.w   #6
+			bne     L_032
+L_031	.LBL
+			psh.w   #S_033
+			psh.w   #0
+			psh.w   #4
+			jsr     _swrite
+			adj     #6
+			jmp     L_015
+L_032	.LBL
+			cmp.w   #7
+			bne     L_035
+L_034	.LBL
+			psh.w   #S_036
+			psh.w   #0
+			psh.w   #6
+			jsr     _swrite
+			adj     #6
+			jmp     L_015
+L_035	.LBL
+			cmp.w   #8
+			bne     L_038
+L_037	.LBL
+			psh.w   #S_039
+			psh.w   #0
+			psh.w   #6
+			jsr     _swrite
+			adj     #6
+			jmp     L_015
+L_038	.LBL
+			cmp.w   #9
+			bne     L_041
+L_040	.LBL
+			psh.w   #S_042
+			psh.w   #0
+			psh.w   #5
+			jsr     _swrite
+			adj     #6
+			jmp     L_015
+L_041	.LBL
+L_015	.LBL
+			txs.w   
+			plx.w   
+			rts     
+teens_044	.EQU  +6
+_doteens_043	.SUB
+			phx.w   
+			tsx.w   
+			lda.w   teens_044,B
+			cmp.w   #10
+			bne     L_047
+L_046	.LBL
+			psh.w   #S_048
+			psh.w   #0
+			psh.w   #4
+			jsr     _swrite
+			adj     #6
+			jmp     L_045
+L_047	.LBL
+			cmp.w   #11
+			bne     L_050
+L_049	.LBL
+			psh.w   #S_051
+			psh.w   #0
+			psh.w   #7
+			jsr     _swrite
+			adj     #6
+			jmp     L_045
+L_050	.LBL
+			cmp.w   #12
+			bne     L_053
+L_052	.LBL
+			psh.w   #S_054
+			psh.w   #0
+			psh.w   #7
+			jsr     _swrite
+			adj     #6
+			jmp     L_045
+L_053	.LBL
+			cmp.w   #13
+			bne     L_056
+L_055	.LBL
+			psh.w   #S_057
+			psh.w   #0
+			psh.w   #9
+			jsr     _swrite
+			adj     #6
+			jmp     L_045
+L_056	.LBL
+			cmp.w   #14
+			bne     L_059
+L_058	.LBL
+			psh.w   #S_060
+			psh.w   #0
+			psh.w   #9
+			jsr     _swrite
+			adj     #6
+			jmp     L_045
+L_059	.LBL
+			cmp.w   #15
+			bne     L_062
+L_061	.LBL
+			psh.w   #S_063
+			psh.w   #0
+			psh.w   #8
+			jsr     _swrite
+			adj     #6
+			jmp     L_045
+L_062	.LBL
+			cmp.w   #16
+			bne     L_065
+L_064	.LBL
+			psh.w   #S_066
+			psh.w   #0
+			psh.w   #8
+			jsr     _swrite
+			adj     #6
+			jmp     L_045
+L_065	.LBL
+			cmp.w   #17
+			bne     L_068
+L_067	.LBL
+			psh.w   #S_069
+			psh.w   #0
+			psh.w   #10
+			jsr     _swrite
+			adj     #6
+			jmp     L_045
+L_068	.LBL
+			cmp.w   #18
+			bne     L_071
+L_070	.LBL
+			psh.w   #S_072
+			psh.w   #0
+			psh.w   #9
+			jsr     _swrite
+			adj     #6
+			jmp     L_045
+L_071	.LBL
+			cmp.w   #19
+			bne     L_074
+L_073	.LBL
+			psh.w   #S_075
+			psh.w   #0
+			psh.w   #9
+			jsr     _swrite
+			adj     #6
+			jmp     L_045
+L_074	.LBL
+L_045	.LBL
+			txs.w   
+			plx.w   
+			rts     
+digit_077	.EQU  +6
+_dotens_076	.SUB
+			phx.w   
+			tsx.w   
+			lda.w   digit_077,B
+			cmp.w   #2
+			bne     L_080
+L_079	.LBL
+			psh.w   #S_081
+			psh.w   #0
+			psh.w   #7
+			jsr     _swrite
+			adj     #6
+			jmp     L_078
+L_080	.LBL
+			cmp.w   #3
+			bne     L_083
+L_082	.LBL
+			psh.w   #S_084
+			psh.w   #0
+			psh.w   #7
+			jsr     _swrite
+			adj     #6
+			jmp     L_078
+L_083	.LBL
+			cmp.w   #4
+			bne     L_086
+L_085	.LBL
+			psh.w   #S_087
+			psh.w   #0
+			psh.w   #6
+			jsr     _swrite
+			adj     #6
+			jmp     L_078
+L_086	.LBL
+			cmp.w   #5
+			bne     L_089
+L_088	.LBL
+			psh.w   #S_090
+			psh.w   #0
+			psh.w   #6
+			jsr     _swrite
+			adj     #6
+			jmp     L_078
+L_089	.LBL
+			cmp.w   #6
+			bne     L_092
+L_091	.LBL
+			psh.w   #S_093
+			psh.w   #0
+			psh.w   #6
+			jsr     _swrite
+			adj     #6
+			jmp     L_078
+L_092	.LBL
+			cmp.w   #7
+			bne     L_095
+L_094	.LBL
+			psh.w   #S_096
+			psh.w   #0
+			psh.w   #8
+			jsr     _swrite
+			adj     #6
+			jmp     L_078
+L_095	.LBL
+			cmp.w   #8
+			bne     L_098
+L_097	.LBL
+			psh.w   #S_099
+			psh.w   #0
+			psh.w   #7
+			jsr     _swrite
+			adj     #6
+			jmp     L_078
+L_098	.LBL
+			cmp.w   #9
+			bne     L_101
+L_100	.LBL
+			psh.w   #S_102
+			psh.w   #0
+			psh.w   #7
+			jsr     _swrite
+			adj     #6
+			jmp     L_078
+L_101	.LBL
+L_078	.LBL
+			txs.w   
+			plx.w   
+			rts     
+_dopart_007	.SUB
+			phx.w   
+			tsx.w   
+			adj     #-8
+			lda.w   part_008,B
+			pha.w   
+			lda     #100
+			pha.w   
+			jsr     _idiv
+			adj     #4
+			sta.w   hundredsdigit_009
+			lda.w   part_008,B
+			pha.w   
+			lda     #100
+			pha.w   
+			jsr     _idiv
+			adj     #4
+			swp     
+			sta.w   tenspart_010
+			lda.w   hundredsdigit_009,B
+			pha.w   
+			lda     #0
+			xma.w   0,S
+			cmp.w   0,S
+			adj     #2
+			php     
+			lda     #1
+			plp     
+			bgt     L_105
+			lda     #0
+L_105	.LBL
+			cmp.w   #1
+			beq     L_103
+			jmp     L_104
+L_103	.LBL
+			lda.w   hundredsdigit_009,B
+			pha.w   
+			phx.w   
+			jsr     _doones_013
+			adj     #4
+			psh.w   #S_106
+			psh.w   #0
+			psh.w   #8
+			jsr     _swrite
+			adj     #6
+L_104	.LBL
+			lda.w   tenspart_010,B
+			pha.w   
+			lda     #10
+			xma.w   0,S
+			cmp.w   0,S
+			adj     #2
+			php     
+			lda     #1
+			plp     
+			bge     L_109
+			lda     #0
+L_109	.LBL
+			pha.w   
+			lda.w   tenspart_010,B
+			pha.w   
+			lda     #19
+			xma.w   0,S
+			cmp.w   0,S
+			adj     #2
+			php     
+			lda     #1
+			plp     
+			ble     L_110
+			lda     #0
+L_110	.LBL
+			anl.w   0,S
+			adj     #2
+			cmp.w   #1
+			beq     L_107
+			jmp     L_108
+L_107	.LBL
+			lda.w   tenspart_010,B
+			pha.w   
+			phx.w   
+			jsr     _doteens_043
+			adj     #4
+			jmp     L_111
+L_108	.LBL
+			lda.w   tenspart_010,B
+			pha.w   
+			lda     #10
+			pha.w   
+			jsr     _idiv
+			adj     #4
+			sta.w   tensdigit_011
+			lda.w   tenspart_010,B
+			pha.w   
+			lda     #10
+			pha.w   
+			jsr     _idiv
+			adj     #4
+			swp     
+			sta.w   onesdigit_012
+			lda.w   tensdigit_011,B
+			pha.w   
+			lda     #0
+			xma.w   0,S
+			cmp.w   0,S
+			adj     #2
+			php     
+			lda     #1
+			plp     
+			bgt     L_114
+			lda     #0
+L_114	.LBL
+			cmp.w   #1
+			beq     L_112
+			jmp     L_113
+L_112	.LBL
+			lda.w   tensdigit_011,B
+			pha.w   
+			phx.w   
+			jsr     _dotens_076
+			adj     #4
+L_113	.LBL
+			lda.w   onesdigit_012,B
+			pha.w   
+			lda     #0
+			xma.w   0,S
+			cmp.w   0,S
+			adj     #2
+			php     
+			lda     #1
+			plp     
+			bgt     L_117
+			lda     #0
+L_117	.LBL
+			cmp.w   #1
+			beq     L_115
+			jmp     L_116
+L_115	.LBL
+			lda.w   onesdigit_012,B
+			pha.w   
+			phx.w   
+			jsr     _doones_013
+			adj     #4
+L_116	.LBL
+L_111	.LBL
+			txs.w   
+			plx.w   
+			rts     
+_translate_003	.SUB
+			phx.w   
+			tsx.w   
+			adj     #-4
+			lda.w   n_004,B
+			pha.w   
+			lda.w   #1000
+			pha.w   
+			jsr     _idiv
+			adj     #4
+			sta.w   partbefore_005
+			lda.w   n_004,B
+			pha.w   
+			lda.w   #1000
+			pha.w   
+			jsr     _idiv
+			adj     #4
+			swp     
+			sta.w   partafter_006
+			lda.w   partbefore_005,B
+			pha.w   
+			lda     #0
+			xma.w   0,S
+			cmp.w   0,S
+			adj     #2
+			php     
+			lda     #1
+			plp     
+			bgt     L_120
+			lda     #0
+L_120	.LBL
+			cmp.w   #1
+			beq     L_118
+			jmp     L_119
+L_118	.LBL
+			lda.w   partbefore_005,B
+			pha.w   
+			phx.w   
+			jsr     _dopart_007
+			adj     #4
+			psh.w   #S_121
+			psh.w   #0
+			psh.w   #9
+			jsr     _swrite
+			adj     #6
+L_119	.LBL
+			lda.w   partafter_006,B
+			pha.w   
+			lda     #0
+			xma.w   0,S
+			cmp.w   0,S
+			adj     #2
+			php     
+			lda     #1
+			plp     
+			bgt     L_124
+			lda     #0
+L_124	.LBL
+			cmp.w   #1
+			beq     L_122
+			jmp     L_123
+L_122	.LBL
+			lda.w   partafter_006,B
+			pha.w   
+			phx.w   
+			jsr     _dopart_007
+			adj     #4
+L_123	.LBL
+			txs.w   
+			plx.w   
+			rts     
+_pascal_main	.SUB
+			phx.w   
+			tsx.w   
+L_125	.LBL
+			psh.w   #number_002
+			jsr     _iread
+			sta.w   (0,S)
+			adj     #2
+			lda.w   number_002
+			pha.w   
+			lda     #6
+			pha.w   
+			jsr     _iwrite
+			adj     #4
+			psh.w   #S_127
+			psh.w   #0
+			psh.w   #2
+			jsr     _swrite
+			adj     #6
+			lda.w   number_002
+			pha.w   
+			lda     #0
+			xma.w   0,S
+			cmp.w   0,S
+			adj     #2
+			php     
+			lda     #1
+			plp     
+			blt     L_130
+			lda     #0
+L_130	.LBL
+			cmp.w   #1
+			beq     L_128
+			jmp     L_129
+L_128	.LBL
+			psh.w   #S_131
+			psh.w   #0
+			psh.w   #26
+			jsr     _swrite
+			adj     #6
+			jmp     L_132
+L_129	.LBL
+			lda.w   number_002
+			pha.w   
+			lda.w   #30000
+			xma.w   0,S
+			cmp.w   0,S
+			adj     #2
+			php     
+			lda     #1
+			plp     
+			bgt     L_135
+			lda     #0
+L_135	.LBL
+			cmp.w   #1
+			beq     L_133
+			jmp     L_134
+L_133	.LBL
+			psh.w   #S_136
+			psh.w   #0
+			psh.w   #25
+			jsr     _swrite
+			adj     #6
+			lda.w   #30000
+			pha.w   
+			lda     #1
+			pha.w   
+			jsr     _iwrite
+			adj     #4
+			jmp     L_137
+L_134	.LBL
+			lda.w   number_002
+			pha.w   
+			lda     #0
+			xma.w   0,S
+			cmp.w   0,S
+			adj     #2
+			php     
+			lda     #1
+			plp     
+			beq     L_140
+			lda     #0
+L_140	.LBL
+			cmp.w   #1
+			beq     L_138
+			jmp     L_139
+L_138	.LBL
+			psh.w   #S_141
+			psh.w   #0
+			psh.w   #5
+			jsr     _swrite
+			adj     #6
+			jmp     L_142
+L_139	.LBL
+			lda.w   number_002
+			pha.w   
+			phx.w   
+			jsr     _translate_003
+			adj     #4
+L_142	.LBL
+L_137	.LBL
+L_132	.LBL
+			jsr     _writeln
+			lda.w   number_002
+			pha.w   
+			lda     #0
+			xma.w   0,S
+			cmp.w   0,S
+			adj     #2
+			php     
+			lda     #1
+			plp     
+			beq     L_143
+			lda     #0
+L_143	.LBL
+			cmp.w   #1
+			beq     L_126
+			jmp     L_125
+L_126	.LBL
+			plx.w   
+			rts     
+			.DATA   
+number_002	.DB   2
+S_141	.DS   " zero"
+S_136	.DS   " ***** Error -- number > "
+S_131	.DS   " ***** Error -- number < 0"
+S_127	.DS   " :"
+S_121	.DS   " thousand"
+S_106	.DS   " hundred"
+S_102	.DS   " ninety"
+S_099	.DS   " eighty"
+S_096	.DS   " seventy"
+S_093	.DS   " sixty"
+S_090	.DS   " fifty"
+S_087	.DS   " forty"
+S_084	.DS   " thirty"
+S_081	.DS   " twenty"
+S_075	.DS   " nineteen"
+S_072	.DS   " eighteen"
+S_069	.DS   " seventeen"
+S_066	.DS   " sixteen"
+S_063	.DS   " fifteen"
+S_060	.DS   " fourteen"
+S_057	.DS   " thirteen"
+S_054	.DS   " twelve"
+S_051	.DS   " eleven"
+S_048	.DS   " ten"
+S_042	.DS   " nine"
+S_039	.DS   " eight"
+S_036	.DS   " seven"
+S_033	.DS   " six"
+S_030	.DS   " five"
+S_027	.DS   " four"
+S_024	.DS   " three"
+S_021	.DS   " two"
+S_018	.DS   " one"
