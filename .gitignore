@@ -29,3 +29,9 @@
 # Debug files
 *.dSYM/
 *.su
+
+# Backup files
+*.*~
+*~
+*.*.bak
+*.bak
