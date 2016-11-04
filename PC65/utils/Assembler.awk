@@ -46,50 +46,83 @@ BEGIN {
     while(getline <srcfile > 0) {
         sub(/;.*/, "")          # strip comments from the input line
         symtab[$1] = nextmem
-        if($1 == "") {
-            op = $2
-            if(op !~ /^[\._/]{1}/) {
-	            if($3 == "") op = op "_imp"
-	            else if($3 ~ /^[aA]$/) op = op "_A"
-	            else if($3 ~ /^[xX]$/) op = op "_X"
-	            else if($3 ~ /^[yY]$/) op = op "_Y"
-	            else if(($3 ~ /^[#]/) && ($2 ~ /[wW]$/)) op = op "_imm16"
-	            else if($3 ~ /^[#]/)          op = op "_imm"
-	            else if($3 ~ /,[sS]$/)        op = op "_sp"
-	            else if($3 ~ /,[sS])$/)       op = op "_spI"
-	            else if($3 ~ /,[sS]),[yY]$/)  op = op "_spIY"
-	            else if($3 ~ /,[bB]$/)        op = op "_bp"
-	            else if($3 ~ /,[bB])$/)       op = op "_bpI"
-	            else if($3 ~ /,[bB]),[yY]$/)  op = op "_bpIY"
-	            else if(op in branch)         op = op "_rel"
-	            else if(op in jump)           op = op "_rel16"
-	            else if(op == "jmp")          op = op "_abs"
-	            else if(op == "jsr")          op = op "_abs"
-	            else if($3 ~ /_[0-9]{3}\+2$/) op = op "_abs"
-	            else if($3 ~ /_[0-9]{3}$/)    op = op "_abs"
-	            else op = "XXXXXXXXXXX"
-	            
-                if(length($2) < 4) { 
-                    print op "\t\t" $3 > tmpfile
-                    printf("%04X: %-11s %2d\t%-4s\t%-s\n", 
-                           nextmem, op, op_len[op], $2, $3)
-                } else {
-                    print op "\t" $3 > tmpfile
-                    printf("%04X: %-11s %2d\t%-4s\t%-s\n",
-                           nextmem, op, op_len[op], $2, $3)
+        op = $2
+        dt = $3
+         if($1 == "") {
+           if(op !~ /^[\._/]{1}/) {
+	            if(dt == "") {
+	                op = op "_imp"
+	            } else if(dt ~ /^[aA]$/) { 
+	                op = op "_A"
+	                dt = ""
+	            } else if(dt ~ /^[xX]$/) { 
+	                op = op "_X"
+	                dt = ""
+	            } else if(dt ~ /^[yY]$/) { 
+	                op = op "_Y"
+	                dt = ""
+	            } else if((dt ~ /^[#]/) && ($2 ~ /[wW]$/)) { 
+	                op = op "_imm16"
+	                dt = substr(dt, 2)
+	            } else if(dt ~ /^[#]/) { 
+	                op = op "_imm"
+	                dt = substr(dt, 2)
+	            } else if(dt ~ /,[sS]$/) { 
+	                op = op "_sp"
+	                split(dt, operand, ",")
+	                dt = operand[1]
+	            } else if(dt ~ /,[sS])$/) { 
+	                op = op "_spI"
+	                split(dt, operand, ",")
+	                dt = substr(operand[1], 2)
+	            } else if(dt ~ /,[sS]),[yY]$/) { 
+	                op = op "_spIY"
+	                split(dt, operand, ",")
+	                dt = substr(operand[1], 2)
+	            } else if(dt ~ /,[bB]$/) { 
+	                op = op "_bp"
+	                split(dt, operand, ",")
+	                dt = operand[1]
+	            } else if(dt ~ /,[bB])$/) { 
+	                op = op "_bpI"
+	                split(dt, operand, ",")
+	                dt = substr(operand[1], 2)
+	            } else if(dt ~ /,[bB]),[yY]$/) { 
+	                op = op "_bpIY"
+	                split(dt, operand, ",")
+	                dt = substr(operand[1], 2)
+	            } else if(op in branch) { 
+	                op = op "_rel"
+	            } else if(op in jump) { 
+	                op = op "_rel16"
+	            } else if(op == "jmp") { 
+	                op = op "_abs"
+	            } else if(op == "jsr") { 
+	                op = op "_abs"
+	            } else if(dt ~ /_[0-9]{3}\+2$/) { 
+	                op = op "_abs"
+	            } else if(dt ~ /_[0-9]{3}$/) { 
+	                op = op "_abs"
+	            } else { 
+	                op = "XXX---ERROR"
+	                dt = ""
                 }
+                print op "\t" dt > tmpfile
+                printf("%04X: %-11s\t%-s\n",
+                       nextmem, op, dt)
+                
                 nextmem += op_len[op]
             }
         } else {
-            if($2 == ".ORG") {                  #define memory start address
-                nextmem = $3
-            } else if($2 == ".EQU") {           #define constants
-                symtab[$1] = $3
-            } else if($2 == ".DB") {            #define variables
-                nextmem += ($3 * 1)
-            } else if($2 == ".DD") {            #define float literals
+            if(op == ".ORG") {                  #define memory start address
+                nextmem = dt
+            } else if(op == ".EQU") {           #define constants
+                symtab[$1] = dt
+            } else if(op == ".DB") {            #define variables
+                nextmem += dt
+            } else if(op == ".DD") {            #define float literals
                 nextmem += 4
-            } else if($2 == ".DS") {            #define string literals
+            } else if(dt == ".DS") {            #define string literals
                 split($0, string, "\"")
                 nextmem += length(string[2])
             }
@@ -111,21 +144,18 @@ BEGIN {
     
     nextmem = 0
     while(getline <tmpfile > 0) {
-        op      = $1
-        operand = $2
+        op = $1
+        dt = $2
         
         split(op, instruction_operand, "_")
         op_code = instruction_operand[1]
         addr_md = instruction_operand[2]
         
         op_val = -1
-        if(operand in symtab) {
-            op_val = symtab[operand]
-        } else if(operand ~ /^[#]/) {
-            op_val = substr(operand, 2)
-            if(op_val !~ /^[0-9]+$/) {
-                op_val = symtab[op_val]
-            }
+        if(dt in symtab) {
+            op_val = symtab[dt]
+        } else if(dt ~ /^[0-9]+$/) {
+            op_val = dt
         }
 
         len = dt_len[op]
@@ -151,11 +181,11 @@ BEGIN {
             instruction = sprintf("%s", opcode[op])
         }
         
-        printf("%04X: %-8s\t; %-6s\t%-s\n",
-               nextmem, instruction, op, operand)
+        printf("%04X: %-8s\t; %-11s\t%-s\n",
+               nextmem, instruction, op, dt)
 
-        printf("%04X: %-8s\t; %-6s\t%-s\n",
-               nextmem, instruction, op, operand) > outfile
+        printf("%04X: %-8s\t; %-11s\t%-s\n",
+               nextmem, instruction, op, dt) > outfile
                
         nextmem += op_len[op]
     }
