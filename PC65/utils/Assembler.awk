@@ -44,12 +44,12 @@ BEGIN {
     printf("\n\n----------------------------------------------------------\n\n")
     
     nextmem = 0
-    
+
     while(getline <srcfile > 0) {
         sub(/;.*/, "")          # strip comments from the input line
         lbl = $1; op = $2; dt = $3
         if(lbl == "") {
-            if((op !~ /^[\._/]{1}/) && (op != "")) {
+            if((op !~ /^[\._]{1}/) && (op != "")) {
 	            if(dt == "") {
 	                op = op "_imp"
 	            } else if(dt ~ /^[aA]$/) { 
@@ -108,8 +108,7 @@ BEGIN {
 	                dt = ""
                 }
                 print op "\t" dt > tmpfile
-                printf("%04X: %-11s\t%-s\n",
-                       nextmem, op, dt)
+                printf("%04X: %-11s\t%-s\n", nextmem, op, dt)
                 
                 nextmem += op_len[op]
             }
@@ -192,7 +191,7 @@ BEGIN {
         
         # Add labels back to the output
 
-        if(nextmem in memtab) {
+        if((nextmem in memtab) && (memtab[nextmem] != "")) {
             printf("\t\t\t\t\t; %s\n", memtab[nextmem])
             printf("\t\t\t\t\t; %s\n", memtab[nextmem]) > outfile
         }
@@ -205,7 +204,7 @@ BEGIN {
         # Output intermediate representation with substitution of duplicate
         #   symbols pointing to common memory locations
         
-        if(dt in symtab) {
+        if((dt in symtab) && (memtab[symtab[dt]] != "")) {
             printf("\t\t;\t\t\t%-11s\t%-s\n", op, memtab[symtab[dt]])
             printf("\t\t;\t\t\t%-11s\t%-s\n", op, memtab[symtab[dt]]) > outfile
         } else {

@@ -2149,15 +2149,12 @@ Assembler Pass 2
 					; initialize_013
 0000: ABDA    		;			phx.w_imp  	
 0002: ABBA    		;			tsx.w_imp  	
-					; 
 0004: 62FA    		;			adj_imm    	-6
-					; 
 0006: A900    		;			lda_imm    	0
-					; 
-0008: AB87FE  		;			sta.w_bp   	
+0008: AB87FE  		;			sta.w_bp   	i_014
 					; L_017
 000B: A90A    		;			lda_imm    	10
-000D: ABC7FE  		;			cmp.w_bp   	
+000D: ABC7FE  		;			cmp.w_bp   	i_014
 0010: AB5003  		;			bge_rel    	L_018
 0013: 4CC800  		;			jmp_abs    	L_019
 					; L_018
@@ -2170,7 +2167,7 @@ Assembler Pass 2
 0027: 18      		;			clc_imp    	
 0028: AB6300  		;			adc.w_sp   	0
 002B: AB8300  		;			sta.w_sp   	0
-002E: ABA7FE  		;			lda.w_bp   	
+002E: ABA7FE  		;			lda.w_bp   	i_014
 0031: AB0A    		;			asl.w_A    	
 0033: 18      		;			clc_imp    	
 0034: AB6300  		;			adc.w_sp   	0
@@ -2187,7 +2184,7 @@ Assembler Pass 2
 0052: 18      		;			clc_imp    	
 0053: AB6300  		;			adc.w_sp   	0
 0056: AB8300  		;			sta.w_sp   	0
-0059: ABA7FE  		;			lda.w_bp   	
+0059: ABA7FE  		;			lda.w_bp   	i_014
 005C: AB0A    		;			asl.w_A    	
 005E: 18      		;			clc_imp    	
 005F: AB6300  		;			adc.w_sp   	0
@@ -2196,7 +2193,7 @@ Assembler Pass 2
 0067: BB8300  		;			sta.w_spI  	0
 006A: 6202    		;			adj_imm    	2
 006C: AB547612		;			psh.w_imm16	island_002
-0070: ABA7FE  		;			lda.w_bp   	
+0070: ABA7FE  		;			lda.w_bp   	i_014
 0073: AB48    		;			pha.w_imp  	
 0075: AB541600		;			psh.w_imm16	22
 0079: 20FFFF  		;			jsr_abs    	_imul
@@ -2213,7 +2210,7 @@ Assembler Pass 2
 0092: BB8300  		;			sta.w_spI  	0
 0095: 6202    		;			adj_imm    	2
 0097: AB547612		;			psh.w_imm16	island_002
-009B: ABA7FE  		;			lda.w_bp   	
+009B: ABA7FE  		;			lda.w_bp   	i_014
 009E: AB48    		;			pha.w_imp  	
 00A0: AB541600		;			psh.w_imm16	22
 00A4: 20FFFF  		;			jsr_abs    	_imul
@@ -2229,28 +2226,28 @@ Assembler Pass 2
 00BB: A905    		;			lda_imm    	5
 00BD: BB8300  		;			sta.w_spI  	0
 00C0: 6202    		;			adj_imm    	2
-00C2: ABF7FE  		;			inc.w_bp   	
+00C2: ABF7FE  		;			inc.w_bp   	i_014
 00C5: 4C0B00  		;			jmp_abs    	L_017
 					; L_019
-00C8: ABD7FE  		;			dec.w_bp   	
+00C8: ABD7FE  		;			dec.w_bp   	i_014
 00CB: A901    		;			lda_imm    	1
-00CD: AB87FC  		;			sta.w_bp   	
+00CD: AB87FC  		;			sta.w_bp   	row_015
 					; L_020
 00D0: A909    		;			lda_imm    	9
-00D2: ABC7FC  		;			cmp.w_bp   	
+00D2: ABC7FC  		;			cmp.w_bp   	row_015
 00D5: AB5003  		;			bge_rel    	L_021
 00D8: 4C5601  		;			jmp_abs    	L_022
 					; L_021
 00DB: A901    		;			lda_imm    	1
-00DD: AB87FA  		;			sta.w_bp   	
+00DD: AB87FA  		;			sta.w_bp   	col_016
 					; L_023
 00E0: A909    		;			lda_imm    	9
-00E2: ABC7FA  		;			cmp.w_bp   	
+00E2: ABC7FA  		;			cmp.w_bp   	col_016
 00E5: AB5003  		;			bge_rel    	L_024
 00E8: 4C4D01  		;			jmp_abs    	L_025
 					; L_024
 00EB: AB547612		;			psh.w_imm16	island_002
-00EF: ABA7FC  		;			lda.w_bp   	
+00EF: ABA7FC  		;			lda.w_bp   	row_015
 00F2: AB48    		;			pha.w_imp  	
 00F4: AB541600		;			psh.w_imm16	22
 00F8: 20FFFF  		;			jsr_abs    	_imul
@@ -2258,7 +2255,7 @@ Assembler Pass 2
 00FD: 18      		;			clc_imp    	
 00FE: AB6300  		;			adc.w_sp   	0
 0101: AB8300  		;			sta.w_sp   	0
-0104: ABA7FA  		;			lda.w_bp   	
+0104: ABA7FA  		;			lda.w_bp   	col_016
 0107: AB0A    		;			asl.w_A    	
 0109: 18      		;			clc_imp    	
 010A: AB6300  		;			adc.w_sp   	0
@@ -2267,7 +2264,7 @@ Assembler Pass 2
 0112: BB8300  		;			sta.w_spI  	0
 0115: 6202    		;			adj_imm    	2
 0117: AB546813		;			psh.w_imm16	foodunits_003
-011B: ABA7FC  		;			lda.w_bp   	
+011B: ABA7FC  		;			lda.w_bp   	row_015
 011E: AB3A    		;			dec.w_A    	
 0120: AB48    		;			pha.w_imp  	
 0122: AB541200		;			psh.w_imm16	18
@@ -2276,7 +2273,7 @@ Assembler Pass 2
 012B: 18      		;			clc_imp    	
 012C: AB6300  		;			adc.w_sp   	0
 012F: AB8300  		;			sta.w_sp   	0
-0132: ABA7FA  		;			lda.w_bp   	
+0132: ABA7FA  		;			lda.w_bp   	col_016
 0135: AB3A    		;			dec.w_A    	
 0137: AB0A    		;			asl.w_A    	
 0139: 18      		;			clc_imp    	
@@ -2285,42 +2282,42 @@ Assembler Pass 2
 0140: A900    		;			lda_imm    	0
 0142: BB8300  		;			sta.w_spI  	0
 0145: 6202    		;			adj_imm    	2
-0147: ABF7FA  		;			inc.w_bp   	
+0147: ABF7FA  		;			inc.w_bp   	col_016
 014A: 4CE000  		;			jmp_abs    	L_023
 					; L_025
-014D: ABD7FA  		;			dec.w_bp   	
-0150: ABF7FC  		;			inc.w_bp   	
+014D: ABD7FA  		;			dec.w_bp   	col_016
+0150: ABF7FC  		;			inc.w_bp   	row_015
 0153: 4CD000  		;			jmp_abs    	L_020
 					; L_022
-0156: ABD7FC  		;			dec.w_bp   	
+0156: ABD7FC  		;			dec.w_bp   	row_015
 0159: AB546E14		;			psh.w_imm16	numwolves_005
 015D: 20FFFF  		;			jsr_abs    	_iread
 0160: BB8300  		;			sta.w_spI  	0
 0163: 6202    		;			adj_imm    	2
 0165: A901    		;			lda_imm    	1
-0167: AB87FE  		;			sta.w_bp   	
+0167: AB87FE  		;			sta.w_bp   	i_014
 					; L_026
 016A: ABAD6E14		;			lda.w_abs  	numwolves_005
-016E: ABC7FE  		;			cmp.w_bp   	
+016E: ABC7FE  		;			cmp.w_bp   	i_014
 0171: AB5003  		;			bge_rel    	L_027
 0174: 4CFB01  		;			jmp_abs    	L_028
 					; L_027
 0177: AB8A    		;			txa.w_imp  	
 0179: 38      		;			sec_imp    	
-017A: AB69FCFF		;			adc.w_imm16	
+017A: AB69FCFF		;			adc.w_imm16	row_015
 017E: AB48    		;			pha.w_imp  	
 0180: 20FFFF  		;			jsr_abs    	_iread
 0183: BB8300  		;			sta.w_spI  	0
 0186: 6202    		;			adj_imm    	2
 0188: AB8A    		;			txa.w_imp  	
 018A: 38      		;			sec_imp    	
-018B: AB69FAFF		;			adc.w_imm16	
+018B: AB69FAFF		;			adc.w_imm16	col_016
 018F: AB48    		;			pha.w_imp  	
 0191: 20FFFF  		;			jsr_abs    	_iread
 0194: BB8300  		;			sta.w_spI  	0
 0197: 6202    		;			adj_imm    	2
 0199: AB547612		;			psh.w_imm16	island_002
-019D: ABA7FC  		;			lda.w_bp   	
+019D: ABA7FC  		;			lda.w_bp   	row_015
 01A0: AB48    		;			pha.w_imp  	
 01A2: AB541600		;			psh.w_imm16	22
 01A6: 20FFFF  		;			jsr_abs    	_imul
@@ -2328,7 +2325,7 @@ Assembler Pass 2
 01AB: 18      		;			clc_imp    	
 01AC: AB6300  		;			adc.w_sp   	0
 01AF: AB8300  		;			sta.w_sp   	0
-01B2: ABA7FA  		;			lda.w_bp   	
+01B2: ABA7FA  		;			lda.w_bp   	col_016
 01B5: AB0A    		;			asl.w_A    	
 01B7: 18      		;			clc_imp    	
 01B8: AB6300  		;			adc.w_sp   	0
@@ -2337,7 +2334,7 @@ Assembler Pass 2
 01C0: BB8300  		;			sta.w_spI  	0
 01C3: 6202    		;			adj_imm    	2
 01C5: AB546813		;			psh.w_imm16	foodunits_003
-01C9: ABA7FC  		;			lda.w_bp   	
+01C9: ABA7FC  		;			lda.w_bp   	row_015
 01CC: AB3A    		;			dec.w_A    	
 01CE: AB48    		;			pha.w_imp  	
 01D0: AB541200		;			psh.w_imm16	18
@@ -2346,7 +2343,7 @@ Assembler Pass 2
 01D9: 18      		;			clc_imp    	
 01DA: AB6300  		;			adc.w_sp   	0
 01DD: AB8300  		;			sta.w_sp   	0
-01E0: ABA7FA  		;			lda.w_bp   	
+01E0: ABA7FA  		;			lda.w_bp   	col_016
 01E3: AB3A    		;			dec.w_A    	
 01E5: AB0A    		;			asl.w_A    	
 01E7: 18      		;			clc_imp    	
@@ -2355,38 +2352,38 @@ Assembler Pass 2
 01EE: A906    		;			lda_imm    	6
 01F0: BB8300  		;			sta.w_spI  	0
 01F3: 6202    		;			adj_imm    	2
-01F5: ABF7FE  		;			inc.w_bp   	
+01F5: ABF7FE  		;			inc.w_bp   	i_014
 01F8: 4C6A01  		;			jmp_abs    	L_026
 					; L_028
-01FB: ABD7FE  		;			dec.w_bp   	
+01FB: ABD7FE  		;			dec.w_bp   	i_014
 01FE: AB547014		;			psh.w_imm16	numrabbits_006
 0202: 20FFFF  		;			jsr_abs    	_iread
 0205: BB8300  		;			sta.w_spI  	0
 0208: 6202    		;			adj_imm    	2
 020A: A901    		;			lda_imm    	1
-020C: AB87FE  		;			sta.w_bp   	
+020C: AB87FE  		;			sta.w_bp   	i_014
 					; L_029
 020F: ABAD7014		;			lda.w_abs  	numrabbits_006
-0213: ABC7FE  		;			cmp.w_bp   	
+0213: ABC7FE  		;			cmp.w_bp   	i_014
 0216: AB5003  		;			bge_rel    	L_030
 0219: 4C7002  		;			jmp_abs    	L_031
 					; L_030
 021C: AB8A    		;			txa.w_imp  	
 021E: 38      		;			sec_imp    	
-021F: AB69FCFF		;			adc.w_imm16	
+021F: AB69FCFF		;			adc.w_imm16	row_015
 0223: AB48    		;			pha.w_imp  	
 0225: 20FFFF  		;			jsr_abs    	_iread
 0228: BB8300  		;			sta.w_spI  	0
 022B: 6202    		;			adj_imm    	2
 022D: AB8A    		;			txa.w_imp  	
 022F: 38      		;			sec_imp    	
-0230: AB69FAFF		;			adc.w_imm16	
+0230: AB69FAFF		;			adc.w_imm16	col_016
 0234: AB48    		;			pha.w_imp  	
 0236: 20FFFF  		;			jsr_abs    	_iread
 0239: BB8300  		;			sta.w_spI  	0
 023C: 6202    		;			adj_imm    	2
 023E: AB547612		;			psh.w_imm16	island_002
-0242: ABA7FC  		;			lda.w_bp   	
+0242: ABA7FC  		;			lda.w_bp   	row_015
 0245: AB48    		;			pha.w_imp  	
 0247: AB541600		;			psh.w_imm16	22
 024B: 20FFFF  		;			jsr_abs    	_imul
@@ -2394,7 +2391,7 @@ Assembler Pass 2
 0250: 18      		;			clc_imp    	
 0251: AB6300  		;			adc.w_sp   	0
 0254: AB8300  		;			sta.w_sp   	0
-0257: ABA7FA  		;			lda.w_bp   	
+0257: ABA7FA  		;			lda.w_bp   	col_016
 025A: AB0A    		;			asl.w_A    	
 025C: 18      		;			clc_imp    	
 025D: AB6300  		;			adc.w_sp   	0
@@ -2402,24 +2399,24 @@ Assembler Pass 2
 0263: A901    		;			lda_imm    	1
 0265: BB8300  		;			sta.w_spI  	0
 0268: 6202    		;			adj_imm    	2
-026A: ABF7FE  		;			inc.w_bp   	
+026A: ABF7FE  		;			inc.w_bp   	i_014
 026D: 4C0F02  		;			jmp_abs    	L_029
 					; L_031
-0270: ABD7FE  		;			dec.w_bp   	
+0270: ABD7FE  		;			dec.w_bp   	i_014
 0273: AB547214		;			psh.w_imm16	numprinttimes_007
 0277: 20FFFF  		;			jsr_abs    	_iread
 027A: BB8300  		;			sta.w_spI  	0
 027D: 6202    		;			adj_imm    	2
 027F: A901    		;			lda_imm    	1
-0281: AB87FE  		;			sta.w_bp   	
+0281: AB87FE  		;			sta.w_bp   	i_014
 					; L_032
 0284: ABAD7214		;			lda.w_abs  	numprinttimes_007
-0288: ABC7FE  		;			cmp.w_bp   	
+0288: ABC7FE  		;			cmp.w_bp   	i_014
 028B: AB5003  		;			bge_rel    	L_033
 028E: 4CB102  		;			jmp_abs    	L_034
 					; L_033
 0291: AB540A14		;			psh.w_imm16	printtimes_004
-0295: ABA7FE  		;			lda.w_bp   	
+0295: ABA7FE  		;			lda.w_bp   	i_014
 0298: AB3A    		;			dec.w_A    	
 029A: AB0A    		;			asl.w_A    	
 029C: 18      		;			clc_imp    	
@@ -2428,10 +2425,10 @@ Assembler Pass 2
 02A3: 20FFFF  		;			jsr_abs    	_iread
 02A6: BB8300  		;			sta.w_spI  	0
 02A9: 6202    		;			adj_imm    	2
-02AB: ABF7FE  		;			inc.w_bp   	
+02AB: ABF7FE  		;			inc.w_bp   	i_014
 02AE: 4C8402  		;			jmp_abs    	L_032
 					; L_034
-02B1: ABD7FE  		;			dec.w_bp   	
+02B1: ABD7FE  		;			dec.w_bp   	i_014
 02B4: AB547A14		;			psh.w_imm16	rowoffset_011
 02B8: A900    		;			lda_imm    	0
 02BA: AB0A    		;			asl.w_A    	
@@ -2553,7 +2550,7 @@ Assembler Pass 2
 03CE: AB8D7814		;			sta.w_abs  	seed_010
 03D2: ABAD7814		;			lda.w_abs  	seed_010
 03D6: AB48    		;			pha.w_imp  	
-03D8: ABA706  		;			lda.w_bp   	
+03D8: ABA706  		;			lda.w_bp   	limit_036
 03DB: AB48    		;			pha.w_imp  	
 03DD: 20FFFF  		;			jsr_abs    	_imul
 03E0: 6204    		;			adj_imm    	4
@@ -2562,8 +2559,8 @@ Assembler Pass 2
 03E8: AB48    		;			pha.w_imp  	
 03EA: 20FFFF  		;			jsr_abs    	_idiv
 03ED: 6204    		;			adj_imm    	4
-03EF: AB87FC  		;			sta.w_bp   	
-03F2: ABA7FC  		;			lda.w_bp   	
+03EF: AB87FC  		;			sta.w_bp   	RETURN_VALUE
+03F2: ABA7FC  		;			lda.w_bp   	RETURN_VALUE
 03F5: AB9A    		;			txs.w_imp  	
 03F7: ABFA    		;			plx.w_imp  	
 03F9: 60      		;			rts_imp    	
@@ -2572,8 +2569,8 @@ Assembler Pass 2
 03FC: ABBA    		;			tsx.w_imp  	
 03FE: 62FA    		;			adj_imm    	-6
 0400: A900    		;			lda_imm    	0
-0402: AB87FA  		;			sta.w_bp   	
-0405: ABA70E  		;			lda.w_bp   	
+0402: AB87FA  		;			sta.w_bp   	done_045
+0405: ABA70E  		;			lda.w_bp   	creature_038
 0408: AB48    		;			pha.w_imp  	
 040A: A900    		;			lda_imm    	0
 040C: AB5C00  		;			xma.w_sp   	0
@@ -2590,21 +2587,21 @@ Assembler Pass 2
 0422: 4CFF04  		;			jmp_abs    	L_047
 					; L_046
 0425: A900    		;			lda_imm    	0
-0427: AB87FE  		;			sta.w_bp   	
+0427: AB87FE  		;			sta.w_bp   	adj_043
 					; L_049
-042A: ABA7FE  		;			lda.w_bp   	
+042A: ABA7FE  		;			lda.w_bp   	adj_043
 042D: AB48    		;			pha.w_imp  	
 042F: A901    		;			lda_imm    	1
 0431: 18      		;			clc_imp    	
 0432: AB6300  		;			adc.w_sp   	0
 0435: 6202    		;			adj_imm    	2
-0437: AB87FE  		;			sta.w_bp   	
-043A: ABA708  		;			lda.w_bp   	
+0437: AB87FE  		;			sta.w_bp   	adj_043
+043A: ABA708  		;			lda.w_bp   	newrow_041
 043D: AB48    		;			pha.w_imp  	
-043F: ABA70C  		;			lda.w_bp   	
+043F: ABA70C  		;			lda.w_bp   	oldrow_039
 0442: AB48    		;			pha.w_imp  	
 0444: AB547A14		;			psh.w_imm16	rowoffset_011
-0448: ABA7FE  		;			lda.w_bp   	
+0448: ABA7FE  		;			lda.w_bp   	adj_043
 044B: AB0A    		;			asl.w_A    	
 044D: 18      		;			clc_imp    	
 044E: AB6300  		;			adc.w_sp   	0
@@ -2616,12 +2613,12 @@ Assembler Pass 2
 045D: 6202    		;			adj_imm    	2
 045F: BB8300  		;			sta.w_spI  	0
 0462: 6202    		;			adj_imm    	2
-0464: ABA706  		;			lda.w_bp   	
+0464: ABA706  		;			lda.w_bp   	newcol_042
 0467: AB48    		;			pha.w_imp  	
-0469: ABA70A  		;			lda.w_bp   	
+0469: ABA70A  		;			lda.w_bp   	oldcol_040
 046C: AB48    		;			pha.w_imp  	
 046E: AB548414		;			psh.w_imm16	coloffset_012
-0472: ABA7FE  		;			lda.w_bp   	
+0472: ABA7FE  		;			lda.w_bp   	adj_043
 0475: AB0A    		;			asl.w_A    	
 0477: 18      		;			clc_imp    	
 0478: AB6300  		;			adc.w_sp   	0
@@ -2634,7 +2631,7 @@ Assembler Pass 2
 0489: BB8300  		;			sta.w_spI  	0
 048C: 6202    		;			adj_imm    	2
 048E: AB547612		;			psh.w_imm16	island_002
-0492: BBA708  		;			lda.w_bpI  	
+0492: BBA708  		;			lda.w_bpI  	newrow_041
 0495: AB48    		;			pha.w_imp  	
 0497: AB541600		;			psh.w_imm16	22
 049B: 20FFFF  		;			jsr_abs    	_imul
@@ -2642,15 +2639,15 @@ Assembler Pass 2
 04A0: 18      		;			clc_imp    	
 04A1: AB6300  		;			adc.w_sp   	0
 04A4: AB8300  		;			sta.w_sp   	0
-04A7: BBA706  		;			lda.w_bpI  	
+04A7: BBA706  		;			lda.w_bpI  	newcol_042
 04AA: AB0A    		;			asl.w_A    	
 04AC: 18      		;			clc_imp    	
 04AD: AB6300  		;			adc.w_sp   	0
 04B0: AB8300  		;			sta.w_sp   	0
 04B3: BBA300  		;			lda.w_spI  	0
 04B6: 6202    		;			adj_imm    	2
-04B8: AB87FC  		;			sta.w_bp   	
-04BB: ABA7FC  		;			lda.w_bp   	
+04B8: AB87FC  		;			sta.w_bp   	what_044
+04BB: ABA7FC  		;			lda.w_bp   	what_044
 04BE: AB48    		;			pha.w_imp  	
 04C0: A901    		;			lda_imm    	1
 04C2: AB5C00  		;			xma.w_sp   	0
@@ -2662,10 +2659,10 @@ Assembler Pass 2
 04CE: F002    		;			beq_rel    	L_051
 04D0: A900    		;			lda_imm    	0
 					; L_051
-04D2: AB87FA  		;			sta.w_bp   	
-04D5: ABA7FA  		;			lda.w_bp   	
+04D2: AB87FA  		;			sta.w_bp   	done_045
+04D5: ABA7FA  		;			lda.w_bp   	done_045
 04D8: AB48    		;			pha.w_imp  	
-04DA: ABA7FE  		;			lda.w_bp   	
+04DA: ABA7FE  		;			lda.w_bp   	adj_043
 04DD: AB48    		;			pha.w_imp  	
 04DF: A904    		;			lda_imm    	4
 04E1: AB5C00  		;			xma.w_sp   	0
@@ -2683,7 +2680,7 @@ Assembler Pass 2
 04FA: F003    		;			beq_rel    	L_047
 04FC: 4C2A04  		;			jmp_abs    	L_049
 					; L_047
-04FF: ABA7FA  		;			lda.w_bp   	
+04FF: ABA7FA  		;			lda.w_bp   	done_045
 0502: 4901    		;			eor_imm    	1
 0504: ABC90100		;			cmp.w_imm16	1
 0508: F003    		;			beq_rel    	L_055
@@ -2691,17 +2688,17 @@ Assembler Pass 2
 					; L_055
 050D: A905    		;			lda_imm    	5
 050F: AB48    		;			pha.w_imp  	
-0511: ABA704  		;			lda.w_bp   	
+0511: ABA704  		;			lda.w_bp   	STATIC_LINK
 0514: AB48    		;			pha.w_imp  	
 0516: 20A103  		;			jsr_abs    	random_035
 0519: 6204    		;			adj_imm    	4
-051B: AB87FE  		;			sta.w_bp   	
-051E: ABA708  		;			lda.w_bp   	
+051B: AB87FE  		;			sta.w_bp   	adj_043
+051E: ABA708  		;			lda.w_bp   	newrow_041
 0521: AB48    		;			pha.w_imp  	
-0523: ABA70C  		;			lda.w_bp   	
+0523: ABA70C  		;			lda.w_bp   	oldrow_039
 0526: AB48    		;			pha.w_imp  	
 0528: AB547A14		;			psh.w_imm16	rowoffset_011
-052C: ABA7FE  		;			lda.w_bp   	
+052C: ABA7FE  		;			lda.w_bp   	adj_043
 052F: AB0A    		;			asl.w_A    	
 0531: 18      		;			clc_imp    	
 0532: AB6300  		;			adc.w_sp   	0
@@ -2713,12 +2710,12 @@ Assembler Pass 2
 0541: 6202    		;			adj_imm    	2
 0543: BB8300  		;			sta.w_spI  	0
 0546: 6202    		;			adj_imm    	2
-0548: ABA706  		;			lda.w_bp   	
+0548: ABA706  		;			lda.w_bp   	newcol_042
 054B: AB48    		;			pha.w_imp  	
-054D: ABA70A  		;			lda.w_bp   	
+054D: ABA70A  		;			lda.w_bp   	oldcol_040
 0550: AB48    		;			pha.w_imp  	
 0552: AB548414		;			psh.w_imm16	coloffset_012
-0556: ABA7FE  		;			lda.w_bp   	
+0556: ABA7FE  		;			lda.w_bp   	adj_043
 0559: AB0A    		;			asl.w_A    	
 055B: 18      		;			clc_imp    	
 055C: AB6300  		;			adc.w_sp   	0
@@ -2731,7 +2728,7 @@ Assembler Pass 2
 056D: BB8300  		;			sta.w_spI  	0
 0570: 6202    		;			adj_imm    	2
 0572: AB547612		;			psh.w_imm16	island_002
-0576: BBA708  		;			lda.w_bpI  	
+0576: BBA708  		;			lda.w_bpI  	newrow_041
 0579: AB48    		;			pha.w_imp  	
 057B: AB541600		;			psh.w_imm16	22
 057F: 20FFFF  		;			jsr_abs    	_imul
@@ -2739,15 +2736,15 @@ Assembler Pass 2
 0584: 18      		;			clc_imp    	
 0585: AB6300  		;			adc.w_sp   	0
 0588: AB8300  		;			sta.w_sp   	0
-058B: BBA706  		;			lda.w_bpI  	
+058B: BBA706  		;			lda.w_bpI  	newcol_042
 058E: AB0A    		;			asl.w_A    	
 0590: 18      		;			clc_imp    	
 0591: AB6300  		;			adc.w_sp   	0
 0594: AB8300  		;			sta.w_sp   	0
 0597: BBA300  		;			lda.w_spI  	0
 059A: 6202    		;			adj_imm    	2
-059C: AB87FC  		;			sta.w_bp   	
-059F: ABA7FC  		;			lda.w_bp   	
+059C: AB87FC  		;			sta.w_bp   	what_044
+059F: ABA7FC  		;			lda.w_bp   	what_044
 05A2: AB48    		;			pha.w_imp  	
 05A4: A904    		;			lda_imm    	4
 05A6: AB5C00  		;			xma.w_sp   	0
@@ -2760,9 +2757,9 @@ Assembler Pass 2
 05B4: A900    		;			lda_imm    	0
 					; L_057
 05B6: AB48    		;			pha.w_imp  	
-05B8: BBA708  		;			lda.w_bpI  	
+05B8: BBA708  		;			lda.w_bpI  	newrow_041
 05BB: AB48    		;			pha.w_imp  	
-05BD: ABA70C  		;			lda.w_bp   	
+05BD: ABA70C  		;			lda.w_bp   	oldrow_039
 05C0: AB5C00  		;			xma.w_sp   	0
 05C3: ABC300  		;			cmp.w_sp   	0
 05C6: 6202    		;			adj_imm    	2
@@ -2773,9 +2770,9 @@ Assembler Pass 2
 05CE: A900    		;			lda_imm    	0
 					; L_058
 05D0: AB48    		;			pha.w_imp  	
-05D2: BBA706  		;			lda.w_bpI  	
+05D2: BBA706  		;			lda.w_bpI  	newcol_042
 05D5: AB48    		;			pha.w_imp  	
-05D7: ABA70A  		;			lda.w_bp   	
+05D7: ABA70A  		;			lda.w_bp   	oldcol_040
 05DA: AB5C00  		;			xma.w_sp   	0
 05DD: ABC300  		;			cmp.w_sp   	0
 05E0: 6202    		;			adj_imm    	2
@@ -2801,7 +2798,7 @@ Assembler Pass 2
 0604: ABBA    		;			tsx.w_imp  	
 0606: 62FA    		;			adj_imm    	-6
 0608: AB546813		;			psh.w_imm16	foodunits_003
-060C: ABA708  		;			lda.w_bp   	
+060C: ABA708  		;			lda.w_bp   	oldrow_061
 060F: AB3A    		;			dec.w_A    	
 0611: AB48    		;			pha.w_imp  	
 0613: AB541200		;			psh.w_imm16	18
@@ -2810,14 +2807,14 @@ Assembler Pass 2
 061C: 18      		;			clc_imp    	
 061D: AB6300  		;			adc.w_sp   	0
 0620: AB8300  		;			sta.w_sp   	0
-0623: ABA706  		;			lda.w_bp   	
+0623: ABA706  		;			lda.w_bp   	oldcol_062
 0626: AB3A    		;			dec.w_A    	
 0628: AB0A    		;			asl.w_A    	
 062A: 18      		;			clc_imp    	
 062B: AB6300  		;			adc.w_sp   	0
 062E: AB8300  		;			sta.w_sp   	0
 0631: AB546813		;			psh.w_imm16	foodunits_003
-0635: ABA708  		;			lda.w_bp   	
+0635: ABA708  		;			lda.w_bp   	oldrow_061
 0638: AB3A    		;			dec.w_A    	
 063A: AB48    		;			pha.w_imp  	
 063C: AB541200		;			psh.w_imm16	18
@@ -2826,7 +2823,7 @@ Assembler Pass 2
 0645: 18      		;			clc_imp    	
 0646: AB6300  		;			adc.w_sp   	0
 0649: AB8300  		;			sta.w_sp   	0
-064C: ABA706  		;			lda.w_bp   	
+064C: ABA706  		;			lda.w_bp   	oldcol_062
 064F: AB3A    		;			dec.w_A    	
 0651: AB0A    		;			asl.w_A    	
 0653: 18      		;			clc_imp    	
@@ -2843,7 +2840,7 @@ Assembler Pass 2
 066C: BB8300  		;			sta.w_spI  	0
 066F: 6202    		;			adj_imm    	2
 0671: AB546813		;			psh.w_imm16	foodunits_003
-0675: ABA708  		;			lda.w_bp   	
+0675: ABA708  		;			lda.w_bp   	oldrow_061
 0678: AB3A    		;			dec.w_A    	
 067A: AB48    		;			pha.w_imp  	
 067C: AB541200		;			psh.w_imm16	18
@@ -2852,7 +2849,7 @@ Assembler Pass 2
 0685: 18      		;			clc_imp    	
 0686: AB6300  		;			adc.w_sp   	0
 0689: AB8300  		;			sta.w_sp   	0
-068C: ABA706  		;			lda.w_bp   	
+068C: ABA706  		;			lda.w_bp   	oldcol_062
 068F: AB3A    		;			dec.w_A    	
 0691: AB0A    		;			asl.w_A    	
 0693: 18      		;			clc_imp    	
@@ -2876,7 +2873,7 @@ Assembler Pass 2
 06B9: 4C7B07  		;			jmp_abs    	L_067
 					; L_066
 06BC: AB547612		;			psh.w_imm16	island_002
-06C0: ABA708  		;			lda.w_bp   	
+06C0: ABA708  		;			lda.w_bp   	oldrow_061
 06C3: AB48    		;			pha.w_imp  	
 06C5: AB541600		;			psh.w_imm16	22
 06C9: 20FFFF  		;			jsr_abs    	_imul
@@ -2884,7 +2881,7 @@ Assembler Pass 2
 06CE: 18      		;			clc_imp    	
 06CF: AB6300  		;			adc.w_sp   	0
 06D2: AB8300  		;			sta.w_sp   	0
-06D5: ABA706  		;			lda.w_bp   	
+06D5: ABA706  		;			lda.w_bp   	oldcol_062
 06D8: AB0A    		;			asl.w_A    	
 06DA: 18      		;			clc_imp    	
 06DB: AB6300  		;			adc.w_sp   	0
@@ -2921,7 +2918,7 @@ Assembler Pass 2
 0732: AB540000		;			psh.w_imm16	0
 0736: 20FFFF  		;			jsr_abs    	_cwrite
 0739: 6204    		;			adj_imm    	4
-073B: ABA708  		;			lda.w_bp   	
+073B: ABA708  		;			lda.w_bp   	oldrow_061
 073E: AB48    		;			pha.w_imp  	
 0740: A901    		;			lda_imm    	1
 0742: AB48    		;			pha.w_imp  	
@@ -2932,7 +2929,7 @@ Assembler Pass 2
 0751: AB540200		;			psh.w_imm16	2
 0755: 20FFFF  		;			jsr_abs    	_swrite
 0758: 6206    		;			adj_imm    	6
-075A: ABA706  		;			lda.w_bp   	
+075A: ABA706  		;			lda.w_bp   	oldcol_062
 075D: AB48    		;			pha.w_imp  	
 075F: A901    		;			lda_imm    	1
 0761: AB48    		;			pha.w_imp  	
@@ -2948,25 +2945,25 @@ Assembler Pass 2
 					; L_067
 077B: A900    		;			lda_imm    	0
 077D: AB48    		;			pha.w_imp  	
-077F: ABA708  		;			lda.w_bp   	
+077F: ABA708  		;			lda.w_bp   	oldrow_061
 0782: AB48    		;			pha.w_imp  	
-0784: ABA706  		;			lda.w_bp   	
+0784: ABA706  		;			lda.w_bp   	oldcol_062
 0787: AB48    		;			pha.w_imp  	
 0789: AB8A    		;			txa.w_imp  	
 078B: 38      		;			sec_imp    	
-078C: AB69FEFF		;			adc.w_imm16	
+078C: AB69FEFF		;			adc.w_imm16	newrow_063
 0790: AB48    		;			pha.w_imp  	
 0792: AB8A    		;			txa.w_imp  	
 0794: 38      		;			sec_imp    	
-0795: AB69FCFF		;			adc.w_imm16	
+0795: AB69FCFF		;			adc.w_imm16	newcol_064
 0799: AB48    		;			pha.w_imp  	
-079B: ABA704  		;			lda.w_bp   	
+079B: ABA704  		;			lda.w_bp   	STATIC_LINK
 079E: AB48    		;			pha.w_imp  	
 07A0: 20FA03  		;			jsr_abs    	newlocation_037
 07A3: 620C    		;			adj_imm    	12
-07A5: ABA7FE  		;			lda.w_bp   	
+07A5: ABA7FE  		;			lda.w_bp   	newrow_063
 07A8: AB48    		;			pha.w_imp  	
-07AA: ABA708  		;			lda.w_bp   	
+07AA: ABA708  		;			lda.w_bp   	oldrow_061
 07AD: AB5C00  		;			xma.w_sp   	0
 07B0: ABC300  		;			cmp.w_sp   	0
 07B3: 6202    		;			adj_imm    	2
@@ -2977,9 +2974,9 @@ Assembler Pass 2
 07BB: A900    		;			lda_imm    	0
 					; L_073
 07BD: AB48    		;			pha.w_imp  	
-07BF: ABA7FC  		;			lda.w_bp   	
+07BF: ABA7FC  		;			lda.w_bp   	newcol_064
 07C2: AB48    		;			pha.w_imp  	
-07C4: ABA706  		;			lda.w_bp   	
+07C4: ABA706  		;			lda.w_bp   	oldcol_062
 07C7: AB5C00  		;			xma.w_sp   	0
 07CA: ABC300  		;			cmp.w_sp   	0
 07CD: 6202    		;			adj_imm    	2
@@ -2991,14 +2988,14 @@ Assembler Pass 2
 					; L_074
 07D7: AB0300  		;			ora.w_sp   	0
 07DA: 6202    		;			adj_imm    	2
-07DC: AB87FA  		;			sta.w_bp   	
-07DF: ABA7FA  		;			lda.w_bp   	
+07DC: AB87FA  		;			sta.w_bp   	moved_065
+07DF: ABA7FA  		;			lda.w_bp   	moved_065
 07E2: ABC90100		;			cmp.w_imm16	1
 07E6: F003    		;			beq_rel    	L_075
 07E8: 4C0C0A  		;			jmp_abs    	L_076
 					; L_075
 07EB: AB547612		;			psh.w_imm16	island_002
-07EF: ABA7FE  		;			lda.w_bp   	
+07EF: ABA7FE  		;			lda.w_bp   	newrow_063
 07F2: AB48    		;			pha.w_imp  	
 07F4: AB541600		;			psh.w_imm16	22
 07F8: 20FFFF  		;			jsr_abs    	_imul
@@ -3006,7 +3003,7 @@ Assembler Pass 2
 07FD: 18      		;			clc_imp    	
 07FE: AB6300  		;			adc.w_sp   	0
 0801: AB8300  		;			sta.w_sp   	0
-0804: ABA7FC  		;			lda.w_bp   	
+0804: ABA7FC  		;			lda.w_bp   	newcol_064
 0807: AB0A    		;			asl.w_A    	
 0809: 18      		;			clc_imp    	
 080A: AB6300  		;			adc.w_sp   	0
@@ -3029,7 +3026,7 @@ Assembler Pass 2
 082F: 4C2809  		;			jmp_abs    	L_078
 					; L_077
 0832: AB546813		;			psh.w_imm16	foodunits_003
-0836: ABA708  		;			lda.w_bp   	
+0836: ABA708  		;			lda.w_bp   	oldrow_061
 0839: AB3A    		;			dec.w_A    	
 083B: AB48    		;			pha.w_imp  	
 083D: AB541200		;			psh.w_imm16	18
@@ -3038,14 +3035,14 @@ Assembler Pass 2
 0846: 18      		;			clc_imp    	
 0847: AB6300  		;			adc.w_sp   	0
 084A: AB8300  		;			sta.w_sp   	0
-084D: ABA706  		;			lda.w_bp   	
+084D: ABA706  		;			lda.w_bp   	oldcol_062
 0850: AB3A    		;			dec.w_A    	
 0852: AB0A    		;			asl.w_A    	
 0854: 18      		;			clc_imp    	
 0855: AB6300  		;			adc.w_sp   	0
 0858: AB8300  		;			sta.w_sp   	0
 085B: AB546813		;			psh.w_imm16	foodunits_003
-085F: ABA708  		;			lda.w_bp   	
+085F: ABA708  		;			lda.w_bp   	oldrow_061
 0862: AB3A    		;			dec.w_A    	
 0864: AB48    		;			pha.w_imp  	
 0866: AB541200		;			psh.w_imm16	18
@@ -3054,7 +3051,7 @@ Assembler Pass 2
 086F: 18      		;			clc_imp    	
 0870: AB6300  		;			adc.w_sp   	0
 0873: AB8300  		;			sta.w_sp   	0
-0876: ABA706  		;			lda.w_bp   	
+0876: ABA706  		;			lda.w_bp   	oldcol_062
 0879: AB3A    		;			dec.w_A    	
 087B: AB0A    		;			asl.w_A    	
 087D: 18      		;			clc_imp    	
@@ -3098,7 +3095,7 @@ Assembler Pass 2
 08E2: AB540000		;			psh.w_imm16	0
 08E6: 20FFFF  		;			jsr_abs    	_cwrite
 08E9: 6204    		;			adj_imm    	4
-08EB: ABA7FE  		;			lda.w_bp   	
+08EB: ABA7FE  		;			lda.w_bp   	newrow_063
 08EE: AB48    		;			pha.w_imp  	
 08F0: A901    		;			lda_imm    	1
 08F2: AB48    		;			pha.w_imp  	
@@ -3109,7 +3106,7 @@ Assembler Pass 2
 0901: AB540200		;			psh.w_imm16	2
 0905: 20FFFF  		;			jsr_abs    	_swrite
 0908: 6206    		;			adj_imm    	6
-090A: ABA7FC  		;			lda.w_bp   	
+090A: ABA7FC  		;			lda.w_bp   	newcol_064
 090D: AB48    		;			pha.w_imp  	
 090F: A901    		;			lda_imm    	1
 0911: AB48    		;			pha.w_imp  	
@@ -3123,7 +3120,7 @@ Assembler Pass 2
 0925: 20FFFF  		;			jsr_abs    	_writeln
 					; L_078
 0928: AB547612		;			psh.w_imm16	island_002
-092C: ABA7FE  		;			lda.w_bp   	
+092C: ABA7FE  		;			lda.w_bp   	newrow_063
 092F: AB48    		;			pha.w_imp  	
 0931: AB541600		;			psh.w_imm16	22
 0935: 20FFFF  		;			jsr_abs    	_imul
@@ -3131,7 +3128,7 @@ Assembler Pass 2
 093A: 18      		;			clc_imp    	
 093B: AB6300  		;			adc.w_sp   	0
 093E: AB8300  		;			sta.w_sp   	0
-0941: ABA7FC  		;			lda.w_bp   	
+0941: ABA7FC  		;			lda.w_bp   	newcol_064
 0944: AB0A    		;			asl.w_A    	
 0946: 18      		;			clc_imp    	
 0947: AB6300  		;			adc.w_sp   	0
@@ -3140,7 +3137,7 @@ Assembler Pass 2
 094F: BB8300  		;			sta.w_spI  	0
 0952: 6202    		;			adj_imm    	2
 0954: AB547612		;			psh.w_imm16	island_002
-0958: ABA708  		;			lda.w_bp   	
+0958: ABA708  		;			lda.w_bp   	oldrow_061
 095B: AB48    		;			pha.w_imp  	
 095D: AB541600		;			psh.w_imm16	22
 0961: 20FFFF  		;			jsr_abs    	_imul
@@ -3148,7 +3145,7 @@ Assembler Pass 2
 0966: 18      		;			clc_imp    	
 0967: AB6300  		;			adc.w_sp   	0
 096A: AB8300  		;			sta.w_sp   	0
-096D: ABA706  		;			lda.w_bp   	
+096D: ABA706  		;			lda.w_bp   	oldcol_062
 0970: AB0A    		;			asl.w_A    	
 0972: 18      		;			clc_imp    	
 0973: AB6300  		;			adc.w_sp   	0
@@ -3157,7 +3154,7 @@ Assembler Pass 2
 097B: BB8300  		;			sta.w_spI  	0
 097E: 6202    		;			adj_imm    	2
 0980: AB546813		;			psh.w_imm16	foodunits_003
-0984: ABA7FE  		;			lda.w_bp   	
+0984: ABA7FE  		;			lda.w_bp   	newrow_063
 0987: AB3A    		;			dec.w_A    	
 0989: AB48    		;			pha.w_imp  	
 098B: AB541200		;			psh.w_imm16	18
@@ -3166,14 +3163,14 @@ Assembler Pass 2
 0994: 18      		;			clc_imp    	
 0995: AB6300  		;			adc.w_sp   	0
 0998: AB8300  		;			sta.w_sp   	0
-099B: ABA7FC  		;			lda.w_bp   	
+099B: ABA7FC  		;			lda.w_bp   	newcol_064
 099E: AB3A    		;			dec.w_A    	
 09A0: AB0A    		;			asl.w_A    	
 09A2: 18      		;			clc_imp    	
 09A3: AB6300  		;			adc.w_sp   	0
 09A6: AB8300  		;			sta.w_sp   	0
 09A9: AB546813		;			psh.w_imm16	foodunits_003
-09AD: ABA708  		;			lda.w_bp   	
+09AD: ABA708  		;			lda.w_bp   	oldrow_061
 09B0: AB3A    		;			dec.w_A    	
 09B2: AB48    		;			pha.w_imp  	
 09B4: AB541200		;			psh.w_imm16	18
@@ -3182,7 +3179,7 @@ Assembler Pass 2
 09BD: 18      		;			clc_imp    	
 09BE: AB6300  		;			adc.w_sp   	0
 09C1: AB8300  		;			sta.w_sp   	0
-09C4: ABA706  		;			lda.w_bp   	
+09C4: ABA706  		;			lda.w_bp   	oldcol_062
 09C7: AB3A    		;			dec.w_A    	
 09C9: AB0A    		;			asl.w_A    	
 09CB: 18      		;			clc_imp    	
@@ -3193,7 +3190,7 @@ Assembler Pass 2
 09D7: BB8300  		;			sta.w_spI  	0
 09DA: 6202    		;			adj_imm    	2
 09DC: AB546813		;			psh.w_imm16	foodunits_003
-09E0: ABA708  		;			lda.w_bp   	
+09E0: ABA708  		;			lda.w_bp   	oldrow_061
 09E3: AB3A    		;			dec.w_A    	
 09E5: AB48    		;			pha.w_imp  	
 09E7: AB541200		;			psh.w_imm16	18
@@ -3202,7 +3199,7 @@ Assembler Pass 2
 09F0: 18      		;			clc_imp    	
 09F1: AB6300  		;			adc.w_sp   	0
 09F4: AB8300  		;			sta.w_sp   	0
-09F7: ABA706  		;			lda.w_bp   	
+09F7: ABA706  		;			lda.w_bp   	oldcol_062
 09FA: AB3A    		;			dec.w_A    	
 09FC: AB0A    		;			asl.w_A    	
 09FE: 18      		;			clc_imp    	
@@ -3232,7 +3229,7 @@ Assembler Pass 2
 					; L_083
 0A30: AB48    		;			pha.w_imp  	
 0A32: AB546813		;			psh.w_imm16	foodunits_003
-0A36: ABA7FE  		;			lda.w_bp   	
+0A36: ABA7FE  		;			lda.w_bp   	newrow_063
 0A39: AB3A    		;			dec.w_A    	
 0A3B: AB48    		;			pha.w_imp  	
 0A3D: AB541200		;			psh.w_imm16	18
@@ -3241,7 +3238,7 @@ Assembler Pass 2
 0A46: 18      		;			clc_imp    	
 0A47: AB6300  		;			adc.w_sp   	0
 0A4A: AB8300  		;			sta.w_sp   	0
-0A4D: ABA7FC  		;			lda.w_bp   	
+0A4D: ABA7FC  		;			lda.w_bp   	newcol_064
 0A50: AB3A    		;			dec.w_A    	
 0A52: AB0A    		;			asl.w_A    	
 0A54: 18      		;			clc_imp    	
@@ -3267,7 +3264,7 @@ Assembler Pass 2
 0A80: 4C0B0C  		;			jmp_abs    	L_072
 					; L_081
 0A83: AB546813		;			psh.w_imm16	foodunits_003
-0A87: ABA7FE  		;			lda.w_bp   	
+0A87: ABA7FE  		;			lda.w_bp   	newrow_063
 0A8A: AB3A    		;			dec.w_A    	
 0A8C: AB48    		;			pha.w_imp  	
 0A8E: AB541200		;			psh.w_imm16	18
@@ -3276,14 +3273,14 @@ Assembler Pass 2
 0A97: 18      		;			clc_imp    	
 0A98: AB6300  		;			adc.w_sp   	0
 0A9B: AB8300  		;			sta.w_sp   	0
-0A9E: ABA7FC  		;			lda.w_bp   	
+0A9E: ABA7FC  		;			lda.w_bp   	newcol_064
 0AA1: AB3A    		;			dec.w_A    	
 0AA3: AB0A    		;			asl.w_A    	
 0AA5: 18      		;			clc_imp    	
 0AA6: AB6300  		;			adc.w_sp   	0
 0AA9: AB8300  		;			sta.w_sp   	0
 0AAC: AB546813		;			psh.w_imm16	foodunits_003
-0AB0: ABA7FE  		;			lda.w_bp   	
+0AB0: ABA7FE  		;			lda.w_bp   	newrow_063
 0AB3: AB3A    		;			dec.w_A    	
 0AB5: AB48    		;			pha.w_imp  	
 0AB7: AB541200		;			psh.w_imm16	18
@@ -3292,7 +3289,7 @@ Assembler Pass 2
 0AC0: 18      		;			clc_imp    	
 0AC1: AB6300  		;			adc.w_sp   	0
 0AC4: AB8300  		;			sta.w_sp   	0
-0AC7: ABA7FC  		;			lda.w_bp   	
+0AC7: ABA7FC  		;			lda.w_bp   	newcol_064
 0ACA: AB3A    		;			dec.w_A    	
 0ACC: AB0A    		;			asl.w_A    	
 0ACE: 18      		;			clc_imp    	
@@ -3307,13 +3304,13 @@ Assembler Pass 2
 0AE3: 6204    		;			adj_imm    	4
 0AE5: BB8300  		;			sta.w_spI  	0
 0AE8: 6202    		;			adj_imm    	2
-0AEA: ABA7FA  		;			lda.w_bp   	
+0AEA: ABA7FA  		;			lda.w_bp   	moved_065
 0AED: ABC90100		;			cmp.w_imm16	1
 0AF1: F003    		;			beq_rel    	L_085
 0AF3: 4C0B0C  		;			jmp_abs    	L_072
 					; L_085
 0AF6: AB547612		;			psh.w_imm16	island_002
-0AFA: ABA708  		;			lda.w_bp   	
+0AFA: ABA708  		;			lda.w_bp   	oldrow_061
 0AFD: AB48    		;			pha.w_imp  	
 0AFF: AB541600		;			psh.w_imm16	22
 0B03: 20FFFF  		;			jsr_abs    	_imul
@@ -3321,7 +3318,7 @@ Assembler Pass 2
 0B08: 18      		;			clc_imp    	
 0B09: AB6300  		;			adc.w_sp   	0
 0B0C: AB8300  		;			sta.w_sp   	0
-0B0F: ABA706  		;			lda.w_bp   	
+0B0F: ABA706  		;			lda.w_bp   	oldcol_062
 0B12: AB0A    		;			asl.w_A    	
 0B14: 18      		;			clc_imp    	
 0B15: AB6300  		;			adc.w_sp   	0
@@ -3330,7 +3327,7 @@ Assembler Pass 2
 0B1D: BB8300  		;			sta.w_spI  	0
 0B20: 6202    		;			adj_imm    	2
 0B22: AB546813		;			psh.w_imm16	foodunits_003
-0B26: ABA708  		;			lda.w_bp   	
+0B26: ABA708  		;			lda.w_bp   	oldrow_061
 0B29: AB3A    		;			dec.w_A    	
 0B2B: AB48    		;			pha.w_imp  	
 0B2D: AB541200		;			psh.w_imm16	18
@@ -3339,14 +3336,14 @@ Assembler Pass 2
 0B36: 18      		;			clc_imp    	
 0B37: AB6300  		;			adc.w_sp   	0
 0B3A: AB8300  		;			sta.w_sp   	0
-0B3D: ABA706  		;			lda.w_bp   	
+0B3D: ABA706  		;			lda.w_bp   	oldcol_062
 0B40: AB3A    		;			dec.w_A    	
 0B42: AB0A    		;			asl.w_A    	
 0B44: 18      		;			clc_imp    	
 0B45: AB6300  		;			adc.w_sp   	0
 0B48: AB8300  		;			sta.w_sp   	0
 0B4B: AB546813		;			psh.w_imm16	foodunits_003
-0B4F: ABA7FE  		;			lda.w_bp   	
+0B4F: ABA7FE  		;			lda.w_bp   	newrow_063
 0B52: AB3A    		;			dec.w_A    	
 0B54: AB48    		;			pha.w_imp  	
 0B56: AB541200		;			psh.w_imm16	18
@@ -3355,7 +3352,7 @@ Assembler Pass 2
 0B5F: 18      		;			clc_imp    	
 0B60: AB6300  		;			adc.w_sp   	0
 0B63: AB8300  		;			sta.w_sp   	0
-0B66: ABA7FC  		;			lda.w_bp   	
+0B66: ABA7FC  		;			lda.w_bp   	newcol_064
 0B69: AB3A    		;			dec.w_A    	
 0B6B: AB0A    		;			asl.w_A    	
 0B6D: 18      		;			clc_imp    	
@@ -3393,7 +3390,7 @@ Assembler Pass 2
 0BC5: AB540000		;			psh.w_imm16	0
 0BC9: 20FFFF  		;			jsr_abs    	_cwrite
 0BCC: 6204    		;			adj_imm    	4
-0BCE: ABA708  		;			lda.w_bp   	
+0BCE: ABA708  		;			lda.w_bp   	oldrow_061
 0BD1: AB48    		;			pha.w_imp  	
 0BD3: A901    		;			lda_imm    	1
 0BD5: AB48    		;			pha.w_imp  	
@@ -3404,7 +3401,7 @@ Assembler Pass 2
 0BE4: AB540200		;			psh.w_imm16	2
 0BE8: 20FFFF  		;			jsr_abs    	_swrite
 0BEB: 6206    		;			adj_imm    	6
-0BED: ABA706  		;			lda.w_bp   	
+0BED: ABA706  		;			lda.w_bp   	oldcol_062
 0BF0: AB48    		;			pha.w_imp  	
 0BF2: A901    		;			lda_imm    	1
 0BF4: AB48    		;			pha.w_imp  	
@@ -3426,25 +3423,25 @@ Assembler Pass 2
 0C14: 62FA    		;			adj_imm    	-6
 0C16: A901    		;			lda_imm    	1
 0C18: AB48    		;			pha.w_imp  	
-0C1A: ABA708  		;			lda.w_bp   	
+0C1A: ABA708  		;			lda.w_bp   	oldrow_089
 0C1D: AB48    		;			pha.w_imp  	
-0C1F: ABA706  		;			lda.w_bp   	
+0C1F: ABA706  		;			lda.w_bp   	oldcol_090
 0C22: AB48    		;			pha.w_imp  	
 0C24: AB8A    		;			txa.w_imp  	
 0C26: 38      		;			sec_imp    	
-0C27: AB69FEFF		;			adc.w_imm16	
+0C27: AB69FEFF		;			adc.w_imm16	newrow_091
 0C2B: AB48    		;			pha.w_imp  	
 0C2D: AB8A    		;			txa.w_imp  	
 0C2F: 38      		;			sec_imp    	
-0C30: AB69FCFF		;			adc.w_imm16	
+0C30: AB69FCFF		;			adc.w_imm16	newcol_092
 0C34: AB48    		;			pha.w_imp  	
-0C36: ABA704  		;			lda.w_bp   	
+0C36: ABA704  		;			lda.w_bp   	STATIC_LINK
 0C39: AB48    		;			pha.w_imp  	
 0C3B: 20FA03  		;			jsr_abs    	newlocation_037
 0C3E: 620C    		;			adj_imm    	12
-0C40: ABA7FE  		;			lda.w_bp   	
+0C40: ABA7FE  		;			lda.w_bp   	newrow_091
 0C43: AB48    		;			pha.w_imp  	
-0C45: ABA708  		;			lda.w_bp   	
+0C45: ABA708  		;			lda.w_bp   	oldrow_089
 0C48: AB5C00  		;			xma.w_sp   	0
 0C4B: ABC300  		;			cmp.w_sp   	0
 0C4E: 6202    		;			adj_imm    	2
@@ -3455,9 +3452,9 @@ Assembler Pass 2
 0C56: A900    		;			lda_imm    	0
 					; L_094
 0C58: AB48    		;			pha.w_imp  	
-0C5A: ABA7FC  		;			lda.w_bp   	
+0C5A: ABA7FC  		;			lda.w_bp   	newcol_092
 0C5D: AB48    		;			pha.w_imp  	
-0C5F: ABA706  		;			lda.w_bp   	
+0C5F: ABA706  		;			lda.w_bp   	oldcol_090
 0C62: AB5C00  		;			xma.w_sp   	0
 0C65: ABC300  		;			cmp.w_sp   	0
 0C68: 6202    		;			adj_imm    	2
@@ -3469,14 +3466,14 @@ Assembler Pass 2
 					; L_095
 0C72: AB0300  		;			ora.w_sp   	0
 0C75: 6202    		;			adj_imm    	2
-0C77: AB87FA  		;			sta.w_bp   	
-0C7A: ABA7FA  		;			lda.w_bp   	
+0C77: AB87FA  		;			sta.w_bp   	moved_093
+0C7A: ABA7FA  		;			lda.w_bp   	moved_093
 0C7D: ABC90100		;			cmp.w_imm16	1
 0C81: F003    		;			beq_rel    	L_096
 0C83: 4CDE0C  		;			jmp_abs    	L_097
 					; L_096
 0C86: AB547612		;			psh.w_imm16	island_002
-0C8A: ABA7FE  		;			lda.w_bp   	
+0C8A: ABA7FE  		;			lda.w_bp   	newrow_091
 0C8D: AB48    		;			pha.w_imp  	
 0C8F: AB541600		;			psh.w_imm16	22
 0C93: 20FFFF  		;			jsr_abs    	_imul
@@ -3484,7 +3481,7 @@ Assembler Pass 2
 0C98: 18      		;			clc_imp    	
 0C99: AB6300  		;			adc.w_sp   	0
 0C9C: AB8300  		;			sta.w_sp   	0
-0C9F: ABA7FC  		;			lda.w_bp   	
+0C9F: ABA7FC  		;			lda.w_bp   	newcol_092
 0CA2: AB0A    		;			asl.w_A    	
 0CA4: 18      		;			clc_imp    	
 0CA5: AB6300  		;			adc.w_sp   	0
@@ -3493,7 +3490,7 @@ Assembler Pass 2
 0CAD: BB8300  		;			sta.w_spI  	0
 0CB0: 6202    		;			adj_imm    	2
 0CB2: AB547612		;			psh.w_imm16	island_002
-0CB6: ABA708  		;			lda.w_bp   	
+0CB6: ABA708  		;			lda.w_bp   	oldrow_089
 0CB9: AB48    		;			pha.w_imp  	
 0CBB: AB541600		;			psh.w_imm16	22
 0CBF: 20FFFF  		;			jsr_abs    	_imul
@@ -3501,7 +3498,7 @@ Assembler Pass 2
 0CC4: 18      		;			clc_imp    	
 0CC5: AB6300  		;			adc.w_sp   	0
 0CC8: AB8300  		;			sta.w_sp   	0
-0CCB: ABA706  		;			lda.w_bp   	
+0CCB: ABA706  		;			lda.w_bp   	oldcol_090
 0CCE: AB0A    		;			asl.w_A    	
 0CD0: 18      		;			clc_imp    	
 0CD1: AB6300  		;			adc.w_sp   	0
@@ -3532,13 +3529,13 @@ Assembler Pass 2
 0D06: F003    		;			beq_rel    	L_098
 0D08: 4CD00D  		;			jmp_abs    	L_099
 					; L_098
-0D0B: ABA7FA  		;			lda.w_bp   	
+0D0B: ABA7FA  		;			lda.w_bp   	moved_093
 0D0E: ABC90100		;			cmp.w_imm16	1
 0D12: F003    		;			beq_rel    	L_101
 0D14: 4CD00D  		;			jmp_abs    	L_099
 					; L_101
 0D17: AB547612		;			psh.w_imm16	island_002
-0D1B: ABA708  		;			lda.w_bp   	
+0D1B: ABA708  		;			lda.w_bp   	oldrow_089
 0D1E: AB48    		;			pha.w_imp  	
 0D20: AB541600		;			psh.w_imm16	22
 0D24: 20FFFF  		;			jsr_abs    	_imul
@@ -3546,7 +3543,7 @@ Assembler Pass 2
 0D29: 18      		;			clc_imp    	
 0D2A: AB6300  		;			adc.w_sp   	0
 0D2D: AB8300  		;			sta.w_sp   	0
-0D30: ABA706  		;			lda.w_bp   	
+0D30: ABA706  		;			lda.w_bp   	oldcol_090
 0D33: AB0A    		;			asl.w_A    	
 0D35: 18      		;			clc_imp    	
 0D36: AB6300  		;			adc.w_sp   	0
@@ -3582,7 +3579,7 @@ Assembler Pass 2
 0D8A: AB540000		;			psh.w_imm16	0
 0D8E: 20FFFF  		;			jsr_abs    	_cwrite
 0D91: 6204    		;			adj_imm    	4
-0D93: ABA708  		;			lda.w_bp   	
+0D93: ABA708  		;			lda.w_bp   	oldrow_089
 0D96: AB48    		;			pha.w_imp  	
 0D98: A901    		;			lda_imm    	1
 0D9A: AB48    		;			pha.w_imp  	
@@ -3593,7 +3590,7 @@ Assembler Pass 2
 0DA9: AB540200		;			psh.w_imm16	2
 0DAD: 20FFFF  		;			jsr_abs    	_swrite
 0DB0: 6206    		;			adj_imm    	6
-0DB2: ABA706  		;			lda.w_bp   	
+0DB2: ABA706  		;			lda.w_bp   	oldcol_090
 0DB5: AB48    		;			pha.w_imp  	
 0DB7: A901    		;			lda_imm    	1
 0DB9: AB48    		;			pha.w_imp  	
@@ -3614,23 +3611,23 @@ Assembler Pass 2
 0DD7: ABBA    		;			tsx.w_imp  	
 0DD9: 62FC    		;			adj_imm    	-4
 0DDB: A901    		;			lda_imm    	1
-0DDD: AB87FE  		;			sta.w_bp   	
+0DDD: AB87FE  		;			sta.w_bp   	row_105
 					; L_107
 0DE0: A909    		;			lda_imm    	9
-0DE2: ABC7FE  		;			cmp.w_bp   	
+0DE2: ABC7FE  		;			cmp.w_bp   	row_105
 0DE5: AB5003  		;			bge_rel    	L_108
 0DE8: 4C650E  		;			jmp_abs    	L_109
 					; L_108
 0DEB: A901    		;			lda_imm    	1
-0DED: AB87FC  		;			sta.w_bp   	
+0DED: AB87FC  		;			sta.w_bp   	col_106
 					; L_110
 0DF0: A909    		;			lda_imm    	9
-0DF2: ABC7FC  		;			cmp.w_bp   	
+0DF2: ABC7FC  		;			cmp.w_bp   	col_106
 0DF5: AB5003  		;			bge_rel    	L_111
 0DF8: 4C5C0E  		;			jmp_abs    	L_112
 					; L_111
 0DFB: AB547612		;			psh.w_imm16	island_002
-0DFF: ABA7FE  		;			lda.w_bp   	
+0DFF: ABA7FE  		;			lda.w_bp   	row_105
 0E02: AB48    		;			pha.w_imp  	
 0E04: AB541600		;			psh.w_imm16	22
 0E08: 20FFFF  		;			jsr_abs    	_imul
@@ -3638,7 +3635,7 @@ Assembler Pass 2
 0E0D: 18      		;			clc_imp    	
 0E0E: AB6300  		;			adc.w_sp   	0
 0E11: AB8300  		;			sta.w_sp   	0
-0E14: ABA7FC  		;			lda.w_bp   	
+0E14: ABA7FC  		;			lda.w_bp   	col_106
 0E17: AB0A    		;			asl.w_A    	
 0E19: 18      		;			clc_imp    	
 0E1A: AB6300  		;			adc.w_sp   	0
@@ -3660,41 +3657,41 @@ Assembler Pass 2
 0E3D: F003    		;			beq_rel    	L_113
 0E3F: 4C560E  		;			jmp_abs    	L_114
 					; L_113
-0E42: ABA7FE  		;			lda.w_bp   	
+0E42: ABA7FE  		;			lda.w_bp   	row_105
 0E45: AB48    		;			pha.w_imp  	
-0E47: ABA7FC  		;			lda.w_bp   	
+0E47: ABA7FC  		;			lda.w_bp   	col_106
 0E4A: AB48    		;			pha.w_imp  	
-0E4C: ABA704  		;			lda.w_bp   	
+0E4C: ABA704  		;			lda.w_bp   	STATIC_LINK
 0E4F: AB48    		;			pha.w_imp  	
 0E51: 200206  		;			jsr_abs    	processwolf_060
 0E54: 6206    		;			adj_imm    	6
 					; L_114
-0E56: ABF7FC  		;			inc.w_bp   	
+0E56: ABF7FC  		;			inc.w_bp   	col_106
 0E59: 4CF00D  		;			jmp_abs    	L_110
 					; L_112
-0E5C: ABD7FC  		;			dec.w_bp   	
-0E5F: ABF7FE  		;			inc.w_bp   	
+0E5C: ABD7FC  		;			dec.w_bp   	col_106
+0E5F: ABF7FE  		;			inc.w_bp   	row_105
 0E62: 4CE00D  		;			jmp_abs    	L_107
 					; L_109
-0E65: ABD7FE  		;			dec.w_bp   	
+0E65: ABD7FE  		;			dec.w_bp   	row_105
 0E68: A901    		;			lda_imm    	1
-0E6A: AB87FE  		;			sta.w_bp   	
+0E6A: AB87FE  		;			sta.w_bp   	row_105
 					; L_116
 0E6D: A909    		;			lda_imm    	9
-0E6F: ABC7FE  		;			cmp.w_bp   	
+0E6F: ABC7FE  		;			cmp.w_bp   	row_105
 0E72: AB5003  		;			bge_rel    	L_117
 0E75: 4CF20E  		;			jmp_abs    	L_118
 					; L_117
 0E78: A901    		;			lda_imm    	1
-0E7A: AB87FC  		;			sta.w_bp   	
+0E7A: AB87FC  		;			sta.w_bp   	col_106
 					; L_119
 0E7D: A909    		;			lda_imm    	9
-0E7F: ABC7FC  		;			cmp.w_bp   	
+0E7F: ABC7FC  		;			cmp.w_bp   	col_106
 0E82: AB5003  		;			bge_rel    	L_120
 0E85: 4CE90E  		;			jmp_abs    	L_121
 					; L_120
 0E88: AB547612		;			psh.w_imm16	island_002
-0E8C: ABA7FE  		;			lda.w_bp   	
+0E8C: ABA7FE  		;			lda.w_bp   	row_105
 0E8F: AB48    		;			pha.w_imp  	
 0E91: AB541600		;			psh.w_imm16	22
 0E95: 20FFFF  		;			jsr_abs    	_imul
@@ -3702,7 +3699,7 @@ Assembler Pass 2
 0E9A: 18      		;			clc_imp    	
 0E9B: AB6300  		;			adc.w_sp   	0
 0E9E: AB8300  		;			sta.w_sp   	0
-0EA1: ABA7FC  		;			lda.w_bp   	
+0EA1: ABA7FC  		;			lda.w_bp   	col_106
 0EA4: AB0A    		;			asl.w_A    	
 0EA6: 18      		;			clc_imp    	
 0EA7: AB6300  		;			adc.w_sp   	0
@@ -3724,23 +3721,23 @@ Assembler Pass 2
 0ECA: F003    		;			beq_rel    	L_122
 0ECC: 4CE30E  		;			jmp_abs    	L_123
 					; L_122
-0ECF: ABA7FE  		;			lda.w_bp   	
+0ECF: ABA7FE  		;			lda.w_bp   	row_105
 0ED2: AB48    		;			pha.w_imp  	
-0ED4: ABA7FC  		;			lda.w_bp   	
+0ED4: ABA7FC  		;			lda.w_bp   	col_106
 0ED7: AB48    		;			pha.w_imp  	
-0ED9: ABA704  		;			lda.w_bp   	
+0ED9: ABA704  		;			lda.w_bp   	STATIC_LINK
 0EDC: AB48    		;			pha.w_imp  	
 0EDE: 20100C  		;			jsr_abs    	processrabbit_088
 0EE1: 6206    		;			adj_imm    	6
 					; L_123
-0EE3: ABF7FC  		;			inc.w_bp   	
+0EE3: ABF7FC  		;			inc.w_bp   	col_106
 0EE6: 4C7D0E  		;			jmp_abs    	L_119
 					; L_121
-0EE9: ABD7FC  		;			dec.w_bp   	
-0EEC: ABF7FE  		;			inc.w_bp   	
+0EE9: ABD7FC  		;			dec.w_bp   	col_106
+0EEC: ABF7FE  		;			inc.w_bp   	row_105
 0EEF: 4C6D0E  		;			jmp_abs    	L_116
 					; L_118
-0EF2: ABD7FE  		;			dec.w_bp   	
+0EF2: ABD7FE  		;			dec.w_bp   	row_105
 0EF5: AB9A    		;			txs.w_imp  	
 0EF7: ABFA    		;			plx.w_imp  	
 0EF9: 60      		;			rts_imp    	
@@ -3768,10 +3765,10 @@ Assembler Pass 2
 0F34: 20FFFF  		;			jsr_abs    	_writeln
 0F37: 20FFFF  		;			jsr_abs    	_writeln
 0F3A: A901    		;			lda_imm    	1
-0F3C: AB87FE  		;			sta.w_bp   	
+0F3C: AB87FE  		;			sta.w_bp   	row_126
 					; L_130
 0F3F: A909    		;			lda_imm    	9
-0F41: ABC7FE  		;			cmp.w_bp   	
+0F41: ABC7FE  		;			cmp.w_bp   	row_126
 0F44: AB5003  		;			bge_rel    	L_131
 0F47: 4C3F10  		;			jmp_abs    	L_132
 					; L_131
@@ -3782,15 +3779,15 @@ Assembler Pass 2
 0F52: 20FFFF  		;			jsr_abs    	_cwrite
 0F55: 6204    		;			adj_imm    	4
 0F57: A901    		;			lda_imm    	1
-0F59: AB87FC  		;			sta.w_bp   	
+0F59: AB87FC  		;			sta.w_bp   	col_127
 					; L_133
 0F5C: A909    		;			lda_imm    	9
-0F5E: ABC7FC  		;			cmp.w_bp   	
+0F5E: ABC7FC  		;			cmp.w_bp   	col_127
 0F61: AB5003  		;			bge_rel    	L_134
 0F64: 4C3310  		;			jmp_abs    	L_135
 					; L_134
 0F67: AB547612		;			psh.w_imm16	island_002
-0F6B: ABA7FE  		;			lda.w_bp   	
+0F6B: ABA7FE  		;			lda.w_bp   	row_126
 0F6E: AB48    		;			pha.w_imp  	
 0F70: AB541600		;			psh.w_imm16	22
 0F74: 20FFFF  		;			jsr_abs    	_imul
@@ -3798,15 +3795,15 @@ Assembler Pass 2
 0F79: 18      		;			clc_imp    	
 0F7A: AB6300  		;			adc.w_sp   	0
 0F7D: AB8300  		;			sta.w_sp   	0
-0F80: ABA7FC  		;			lda.w_bp   	
+0F80: ABA7FC  		;			lda.w_bp   	col_127
 0F83: AB0A    		;			asl.w_A    	
 0F85: 18      		;			clc_imp    	
 0F86: AB6300  		;			adc.w_sp   	0
 0F89: AB8300  		;			sta.w_sp   	0
 0F8C: BBA300  		;			lda.w_spI  	0
 0F8F: 6202    		;			adj_imm    	2
-0F91: AB87FA  		;			sta.w_bp   	
-0F94: ABA7FA  		;			lda.w_bp   	
+0F91: AB87FA  		;			sta.w_bp   	cnts_128
+0F94: ABA7FA  		;			lda.w_bp   	cnts_128
 0F97: AB48    		;			pha.w_imp  	
 0F99: A904    		;			lda_imm    	4
 0F9B: AB5C00  		;			xma.w_sp   	0
@@ -3829,7 +3826,7 @@ Assembler Pass 2
 0FC3: 6206    		;			adj_imm    	6
 0FC5: 4C2D10  		;			jmp_abs    	L_140
 					; L_137
-0FC8: ABA7FA  		;			lda.w_bp   	
+0FC8: ABA7FA  		;			lda.w_bp   	cnts_128
 0FCB: AB48    		;			pha.w_imp  	
 0FCD: A900    		;			lda_imm    	0
 0FCF: AB5C00  		;			xma.w_sp   	0
@@ -3852,7 +3849,7 @@ Assembler Pass 2
 0FF7: 6206    		;			adj_imm    	6
 0FF9: 4C2D10  		;			jmp_abs    	L_140
 					; L_142
-0FFC: ABA7FA  		;			lda.w_bp   	
+0FFC: ABA7FA  		;			lda.w_bp   	cnts_128
 0FFF: AB48    		;			pha.w_imp  	
 1001: A901    		;			lda_imm    	1
 1003: AB5C00  		;			xma.w_sp   	0
@@ -3874,15 +3871,15 @@ Assembler Pass 2
 1028: 20FFFF  		;			jsr_abs    	_swrite
 102B: 6206    		;			adj_imm    	6
 					; L_140
-102D: ABF7FC  		;			inc.w_bp   	
+102D: ABF7FC  		;			inc.w_bp   	col_127
 1030: 4C5C0F  		;			jmp_abs    	L_133
 					; L_135
-1033: ABD7FC  		;			dec.w_bp   	
+1033: ABD7FC  		;			dec.w_bp   	col_127
 1036: 20FFFF  		;			jsr_abs    	_writeln
-1039: ABF7FE  		;			inc.w_bp   	
+1039: ABF7FE  		;			inc.w_bp   	row_126
 103C: 4C3F0F  		;			jmp_abs    	L_130
 					; L_132
-103F: ABD7FE  		;			dec.w_bp   	
+103F: ABD7FE  		;			dec.w_bp   	row_126
 1042: AB9A    		;			txs.w_imp  	
 1044: ABFA    		;			plx.w_imp  	
 1046: 60      		;			rts_imp    	
@@ -3891,23 +3888,23 @@ Assembler Pass 2
 1049: ABBA    		;			tsx.w_imp  	
 104B: 62FC    		;			adj_imm    	-4
 104D: A901    		;			lda_imm    	1
-104F: AB87FE  		;			sta.w_bp   	
+104F: AB87FE  		;			sta.w_bp   	row_151
 					; L_153
 1052: A909    		;			lda_imm    	9
-1054: ABC7FE  		;			cmp.w_bp   	
+1054: ABC7FE  		;			cmp.w_bp   	row_151
 1057: AB5003  		;			bge_rel    	L_154
 105A: 4C6511  		;			jmp_abs    	L_155
 					; L_154
 105D: A901    		;			lda_imm    	1
-105F: AB87FC  		;			sta.w_bp   	
+105F: AB87FC  		;			sta.w_bp   	col_152
 					; L_156
 1062: A909    		;			lda_imm    	9
-1064: ABC7FC  		;			cmp.w_bp   	
+1064: ABC7FC  		;			cmp.w_bp   	col_152
 1067: AB5003  		;			bge_rel    	L_157
 106A: 4C5C11  		;			jmp_abs    	L_158
 					; L_157
 106D: AB547612		;			psh.w_imm16	island_002
-1071: ABA7FE  		;			lda.w_bp   	
+1071: ABA7FE  		;			lda.w_bp   	row_151
 1074: AB48    		;			pha.w_imp  	
 1076: AB541600		;			psh.w_imm16	22
 107A: 20FFFF  		;			jsr_abs    	_imul
@@ -3915,7 +3912,7 @@ Assembler Pass 2
 107F: 18      		;			clc_imp    	
 1080: AB6300  		;			adc.w_sp   	0
 1083: AB8300  		;			sta.w_sp   	0
-1086: ABA7FC  		;			lda.w_bp   	
+1086: ABA7FC  		;			lda.w_bp   	col_152
 1089: AB0A    		;			asl.w_A    	
 108B: 18      		;			clc_imp    	
 108C: AB6300  		;			adc.w_sp   	0
@@ -3938,7 +3935,7 @@ Assembler Pass 2
 10B1: 4CE310  		;			jmp_abs    	L_160
 					; L_159
 10B4: AB547612		;			psh.w_imm16	island_002
-10B8: ABA7FE  		;			lda.w_bp   	
+10B8: ABA7FE  		;			lda.w_bp   	row_151
 10BB: AB48    		;			pha.w_imp  	
 10BD: AB541600		;			psh.w_imm16	22
 10C1: 20FFFF  		;			jsr_abs    	_imul
@@ -3946,7 +3943,7 @@ Assembler Pass 2
 10C6: 18      		;			clc_imp    	
 10C7: AB6300  		;			adc.w_sp   	0
 10CA: AB8300  		;			sta.w_sp   	0
-10CD: ABA7FC  		;			lda.w_bp   	
+10CD: ABA7FC  		;			lda.w_bp   	col_152
 10D0: AB0A    		;			asl.w_A    	
 10D2: 18      		;			clc_imp    	
 10D3: AB6300  		;			adc.w_sp   	0
@@ -3957,7 +3954,7 @@ Assembler Pass 2
 10E0: 4C5611  		;			jmp_abs    	L_162
 					; L_160
 10E3: AB547612		;			psh.w_imm16	island_002
-10E7: ABA7FE  		;			lda.w_bp   	
+10E7: ABA7FE  		;			lda.w_bp   	row_151
 10EA: AB48    		;			pha.w_imp  	
 10EC: AB541600		;			psh.w_imm16	22
 10F0: 20FFFF  		;			jsr_abs    	_imul
@@ -3965,7 +3962,7 @@ Assembler Pass 2
 10F5: 18      		;			clc_imp    	
 10F6: AB6300  		;			adc.w_sp   	0
 10F9: AB8300  		;			sta.w_sp   	0
-10FC: ABA7FC  		;			lda.w_bp   	
+10FC: ABA7FC  		;			lda.w_bp   	col_152
 10FF: AB0A    		;			asl.w_A    	
 1101: 18      		;			clc_imp    	
 1102: AB6300  		;			adc.w_sp   	0
@@ -3988,7 +3985,7 @@ Assembler Pass 2
 1127: 4C5611  		;			jmp_abs    	L_162
 					; L_163
 112A: AB547612		;			psh.w_imm16	island_002
-112E: ABA7FE  		;			lda.w_bp   	
+112E: ABA7FE  		;			lda.w_bp   	row_151
 1131: AB48    		;			pha.w_imp  	
 1133: AB541600		;			psh.w_imm16	22
 1137: 20FFFF  		;			jsr_abs    	_imul
@@ -3996,7 +3993,7 @@ Assembler Pass 2
 113C: 18      		;			clc_imp    	
 113D: AB6300  		;			adc.w_sp   	0
 1140: AB8300  		;			sta.w_sp   	0
-1143: ABA7FC  		;			lda.w_bp   	
+1143: ABA7FC  		;			lda.w_bp   	col_152
 1146: AB0A    		;			asl.w_A    	
 1148: 18      		;			clc_imp    	
 1149: AB6300  		;			adc.w_sp   	0
@@ -4005,14 +4002,14 @@ Assembler Pass 2
 1151: BB8300  		;			sta.w_spI  	0
 1154: 6202    		;			adj_imm    	2
 					; L_162
-1156: ABF7FC  		;			inc.w_bp   	
+1156: ABF7FC  		;			inc.w_bp   	col_152
 1159: 4C6210  		;			jmp_abs    	L_156
 					; L_158
-115C: ABD7FC  		;			dec.w_bp   	
-115F: ABF7FE  		;			inc.w_bp   	
+115C: ABD7FC  		;			dec.w_bp   	col_152
+115F: ABF7FE  		;			inc.w_bp   	row_151
 1162: 4C5210  		;			jmp_abs    	L_153
 					; L_155
-1165: ABD7FE  		;			dec.w_bp   	
+1165: ABD7FE  		;			dec.w_bp   	row_151
 1168: AB9A    		;			txs.w_imp  	
 116A: ABFA    		;			plx.w_imp  	
 116C: 60      		;			rts_imp    	
