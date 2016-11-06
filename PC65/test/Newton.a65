@@ -1,9 +1,9 @@
 			.STACK  1024
 			.CODE   
-_pascal_main	.SUB
+_pc65_main	.SUB
 			phx.w   
 			tsx.w   
-L_005	.LBL
+L_005	.     
 			jsr     _writeln
 			psh.w   #S_007
 			psh.w   #0
@@ -41,11 +41,11 @@ L_005	.LBL
 			plp     
 			beq     L_010
 			lda     #0
-L_010	.LBL
+L_010	.     
 			cmp.w   #1
 			beq     L_008
 			jmp     L_009
-L_008	.LBL
+L_008	.     
 			lda.w   number_002+2
 			swp     
 			lda.w   number_002
@@ -74,7 +74,7 @@ L_008	.LBL
 			adj     #8
 			jsr     _writeln
 			jmp     L_012
-L_009	.LBL
+L_009	.     
 			lda.w   number_002+2
 			swp     
 			lda.w   number_002
@@ -98,11 +98,11 @@ L_009	.LBL
 			plp     
 			blt     L_015
 			lda     #0
-L_015	.LBL
+L_015	.     
 			cmp.w   #1
 			beq     L_013
 			jmp     L_014
-L_013	.LBL
+L_013	.     
 			psh.w   #S_016
 			psh.w   #0
 			psh.w   #22
@@ -110,7 +110,7 @@ L_013	.LBL
 			adj     #6
 			jsr     _writeln
 			jmp     L_017
-L_014	.LBL
+L_014	.     
 			lda.w   number_002+2
 			swp     
 			lda.w   number_002
@@ -160,7 +160,7 @@ L_014	.LBL
 			sta.w   root_003+2
 			swp     
 			sta.w   root_003
-L_018	.LBL
+L_018	.     
 			lda.w   number_002+2
 			swp     
 			lda.w   number_002
@@ -364,13 +364,13 @@ L_018	.LBL
 			plp     
 			blt     L_021
 			lda     #0
-L_021	.LBL
+L_021	.     
 			cmp.w   #1
 			beq     L_019
 			jmp     L_018
-L_019	.LBL
-L_017	.LBL
-L_012	.LBL
+L_019	.     
+L_017	.     
+L_012	.     
 			lda.w   number_002+2
 			swp     
 			lda.w   number_002
@@ -394,18 +394,18 @@ L_012	.LBL
 			plp     
 			beq     L_022
 			lda     #0
-L_022	.LBL
+L_022	.     
 			cmp.w   #1
 			beq     L_006
 			jmp     L_005
-L_006	.LBL
+L_006	.     
 			plx.w   
 			rts     
 			.DATA   
-number_002	.DB   4
-root_003	.DB   4
-sqroot_004	.DB   4
-F_020	.DD   1.000000e-06
-F_011	.DD   0.000000e+00
-S_016	.DS   "*** ERROR:  number < 0"
-S_007	.DS   "Enter new number (0 to quit): "
+number_002	..DB  4
+root_003	..DB  4
+sqroot_004	..DB  4
+F_020	..DD  1.000000e-06
+F_011	..DD  0.000000e+00
+S_016	..DS  "*** ERROR:  number < 0"
+S_007	..DS  "Enter new number (0 to quit): "

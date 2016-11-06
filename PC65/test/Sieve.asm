@@ -1,16 +1,11 @@
 ;    1: PROGRAM eratosthenes(output);
-	DOSSEG
-	.MODEL  small
 	.STACK  1024	;Set stack size
 
 	.CODE	;place in CODE segment
 
-	PUBLIC	_pascal_main
-	INCLUDE	pasextrn.inc
-
-STATIC_LINK			EQU	+4	;--- base-relative STATIC_LINK			EQU	<WORD PTR [bp+4]>
-RETURN_VALUE		EQU	-4	;--- base-relativeRETURN_VALUE		EQU	<WORD PTR [bp-4]>
-HIGH_RETURN_VALUE	EQU	-2	;--- base-relative HIGH_RETURN_VALUE	EQU	<WORD PTR [bp-2]>
+STATIC_LINK			.EQ	+4	;--- base-relative STATIC_LINK			EQU	<WORD PTR [bp+4]>
+RETURN_VALUE		.EQ	-4	;--- base-relativeRETURN_VALUE		EQU	<WORD PTR [bp-4]>
+HIGH_RETURN_VALUE	.EQ	-2	;--- base-relative HIGH_RETURN_VALUE	EQU	<WORD PTR [bp-2]>
 
 ;    2: 
 ;    3: CONST
@@ -22,7 +17,7 @@ HIGH_RETURN_VALUE	EQU	-2	;--- base-relative HIGH_RETURN_VALUE	EQU	<WORD PTR [bp-
 ;    9: 
 ;   10: BEGIN
 
-_pascal_main	PROC
+_pc65_main	.PROC
 
 	phx.w	;---	push	bp
 	tsx.w	;---	mov		bp,sp
@@ -55,12 +50,12 @@ _pascal_main	PROC
 ;   14:     FOR i := 2 TO max DO
 	lda #2	;---	mov		ax,2
 	sta.w i_003	;---	mov		WORD PTR i_003,ax
-L_008:
+L_008
 	lda.w #1000	;---	mov		ax,1000
 	cmp.w i_003	;---	cmp		WORD PTR i_003,ax
 	bge L_009	;---	jle		L_009
 	jmp L_010	;---	jmp		L_010
-L_009:
+L_009
 ;   15:         sieve[i] := TRUE;
 	psh.w #sieve_002	;---	lea		ax,WORD PTR sieve_002
 	lda.w i_003	;---	mov		ax,WORD PTR i_003
@@ -78,7 +73,7 @@ L_009:
 	adj #2	;--- pop TOS
 	inc.w i_003	;---	inc		WORD PTR i_003
 	jmp L_008	;---	jmp		L_008
-L_010:
+L_010
 	dec.w i_003	;---	dec		WORD PTR i_003
 ;   16: 
 ;   17:     prime := 1;
@@ -86,7 +81,7 @@ L_010:
 	sta.w prime_006	;---	mov		WORD PTR prime_006,ax
 ;   18: 
 ;   19:     REPEAT
-L_011:
+L_011
 ;   20:         prime := prime + 1;
 	lda.w prime_006	;---	mov		ax,WORD PTR prime_006
 	pha.w	;---	push	ax
@@ -97,7 +92,7 @@ L_011:
 	adj #2	;pop ops/params
 	sta.w prime_006	;---	mov		WORD PTR prime_006,ax
 ;   21:         WHILE NOT sieve[prime] DO
-L_013:
+L_013
 	psh.w #sieve_002	;---	lea		ax,WORD PTR sieve_002
 	lda.w prime_006	;---	mov		ax,WORD PTR prime_006
 	dec.w a	;---	sub		ax,1
@@ -115,7 +110,7 @@ L_013:
 	cmp.w #1	;---	cmp		ax,1
 	beq L_014	;---	je		L_014
 	jmp L_015	;---	jmp		L_015
-L_014:
+L_014
 ;   22:             prime := prime + 1;
 	lda.w prime_006	;---	mov		ax,WORD PTR prime_006
 	pha.w	;---	push	ax
@@ -126,7 +121,7 @@ L_014:
 	adj #2	;pop ops/params
 	sta.w prime_006	;---	mov		WORD PTR prime_006,ax
 	jmp L_013	;---	jmp		L_013
-L_015:
+L_015
 ;   23: 
 ;   24:         factor := 2*prime;
 	lda #2	;---	mov		ax,2
@@ -138,7 +133,7 @@ L_015:
 	sta.w factor_007	;---	mov		WORD PTR factor_007,ax
 ;   25: 
 ;   26:         WHILE factor <= max DO BEGIN
-L_016:
+L_016
 	lda.w factor_007	;---	mov		ax,WORD PTR factor_007
 	pha.w	;---	push	ax
 	lda.w #1000	;---	mov		ax,1000
@@ -150,11 +145,11 @@ L_016:
 	plp	;pull PSW
 	ble L_019	;---	jle		L_019
 	lda #0	;---	sub		ax,ax
-L_019:
+L_019
 	cmp.w #1	;---	cmp		ax,1
 	beq L_017	;---	je		L_017
 	jmp L_018	;---	jmp		L_018
-L_017:
+L_017
 ;   27:             sieve[factor] := FALSE;
 	psh.w #sieve_002	;---	lea		ax,WORD PTR sieve_002
 	lda.w factor_007	;---	mov		ax,WORD PTR factor_007
@@ -182,7 +177,7 @@ L_017:
 ;   29:         END
 ;   30:     UNTIL prime > limit;
 	jmp L_016	;---	jmp		L_016
-L_018:
+L_018
 	lda.w prime_006	;---	mov		ax,WORD PTR prime_006
 	pha.w	;---	push	ax
 	lda.w limit_005	;---	mov		ax,WORD PTR limit_005
@@ -194,11 +189,11 @@ L_018:
 	plp	;pull PSW
 	bgt L_020	;---	jg		L_020
 	lda #0	;---	sub		ax,ax
-L_020:
+L_020
 	cmp.w #1	;---	cmp		ax,1
 	beq L_012	;---	je		L_012
 	jmp L_011	;---	jmp		L_011
-L_012:
+L_012
 ;   31: 
 ;   32:     writeln('Sieve of Eratosthenes');
 	psh.w #S_021	;---	lea		ax,WORD PTR S_021
@@ -217,16 +212,16 @@ L_012:
 	lda #1	;---	mov		ax,1
 	sta.w i_003	;---	mov		WORD PTR i_003,ax
 ;   36:     REPEAT
-L_022:
+L_022
 ;   37:         FOR j := 0 TO 19 DO BEGIN
 	lda #0	;---	mov		ax,0
 	sta.w j_004	;---	mov		WORD PTR j_004,ax
-L_024:
+L_024
 	lda #19	;---	mov		ax,19
 	cmp.w j_004	;---	cmp		WORD PTR j_004,ax
 	bge L_025	;---	jle		L_025
 	jmp L_026	;---	jmp		L_026
-L_025:
+L_025
 ;   38:             prime := i + j;
 	lda.w i_003	;---	mov		ax,WORD PTR i_003
 	pha.w	;---	push	ax
@@ -253,7 +248,7 @@ L_025:
 	cmp.w #1	;---	cmp		ax,1
 	beq L_027	;---	je		L_027
 	jmp  L_028	;---	jmp		L_028
-L_027:
+L_027
 ;   40:                 write(prime:3)
 	lda.w prime_006	;---	mov		ax,WORD PTR prime_006
 	pha.w	;---	push	ax
@@ -263,7 +258,7 @@ L_027:
 	adj #4	;---	add		sp,4
 ;   41:             ELSE
 	jmp L_029	;---	jmp		L_029
-L_028:
+L_028
 ;   42:                 write('   ');
 	psh.w #S_030	;---	lea		ax,WORD PTR S_030
 						;---	push	ax
@@ -273,11 +268,11 @@ L_028:
 						;---	push	ax
 	jsr _swrite	;---	call	_write_string
 	adj #6	;---	add		sp,6
-L_029:
+L_029
 ;   43:         END;
 	inc.w j_004	;---	inc		WORD PTR j_004
 	jmp L_024	;---	jmp		L_024
-L_026:
+L_026
 	dec.w j_004	;---	dec		WORD PTR j_004
 ;   44:         writeln;
 	jsr _writeln	;---	call	_write_line
@@ -303,26 +298,26 @@ L_026:
 	plp	;pull PSW
 	bgt L_031	;---	jg		L_031
 	lda #0	;---	sub		ax,ax
-L_031:
+L_031
 	cmp.w #1	;---	cmp		ax,1
 	beq L_023	;---	je		L_023
 	jmp L_022	;---	jmp		L_022
-L_023:
+L_023
 
 	plx.w	;---	pop		bp
 	rts	;---	ret	
 
-_pascal_main	ENDP
+	.ENDP	_pc65_main
 
 	.DATA	;place in DATA segment
 
-sieve_002	DB	2000	;define array
-i_003	DB	2	;define integer
-j_004	DB	2	;define integer
-limit_005	DB	2	;define integer
-prime_006	DB	2	;define integer
-factor_007	DB	2	;define integer
-S_030	DS	"   "	;string literal absolute
-S_021	DS	"Sieve of Eratosthenes"	;string literal absolute
+sieve_002	.DB	2000	;define array
+i_003	.DB	2	;define integer
+j_004	.DB	2	;define integer
+limit_005	.DB	2	;define integer
+prime_006	.DB	2	;define integer
+factor_007	.DB	2	;define integer
+S_030	.DS	"   "	;string literal absolute
+S_021	.DS	"Sieve of Eratosthenes"	;string literal absolute
 
-	END
+	.END

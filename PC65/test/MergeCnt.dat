@@ -2,7 +2,7 @@ adc.w_imm16    17
 adc.w_sp      147
 adj_imm       434
 anl.w_sp        6
-asl.w_acc      70
+asl.w_A        70
 beq_rel        86
 bge_rel        24
 bgt_rel        11
@@ -14,13 +14,13 @@ cmp.w_abs       2
 cmp.w_bp       18
 cmp.w_imm16    92
 cmp.w_sp       52
+dec.w_A        55
 dec.w_abs       2
-dec.w_acc      55
 dec.w_bp       18
 eor_imm         5
 eor.w_imm16     2
+inc.w_A         2
 inc.w_abs       2
-inc.w_acc       2
 inc.w_bp       18
 jmp_abs       150
 jsr_abs       275
@@ -48,8 +48,8 @@ sbc.w_sp       10
 sec_imp        21
 sta_abs         4
 sta_spI         3
-sta.w_abs      62
-sta.w_bp       23
+sta.w_abs      41
+sta.w_bp       44
 sta.w_sp      122
 sta.w_spI      58
 sta.w_spIY      1

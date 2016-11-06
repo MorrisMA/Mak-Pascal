@@ -1,16 +1,11 @@
 ;    1: PROGRAM WolfIsland (input, output);
-	DOSSEG
-	.MODEL  small
 	.STACK  1024	;Set stack size
 
 	.CODE	;place in CODE segment
 
-	PUBLIC	_pascal_main
-	INCLUDE	pasextrn.inc
-
-STATIC_LINK			EQU	+4	;--- base-relative STATIC_LINK			EQU	<WORD PTR [bp+4]>
-RETURN_VALUE		EQU	-4	;--- base-relativeRETURN_VALUE		EQU	<WORD PTR [bp-4]>
-HIGH_RETURN_VALUE	EQU	-2	;--- base-relative HIGH_RETURN_VALUE	EQU	<WORD PTR [bp-2]>
+STATIC_LINK			.EQ	+4	;--- base-relative STATIC_LINK			EQU	<WORD PTR [bp+4]>
+RETURN_VALUE		.EQ	-4	;--- base-relativeRETURN_VALUE		EQU	<WORD PTR [bp-4]>
+HIGH_RETURN_VALUE	.EQ	-2	;--- base-relative HIGH_RETURN_VALUE	EQU	<WORD PTR [bp-2]>
 
 ;    2: 
 ;    3: {   Wolf Island is a simulation of a 9 x 9 island of wolves and rabbits.
@@ -124,11 +119,11 @@ HIGH_RETURN_VALUE	EQU	-2	;--- base-relative HIGH_RETURN_VALUE	EQU	<WORD PTR [bp-
 ;  111: 
 ;  112:     BEGIN
 
-i_014	EQU	-2	;base-relative	---i_014	EQU	<[bp-2]>
-row_015	EQU	-4	;base-relative	---row_015	EQU	<[bp-4]>
-col_016	EQU	-6	;base-relative	---col_016	EQU	<[bp-6]>
+i_014	.EQ	-2	;base-relative	---i_014	EQU	<[bp-2]>
+row_015	.EQ	-4	;base-relative	---row_015	EQU	<[bp-4]>
+col_016	.EQ	-6	;base-relative	---col_016	EQU	<[bp-6]>
 
-_initialize_013	PROC
+initialize_013	.PROC
 
 	phx.w	;---	push	bp
 	tsx.w	;---	mov		bp,sp
@@ -138,12 +133,12 @@ _initialize_013	PROC
 ;  115:     FOR i := 0 TO max DO BEGIN
 	lda #0	;---	mov		ax,0
 	sta.w i_014,B	;---	mov		WORD PTR i_014,ax
-L_017:
+L_017
 	lda #10	;---	mov		ax,10
 	cmp.w i_014,B	;---	cmp		WORD PTR i_014,ax
 	bge L_018	;---	jle		L_018
 	jmp L_019	;---	jmp		L_019
-L_018:
+L_018
 ;  116:         island[0,   i] := border;
 	psh.w #island_002	;---	lea		ax,WORD PTR island_002
 	lda #0	;---	mov		ax,0
@@ -247,26 +242,26 @@ L_018:
 ;  120:     END;
 	inc.w i_014,B	;---	inc		WORD PTR i_014
 	jmp L_017	;---	jmp		L_017
-L_019:
+L_019
 	dec.w i_014,B	;---	dec		WORD PTR i_014
 ;  121:     FOR row := 1 TO size DO BEGIN
 	lda #1	;---	mov		ax,1
 	sta.w row_015,B	;---	mov		WORD PTR row_015,ax
-L_020:
+L_020
 	lda #9	;---	mov		ax,9
 	cmp.w row_015,B	;---	cmp		WORD PTR row_015,ax
 	bge L_021	;---	jle		L_021
 	jmp L_022	;---	jmp		L_022
-L_021:
+L_021
 ;  122:         FOR col := 1 TO size DO BEGIN
 	lda #1	;---	mov		ax,1
 	sta.w col_016,B	;---	mov		WORD PTR col_016,ax
-L_023:
+L_023
 	lda #9	;---	mov		ax,9
 	cmp.w col_016,B	;---	cmp		WORD PTR col_016,ax
 	bge L_024	;---	jle		L_024
 	jmp L_025	;---	jmp		L_025
-L_024:
+L_024
 ;  123:         island[row, col]    := empty;
 	psh.w #island_002	;---	lea		ax,WORD PTR island_002
 	lda.w row_015,B	;---	mov		ax,WORD PTR row_015
@@ -322,12 +317,12 @@ L_024:
 ;  125:         END;
 	inc.w col_016,B	;---	inc		WORD PTR col_016
 	jmp L_023	;---	jmp		L_023
-L_025:
+L_025
 	dec.w col_016,B	;---	dec		WORD PTR col_016
 ;  126:     END;
 	inc.w row_015,B	;---	inc		WORD PTR row_015
 	jmp L_020	;---	jmp		L_020
-L_022:
+L_022
 	dec.w row_015,B	;---	dec		WORD PTR row_015
 ;  127: 
 ;  128:     {Place wolves on the island.}
@@ -340,12 +335,12 @@ L_022:
 ;  130:     FOR i := 1 TO numwolves DO BEGIN
 	lda #1	;---	mov		ax,1
 	sta.w i_014,B	;---	mov		WORD PTR i_014,ax
-L_026:
+L_026
 	lda.w numwolves_005	;---	mov		ax,WORD PTR numwolves_005
 	cmp.w i_014,B	;---	cmp		WORD PTR i_014,ax
 	bge L_027	;---	jle		L_027
 	jmp L_028	;---	jmp		L_028
-L_027:
+L_027
 ;  131:         read(row, col);
 	txa.w	;---	lea		ax,WORD PTR row_015
 	sec	;compensate for BP/SP offset
@@ -418,7 +413,7 @@ L_027:
 ;  134:     END;
 	inc.w i_014,B	;---	inc		WORD PTR i_014
 	jmp L_026	;---	jmp		L_026
-L_028:
+L_028
 	dec.w i_014,B	;---	dec		WORD PTR i_014
 ;  135: 
 ;  136:     {Place rabbits on the island.}
@@ -431,12 +426,12 @@ L_028:
 ;  138:     FOR i := 1 TO numrabbits DO BEGIN
 	lda #1	;---	mov		ax,1
 	sta.w i_014,B	;---	mov		WORD PTR i_014,ax
-L_029:
+L_029
 	lda.w numrabbits_006	;---	mov		ax,WORD PTR numrabbits_006
 	cmp.w i_014,B	;---	cmp		WORD PTR i_014,ax
 	bge L_030	;---	jle		L_030
 	jmp L_031	;---	jmp		L_031
-L_030:
+L_030
 ;  139:         read(row, col);
 	txa.w	;---	lea		ax,WORD PTR row_015
 	sec	;compensate for BP/SP offset
@@ -482,7 +477,7 @@ L_030:
 ;  141:     END;
 	inc.w i_014,B	;---	inc		WORD PTR i_014
 	jmp L_029	;---	jmp		L_029
-L_031:
+L_031
 	dec.w i_014,B	;---	dec		WORD PTR i_014
 ;  142: 
 ;  143:     {Read print times.}
@@ -495,12 +490,12 @@ L_031:
 ;  145:     FOR i := 1 TO numprinttimes DO BEGIN
 	lda #1	;---	mov		ax,1
 	sta.w i_014,B	;---	mov		WORD PTR i_014,ax
-L_032:
+L_032
 	lda.w numprinttimes_007	;---	mov		ax,WORD PTR numprinttimes_007
 	cmp.w i_014,B	;---	cmp		WORD PTR i_014,ax
 	bge L_033	;---	jle		L_033
 	jmp L_034	;---	jmp		L_034
-L_033:
+L_033
 ;  146:         read(printtimes[i]);
 	psh.w #printtimes_004	;---	lea		ax,WORD PTR printtimes_004
 	lda.w i_014,B	;---	mov		ax,WORD PTR i_014
@@ -519,7 +514,7 @@ L_033:
 ;  147:     END;
 	inc.w i_014,B	;---	inc		WORD PTR i_014
 	jmp L_032	;---	jmp		L_032
-L_034:
+L_034
 	dec.w i_014,B	;---	dec		WORD PTR i_014
 ;  148: 
 ;  149:     {Initialize the row and column offsets for moves.}
@@ -666,7 +661,7 @@ L_034:
 	txs.w	;---	mov		sp,bp
 	plx.w	;---	pop		bp
 	rts	;---	ret		2
-_initialize_013	ENDP
+	.ENDP	initialize_013
 ;  156: 
 ;  157: 
 ;  158: FUNCTION random (limit : posint) : posint;
@@ -680,9 +675,9 @@ _initialize_013	ENDP
 ;  166: 
 ;  167:     BEGIN
 
-limit_036	EQU	+6	;base-relative	---limit_036	EQU	<[bp+6]>
+limit_036	.EQ	+6	;base-relative	---limit_036	EQU	<[bp+6]>
 
-_random_035	PROC
+random_035	.PROC
 
 	phx.w	;---	push	bp
 	tsx.w	;---	mov		bp,sp
@@ -729,7 +724,7 @@ _random_035	PROC
 	txs.w	;---	mov		sp,bp
 	plx.w	;---	pop		bp
 	rts	;---	ret		4
-_random_035	ENDP
+	.ENDP	random_035
 ;  171: 
 ;  172: 
 ;  173: PROCEDURE NewLocation (creature : contents;
@@ -747,23 +742,23 @@ _random_035	ENDP
 ;  185: 
 ;  186:     BEGIN
 
-creature_038	EQU	+14	;base-relative	---creature_038	EQU	<[bp+14]>
-oldrow_039	EQU	+12	;base-relative	---oldrow_039	EQU	<[bp+12]>
-oldcol_040	EQU	+10	;base-relative	---oldcol_040	EQU	<[bp+10]>
-newrow_041	EQU	+8	;base-relative	---newrow_041	EQU	<[bp+8]>
-newcol_042	EQU	+6	;base-relative	---newcol_042	EQU	<[bp+6]>
-adj_043	EQU	-2	;base-relative	---adj_043	EQU	<[bp-2]>
-what_044	EQU	-4	;base-relative	---what_044	EQU	<[bp-4]>
-done_045	EQU	-6	;base-relative	---done_045	EQU	<[bp-6]>
+creature_038	.EQ	+14	;base-relative	---creature_038	EQU	<[bp+14]>
+oldrow_039	.EQ	+12	;base-relative	---oldrow_039	EQU	<[bp+12]>
+oldcol_040	.EQ	+10	;base-relative	---oldcol_040	EQU	<[bp+10]>
+newrow_041	.EQ	+8	;base-relative	---newrow_041	EQU	<[bp+8]>
+newcol_042	.EQ	+6	;base-relative	---newcol_042	EQU	<[bp+6]>
+adj_043	.EQ	-2	;base-relative	---adj_043	EQU	<[bp-2]>
+what_044	.EQ	-4	;base-relative	---what_044	EQU	<[bp-4]>
+done_045	.EQ	-6	;base-relative	---done_045	EQU	<[bp-6]>
 
-_newlocation_037	PROC
+newlocation_037	.PROC
 
 	phx.w	;---	push	bp
 	tsx.w	;---	mov		bp,sp
 	adj #-6	;---	sub		sp,6
 ;  187:     done := false;
 	lda #0	;---	mov		ax,0
-	sta.w done_045	;---	mov		WORD PTR done_045,ax
+	sta.w done_045,B	;---	mov		WORD PTR done_045,ax
 ;  188: 
 ;  189:     {A wolf first tries to eat a rabbit.
 ;  190:      Check adjacent locations.}
@@ -779,16 +774,16 @@ _newlocation_037	PROC
 	plp	;pull PSW
 	beq L_048	;---	je		L_048
 	lda #0	;---	sub		ax,ax
-L_048:
+L_048
 	cmp.w #1	;---	cmp		ax,1
 	beq L_046	;---	je		L_046
 	jmp  L_047	;---	jmp		L_047
-L_046:
+L_046
 ;  192:         adj := 0;
 	lda #0	;---	mov		ax,0
-	sta.w adj_043	;---	mov		WORD PTR adj_043,ax
+	sta.w adj_043,B	;---	mov		WORD PTR adj_043,ax
 ;  193:         REPEAT
-L_049:
+L_049
 ;  194:         adj := adj + 1;
 	lda.w adj_043,B	;---	mov		ax,WORD PTR adj_043
 	pha.w	;---	push	ax
@@ -797,7 +792,7 @@ L_049:
 	clc	;---	add		ax,dx
 	adc.w 0,S	;add operands
 	adj #2	;pop ops/params
-	sta.w adj_043	;---	mov		WORD PTR adj_043,ax
+	sta.w adj_043,B	;---	mov		WORD PTR adj_043,ax
 ;  195:         newrow := oldrow + rowoffset[adj];
 	lda.w newrow_041,B	;---	mov		ax,WORD PTR newrow_041
 	pha.w	;---	push	ax
@@ -872,7 +867,7 @@ L_049:
 						;---	pop		bx
 	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
 	adj #2	;pop ops/params
-	sta.w what_044	;---	mov		WORD PTR what_044,ax
+	sta.w what_044,B	;---	mov		WORD PTR what_044,ax
 ;  198:         done   := what = rabbit;
 	lda.w what_044,B	;---	mov		ax,WORD PTR what_044
 	pha.w	;---	push	ax
@@ -885,8 +880,8 @@ L_049:
 	plp	;pull PSW
 	beq L_051	;---	je		L_051
 	lda #0	;---	sub		ax,ax
-L_051:
-	sta.w done_045	;---	mov		WORD PTR done_045,ax
+L_051
+	sta.w done_045,B	;---	mov		WORD PTR done_045,ax
 ;  199:         UNTIL done OR (adj = 4);
 	lda.w done_045,B	;---	mov		ax,WORD PTR done_045
 	pha.w	;---	push	ax
@@ -901,16 +896,16 @@ L_051:
 	plp	;pull PSW
 	beq L_052	;---	je		L_052
 	lda #0	;---	sub		ax,ax
-L_052:
+L_052
 						;---	pop		dx
 	ora.w 0,S	;---	or		ax,dx
 	adj #2	;pop ops/params
 	cmp.w #1	;---	cmp		ax,1
 	beq L_050	;---	je		L_050
 	jmp L_049	;---	jmp		L_049
-L_050:
+L_050
 ;  200:     END;
-L_047:
+L_047
 ;  201: 
 ;  202:     {Move randomly into an adjacent location or stay put.}
 ;  203:     IF NOT done THEN BEGIN
@@ -919,17 +914,17 @@ L_047:
 	cmp.w #1	;---	cmp		ax,1
 	beq L_053	;---	je		L_053
 	jmp  L_054	;---	jmp		L_054
-L_053:
+L_053
 ;  204:         REPEAT
-L_055:
+L_055
 ;  205:         adj := random(5);
 	lda #5	;---	mov		ax,5
 	pha.w	;---	push	ax
 	lda.w STATIC_LINK,B	;---	push	STATIC_LINK
 	pha.w	;push acc
-	jsr _random_035	;---	call	random_035
+	jsr random_035	;---	call	random_035
 	adj #4	;pop ops/params
-	sta.w adj_043	;---	mov		WORD PTR adj_043,ax
+	sta.w adj_043,B	;---	mov		WORD PTR adj_043,ax
 ;  206:         newrow := oldrow + rowoffset[adj];
 	lda.w newrow_041,B	;---	mov		ax,WORD PTR newrow_041
 	pha.w	;---	push	ax
@@ -1004,7 +999,7 @@ L_055:
 						;---	pop		bx
 	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
 	adj #2	;pop ops/params
-	sta.w what_044	;---	mov		WORD PTR what_044,ax
+	sta.w what_044,B	;---	mov		WORD PTR what_044,ax
 ;  209:         UNTIL    (what = empty)
 	lda.w what_044,B	;---	mov		ax,WORD PTR what_044
 	pha.w	;---	push	ax
@@ -1017,7 +1012,7 @@ L_055:
 	plp	;pull PSW
 	beq L_057	;---	je		L_057
 	lda #0	;---	sub		ax,ax
-L_057:
+L_057
 ;  210:           OR ((newrow = oldrow) AND (newcol = oldcol));
 	pha.w	;---	push	ax
 							;---	mov		bx,WORD PTR newrow_041
@@ -1032,7 +1027,7 @@ L_057:
 	plp	;pull PSW
 	beq L_058	;---	je		L_058
 	lda #0	;---	sub		ax,ax
-L_058:
+L_058
 	pha.w	;---	push	ax
 							;---	mov		bx,WORD PTR newcol_042
 	lda.w (newcol_042,B)	;---	mov		ax,WORD PTR [bx]
@@ -1046,7 +1041,7 @@ L_058:
 	plp	;pull PSW
 	beq L_059	;---	je		L_059
 	lda #0	;---	sub		ax,ax
-L_059:
+L_059
 						;---	pop		dx
 	anl.w 0,S	;---	and		ax,dx
 	adj #2	;pop ops/params
@@ -1056,14 +1051,14 @@ L_059:
 	cmp.w #1	;---	cmp		ax,1
 	beq L_056	;---	je		L_056
 	jmp L_055	;---	jmp		L_055
-L_056:
+L_056
 ;  211:     END;
-L_054:
+L_054
 ;  212:     END {NewLocation};
 	txs.w	;---	mov		sp,bp
 	plx.w	;---	pop		bp
 	rts	;---	ret		12
-_newlocation_037	ENDP
+	.ENDP	newlocation_037
 ;  213: 
 ;  214: 
 ;  215: PROCEDURE ProcessWolf (oldrow, oldcol : index);
@@ -1076,13 +1071,13 @@ _newlocation_037	ENDP
 ;  222: 
 ;  223:     BEGIN
 
-oldrow_061	EQU	+8	;base-relative	---oldrow_061	EQU	<[bp+8]>
-oldcol_062	EQU	+6	;base-relative	---oldcol_062	EQU	<[bp+6]>
-newrow_063	EQU	-2	;base-relative	---newrow_063	EQU	<[bp-2]>
-newcol_064	EQU	-4	;base-relative	---newcol_064	EQU	<[bp-4]>
-moved_065	EQU	-6	;base-relative	---moved_065	EQU	<[bp-6]>
+oldrow_061	.EQ	+8	;base-relative	---oldrow_061	EQU	<[bp+8]>
+oldcol_062	.EQ	+6	;base-relative	---oldcol_062	EQU	<[bp+6]>
+newrow_063	.EQ	-2	;base-relative	---newrow_063	EQU	<[bp-2]>
+newcol_064	.EQ	-4	;base-relative	---newcol_064	EQU	<[bp-4]>
+moved_065	.EQ	-6	;base-relative	---moved_065	EQU	<[bp-6]>
 
-_processwolf_060	PROC
+processwolf_060	.PROC
 
 	phx.w	;---	push	bp
 	tsx.w	;---	mov		bp,sp
@@ -1185,11 +1180,11 @@ _processwolf_060	PROC
 	plp	;pull PSW
 	beq L_068	;---	je		L_068
 	lda #0	;---	sub		ax,ax
-L_068:
+L_068
 	cmp.w #1	;---	cmp		ax,1
 	beq L_066	;---	je		L_066
 	jmp  L_067	;---	jmp		L_067
-L_066:
+L_066
 ;  229: 
 ;  230:         {Die of starvation.}
 ;  231:         island[oldrow, oldcol] := empty;
@@ -1288,7 +1283,7 @@ L_066:
 ;  235:     END
 ;  236:     ELSE BEGIN
 	jmp L_072	;---	jmp		L_072
-L_067:
+L_067
 ;  237: 
 ;  238:         {Move to adjacent location, or stay put.}
 ;  239:         NewLocation(wolf, oldrow, oldcol, newrow, newcol);
@@ -1308,7 +1303,7 @@ L_067:
 	pha.w	;---	push	ax
 	lda.w STATIC_LINK,B	;---	push	STATIC_LINK
 	pha.w	;push acc
-	jsr _newlocation_037	;---	call	newlocation_037
+	jsr newlocation_037	;---	call	newlocation_037
 	adj #12	;pop ops/params
 ;  240:         moved := (newrow <> oldrow) OR (newcol <> oldcol);
 	lda.w newrow_063,B	;---	mov		ax,WORD PTR newrow_063
@@ -1322,7 +1317,7 @@ L_067:
 	plp	;pull PSW
 	bne L_073	;---	jne		L_073
 	lda #0	;---	sub		ax,ax
-L_073:
+L_073
 	pha.w	;---	push	ax
 	lda.w newcol_064,B	;---	mov		ax,WORD PTR newcol_064
 	pha.w	;---	push	ax
@@ -1335,18 +1330,18 @@ L_073:
 	plp	;pull PSW
 	bne L_074	;---	jne		L_074
 	lda #0	;---	sub		ax,ax
-L_074:
+L_074
 						;---	pop		dx
 	ora.w 0,S	;---	or		ax,dx
 	adj #2	;pop ops/params
-	sta.w moved_065	;---	mov		WORD PTR moved_065,ax
+	sta.w moved_065,B	;---	mov		WORD PTR moved_065,ax
 ;  241: 
 ;  242:         IF moved THEN BEGIN
 	lda.w moved_065,B	;---	mov		ax,WORD PTR moved_065
 	cmp.w #1	;---	cmp		ax,1
 	beq L_075	;---	je		L_075
 	jmp  L_076	;---	jmp		L_076
-L_075:
+L_075
 ;  243: 
 ;  244:         {If there's a rabbit there, eat it.}
 ;  245:         IF island[newrow, newcol] = rabbit THEN BEGIN
@@ -1383,11 +1378,11 @@ L_075:
 	plp	;pull PSW
 	beq L_079	;---	je		L_079
 	lda #0	;---	sub		ax,ax
-L_079:
+L_079
 	cmp.w #1	;---	cmp		ax,1
 	beq L_077	;---	je		L_077
 	jmp  L_078	;---	jmp		L_078
-L_077:
+L_077
 ;  246:             foodunits[oldrow, oldcol] :=
 	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
 	lda.w oldrow_061,B	;---	mov		ax,WORD PTR oldrow_061
@@ -1515,7 +1510,7 @@ L_077:
 	adj #4	;---	add		sp,4
 	jsr _writeln	;---	call	_write_line
 ;  251:         END;
-L_078:
+L_078
 ;  252: 
 ;  253:         {Set new (or same) location.}
 ;  254:         island[newrow, newcol] := newwolf;
@@ -1647,7 +1642,7 @@ L_078:
 	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
 	adj #2	;--- pop TOS
 ;  258:         END;
-L_076:
+L_076
 ;  259: 
 ;  260:         {Wolf reproduction time?}
 ;  261:         IF     ((t MOD wolfreprotime) = 0)
@@ -1670,7 +1665,7 @@ L_076:
 	plp	;pull PSW
 	beq L_083	;---	je		L_083
 	lda #0	;---	sub		ax,ax
-L_083:
+L_083
 ;  262:            AND (foodunits[newrow, newcol] > 1) THEN BEGIN
 	pha.w	;---	push	ax
 	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
@@ -1708,14 +1703,14 @@ L_083:
 	plp	;pull PSW
 	bgt L_084	;---	jg		L_084
 	lda #0	;---	sub		ax,ax
-L_084:
+L_084
 						;---	pop		dx
 	anl.w 0,S	;---	and		ax,dx
 	adj #2	;pop ops/params
 	cmp.w #1	;---	cmp		ax,1
 	beq L_081	;---	je		L_081
 	jmp  L_082	;---	jmp		L_082
-L_081:
+L_081
 ;  263:         foodunits[newrow, newcol] :=
 	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
 	lda.w newrow_063,B	;---	mov		ax,WORD PTR newrow_063
@@ -1782,7 +1777,7 @@ L_081:
 	cmp.w #1	;---	cmp		ax,1
 	beq L_085	;---	je		L_085
 	jmp  L_086	;---	jmp		L_086
-L_085:
+L_085
 ;  268:             island[oldrow, oldcol] := newwolf;
 	psh.w #island_002	;---	lea		ax,WORD PTR island_002
 	lda.w oldrow_061,B	;---	mov		ax,WORD PTR oldrow_061
@@ -1927,16 +1922,16 @@ L_085:
 	adj #4	;---	add		sp,4
 	jsr _writeln	;---	call	_write_line
 ;  274:         END;
-L_086:
+L_086
 ;  275:         END;
-L_082:
+L_082
 ;  276:     END;
-L_072:
+L_072
 ;  277:     END {ProcessWolf};
 	txs.w	;---	mov		sp,bp
 	plx.w	;---	pop		bp
 	rts	;---	ret		6
-_processwolf_060	ENDP
+	.ENDP	processwolf_060
 ;  278: 
 ;  279: 
 ;  280: PROCEDURE ProcessRabbit (oldrow, oldcol : index);
@@ -1949,13 +1944,13 @@ _processwolf_060	ENDP
 ;  287: 
 ;  288:     BEGIN
 
-oldrow_089	EQU	+8	;base-relative	---oldrow_089	EQU	<[bp+8]>
-oldcol_090	EQU	+6	;base-relative	---oldcol_090	EQU	<[bp+6]>
-newrow_091	EQU	-2	;base-relative	---newrow_091	EQU	<[bp-2]>
-newcol_092	EQU	-4	;base-relative	---newcol_092	EQU	<[bp-4]>
-moved_093	EQU	-6	;base-relative	---moved_093	EQU	<[bp-6]>
+oldrow_089	.EQ	+8	;base-relative	---oldrow_089	EQU	<[bp+8]>
+oldcol_090	.EQ	+6	;base-relative	---oldcol_090	EQU	<[bp+6]>
+newrow_091	.EQ	-2	;base-relative	---newrow_091	EQU	<[bp-2]>
+newcol_092	.EQ	-4	;base-relative	---newcol_092	EQU	<[bp-4]>
+moved_093	.EQ	-6	;base-relative	---moved_093	EQU	<[bp-6]>
 
-_processrabbit_088	PROC
+processrabbit_088	.PROC
 
 	phx.w	;---	push	bp
 	tsx.w	;---	mov		bp,sp
@@ -1979,7 +1974,7 @@ _processrabbit_088	PROC
 	pha.w	;---	push	ax
 	lda.w STATIC_LINK,B	;---	push	STATIC_LINK
 	pha.w	;push acc
-	jsr _newlocation_037	;---	call	newlocation_037
+	jsr newlocation_037	;---	call	newlocation_037
 	adj #12	;pop ops/params
 ;  292:     moved := (newrow <> oldrow) OR (newcol <> oldcol);
 	lda.w newrow_091,B	;---	mov		ax,WORD PTR newrow_091
@@ -1993,7 +1988,7 @@ _processrabbit_088	PROC
 	plp	;pull PSW
 	bne L_094	;---	jne		L_094
 	lda #0	;---	sub		ax,ax
-L_094:
+L_094
 	pha.w	;---	push	ax
 	lda.w newcol_092,B	;---	mov		ax,WORD PTR newcol_092
 	pha.w	;---	push	ax
@@ -2006,17 +2001,17 @@ L_094:
 	plp	;pull PSW
 	bne L_095	;---	jne		L_095
 	lda #0	;---	sub		ax,ax
-L_095:
+L_095
 						;---	pop		dx
 	ora.w 0,S	;---	or		ax,dx
 	adj #2	;pop ops/params
-	sta.w moved_093	;---	mov		WORD PTR moved_093,ax
+	sta.w moved_093,B	;---	mov		WORD PTR moved_093,ax
 ;  293:     IF moved THEN BEGIN
 	lda.w moved_093,B	;---	mov		ax,WORD PTR moved_093
 	cmp.w #1	;---	cmp		ax,1
 	beq L_096	;---	je		L_096
 	jmp  L_097	;---	jmp		L_097
-L_096:
+L_096
 ;  294:         island[newrow, newcol] := newrabbit;
 	psh.w #island_002	;---	lea		ax,WORD PTR island_002
 	lda.w newrow_091,B	;---	mov		ax,WORD PTR newrow_091
@@ -2068,7 +2063,7 @@ L_096:
 	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
 	adj #2	;--- pop TOS
 ;  296:     END;
-L_097:
+L_097
 ;  297: 
 ;  298:     {Rabbit reproduction time?}
 ;  299:     IF (t MOD rabbitreprotime) = 0 THEN BEGIN
@@ -2091,11 +2086,11 @@ L_097:
 	plp	;pull PSW
 	beq L_100	;---	je		L_100
 	lda #0	;---	sub		ax,ax
-L_100:
+L_100
 	cmp.w #1	;---	cmp		ax,1
 	beq L_098	;---	je		L_098
 	jmp  L_099	;---	jmp		L_099
-L_098:
+L_098
 ;  300: 
 ;  301:         {If moved, then leave behind an offspring.}
 ;  302:         IF moved THEN BEGIN
@@ -2103,7 +2098,7 @@ L_098:
 	cmp.w #1	;---	cmp		ax,1
 	beq L_101	;---	je		L_101
 	jmp  L_102	;---	jmp		L_102
-L_101:
+L_101
 ;  303:         island[oldrow, oldcol] := newrabbit;
 	psh.w #island_002	;---	lea		ax,WORD PTR island_002
 	lda.w oldrow_089,B	;---	mov		ax,WORD PTR oldrow_089
@@ -2196,14 +2191,14 @@ L_101:
 	adj #4	;---	add		sp,4
 	jsr _writeln	;---	call	_write_line
 ;  307:         END;
-L_102:
+L_102
 ;  308:     END;
-L_099:
+L_099
 ;  309:     END {ProcessRabbit};
 	txs.w	;---	mov		sp,bp
 	plx.w	;---	pop		bp
 	rts	;---	ret		6
-_processrabbit_088	ENDP
+	.ENDP	processrabbit_088
 ;  310: 
 ;  311: 
 ;  312: PROCEDURE EventsOccur;
@@ -2215,10 +2210,10 @@ _processrabbit_088	ENDP
 ;  318: 
 ;  319:     BEGIN
 
-row_105	EQU	-2	;base-relative	---row_105	EQU	<[bp-2]>
-col_106	EQU	-4	;base-relative	---col_106	EQU	<[bp-4]>
+row_105	.EQ	-2	;base-relative	---row_105	EQU	<[bp-2]>
+col_106	.EQ	-4	;base-relative	---col_106	EQU	<[bp-4]>
 
-_eventsoccur_104	PROC
+eventsoccur_104	.PROC
 
 	phx.w	;---	push	bp
 	tsx.w	;---	mov		bp,sp
@@ -2228,21 +2223,21 @@ _eventsoccur_104	PROC
 ;  322:     FOR row := 1 TO size DO BEGIN
 	lda #1	;---	mov		ax,1
 	sta.w row_105,B	;---	mov		WORD PTR row_105,ax
-L_107:
+L_107
 	lda #9	;---	mov		ax,9
 	cmp.w row_105,B	;---	cmp		WORD PTR row_105,ax
 	bge L_108	;---	jle		L_108
 	jmp L_109	;---	jmp		L_109
-L_108:
+L_108
 ;  323:         FOR col := 1 TO size DO BEGIN
 	lda #1	;---	mov		ax,1
 	sta.w col_106,B	;---	mov		WORD PTR col_106,ax
-L_110:
+L_110
 	lda #9	;---	mov		ax,9
 	cmp.w col_106,B	;---	cmp		WORD PTR col_106,ax
 	bge L_111	;---	jle		L_111
 	jmp L_112	;---	jmp		L_112
-L_111:
+L_111
 ;  324:         IF island[row, col] = wolf THEN BEGIN
 	psh.w #island_002	;---	lea		ax,WORD PTR island_002
 	lda.w row_105,B	;---	mov		ax,WORD PTR row_105
@@ -2277,11 +2272,11 @@ L_111:
 	plp	;pull PSW
 	beq L_115	;---	je		L_115
 	lda #0	;---	sub		ax,ax
-L_115:
+L_115
 	cmp.w #1	;---	cmp		ax,1
 	beq L_113	;---	je		L_113
 	jmp  L_114	;---	jmp		L_114
-L_113:
+L_113
 ;  325:             ProcessWolf(row, col);
 	lda.w row_105,B	;---	mov		ax,WORD PTR row_105
 	pha.w	;---	push	ax
@@ -2289,19 +2284,19 @@ L_113:
 	pha.w	;---	push	ax
 	lda.w STATIC_LINK,B	;---	push	STATIC_LINK
 	pha.w	;push acc
-	jsr _processwolf_060	;---	call	processwolf_060
+	jsr processwolf_060	;---	call	processwolf_060
 	adj #6	;pop ops/params
 ;  326:         END;
-L_114:
+L_114
 ;  327:         END;
 	inc.w col_106,B	;---	inc		WORD PTR col_106
 	jmp L_110	;---	jmp		L_110
-L_112:
+L_112
 	dec.w col_106,B	;---	dec		WORD PTR col_106
 ;  328:     END;
 	inc.w row_105,B	;---	inc		WORD PTR row_105
 	jmp L_107	;---	jmp		L_107
-L_109:
+L_109
 	dec.w row_105,B	;---	dec		WORD PTR row_105
 ;  329: 
 ;  330: 
@@ -2309,21 +2304,21 @@ L_109:
 ;  332:     FOR row := 1 TO size DO BEGIN
 	lda #1	;---	mov		ax,1
 	sta.w row_105,B	;---	mov		WORD PTR row_105,ax
-L_116:
+L_116
 	lda #9	;---	mov		ax,9
 	cmp.w row_105,B	;---	cmp		WORD PTR row_105,ax
 	bge L_117	;---	jle		L_117
 	jmp L_118	;---	jmp		L_118
-L_117:
+L_117
 ;  333:         FOR col := 1 TO size DO BEGIN
 	lda #1	;---	mov		ax,1
 	sta.w col_106,B	;---	mov		WORD PTR col_106,ax
-L_119:
+L_119
 	lda #9	;---	mov		ax,9
 	cmp.w col_106,B	;---	cmp		WORD PTR col_106,ax
 	bge L_120	;---	jle		L_120
 	jmp L_121	;---	jmp		L_121
-L_120:
+L_120
 ;  334:         IF island[row, col] = rabbit THEN BEGIN
 	psh.w #island_002	;---	lea		ax,WORD PTR island_002
 	lda.w row_105,B	;---	mov		ax,WORD PTR row_105
@@ -2358,11 +2353,11 @@ L_120:
 	plp	;pull PSW
 	beq L_124	;---	je		L_124
 	lda #0	;---	sub		ax,ax
-L_124:
+L_124
 	cmp.w #1	;---	cmp		ax,1
 	beq L_122	;---	je		L_122
 	jmp  L_123	;---	jmp		L_123
-L_122:
+L_122
 ;  335:             ProcessRabbit(row, col);
 	lda.w row_105,B	;---	mov		ax,WORD PTR row_105
 	pha.w	;---	push	ax
@@ -2370,25 +2365,25 @@ L_122:
 	pha.w	;---	push	ax
 	lda.w STATIC_LINK,B	;---	push	STATIC_LINK
 	pha.w	;push acc
-	jsr _processrabbit_088	;---	call	processrabbit_088
+	jsr processrabbit_088	;---	call	processrabbit_088
 	adj #6	;pop ops/params
 ;  336:         END;
-L_123:
+L_123
 ;  337:         END;
 	inc.w col_106,B	;---	inc		WORD PTR col_106
 	jmp L_119	;---	jmp		L_119
-L_121:
+L_121
 	dec.w col_106,B	;---	dec		WORD PTR col_106
 ;  338:     END;
 	inc.w row_105,B	;---	inc		WORD PTR row_105
 	jmp L_116	;---	jmp		L_116
-L_118:
+L_118
 	dec.w row_105,B	;---	dec		WORD PTR row_105
 ;  339:     END {EventsOccur};
 	txs.w	;---	mov		sp,bp
 	plx.w	;---	pop		bp
 	rts	;---	ret		2
-_eventsoccur_104	ENDP
+	.ENDP	eventsoccur_104
 ;  340: 
 ;  341: 
 ;  342: PROCEDURE PrintIsland;
@@ -2401,11 +2396,11 @@ _eventsoccur_104	ENDP
 ;  349: 
 ;  350:     BEGIN
 
-row_126	EQU	-2	;base-relative	---row_126	EQU	<[bp-2]>
-col_127	EQU	-4	;base-relative	---col_127	EQU	<[bp-4]>
-cnts_128	EQU	-6	;base-relative	---cnts_128	EQU	<[bp-6]>
+row_126	.EQ	-2	;base-relative	---row_126	EQU	<[bp-2]>
+col_127	.EQ	-4	;base-relative	---col_127	EQU	<[bp-4]>
+cnts_128	.EQ	-6	;base-relative	---cnts_128	EQU	<[bp-6]>
 
-_printisland_125	PROC
+printisland_125	.PROC
 
 	phx.w	;---	push	bp
 	tsx.w	;---	mov		bp,sp
@@ -2442,12 +2437,12 @@ _printisland_125	PROC
 ;  355:     FOR row := 1 TO size DO BEGIN
 	lda #1	;---	mov		ax,1
 	sta.w row_126,B	;---	mov		WORD PTR row_126,ax
-L_130:
+L_130
 	lda #9	;---	mov		ax,9
 	cmp.w row_126,B	;---	cmp		WORD PTR row_126,ax
 	bge L_131	;---	jle		L_131
 	jmp L_132	;---	jmp		L_132
-L_131:
+L_131
 ;  356:         write(' ':10);
 	lda #32	;---	mov		ax,' '
 	pha.w	;---	push	ax
@@ -2458,12 +2453,12 @@ L_131:
 ;  357:         FOR col := 1 TO size DO BEGIN
 	lda #1	;---	mov		ax,1
 	sta.w col_127,B	;---	mov		WORD PTR col_127,ax
-L_133:
+L_133
 	lda #9	;---	mov		ax,9
 	cmp.w col_127,B	;---	cmp		WORD PTR col_127,ax
 	bge L_134	;---	jle		L_134
 	jmp L_135	;---	jmp		L_135
-L_134:
+L_134
 ;  358:         cnts := island[row, col];
 	psh.w #island_002	;---	lea		ax,WORD PTR island_002
 	lda.w row_126,B	;---	mov		ax,WORD PTR row_126
@@ -2488,7 +2483,7 @@ L_134:
 						;---	pop		bx
 	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
 	adj #2	;pop ops/params
-	sta.w cnts_128	;---	mov		WORD PTR cnts_128,ax
+	sta.w cnts_128,B	;---	mov		WORD PTR cnts_128,ax
 ;  359:         IF      cnts = empty  THEN write('. ')
 	lda.w cnts_128,B	;---	mov		ax,WORD PTR cnts_128
 	pha.w	;---	push	ax
@@ -2501,11 +2496,11 @@ L_134:
 	plp	;pull PSW
 	beq L_138	;---	je		L_138
 	lda #0	;---	sub		ax,ax
-L_138:
+L_138
 	cmp.w #1	;---	cmp		ax,1
 	beq L_136	;---	je		L_136
 	jmp  L_137	;---	jmp		L_137
-L_136:
+L_136
 	psh.w #S_139	;---	lea		ax,WORD PTR S_139
 						;---	push	ax
 	psh.w #0	;---	mov		ax,0
@@ -2516,7 +2511,7 @@ L_136:
 	adj #6	;---	add		sp,6
 ;  360:         ELSE IF cnts = wolf   THEN write('W ')
 	jmp L_140	;---	jmp		L_140
-L_137:
+L_137
 	lda.w cnts_128,B	;---	mov		ax,WORD PTR cnts_128
 	pha.w	;---	push	ax
 	lda #0	;---	mov		ax,0
@@ -2528,11 +2523,11 @@ L_137:
 	plp	;pull PSW
 	beq L_143	;---	je		L_143
 	lda #0	;---	sub		ax,ax
-L_143:
+L_143
 	cmp.w #1	;---	cmp		ax,1
 	beq L_141	;---	je		L_141
 	jmp  L_142	;---	jmp		L_142
-L_141:
+L_141
 	psh.w #S_144	;---	lea		ax,WORD PTR S_144
 						;---	push	ax
 	psh.w #0	;---	mov		ax,0
@@ -2543,7 +2538,7 @@ L_141:
 	adj #6	;---	add		sp,6
 ;  361:         ELSE IF cnts = rabbit THEN write('r ')
 	jmp L_145	;---	jmp		L_145
-L_142:
+L_142
 	lda.w cnts_128,B	;---	mov		ax,WORD PTR cnts_128
 	pha.w	;---	push	ax
 	lda #1	;---	mov		ax,1
@@ -2555,11 +2550,11 @@ L_142:
 	plp	;pull PSW
 	beq L_148	;---	je		L_148
 	lda #0	;---	sub		ax,ax
-L_148:
+L_148
 	cmp.w #1	;---	cmp		ax,1
 	beq L_146	;---	je		L_146
 	jmp  L_147	;---	jmp		L_147
-L_146:
+L_146
 	psh.w #S_149	;---	lea		ax,WORD PTR S_149
 						;---	push	ax
 	psh.w #0	;---	mov		ax,0
@@ -2569,25 +2564,25 @@ L_146:
 	jsr _swrite	;---	call	_write_string
 	adj #6	;---	add		sp,6
 ;  362:         END;
-L_147:
-L_145:
-L_140:
+L_147
+L_145
+L_140
 	inc.w col_127,B	;---	inc		WORD PTR col_127
 	jmp L_133	;---	jmp		L_133
-L_135:
+L_135
 	dec.w col_127,B	;---	dec		WORD PTR col_127
 ;  363:         writeln;
 	jsr _writeln	;---	call	_write_line
 ;  364:     END;
 	inc.w row_126,B	;---	inc		WORD PTR row_126
 	jmp L_130	;---	jmp		L_130
-L_132:
+L_132
 	dec.w row_126,B	;---	dec		WORD PTR row_126
 ;  365:     END {PrintIsland};
 	txs.w	;---	mov		sp,bp
 	plx.w	;---	pop		bp
 	rts	;---	ret		2
-_printisland_125	ENDP
+	.ENDP	printisland_125
 ;  366: 
 ;  367: 
 ;  368: PROCEDURE ResetIsland;
@@ -2600,10 +2595,10 @@ _printisland_125	ENDP
 ;  375: 
 ;  376:     BEGIN
 
-row_151	EQU	-2	;base-relative	---row_151	EQU	<[bp-2]>
-col_152	EQU	-4	;base-relative	---col_152	EQU	<[bp-4]>
+row_151	.EQ	-2	;base-relative	---row_151	EQU	<[bp-2]>
+col_152	.EQ	-4	;base-relative	---col_152	EQU	<[bp-4]>
 
-_resetisland_150	PROC
+resetisland_150	.PROC
 
 	phx.w	;---	push	bp
 	tsx.w	;---	mov		bp,sp
@@ -2611,21 +2606,21 @@ _resetisland_150	PROC
 ;  377:     FOR row := 1 TO size DO BEGIN
 	lda #1	;---	mov		ax,1
 	sta.w row_151,B	;---	mov		WORD PTR row_151,ax
-L_153:
+L_153
 	lda #9	;---	mov		ax,9
 	cmp.w row_151,B	;---	cmp		WORD PTR row_151,ax
 	bge L_154	;---	jle		L_154
 	jmp L_155	;---	jmp		L_155
-L_154:
+L_154
 ;  378:         FOR col := 1 TO size DO BEGIN
 	lda #1	;---	mov		ax,1
 	sta.w col_152,B	;---	mov		WORD PTR col_152,ax
-L_156:
+L_156
 	lda #9	;---	mov		ax,9
 	cmp.w col_152,B	;---	cmp		WORD PTR col_152,ax
 	bge L_157	;---	jle		L_157
 	jmp L_158	;---	jmp		L_158
-L_157:
+L_157
 ;  379:         IF island[row, col] = newwolf THEN BEGIN
 	psh.w #island_002	;---	lea		ax,WORD PTR island_002
 	lda.w row_151,B	;---	mov		ax,WORD PTR row_151
@@ -2660,11 +2655,11 @@ L_157:
 	plp	;pull PSW
 	beq L_161	;---	je		L_161
 	lda #0	;---	sub		ax,ax
-L_161:
+L_161
 	cmp.w #1	;---	cmp		ax,1
 	beq L_159	;---	je		L_159
 	jmp  L_160	;---	jmp		L_160
-L_159:
+L_159
 ;  380:             island[row, col] := wolf;
 	psh.w #island_002	;---	lea		ax,WORD PTR island_002
 	lda.w row_151,B	;---	mov		ax,WORD PTR row_151
@@ -2693,7 +2688,7 @@ L_159:
 ;  381:         END
 ;  382:         ELSE IF island[row, col] = newrabbit THEN BEGIN
 	jmp L_162	;---	jmp		L_162
-L_160:
+L_160
 	psh.w #island_002	;---	lea		ax,WORD PTR island_002
 	lda.w row_151,B	;---	mov		ax,WORD PTR row_151
 						;---	mov		dx,22
@@ -2727,11 +2722,11 @@ L_160:
 	plp	;pull PSW
 	beq L_165	;---	je		L_165
 	lda #0	;---	sub		ax,ax
-L_165:
+L_165
 	cmp.w #1	;---	cmp		ax,1
 	beq L_163	;---	je		L_163
 	jmp  L_164	;---	jmp		L_164
-L_163:
+L_163
 ;  383:             island[row, col] := rabbit;
 	psh.w #island_002	;---	lea		ax,WORD PTR island_002
 	lda.w row_151,B	;---	mov		ax,WORD PTR row_151
@@ -2758,35 +2753,35 @@ L_163:
 	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
 	adj #2	;--- pop TOS
 ;  384:         END;
-L_164:
-L_162:
+L_164
+L_162
 ;  385:         END;
 	inc.w col_152,B	;---	inc		WORD PTR col_152
 	jmp L_156	;---	jmp		L_156
-L_158:
+L_158
 	dec.w col_152,B	;---	dec		WORD PTR col_152
 ;  386:     END;
 	inc.w row_151,B	;---	inc		WORD PTR row_151
 	jmp L_153	;---	jmp		L_153
-L_155:
+L_155
 	dec.w row_151,B	;---	dec		WORD PTR row_151
 ;  387:     END {ResetIsland};
 	txs.w	;---	mov		sp,bp
 	plx.w	;---	pop		bp
 	rts	;---	ret		2
-_resetisland_150	ENDP
+	.ENDP	resetisland_150
 ;  388: 
 ;  389: 
 ;  390: BEGIN {WolfIsland}
 
-_pascal_main	PROC
+_pc65_main	.PROC
 
 	phx.w	;---	push	bp
 	tsx.w	;---	mov		bp,sp
 ;  391: 
 ;  392:     Initialize;
 	phx.w	;---	push	bp
-	jsr _initialize_013	;---	call	initialize_013
+	jsr initialize_013	;---	call	initialize_013
 	adj #2	;pop ops/params
 ;  393: 
 ;  394:     t   := 0;
@@ -2804,12 +2799,12 @@ _pascal_main	PROC
 ;  397: 
 ;  398:     PrintIsland;
 	phx.w	;---	push	bp
-	jsr _printisland_125	;---	call	printisland_125
+	jsr printisland_125	;---	call	printisland_125
 	adj #2	;pop ops/params
 ;  399: 
 ;  400:     {Loop once per time period.}
 ;  401:     REPEAT
-L_166:
+L_166
 ;  402:     writeln;
 	jsr _writeln	;---	call	_write_line
 ;  403: 
@@ -2824,11 +2819,11 @@ L_166:
 	sta.w t_008	;---	mov		WORD PTR t_008,ax
 ;  405:     EventsOccur;
 	phx.w	;---	push	bp
-	jsr _eventsoccur_104	;---	call	eventsoccur_104
+	jsr eventsoccur_104	;---	call	eventsoccur_104
 	adj #2	;pop ops/params
 ;  406:     ResetIsland;
 	phx.w	;---	push	bp
-	jsr _resetisland_150	;---	call	resetisland_150
+	jsr resetisland_150	;---	call	resetisland_150
 	adj #2	;pop ops/params
 ;  407: 
 ;  408:     {Time to print the island?}
@@ -2856,14 +2851,14 @@ L_166:
 	plp	;pull PSW
 	beq L_170	;---	je		L_170
 	lda #0	;---	sub		ax,ax
-L_170:
+L_170
 	cmp.w #1	;---	cmp		ax,1
 	beq L_168	;---	je		L_168
 	jmp  L_169	;---	jmp		L_169
-L_168:
+L_168
 ;  410:         PrintIsland;
 	phx.w	;---	push	bp
-	jsr _printisland_125	;---	call	printisland_125
+	jsr printisland_125	;---	call	printisland_125
 	adj #2	;pop ops/params
 ;  411:         xpt := xpt + 1;
 	lda.w xpt_009	;---	mov		ax,WORD PTR xpt_009
@@ -2875,7 +2870,7 @@ L_168:
 	adj #2	;pop ops/params
 	sta.w xpt_009	;---	mov		WORD PTR xpt_009,ax
 ;  412:     END;
-L_169:
+L_169
 ;  413:     UNTIL (numwolves = 0) OR (numrabbits = 0)
 	lda.w numwolves_005	;---	mov		ax,WORD PTR numwolves_005
 	pha.w	;---	push	ax
@@ -2888,7 +2883,7 @@ L_169:
 	plp	;pull PSW
 	beq L_171	;---	je		L_171
 	lda #0	;---	sub		ax,ax
-L_171:
+L_171
 	pha.w	;---	push	ax
 	lda.w numrabbits_006	;---	mov		ax,WORD PTR numrabbits_006
 	pha.w	;---	push	ax
@@ -2901,7 +2896,7 @@ L_171:
 	plp	;pull PSW
 	beq L_172	;---	je		L_172
 	lda #0	;---	sub		ax,ax
-L_172:
+L_172
 ;  414:       OR (xpt > numprinttimes);
 						;---	pop		dx
 	ora.w 0,S	;---	or		ax,dx
@@ -2918,18 +2913,18 @@ L_172:
 	plp	;pull PSW
 	bgt L_173	;---	jg		L_173
 	lda #0	;---	sub		ax,ax
-L_173:
+L_173
 						;---	pop		dx
 	ora.w 0,S	;---	or		ax,dx
 	adj #2	;pop ops/params
 	cmp.w #1	;---	cmp		ax,1
 	beq L_167	;---	je		L_167
 	jmp L_166	;---	jmp		L_166
-L_167:
+L_167
 ;  415: 
 ;  416:     PrintIsland;
 	phx.w	;---	push	bp
-	jsr _printisland_125	;---	call	printisland_125
+	jsr printisland_125	;---	call	printisland_125
 	adj #2	;pop ops/params
 ;  417: 
 ;  418: END {WolfIsland}.
@@ -2937,30 +2932,30 @@ L_167:
 	plx.w	;---	pop		bp
 	rts	;---	ret	
 
-_pascal_main	ENDP
+	.ENDP	_pc65_main
 
 	.DATA	;place in DATA segment
 
-island_002	DB	242	;define array
-foodunits_003	DB	162	;define array
-printtimes_004	DB	100	;define array
-numwolves_005	DB	2	;define integer
-numrabbits_006	DB	2	;define integer
-numprinttimes_007	DB	2	;define integer
-t_008	DB	2	;define integer
-xpt_009	DB	2	;define integer
-seed_010	DB	2	;define integer
-rowoffset_011	DB	10	;define array
-coloffset_012	DB	10	;define array
-S_149	DS	"r "	;string literal absolute
-S_144	DS	"W "	;string literal absolute
-S_139	DS	". "	;string literal absolute
-S_129	DS	" : Wolf Island"	;string literal absolute
-S_103	DS	" : Rabbit born at "	;string literal absolute
-S_087	DS	" : Wolf born at "	;string literal absolute
-S_080	DS	" : Rabbit eaten at "	;string literal absolute
-S_071	DS	", "	;string literal absolute
-S_070	DS	" : Wolf died at "	;string literal absolute
-S_069	DS	"t ="	;string literal absolute
+island_002	.DB	242	;define array
+foodunits_003	.DB	162	;define array
+printtimes_004	.DB	100	;define array
+numwolves_005	.DB	2	;define integer
+numrabbits_006	.DB	2	;define integer
+numprinttimes_007	.DB	2	;define integer
+t_008	.DB	2	;define integer
+xpt_009	.DB	2	;define integer
+seed_010	.DB	2	;define integer
+rowoffset_011	.DB	10	;define array
+coloffset_012	.DB	10	;define array
+S_149	.DS	"r "	;string literal absolute
+S_144	.DS	"W "	;string literal absolute
+S_139	.DS	". "	;string literal absolute
+S_129	.DS	" : Wolf Island"	;string literal absolute
+S_103	.DS	" : Rabbit born at "	;string literal absolute
+S_087	.DS	" : Wolf born at "	;string literal absolute
+S_080	.DS	" : Rabbit eaten at "	;string literal absolute
+S_071	.DS	", "	;string literal absolute
+S_070	.DS	" : Wolf died at "	;string literal absolute
+S_069	.DS	"t ="	;string literal absolute
 
-	END
+	.END

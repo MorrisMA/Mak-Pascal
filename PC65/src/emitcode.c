@@ -72,25 +72,20 @@ extern void emit_text_equate(SYMTAB_NODE_PTR);
 void emit_program_prologue()
 
 {
-    fprintf(code_file, "\tDOSSEG\n");
-    fprintf(code_file, "\t.MODEL  small\n");
     fprintf(code_file, "\t.STACK  1024\t;Set stack size\n");
     fprintf(code_file, "\n");
     fprintf(code_file, "\t.CODE\t;place in CODE segment\n");
-    fprintf(code_file, "\n");
-    fprintf(code_file, "\tPUBLIC\t_pascal_main\n");
-    fprintf(code_file, "\tINCLUDE\tpasextrn.inc\n");
     fprintf(code_file, "\n");
 
     //
     //  Equates for stack frame components.
     //
 
-    fprintf(code_file, "%s\t\t\tEQU\t%+d\t;--- base-relative ", STATIC_LINK, STATIC_LINK_OFF);
+    fprintf(code_file, "%s\t\t\t.EQ\t%+d\t;--- base-relative ", STATIC_LINK, STATIC_LINK_OFF);
     fprintf(code_file, "%s\t\t\tEQU\t<WORD PTR [bp+4]>\n", STATIC_LINK);
-    fprintf(code_file, "%s\t\tEQU\t%+d\t;--- base-relative", RETURN_VALUE, RETURN_VALUE_OFF);
+    fprintf(code_file, "%s\t\t.EQ\t%+d\t;--- base-relative", RETURN_VALUE, RETURN_VALUE_OFF);
     fprintf(code_file, "%s\t\tEQU\t<WORD PTR [bp-4]>\n", RETURN_VALUE);
-    fprintf(code_file, "%s\tEQU\t%+d\t;--- base-relative ", HIGH_RETURN_VALUE, HIGH_RTN_VALUE_OFF);
+    fprintf(code_file, "%s\t.EQ\t%+d\t;--- base-relative ", HIGH_RETURN_VALUE, HIGH_RTN_VALUE_OFF);
     fprintf(code_file, "%s\tEQU\t<WORD PTR [bp-2]>\n", HIGH_RETURN_VALUE);
     fprintf(code_file, "\n");
 }
@@ -117,15 +112,15 @@ void emit_program_epilogue(SYMTAB_NODE_PTR prog_idp)
     for (np = prog_idp->defn.info.routine.locals; np != NULL; np = np->next) {
 	    fprintf(code_file, "%s_%03d\t", np->name, np->label_index);
 	    if (np->typep == char_typep)
-	        fprintf(code_file, "DB\t1\t;define byte\n");
+	        fprintf(code_file, ".DB\t1\t;define byte\n");
 	    else if (np->typep == real_typep)
-	        fprintf(code_file, "DB\t4\t;define real\n");
+	        fprintf(code_file, ".DB\t4\t;define real\n");
 	    else if (np->typep->form == ARRAY_FORM)
-	        fprintf(code_file, "DB\t%d\t;define array\n", np->typep->size);
+	        fprintf(code_file, ".DB\t%d\t;define array\n", np->typep->size);
 	    else if (np->typep->form == RECORD_FORM)
-	        fprintf(code_file, "DB\t%d\t;define record\n", np->typep->size);
+	        fprintf(code_file, ".DB\t%d\t;define record\n", np->typep->size);
 	    else
-	        fprintf(code_file, "DB\t2\t;define integer\n");
+	        fprintf(code_file, ".DB\t2\t;define integer\n");
     }
 
     //
@@ -133,7 +128,7 @@ void emit_program_epilogue(SYMTAB_NODE_PTR prog_idp)
     //
 
     for (np = float_literal_list; np != NULL; np = np->next)
-	    fprintf(code_file, "%s_%03d\tDD\t%e\t;real literal absolute\n",
+	    fprintf(code_file, "%s_%03d\t.DD\t%e\t;real literal absolute\n",
                            FLOAT_LABEL_PREFIX,
 			               np->label_index,
 			               np->defn.info.constant.value.real);
@@ -143,18 +138,17 @@ void emit_program_epilogue(SYMTAB_NODE_PTR prog_idp)
     //
 
     for (np = string_literal_list; np != NULL; np = np->next) {
-	    fprintf(code_file, "%s_%03d\tDS\t\"",
-                           STRING_LABEL_PREFIX,
-			               np->label_index);
+	    fprintf(code_file, "%s_%03d\t.DS\t\"", STRING_LABEL_PREFIX, np->label_index);
 
-	length = strlen(np->name) - 2;
-	for (i = 1; i <= length; ++i)
-        fputc(np->name[i], code_file);
+		length = strlen(np->name) - 2;
+		for (i = 1; i <= length; ++i) {
+			fputc(np->name[i], code_file);
+		}
 	    fprintf(code_file, "\"\t;string literal absolute\n");
     }
 
     fprintf(code_file, "\n");
-    fprintf(code_file, "\tEND\n");
+    fprintf(code_file, "\t.END\n");
 }
 
 //////////////////////////////////////////////////////////////////
@@ -165,7 +159,7 @@ void emit_program_epilogue(SYMTAB_NODE_PTR prog_idp)
 void emit_main_prologue()
 {
     fprintf(code_file, "\n");
-    fprintf(code_file, "_pascal_main\tPROC\n");
+    fprintf(code_file, "_pc65_main\t.PROC\n");
     fprintf(code_file, "\n");
 
     fprintf(code_file, "\tphx.w\t;---");
@@ -189,7 +183,7 @@ void emit_main_epilogue()
     emit(RETURN);               // return //
 
     fprintf(code_file, "\n");
-    fprintf(code_file, "_pascal_main\tENDP\n");
+    fprintf(code_file, "\t.ENDP\t_pc65_main\n");
 }
 
 //////////////////////////////////////////////////////////////////
@@ -200,7 +194,7 @@ void emit_main_epilogue()
 void emit_routine_prologue(SYMTAB_NODE_PTR rtn_idp)
 {
     fprintf(code_file, "\n");
-    fprintf(code_file, "_%s_%03d\tPROC\n", rtn_idp->name, rtn_idp->label_index);
+    fprintf(code_file, "%s_%03d\t.PROC\n", rtn_idp->name, rtn_idp->label_index);
     fprintf(code_file, "\n");
 
     // dynamic link //
@@ -262,7 +256,7 @@ void emit_routine_epilogue(SYMTAB_NODE_PTR rtn_idp)
     fprintf(code_file, "\trts\t;---");
     emit_1(RETURN, integer_lit(rtn_idp->defn.info.routine.total_parm_size + 2));
 
-    fprintf(code_file, "_%s_%03d\tENDP\n", rtn_idp->name, rtn_idp->label_index);
+    fprintf(code_file, "\t.ENDP\t%s_%03d\n", rtn_idp->name, rtn_idp->label_index);
 }
 
 		//******************************//
@@ -312,7 +306,7 @@ void emit_declarations(SYMTAB_NODE_PTR rtn_idp)
 
 void emit_numeric_equate(SYMTAB_NODE_PTR idp)
 {
-    fprintf(code_file, "%s_%03d\tEQU\t%+d\t;numeric literal absolute\t---",
+    fprintf(code_file, "%s_%03d\t.EQ\t%+d\t;numeric literal absolute\t---",
 	  	               idp->name,
                        idp->label_index,
 	  	               idp->defn.info.data.offset);
@@ -339,7 +333,7 @@ void emit_text_equate(SYMTAB_NODE_PTR idp)
     int  offset      = idp->defn.info.data.offset;
 
     if (idp->typep == char_typep) {
-        fprintf(code_file, "%s_%03d\tEQU\t%+d\t;base-relative\t---",
+        fprintf(code_file, "%s_%03d\t.EQ\t%+d\t;base-relative\t---",
 		                   name,
                            label_index,
                            offset);
@@ -348,7 +342,7 @@ void emit_text_equate(SYMTAB_NODE_PTR idp)
                            label_index,
                            offset);
     } else if (idp->typep == real_typep) {
-	    fprintf(code_file, "%s_%03d\tEQU\t%+d\t;base-relative\t---",
+	    fprintf(code_file, "%s_%03d\t.EQ\t%+d\t;base-relative\t---",
 		                   name,
                            label_index,
                            offset);
@@ -357,7 +351,7 @@ void emit_text_equate(SYMTAB_NODE_PTR idp)
                            label_index,
                            offset);
     } else {
-	    fprintf(code_file, "%s_%03d\tEQU\t%+d\t;base-relative\t---",
+	    fprintf(code_file, "%s_%03d\t.EQ\t%+d\t;base-relative\t---",
 		                   name,
                            label_index,
                            offset);
@@ -400,7 +394,7 @@ void emit_load_value(SYMTAB_NODE_PTR var_idp, TYPE_STRUCT_PTR var_tp)
             fprintf(code_file, "\tldy #2\t;---");        
 	        emit_2(MOVE, reg(DX), high_dword_indirect(BX)); // 15L16, mam, changed AX to DX
             fprintf(code_file, "\tlda.w (%s_%03d,B),Y\t;load hi word\n", var_idp->name, var_idp->label_index);
-            fprintf(code_file, "\tswp\t;---", var_idp->name, var_idp->label_index);
+            fprintf(code_file, "\tswp\t;---");
 	        emit_2(MOVE, reg(AX), word_indirect(BX));
             fprintf(code_file, "\tlda.w (%s_%03d,B)\t;load lo word\n", var_idp->name, var_idp->label_index);
         } else {
@@ -557,7 +551,7 @@ void emit_push_address(SYMTAB_NODE_PTR var_idp)
         // emit_2(varparm_flag ? MOVE : LOAD_ADDRESS, reg(AX), word(var_idp));
         //
         if (varparm_flag) {
-            fprintf(code_file, "\tlda.w %s_03d,B\t;---", var_idp->name, var_idp->label_index);
+            fprintf(code_file, "\tlda.w %s_%03d,B\t;---", var_idp->name, var_idp->label_index);
             emit_2(MOVE, reg(AX), word(var_idp));
             fprintf(code_file, "\tpha.w\t;---");
             emit_1(PUSH, reg(AX));

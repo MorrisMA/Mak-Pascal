@@ -146,7 +146,7 @@ typedef enum {
 /*--------------------------------------------------------------*/
 
 #define emit_label(prefix, index) \
-        fprintf(code_file, "%s_%03d:\n", prefix, index);
+        fprintf(code_file, "%s_%03d\n", prefix, index);
 
 /*--------------------------------------------------------------*/
 /*  advance_asm_bufferp     Advance asm_bufferp to the end      */

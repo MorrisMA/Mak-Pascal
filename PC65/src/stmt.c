@@ -270,8 +270,12 @@ void assignment_statement(SYMTAB_NODE_PTR var_idp)
             fprintf(code_file, "\tsta.w %s,B\t;---", RETURN_VALUE);
             emit_2(MOVE, name_lit(RETURN_VALUE), reg(AX));
         } else {
-            fprintf(code_file, "\tsta.w %s_%03d\t;---", var_idp->name, var_idp->label_index);
-            emit_2(MOVE, word(var_idp), reg(AX));
+        	if(var_idp->level == 1) {
+				fprintf(code_file, "\tsta.w %s_%03d\t;---", var_idp->name, var_idp->label_index);
+        	} else {
+                fprintf(code_file, "\tsta.w %s_%03d,B\t;---", var_idp->name, var_idp->label_index);
+        	}
+			emit_2(MOVE, word(var_idp), reg(AX));
         }
     }
 }

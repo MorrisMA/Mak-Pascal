@@ -43,13 +43,13 @@ BEGIN {
     printf("Assembler Pass 1")    
     printf("\n\n----------------------------------------------------------\n\n")
     
+    nextmem = 0
+    
     while(getline <srcfile > 0) {
         sub(/;.*/, "")          # strip comments from the input line
-        symtab[$1] = nextmem
-        op = $2
-        dt = $3
-         if($1 == "") {
-           if(op !~ /^[\._/]{1}/) {
+        lbl = $1; op = $2; dt = $3
+        if(lbl == "") {
+            if((op !~ /^[\._/]{1}/) && (op != "")) {
 	            if(dt == "") {
 	                op = op "_imp"
 	            } else if(dt ~ /^[aA]$/) { 
@@ -114,10 +114,13 @@ BEGIN {
                 nextmem += op_len[op]
             }
         } else {
+            symtab[lbl] = nextmem
+            memtab[nextmem] = lbl
+
             if(op == ".ORG") {                  #define memory start address
                 nextmem = dt
-            } else if(op == ".EQU") {           #define constants
-                symtab[$1] = dt
+            } else if(op == ".EQ") {            #define constants
+                symtab[lbl] = dt
             } else if(op == ".DB") {            #define variables
                 nextmem += dt
             } else if(op == ".DD") {            #define float literals
@@ -134,7 +137,10 @@ BEGIN {
     printf("Assembler Symbol Table")    
     printf("\n\n----------------------------------------------------------\n\n")
     
-    for(i in symtab) printf("%-20s => %04X\n", i, symtab[i])
+    for(i in symtab) {
+        if(symtab[i] < 0) symtab[i] += 65536
+        printf("%-20s => %04X => %-20s\n", i, symtab[i], memtab[symtab[i]])
+    }
     
     # Assembler Pass 2
     
@@ -144,49 +150,71 @@ BEGIN {
     
     nextmem = 0
     while(getline <tmpfile > 0) {
-        op = $1
-        dt = $2
+        op = $1; dt = $2
         
         split(op, instruction_operand, "_")
         op_code = instruction_operand[1]
         addr_md = instruction_operand[2]
         
+        # Compute operand value
+        
         op_val = -1
-        if(dt in symtab) {
+        if(dt in symtab) {                  # Insert symbol value
             op_val = symtab[dt]
-        } else if(dt ~ /^[0-9]+$/) {
+        } else if(dt ~ /^[-\+]?[0-9]+$/) {  # Insert numeric literal value
             op_val = dt
         }
+        
+        # For PC-relative instructions, convert adresses into relative offsets 
+        
+        if((op_code in branch) || (op_code in jump)) {
+            op_val = op_val - (nextmem + op_len[op])  
+        }
+        
+        # Convert operand values into 8-bit/16-bit unsigned values
+        
+        if(op_val < 0) op_val += 65536
+        if(op_val < 0) op_val  = 65535
+        
+        lo = (op_val % 256)
+        hi = (op_val / 256) % 256
+        
+        # Form the hexadecimal representation of the instruction
 
         len = dt_len[op]
         if(len == 1) {
-            if(op_val < 0) {
-                op_val *= -1
-                lo = (256 - (op_val % 256))
-            } else {
-                lo = (op_val % 256)
-            }
             instruction = sprintf("%s%02X", opcode[op], lo)
         } else if(len == 2) {
-            if(op_val < 0) {
-                op_val *= -1
-                lo = (256 - (op_val % 256))
-                hi = (256 - ((op_val / 256) % 256))
-            } else {
-                lo = (op_val % 256)
-                hi = (op_val / 256) % 256
-            }
             instruction = sprintf("%s%02X%02X", opcode[op], lo, hi)
         } else {
             instruction = sprintf("%s", opcode[op])
         }
         
-        printf("%04X: %-8s\t; %-11s\t%-s\n",
-               nextmem, instruction, op, dt)
+        # Add labels back to the output
 
-        printf("%04X: %-8s\t; %-11s\t%-s\n",
-               nextmem, instruction, op, dt) > outfile
-               
+        if(nextmem in memtab) {
+            printf("\t\t\t\t\t; %s\n", memtab[nextmem])
+            printf("\t\t\t\t\t; %s\n", memtab[nextmem]) > outfile
+        }
+        
+        # Output the hexadecial representation of the instruction
+
+        printf("%04X: %-8s", nextmem, instruction)
+        printf("%04X: %-8s", nextmem, instruction) > outfile
+        
+        # Output intermediate representation with substitution of duplicate
+        #   symbols pointing to common memory locations
+        
+        if(dt in symtab) {
+            printf("\t\t;\t\t\t%-11s\t%-s\n", op, memtab[symtab[dt]])
+            printf("\t\t;\t\t\t%-11s\t%-s\n", op, memtab[symtab[dt]]) > outfile
+        } else {
+            printf("\t\t;\t\t\t%-11s\t%-s\n", op, dt)
+            printf("\t\t;\t\t\t%-11s\t%-s\n", op, dt) > outfile
+        }
+
+        # Advance the memory pointer by the instruction length
+
         nextmem += op_len[op]
     }
     close(tmpfile)

@@ -21,7 +21,7 @@ plp_imp        11
 plx.w_imp       6
 psh.w_imm16   100
 rts_imp         6
-sta.w_abs       6
+sta.w_bp        6
 sta.w_spI       1
 swp_imp         3
 tsx.w_imp       6

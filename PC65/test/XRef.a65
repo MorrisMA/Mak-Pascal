@@ -1,12 +1,12 @@
 			.STACK  1024
 			.CODE   
-word_002	.EQU  +0
-firstnumberindex_003	.EQU  +20
-lastnumberindex_004	.EQU  +22
-number_005	.EQU  +0
-nextindex_006	.EQU  +2
-ch_017	.EQU  -6
-_nextchar_016	.SUB
+word_002	..EQ  +0
+firstnumberindex_003	..EQ  +20
+lastnumberindex_004	..EQ  +22
+number_005	..EQ  +0
+nextindex_006	..EQ  +2
+ch_017	..EQ  -6
+nextchar_016	.SUB
 			phx.w   
 			tsx.w   
 			adj     #-4
@@ -17,7 +17,7 @@ _nextchar_016	.SUB
 			cmp.w   #1
 			beq     L_018
 			jmp     L_019
-L_018	.LBL
+L_018	.     
 			jsr     _writeln
 			lda.w   linenumber_011
 			pha.w   
@@ -37,7 +37,7 @@ L_018	.LBL
 			psh.w   #3
 			jsr     _swrite
 			adj     #6
-L_019	.LBL
+L_019	.     
 			lda.w   newline_014
 			pha.w   
 			jsr     _eof
@@ -46,10 +46,10 @@ L_019	.LBL
 			cmp.w   #1
 			beq     L_021
 			jmp     L_022
-L_021	.LBL
+L_021	.     
 			sta     ch_017
 			jmp     L_023
-L_022	.LBL
+L_022	.     
 			txa.w   
 			sec     
 			pha.w   
@@ -61,7 +61,7 @@ L_022	.LBL
 			psh.w   #0
 			jsr     _cwrite
 			adj     #4
-L_023	.LBL
+L_023	.     
 			lda     ch_017,B
 			tay     
 			tya     
@@ -70,8 +70,8 @@ L_023	.LBL
 			txs.w   
 			plx.w   
 			rts     
-ch_025	.EQU  +6
-_isletter_024	.SUB
+ch_025	..EQ  +6
+isletter_024	.SUB
 			phx.w   
 			tsx.w   
 			adj     #-4
@@ -86,7 +86,7 @@ _isletter_024	.SUB
 			plp     
 			bge     L_026
 			lda     #0
-L_026	.LBL
+L_026	.     
 			pha.w   
 			lda     ch_025,B
 			pha.w   
@@ -99,7 +99,7 @@ L_026	.LBL
 			plp     
 			ble     L_027
 			lda     #0
-L_027	.LBL
+L_027	.     
 			anl.w   0,S
 			adj     #2
 			pha.w   
@@ -114,7 +114,7 @@ L_027	.LBL
 			plp     
 			bge     L_028
 			lda     #0
-L_028	.LBL
+L_028	.     
 			pha.w   
 			lda     ch_025,B
 			pha.w   
@@ -127,7 +127,7 @@ L_028	.LBL
 			plp     
 			ble     L_029
 			lda     #0
-L_029	.LBL
+L_029	.     
 			anl.w   0,S
 			adj     #2
 			ora.w   0,S
@@ -137,10 +137,10 @@ L_029	.LBL
 			txs.w   
 			plx.w   
 			rts     
-buffer_031	.EQU  +6
-charcount_032	.EQU  -2
-ch_033	.EQU  -4
-_readword_030	.SUB
+buffer_031	..EQ  +6
+charcount_032	..EQ  -2
+ch_033	..EQ  -4
+readword_030	.SUB
 			phx.w   
 			tsx.w   
 			adj     #-4
@@ -151,11 +151,11 @@ _readword_030	.SUB
 			cmp.w   #1
 			beq     L_034
 			jmp     L_035
-L_034	.LBL
-L_036	.LBL
+L_034	.     
+L_036	.     
 			lda.w   STATIC_LINK,B
 			pha.w   
-			jsr     _nextchar_016
+			jsr     nextchar_016
 			adj     #2
 			sta     ch_033
 			jsr     _eof
@@ -164,34 +164,34 @@ L_036	.LBL
 			pha.w   
 			lda.w   STATIC_LINK,B
 			pha.w   
-			jsr     _isletter_024
+			jsr     isletter_024
 			adj     #4
 			ora.w   0,S
 			adj     #2
 			cmp.w   #1
 			beq     L_037
 			jmp     L_036
-L_037	.LBL
-L_035	.LBL
+L_037	.     
+L_035	.     
 			jsr     _eof
 			eor     #1
 			cmp.w   #1
 			beq     L_038
 			jmp     L_039
-L_038	.LBL
+L_038	.     
 			lda     #0
-			sta.w   charcount_032
-L_040	.LBL
+			sta.w   charcount_032,B
+L_040	.     
 			lda     ch_033,B
 			pha.w   
 			lda.w   STATIC_LINK,B
 			pha.w   
-			jsr     _isletter_024
+			jsr     isletter_024
 			adj     #4
 			cmp.w   #1
 			beq     L_041
 			jmp     L_042
-L_041	.LBL
+L_041	.     
 			lda.w   charcount_032,B
 			pha.w   
 			lda     #20
@@ -203,11 +203,11 @@ L_041	.LBL
 			plp     
 			blt     L_045
 			lda     #0
-L_045	.LBL
+L_045	.     
 			cmp.w   #1
 			beq     L_043
 			jmp     L_044
-L_043	.LBL
+L_043	.     
 			lda     ch_033,B
 			pha.w   
 			lda     #65
@@ -219,7 +219,7 @@ L_043	.LBL
 			plp     
 			bge     L_048
 			lda     #0
-L_048	.LBL
+L_048	.     
 			pha.w   
 			lda     ch_033,B
 			pha.w   
@@ -232,13 +232,13 @@ L_048	.LBL
 			plp     
 			ble     L_049
 			lda     #0
-L_049	.LBL
+L_049	.     
 			anl.w   0,S
 			adj     #2
 			cmp.w   #1
 			beq     L_046
 			jmp     L_047
-L_046	.LBL
+L_046	.     
 			lda     ch_033,B
 			pha.w   
 			lda     #97
@@ -252,14 +252,14 @@ L_046	.LBL
 			adc.w   0,S
 			adj     #2
 			sta     ch_033
-L_047	.LBL
+L_047	.     
 			lda.w   charcount_032,B
 			pha.w   
 			lda     #1
 			clc     
 			adc.w   0,S
 			adj     #2
-			sta.w   charcount_032
+			sta.w   charcount_032,B
 			lda.w   buffer_031,B
 			pha.w   
 			lda.w   charcount_032,B
@@ -270,14 +270,14 @@ L_047	.LBL
 			lda     ch_033,B
 			sta     (0,S)
 			adj     #2
-L_044	.LBL
+L_044	.     
 			lda.w   STATIC_LINK,B
 			pha.w   
-			jsr     _nextchar_016
+			jsr     nextchar_016
 			adj     #2
 			sta     ch_033
 			jmp     L_040
-L_042	.LBL
+L_042	.     
 			lda.w   charcount_032,B
 			pha.w   
 			lda     #1
@@ -285,12 +285,12 @@ L_042	.LBL
 			adc.w   0,S
 			adj     #2
 			sta.w   charcount_032,B
-L_050	.LBL
+L_050	.     
 			lda     #20
 			cmp.w   charcount_032,B
 			bge     L_051
 			jmp     L_052
-L_051	.LBL
+L_051	.     
 			lda.w   buffer_031,B
 			pha.w   
 			lda.w   charcount_032,B
@@ -302,16 +302,16 @@ L_051	.LBL
 			adj     #2
 			inc.w   charcount_032,B
 			jmp     L_050
-L_052	.LBL
+L_052	.     
 			dec.w   charcount_032,B
 			lda     #1
 			sta.w   gotword_015
-L_039	.LBL
+L_039	.     
 			txs.w   
 			plx.w   
 			rts     
-lastnumberindex_054	.EQU  +6
-_appendlinenumber_053	.SUB
+lastnumberindex_054	..EQ  +6
+appendlinenumber_053	.SUB
 			phx.w   
 			tsx.w   
 			adj     #-4
@@ -326,11 +326,11 @@ _appendlinenumber_053	.SUB
 			plp     
 			blt     L_057
 			lda     #0
-L_057	.LBL
+L_057	.     
 			cmp.w   #1
 			beq     L_055
 			jmp     L_056
-L_055	.LBL
+L_055	.     
 			lda.w   lastnumberindex_054,B
 			pha.w   
 			lda     #0
@@ -342,11 +342,11 @@ L_055	.LBL
 			plp     
 			bne     L_060
 			lda     #0
-L_060	.LBL
+L_060	.     
 			cmp.w   #1
 			beq     L_058
 			jmp     L_059
-L_058	.LBL
+L_058	.     
 			psh.w   #numbertable_008
 			lda.w   lastnumberindex_054,B
 			asl.w   a
@@ -361,7 +361,7 @@ L_058	.LBL
 			lda.w   nextnumberindex_010
 			sta.w   (0,S)
 			adj     #2
-L_059	.LBL
+L_059	.     
 			psh.w   #numbertable_008
 			lda.w   nextnumberindex_010
 			asl.w   a
@@ -400,18 +400,18 @@ L_059	.LBL
 			adj     #2
 			sta.w   nextnumberindex_010
 			jmp     L_061
-L_056	.LBL
+L_056	.     
 			lda     #1
 			sta.w   numbertablefull_013
 			lda     #0
 			sta.w   RETURN_VALUE,B
-L_061	.LBL
+L_061	.     
 			lda.w   RETURN_VALUE,B
 			txs.w   
 			plx.w   
 			rts     
-i_063	.EQU  -2
-_enterword_062	.SUB
+i_063	..EQ  -2
+enterword_062	.SUB
 			phx.w   
 			tsx.w   
 			adj     #-2
@@ -419,7 +419,7 @@ _enterword_062	.SUB
 			cmp.w   #1
 			beq     L_064
 			jmp     L_065
-L_064	.LBL
+L_064	.     
 			lda.w   linenumber_011
 			pha.w   
 			lda     #1
@@ -428,10 +428,10 @@ L_064	.LBL
 			sbc.w   0,S
 			adj     #2
 			sta.w   linenumber_011
-L_065	.LBL
+L_065	.     
 			lda     #1
-			sta.w   i_063
-L_066	.LBL
+			sta.w   i_063,B
+L_066	.     
 			psh.w   #wordtable_007
 			lda.w   i_063,B
 			dec.w   a
@@ -468,20 +468,20 @@ L_066	.LBL
 			plp     
 			bne     L_069
 			lda     #0
-L_069	.LBL
+L_069	.     
 			cmp.w   #1
 			beq     L_067
 			jmp     L_068
-L_067	.LBL
+L_067	.     
 			lda.w   i_063,B
 			pha.w   
 			lda     #1
 			clc     
 			adc.w   0,S
 			adj     #2
-			sta.w   i_063
+			sta.w   i_063,B
 			jmp     L_066
-L_068	.LBL
+L_068	.     
 			lda.w   i_063,B
 			pha.w   
 			lda.w   nextwordindex_009
@@ -493,11 +493,11 @@ L_068	.LBL
 			plp     
 			blt     L_072
 			lda     #0
-L_072	.LBL
+L_072	.     
 			cmp.w   #1
 			beq     L_070
 			jmp     L_071
-L_070	.LBL
+L_070	.     
 			psh.w   #wordtable_007
 			lda.w   i_063,B
 			dec.w   a
@@ -531,12 +531,12 @@ L_070	.LBL
 			pha.w   
 			lda.w   STATIC_LINK,B
 			pha.w   
-			jsr     _appendlinenumber_053
+			jsr     appendlinenumber_053
 			adj     #4
 			sta.w   (0,S)
 			adj     #2
 			jmp     L_073
-L_071	.LBL
+L_071	.     
 			lda.w   nextwordindex_009
 			pha.w   
 			lda.w   #500
@@ -548,11 +548,11 @@ L_071	.LBL
 			plp     
 			blt     L_076
 			lda     #0
-L_076	.LBL
+L_076	.     
 			cmp.w   #1
 			beq     L_074
 			jmp     L_075
-L_074	.LBL
+L_074	.     
 			lda.w   nextwordindex_009
 			pha.w   
 			lda     #1
@@ -578,7 +578,7 @@ L_074	.LBL
 			pha.w   
 			lda.w   STATIC_LINK,B
 			pha.w   
-			jsr     _appendlinenumber_053
+			jsr     appendlinenumber_053
 			adj     #4
 			sta.w   (0,S)
 			adj     #2
@@ -615,16 +615,16 @@ L_074	.LBL
 			sta.w   (0,S)
 			adj     #2
 			jmp     L_077
-L_075	.LBL
+L_075	.     
 			lda     #1
 			sta.w   wordtablefull_012
-L_077	.LBL
-L_073	.LBL
+L_077	.     
+L_073	.     
 			lda.w   newline_014
 			cmp.w   #1
 			beq     L_078
 			jmp     L_079
-L_078	.LBL
+L_078	.     
 			lda.w   linenumber_011
 			pha.w   
 			lda     #1
@@ -632,20 +632,20 @@ L_078	.LBL
 			adc.w   0,S
 			adj     #2
 			sta.w   linenumber_011
-L_079	.LBL
+L_079	.     
 			txs.w   
 			plx.w   
 			rts     
-i_081	.EQU  -2
-j_082	.EQU  -4
-temp_083	.EQU  -28
-_sortwords_080	.SUB
+i_081	..EQ  -2
+j_082	..EQ  -4
+temp_083	..EQ  -28
+sortwords_080	.SUB
 			phx.w   
 			tsx.w   
 			adj     #-28
 			lda     #1
 			sta.w   i_081,B
-L_084	.LBL
+L_084	.     
 			lda.w   nextwordindex_009
 			pha.w   
 			lda     #2
@@ -656,7 +656,7 @@ L_084	.LBL
 			cmp.w   i_081,B
 			bge     L_085
 			jmp     L_086
-L_085	.LBL
+L_085	.     
 			lda.w   i_081,B
 			pha.w   
 			lda     #1
@@ -664,7 +664,7 @@ L_085	.LBL
 			adc.w   0,S
 			adj     #2
 			sta.w   j_082,B
-L_087	.LBL
+L_087	.     
 			lda.w   nextwordindex_009
 			pha.w   
 			lda     #1
@@ -675,7 +675,7 @@ L_087	.LBL
 			cmp.w   j_082,B
 			bge     L_088
 			jmp     L_089
-L_088	.LBL
+L_088	.     
 			psh.w   #wordtable_007
 			lda.w   i_081,B
 			dec.w   a
@@ -712,11 +712,11 @@ L_088	.LBL
 			plp     
 			bgt     L_092
 			lda     #0
-L_092	.LBL
+L_092	.     
 			cmp.w   #1
 			beq     L_090
 			jmp     L_091
-L_090	.LBL
+L_090	.     
 			txa.w   
 			sec     
 			pha.w   
@@ -781,23 +781,23 @@ L_090	.LBL
 			ply.w   
 			mvb     #51
 			swp.x   
-L_091	.LBL
+L_091	.     
 			inc.w   j_082,B
 			jmp     L_087
-L_089	.LBL
+L_089	.     
 			dec.w   j_082,B
 			inc.w   i_081,B
 			jmp     L_084
-L_086	.LBL
+L_086	.     
 			dec.w   i_081,B
 			txs.w   
 			plx.w   
 			rts     
-i_094	.EQU  +6
-_printnumbers_093	.SUB
+i_094	..EQ  +6
+printnumbers_093	.SUB
 			phx.w   
 			tsx.w   
-L_095	.LBL
+L_095	.     
 			psh.w   #numbertable_008
 			lda.w   i_094,B
 			asl.w   a
@@ -829,7 +829,7 @@ L_095	.LBL
 			pha.w   
 			lda.w   (0,S)
 			adj     #2
-			sta.w   i_094
+			sta.w   i_094,B
 			lda.w   i_094,B
 			pha.w   
 			lda     #0
@@ -841,17 +841,17 @@ L_095	.LBL
 			plp     
 			beq     L_097
 			lda     #0
-L_097	.LBL
+L_097	.     
 			cmp.w   #1
 			beq     L_096
 			jmp     L_095
-L_096	.LBL
+L_096	.     
 			jsr     _writeln
 			txs.w   
 			plx.w   
 			rts     
-i_099	.EQU  -2
-_printxref_098	.SUB
+i_099	..EQ  -2
+printxref_098	.SUB
 			phx.w   
 			tsx.w   
 			adj     #-2
@@ -872,11 +872,11 @@ _printxref_098	.SUB
 			jsr     _writeln
 			lda.w   STATIC_LINK,B
 			pha.w   
-			jsr     _sortwords_080
+			jsr     sortwords_080
 			adj     #2
 			lda     #1
 			sta.w   i_099,B
-L_102	.LBL
+L_102	.     
 			lda.w   nextwordindex_009
 			pha.w   
 			lda     #1
@@ -887,7 +887,7 @@ L_102	.LBL
 			cmp.w   i_099,B
 			bge     L_103
 			jmp     L_104
-L_103	.LBL
+L_103	.     
 			psh.w   #wordtable_007
 			lda.w   i_099,B
 			dec.w   a
@@ -925,16 +925,16 @@ L_103	.LBL
 			pha.w   
 			lda.w   STATIC_LINK,B
 			pha.w   
-			jsr     _printnumbers_093
+			jsr     printnumbers_093
 			adj     #4
 			inc.w   i_099,B
 			jmp     L_102
-L_104	.LBL
+L_104	.     
 			dec.w   i_099,B
 			txs.w   
 			plx.w   
 			rts     
-_pascal_main	.SUB
+_pc65_main	.SUB
 			phx.w   
 			tsx.w   
 			lda     #0
@@ -952,7 +952,7 @@ _pascal_main	.SUB
 			psh.w   #8
 			jsr     _swrite
 			adj     #6
-L_106	.LBL
+L_106	.     
 			jsr     _eof
 			pha.w   
 			lda.w   wordtablefull_012
@@ -966,7 +966,7 @@ L_106	.LBL
 			cmp.w   #1
 			beq     L_107
 			jmp     L_108
-L_107	.LBL
+L_107	.     
 			psh.w   #wordtable_007
 			lda.w   nextwordindex_009
 			dec.w   a
@@ -982,24 +982,24 @@ L_107	.LBL
 			adc.w   #word_002
 			pha.w   
 			phx.w   
-			jsr     _readword_030
+			jsr     readword_030
 			adj     #4
 			lda.w   gotword_015
 			cmp.w   #1
 			beq     L_109
 			jmp     L_110
-L_109	.LBL
+L_109	.     
 			phx.w   
-			jsr     _enterword_062
+			jsr     enterword_062
 			adj     #2
-L_110	.LBL
+L_110	.     
 			jmp     L_106
-L_108	.LBL
+L_108	.     
 			lda.w   wordtablefull_012
 			cmp.w   #1
 			beq     L_111
 			jmp     L_112
-L_111	.LBL
+L_111	.     
 			jsr     _writeln
 			psh.w   #S_113
 			psh.w   #0
@@ -1008,12 +1008,12 @@ L_111	.LBL
 			adj     #6
 			jsr     _writeln
 			jmp     L_114
-L_112	.LBL
+L_112	.     
 			lda.w   numbertablefull_013
 			cmp.w   #1
 			beq     L_115
 			jmp     L_116
-L_115	.LBL
+L_115	.     
 			jsr     _writeln
 			psh.w   #S_117
 			psh.w   #0
@@ -1022,12 +1022,12 @@ L_115	.LBL
 			adj     #6
 			jsr     _writeln
 			jmp     L_118
-L_116	.LBL
+L_116	.     
 			phx.w   
-			jsr     _printxref_098
+			jsr     printxref_098
 			adj     #2
-L_118	.LBL
-L_114	.LBL
+L_118	.     
+L_114	.     
 			jsr     _writeln
 			lda.w   nextwordindex_009
 			pha.w   
@@ -1068,20 +1068,20 @@ L_114	.LBL
 			plx.w   
 			rts     
 			.DATA   
-wordtable_007	.DB   12000
-numbertable_008	.DB   4004
-nextwordindex_009	.DB   2
-nextnumberindex_010	.DB   2
-linenumber_011	.DB   2
-wordtablefull_012	.DB   2
-numbertablefull_013	.DB   2
-newline_014	.DB   2
-gotword_015	.DB   2
-S_120	.DS   " line number entries."
-S_119	.DS   " word entries."
-S_117	.DS   "*** The number table is not large enough. ***"
-S_113	.DS   "*** The word table is not large enough. ***"
-S_105	.DS   "    1 : "
-S_101	.DS   "---------------"
-S_100	.DS   "Cross-reference"
-S_020	.DS   " : "
+wordtable_007	..DB  12000
+numbertable_008	..DB  4004
+nextwordindex_009	..DB  2
+nextnumberindex_010	..DB  2
+linenumber_011	..DB  2
+wordtablefull_012	..DB  2
+numbertablefull_013	..DB  2
+newline_014	..DB  2
+gotword_015	..DB  2
+S_120	..DS  " line number entries."
+S_119	..DS  " word entries."
+S_117	..DS  "*** The number table is not large enough. ***"
+S_113	..DS  "*** The word table is not large enough. ***"
+S_105	..DS  "    1 : "
+S_101	..DS  "---------------"
+S_100	..DS  "Cross-reference"
+S_020	..DS  " : "

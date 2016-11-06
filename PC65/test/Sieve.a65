@@ -1,6 +1,6 @@
 			.STACK  1024
 			.CODE   
-_pascal_main	.SUB
+_pc65_main	.SUB
 			phx.w   
 			tsx.w   
 			lda.w   #1000
@@ -22,12 +22,12 @@ _pascal_main	.SUB
 			adj     #2
 			lda     #2
 			sta.w   i_003
-L_008	.LBL
+L_008	.     
 			lda.w   #1000
 			cmp.w   i_003
 			bge     L_009
 			jmp     L_010
-L_009	.LBL
+L_009	.     
 			psh.w   #sieve_002
 			lda.w   i_003
 			dec.w   a
@@ -40,11 +40,11 @@ L_009	.LBL
 			adj     #2
 			inc.w   i_003
 			jmp     L_008
-L_010	.LBL
+L_010	.     
 			dec.w   i_003
 			lda     #1
 			sta.w   prime_006
-L_011	.LBL
+L_011	.     
 			lda.w   prime_006
 			pha.w   
 			lda     #1
@@ -52,7 +52,7 @@ L_011	.LBL
 			adc.w   0,S
 			adj     #2
 			sta.w   prime_006
-L_013	.LBL
+L_013	.     
 			psh.w   #sieve_002
 			lda.w   prime_006
 			dec.w   a
@@ -66,7 +66,7 @@ L_013	.LBL
 			cmp.w   #1
 			beq     L_014
 			jmp     L_015
-L_014	.LBL
+L_014	.     
 			lda.w   prime_006
 			pha.w   
 			lda     #1
@@ -75,7 +75,7 @@ L_014	.LBL
 			adj     #2
 			sta.w   prime_006
 			jmp     L_013
-L_015	.LBL
+L_015	.     
 			lda     #2
 			pha.w   
 			lda.w   prime_006
@@ -83,7 +83,7 @@ L_015	.LBL
 			jsr     _imul
 			adj     #4
 			sta.w   factor_007
-L_016	.LBL
+L_016	.     
 			lda.w   factor_007
 			pha.w   
 			lda.w   #1000
@@ -95,11 +95,11 @@ L_016	.LBL
 			plp     
 			ble     L_019
 			lda     #0
-L_019	.LBL
+L_019	.     
 			cmp.w   #1
 			beq     L_017
 			jmp     L_018
-L_017	.LBL
+L_017	.     
 			psh.w   #sieve_002
 			lda.w   factor_007
 			dec.w   a
@@ -118,7 +118,7 @@ L_017	.LBL
 			adj     #2
 			sta.w   factor_007
 			jmp     L_016
-L_018	.LBL
+L_018	.     
 			lda.w   prime_006
 			pha.w   
 			lda.w   limit_005
@@ -130,11 +130,11 @@ L_018	.LBL
 			plp     
 			bgt     L_020
 			lda     #0
-L_020	.LBL
+L_020	.     
 			cmp.w   #1
 			beq     L_012
 			jmp     L_011
-L_012	.LBL
+L_012	.     
 			psh.w   #S_021
 			psh.w   #0
 			psh.w   #21
@@ -144,15 +144,15 @@ L_012	.LBL
 			jsr     _writeln
 			lda     #1
 			sta.w   i_003
-L_022	.LBL
+L_022	.     
 			lda     #0
 			sta.w   j_004
-L_024	.LBL
+L_024	.     
 			lda     #19
 			cmp.w   j_004
 			bge     L_025
 			jmp     L_026
-L_025	.LBL
+L_025	.     
 			lda.w   i_003
 			pha.w   
 			lda.w   j_004
@@ -172,7 +172,7 @@ L_025	.LBL
 			cmp.w   #1
 			beq     L_027
 			jmp     L_028
-L_027	.LBL
+L_027	.     
 			lda.w   prime_006
 			pha.w   
 			lda     #3
@@ -180,16 +180,16 @@ L_027	.LBL
 			jsr     _iwrite
 			adj     #4
 			jmp     L_029
-L_028	.LBL
+L_028	.     
 			psh.w   #S_030
 			psh.w   #0
 			psh.w   #3
 			jsr     _swrite
 			adj     #6
-L_029	.LBL
+L_029	.     
 			inc.w   j_004
 			jmp     L_024
-L_026	.LBL
+L_026	.     
 			dec.w   j_004
 			jsr     _writeln
 			lda.w   i_003
@@ -210,19 +210,19 @@ L_026	.LBL
 			plp     
 			bgt     L_031
 			lda     #0
-L_031	.LBL
+L_031	.     
 			cmp.w   #1
 			beq     L_023
 			jmp     L_022
-L_023	.LBL
+L_023	.     
 			plx.w   
 			rts     
 			.DATA   
-sieve_002	.DB   2000
-i_003	    .DB   2
-j_004	    .DB   2
-limit_005	.DB   2
-prime_006	.DB   2
-factor_007	.DB   2
-S_030	    .DS   "   "
-S_021	    .DS   "Sieve of Eratosthenes"
+sieve_002	..DB  2000
+i_003	..DB  2
+j_004	..DB  2
+limit_005	..DB  2
+prime_006	..DB  2
+factor_007	..DB  2
+S_030	..DS  "   "
+S_021	..DS  "Sieve of Eratosthenes"

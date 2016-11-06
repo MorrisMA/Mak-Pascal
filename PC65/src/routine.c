@@ -758,7 +758,7 @@ TYPE_STRUCT_PTR declared_routine_call(SYMTAB_NODE_PTR rtn_idp,
         emit_2(MOVE, reg(BP), reg(BX));
     }
 
-    fprintf(code_file, "\tjsr _%s_%03d\t;---", rtn_idp->name, rtn_idp->label_index);
+    fprintf(code_file, "\tjsr %s_%03d\t;---", rtn_idp->name, rtn_idp->label_index);
     emit_1(CALL, tagged_name(rtn_idp));
     fprintf(code_file, "\tadj #%d\t;pop ops/params\n", rtn_idp->defn.info.routine.total_parm_size+2);
 
