@@ -1,0 +1,9 @@
+cd ../..
+cp CProjects/PC65 Mak-Pascal -r -v
+cd Mak-Pascal
+git add .
+git commit
+git push https:/github.com/MorrisMA/Mak-Pascal
+cd ../CProjects/PC65
+
+

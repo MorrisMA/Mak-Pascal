@@ -2,8 +2,8 @@
 
 ----------------------------------------------------------
 
-test/Wolf.asm => test/Wolf : asm => test/Wolf.p01
-test/Wolf.asm => test/Wolf : asm => test/Wolf.out
+test/Newton.asm => test/Newton : asm => test/Newton.p01
+test/Newton.asm => test/Newton : asm => test/Newton.out
 
 ----------------------------------------------------------
 
@@ -85,1875 +85,398 @@ Assembler Pass 1
 
 0000: phx.w_imp  	
 0002: tsx.w_imp  	
-0004: adj_imm    	-6
-0006: lda_imm    	0
-0008: sta.w_bp   	i_014
-000B: lda_imm    	10
-000D: cmp.w_bp   	i_014
-0010: bge_rel    	L_018
-0013: jmp_abs    	L_019
-0016: psh.w_imm16	island_002
-001A: lda_imm    	0
-001C: pha.w_imp  	
-001E: psh.w_imm16	22
-0022: jsr_abs    	_imul
-0025: adj_imm    	4
-0027: clc_imp    	
-0028: adc.w_sp   	0
-002B: sta.w_sp   	0
-002E: lda.w_bp   	i_014
-0031: asl.w_A    	
-0033: clc_imp    	
-0034: adc.w_sp   	0
-0037: sta.w_sp   	0
-003A: lda_imm    	5
-003C: sta.w_spI  	0
-003F: adj_imm    	2
-0041: psh.w_imm16	island_002
-0045: lda_imm    	10
+0004: jsr_abs    	_writeln
+0007: psh.w_imm16	S_007
+000B: psh.w_imm16	0
+000F: psh.w_imm16	30
+0013: jsr_abs    	_swrite
+0016: adj_imm    	6
+0018: psh.w_imm16	number_002
+001C: jsr_abs    	_fread
+001F: swp_imp    	
+0020: ldy_imm    	2
+0022: sta.w_spIY 	0
+0025: swp_imp    	
+0026: sta.w_spI  	0
+0029: adj_imm    	2
+002B: lda.w_abs  	number_002+2
+002F: swp_imp    	
+0030: lda.w_abs  	number_002
+0034: swp_imp    	
+0035: pha.w_imp  	
+0037: swp_imp    	
+0038: pha.w_imp  	
+003A: lda_imm    	0
+003C: pha.w_imp  	
+003E: jsr_abs    	_fconv
+0041: adj_imm    	2
+0043: swp_imp    	
+0044: pha.w_imp  	
+0046: swp_imp    	
 0047: pha.w_imp  	
-0049: psh.w_imm16	22
-004D: jsr_abs    	_imul
-0050: adj_imm    	4
-0052: clc_imp    	
-0053: adc.w_sp   	0
-0056: sta.w_sp   	0
-0059: lda.w_bp   	i_014
-005C: asl.w_A    	
-005E: clc_imp    	
-005F: adc.w_sp   	0
-0062: sta.w_sp   	0
-0065: lda_imm    	5
-0067: sta.w_spI  	0
-006A: adj_imm    	2
-006C: psh.w_imm16	island_002
-0070: lda.w_bp   	i_014
-0073: pha.w_imp  	
-0075: psh.w_imm16	22
-0079: jsr_abs    	_imul
-007C: adj_imm    	4
-007E: clc_imp    	
-007F: adc.w_sp   	0
-0082: sta.w_sp   	0
-0085: lda_imm    	0
-0087: asl.w_A    	
-0089: clc_imp    	
-008A: adc.w_sp   	0
-008D: sta.w_sp   	0
-0090: lda_imm    	5
-0092: sta.w_spI  	0
-0095: adj_imm    	2
-0097: psh.w_imm16	island_002
-009B: lda.w_bp   	i_014
-009E: pha.w_imp  	
-00A0: psh.w_imm16	22
-00A4: jsr_abs    	_imul
-00A7: adj_imm    	4
-00A9: clc_imp    	
-00AA: adc.w_sp   	0
-00AD: sta.w_sp   	0
-00B0: lda_imm    	10
-00B2: asl.w_A    	
-00B4: clc_imp    	
-00B5: adc.w_sp   	0
-00B8: sta.w_sp   	0
-00BB: lda_imm    	5
-00BD: sta.w_spI  	0
-00C0: adj_imm    	2
-00C2: inc.w_bp   	i_014
-00C5: jmp_abs    	L_017
-00C8: dec.w_bp   	i_014
-00CB: lda_imm    	1
-00CD: sta.w_bp   	row_015
-00D0: lda_imm    	9
-00D2: cmp.w_bp   	row_015
-00D5: bge_rel    	L_021
-00D8: jmp_abs    	L_022
-00DB: lda_imm    	1
-00DD: sta.w_bp   	col_016
-00E0: lda_imm    	9
-00E2: cmp.w_bp   	col_016
-00E5: bge_rel    	L_024
-00E8: jmp_abs    	L_025
-00EB: psh.w_imm16	island_002
-00EF: lda.w_bp   	row_015
-00F2: pha.w_imp  	
-00F4: psh.w_imm16	22
-00F8: jsr_abs    	_imul
-00FB: adj_imm    	4
-00FD: clc_imp    	
-00FE: adc.w_sp   	0
-0101: sta.w_sp   	0
-0104: lda.w_bp   	col_016
-0107: asl.w_A    	
-0109: clc_imp    	
-010A: adc.w_sp   	0
-010D: sta.w_sp   	0
-0110: lda_imm    	4
-0112: sta.w_spI  	0
-0115: adj_imm    	2
-0117: psh.w_imm16	foodunits_003
-011B: lda.w_bp   	row_015
-011E: dec.w_A    	
+0049: jsr_abs    	_fcmp
+004C: adj_imm    	8
+004E: cmp.w_imm16	0
+0052: php_imp    	
+0053: lda_imm    	1
+0055: plp_imp    	
+0056: beq_rel    	L_010
+0058: lda_imm    	0
+005A: cmp.w_imm16	1
+005E: beq_rel    	L_008
+0060: jmp_abs    	L_009
+0063: lda.w_abs  	number_002+2
+0067: swp_imp    	
+0068: lda.w_abs  	number_002
+006C: swp_imp    	
+006D: pha.w_imp  	
+006F: swp_imp    	
+0070: pha.w_imp  	
+0072: lda_imm    	12
+0074: pha.w_imp  	
+0076: lda_imm    	6
+0078: pha.w_imp  	
+007A: jsr_abs    	_fwrite
+007D: adj_imm    	8
+007F: lda.w_abs  	F_011+2
+0083: swp_imp    	
+0084: lda.w_abs  	F_011
+0088: swp_imp    	
+0089: pha.w_imp  	
+008B: swp_imp    	
+008C: pha.w_imp  	
+008E: lda_imm    	12
+0090: pha.w_imp  	
+0092: lda_imm    	6
+0094: pha.w_imp  	
+0096: jsr_abs    	_fwrite
+0099: adj_imm    	8
+009B: jsr_abs    	_writeln
+009E: jmp_abs    	L_012
+00A1: lda.w_abs  	number_002+2
+00A5: swp_imp    	
+00A6: lda.w_abs  	number_002
+00AA: swp_imp    	
+00AB: pha.w_imp  	
+00AD: swp_imp    	
+00AE: pha.w_imp  	
+00B0: lda_imm    	0
+00B2: pha.w_imp  	
+00B4: jsr_abs    	_fconv
+00B7: adj_imm    	2
+00B9: swp_imp    	
+00BA: pha.w_imp  	
+00BC: swp_imp    	
+00BD: pha.w_imp  	
+00BF: jsr_abs    	_fcmp
+00C2: adj_imm    	8
+00C4: cmp.w_imm16	0
+00C8: php_imp    	
+00C9: lda_imm    	1
+00CB: plp_imp    	
+00CC: blt_rel    	L_015
+00CF: lda_imm    	0
+00D1: cmp.w_imm16	1
+00D5: beq_rel    	L_013
+00D7: jmp_abs    	L_014
+00DA: psh.w_imm16	S_016
+00DE: psh.w_imm16	0
+00E2: psh.w_imm16	22
+00E6: jsr_abs    	_swrite
+00E9: adj_imm    	6
+00EB: jsr_abs    	_writeln
+00EE: jmp_abs    	L_017
+00F1: lda.w_abs  	number_002+2
+00F5: swp_imp    	
+00F6: lda.w_abs  	number_002
+00FA: swp_imp    	
+00FB: pha.w_imp  	
+00FD: swp_imp    	
+00FE: pha.w_imp  	
+0100: jsr_abs    	_fsqrt
+0103: adj_imm    	4
+0105: swp_imp    	
+0106: sta.w_abs  	sqroot_004+2
+010A: swp_imp    	
+010B: sta.w_abs  	sqroot_004
+010F: lda.w_abs  	number_002+2
+0113: swp_imp    	
+0114: lda.w_abs  	number_002
+0118: swp_imp    	
+0119: pha.w_imp  	
+011B: swp_imp    	
+011C: pha.w_imp  	
+011E: lda_imm    	12
 0120: pha.w_imp  	
-0122: psh.w_imm16	18
-0126: jsr_abs    	_imul
-0129: adj_imm    	4
-012B: clc_imp    	
-012C: adc.w_sp   	0
-012F: sta.w_sp   	0
-0132: lda.w_bp   	col_016
-0135: dec.w_A    	
-0137: asl.w_A    	
-0139: clc_imp    	
-013A: adc.w_sp   	0
-013D: sta.w_sp   	0
-0140: lda_imm    	0
-0142: sta.w_spI  	0
-0145: adj_imm    	2
-0147: inc.w_bp   	col_016
-014A: jmp_abs    	L_023
-014D: dec.w_bp   	col_016
-0150: inc.w_bp   	row_015
-0153: jmp_abs    	L_020
-0156: dec.w_bp   	row_015
-0159: psh.w_imm16	numwolves_005
-015D: jsr_abs    	_iread
-0160: sta.w_spI  	0
-0163: adj_imm    	2
-0165: lda_imm    	1
-0167: sta.w_bp   	i_014
-016A: lda.w_abs  	numwolves_005
-016E: cmp.w_bp   	i_014
-0171: bge_rel    	L_027
-0174: jmp_abs    	L_028
-0177: txa.w_imp  	
-0179: sec_imp    	
-017A: adc.w_imm16	row_015
-017E: pha.w_imp  	
-0180: jsr_abs    	_iread
-0183: sta.w_spI  	0
-0186: adj_imm    	2
-0188: txa.w_imp  	
-018A: sec_imp    	
-018B: adc.w_imm16	col_016
-018F: pha.w_imp  	
-0191: jsr_abs    	_iread
-0194: sta.w_spI  	0
-0197: adj_imm    	2
-0199: psh.w_imm16	island_002
-019D: lda.w_bp   	row_015
-01A0: pha.w_imp  	
-01A2: psh.w_imm16	22
-01A6: jsr_abs    	_imul
-01A9: adj_imm    	4
-01AB: clc_imp    	
-01AC: adc.w_sp   	0
-01AF: sta.w_sp   	0
-01B2: lda.w_bp   	col_016
-01B5: asl.w_A    	
-01B7: clc_imp    	
-01B8: adc.w_sp   	0
-01BB: sta.w_sp   	0
-01BE: lda_imm    	0
-01C0: sta.w_spI  	0
-01C3: adj_imm    	2
-01C5: psh.w_imm16	foodunits_003
-01C9: lda.w_bp   	row_015
-01CC: dec.w_A    	
+0122: lda_imm    	6
+0124: pha.w_imp  	
+0126: jsr_abs    	_fwrite
+0129: adj_imm    	8
+012B: lda.w_abs  	sqroot_004+2
+012F: swp_imp    	
+0130: lda.w_abs  	sqroot_004
+0134: swp_imp    	
+0135: pha.w_imp  	
+0137: swp_imp    	
+0138: pha.w_imp  	
+013A: lda_imm    	12
+013C: pha.w_imp  	
+013E: lda_imm    	6
+0140: pha.w_imp  	
+0142: jsr_abs    	_fwrite
+0145: adj_imm    	8
+0147: jsr_abs    	_writeln
+014A: jsr_abs    	_writeln
+014D: lda_imm    	1
+014F: pha.w_imp  	
+0151: jsr_abs    	_fconv
+0154: adj_imm    	2
+0156: swp_imp    	
+0157: sta.w_abs  	root_003+2
+015B: swp_imp    	
+015C: sta.w_abs  	root_003
+0160: lda.w_abs  	number_002+2
+0164: swp_imp    	
+0165: lda.w_abs  	number_002
+0169: swp_imp    	
+016A: pha.w_imp  	
+016C: swp_imp    	
+016D: pha.w_imp  	
+016F: lda.w_abs  	root_003+2
+0173: swp_imp    	
+0174: lda.w_abs  	root_003
+0178: swp_imp    	
+0179: pha.w_imp  	
+017B: swp_imp    	
+017C: pha.w_imp  	
+017E: jsr_abs    	_fdiv
+0181: adj_imm    	8
+0183: swp_imp    	
+0184: pha.w_imp  	
+0186: swp_imp    	
+0187: pha.w_imp  	
+0189: lda.w_abs  	root_003+2
+018D: swp_imp    	
+018E: lda.w_abs  	root_003
+0192: swp_imp    	
+0193: pha.w_imp  	
+0195: swp_imp    	
+0196: pha.w_imp  	
+0198: jsr_abs    	_fadd
+019B: adj_imm    	8
+019D: swp_imp    	
+019E: pha.w_imp  	
+01A0: swp_imp    	
+01A1: pha.w_imp  	
+01A3: lda_imm    	2
+01A5: pha.w_imp  	
+01A7: jsr_abs    	_fconv
+01AA: adj_imm    	2
+01AC: swp_imp    	
+01AD: pha.w_imp  	
+01AF: swp_imp    	
+01B0: pha.w_imp  	
+01B2: jsr_abs    	_fdiv
+01B5: adj_imm    	8
+01B7: swp_imp    	
+01B8: sta.w_abs  	root_003+2
+01BC: swp_imp    	
+01BD: sta.w_abs  	root_003
+01C1: lda.w_abs  	root_003+2
+01C5: swp_imp    	
+01C6: lda.w_abs  	root_003
+01CA: swp_imp    	
+01CB: pha.w_imp  	
+01CD: swp_imp    	
 01CE: pha.w_imp  	
-01D0: psh.w_imm16	18
-01D4: jsr_abs    	_imul
-01D7: adj_imm    	4
-01D9: clc_imp    	
-01DA: adc.w_sp   	0
-01DD: sta.w_sp   	0
-01E0: lda.w_bp   	col_016
-01E3: dec.w_A    	
-01E5: asl.w_A    	
-01E7: clc_imp    	
-01E8: adc.w_sp   	0
-01EB: sta.w_sp   	0
-01EE: lda_imm    	6
-01F0: sta.w_spI  	0
-01F3: adj_imm    	2
-01F5: inc.w_bp   	i_014
-01F8: jmp_abs    	L_026
-01FB: dec.w_bp   	i_014
-01FE: psh.w_imm16	numrabbits_006
-0202: jsr_abs    	_iread
-0205: sta.w_spI  	0
-0208: adj_imm    	2
-020A: lda_imm    	1
-020C: sta.w_bp   	i_014
-020F: lda.w_abs  	numrabbits_006
-0213: cmp.w_bp   	i_014
-0216: bge_rel    	L_030
-0219: jmp_abs    	L_031
-021C: txa.w_imp  	
-021E: sec_imp    	
-021F: adc.w_imm16	row_015
-0223: pha.w_imp  	
-0225: jsr_abs    	_iread
-0228: sta.w_spI  	0
-022B: adj_imm    	2
-022D: txa.w_imp  	
-022F: sec_imp    	
-0230: adc.w_imm16	col_016
-0234: pha.w_imp  	
-0236: jsr_abs    	_iread
-0239: sta.w_spI  	0
-023C: adj_imm    	2
-023E: psh.w_imm16	island_002
-0242: lda.w_bp   	row_015
-0245: pha.w_imp  	
-0247: psh.w_imm16	22
-024B: jsr_abs    	_imul
-024E: adj_imm    	4
-0250: clc_imp    	
-0251: adc.w_sp   	0
-0254: sta.w_sp   	0
-0257: lda.w_bp   	col_016
-025A: asl.w_A    	
-025C: clc_imp    	
-025D: adc.w_sp   	0
-0260: sta.w_sp   	0
-0263: lda_imm    	1
-0265: sta.w_spI  	0
-0268: adj_imm    	2
-026A: inc.w_bp   	i_014
-026D: jmp_abs    	L_029
-0270: dec.w_bp   	i_014
-0273: psh.w_imm16	numprinttimes_007
-0277: jsr_abs    	_iread
-027A: sta.w_spI  	0
-027D: adj_imm    	2
-027F: lda_imm    	1
-0281: sta.w_bp   	i_014
-0284: lda.w_abs  	numprinttimes_007
-0288: cmp.w_bp   	i_014
-028B: bge_rel    	L_033
-028E: jmp_abs    	L_034
-0291: psh.w_imm16	printtimes_004
-0295: lda.w_bp   	i_014
-0298: dec.w_A    	
-029A: asl.w_A    	
-029C: clc_imp    	
-029D: adc.w_sp   	0
-02A0: sta.w_sp   	0
-02A3: jsr_abs    	_iread
-02A6: sta.w_spI  	0
-02A9: adj_imm    	2
-02AB: inc.w_bp   	i_014
-02AE: jmp_abs    	L_032
-02B1: dec.w_bp   	i_014
-02B4: psh.w_imm16	rowoffset_011
-02B8: lda_imm    	0
-02BA: asl.w_A    	
-02BC: clc_imp    	
-02BD: adc.w_sp   	0
-02C0: sta.w_sp   	0
-02C3: lda_imm    	0
-02C5: sta.w_spI  	0
-02C8: adj_imm    	2
-02CA: psh.w_imm16	coloffset_012
-02CE: lda_imm    	0
-02D0: asl.w_A    	
-02D2: clc_imp    	
-02D3: adc.w_sp   	0
-02D6: sta.w_sp   	0
-02D9: lda_imm    	0
-02DB: sta.w_spI  	0
-02DE: adj_imm    	2
-02E0: psh.w_imm16	rowoffset_011
-02E4: lda_imm    	1
-02E6: asl.w_A    	
-02E8: clc_imp    	
-02E9: adc.w_sp   	0
-02EC: sta.w_sp   	0
-02EF: lda_imm    	1
-02F1: eor.w_imm16	-1
-02F5: inc.w_A    	
-02F7: sta.w_spI  	0
-02FA: adj_imm    	2
-02FC: psh.w_imm16	coloffset_012
-0300: lda_imm    	1
-0302: asl.w_A    	
-0304: clc_imp    	
-0305: adc.w_sp   	0
-0308: sta.w_sp   	0
-030B: lda_imm    	0
-030D: sta.w_spI  	0
-0310: adj_imm    	2
-0312: psh.w_imm16	rowoffset_011
-0316: lda_imm    	2
-0318: asl.w_A    	
-031A: clc_imp    	
-031B: adc.w_sp   	0
-031E: sta.w_sp   	0
-0321: lda_imm    	0
-0323: sta.w_spI  	0
-0326: adj_imm    	2
-0328: psh.w_imm16	coloffset_012
-032C: lda_imm    	2
-032E: asl.w_A    	
-0330: clc_imp    	
-0331: adc.w_sp   	0
-0334: sta.w_sp   	0
-0337: lda_imm    	1
-0339: eor.w_imm16	-1
-033D: inc.w_A    	
-033F: sta.w_spI  	0
-0342: adj_imm    	2
-0344: psh.w_imm16	rowoffset_011
-0348: lda_imm    	3
-034A: asl.w_A    	
-034C: clc_imp    	
-034D: adc.w_sp   	0
-0350: sta.w_sp   	0
-0353: lda_imm    	0
-0355: sta.w_spI  	0
-0358: adj_imm    	2
-035A: psh.w_imm16	coloffset_012
-035E: lda_imm    	3
-0360: asl.w_A    	
-0362: clc_imp    	
-0363: adc.w_sp   	0
-0366: sta.w_sp   	0
-0369: lda_imm    	1
-036B: sta.w_spI  	0
-036E: adj_imm    	2
-0370: psh.w_imm16	rowoffset_011
-0374: lda_imm    	4
-0376: asl.w_A    	
-0378: clc_imp    	
-0379: adc.w_sp   	0
-037C: sta.w_sp   	0
-037F: lda_imm    	1
-0381: sta.w_spI  	0
-0384: adj_imm    	2
-0386: psh.w_imm16	coloffset_012
-038A: lda_imm    	4
-038C: asl.w_A    	
-038E: clc_imp    	
-038F: adc.w_sp   	0
-0392: sta.w_sp   	0
-0395: lda_imm    	0
-0397: sta.w_spI  	0
-039A: adj_imm    	2
-039C: txs.w_imp  	
-039E: plx.w_imp  	
-03A0: rts_imp    	
-03A1: phx.w_imp  	
-03A3: tsx.w_imp  	
-03A5: adj_imm    	-4
-03A7: lda.w_abs  	seed_010
-03AB: pha.w_imp  	
-03AD: lda_imm    	21
-03AF: pha.w_imp  	
-03B1: jsr_abs    	_imul
-03B4: adj_imm    	4
-03B6: pha.w_imp  	
-03B8: lda_imm    	77
-03BA: clc_imp    	
-03BB: adc.w_sp   	0
-03BE: adj_imm    	2
-03C0: pha.w_imp  	
-03C2: lda.w_imm16	1024
-03C6: pha.w_imp  	
-03C8: jsr_abs    	_idiv
-03CB: adj_imm    	4
-03CD: swp_imp    	
-03CE: sta.w_abs  	seed_010
-03D2: lda.w_abs  	seed_010
-03D6: pha.w_imp  	
-03D8: lda.w_bp   	limit_036
-03DB: pha.w_imp  	
-03DD: jsr_abs    	_imul
-03E0: adj_imm    	4
-03E2: pha.w_imp  	
-03E4: lda.w_imm16	1024
-03E8: pha.w_imp  	
-03EA: jsr_abs    	_idiv
-03ED: adj_imm    	4
-03EF: sta.w_bp   	RETURN_VALUE
-03F2: lda.w_bp   	RETURN_VALUE
-03F5: txs.w_imp  	
-03F7: plx.w_imp  	
-03F9: rts_imp    	
-03FA: phx.w_imp  	
-03FC: tsx.w_imp  	
-03FE: adj_imm    	-6
-0400: lda_imm    	0
-0402: sta.w_bp   	done_045
-0405: lda.w_bp   	creature_038
-0408: pha.w_imp  	
-040A: lda_imm    	0
-040C: xma.w_sp   	0
-040F: cmp.w_sp   	0
-0412: adj_imm    	2
-0414: php_imp    	
-0415: lda_imm    	1
-0417: plp_imp    	
-0418: beq_rel    	L_048
-041A: lda_imm    	0
-041C: cmp.w_imm16	1
-0420: beq_rel    	L_046
-0422: jmp_abs    	L_047
-0425: lda_imm    	0
-0427: sta.w_bp   	adj_043
-042A: lda.w_bp   	adj_043
-042D: pha.w_imp  	
-042F: lda_imm    	1
-0431: clc_imp    	
-0432: adc.w_sp   	0
-0435: adj_imm    	2
-0437: sta.w_bp   	adj_043
-043A: lda.w_bp   	newrow_041
-043D: pha.w_imp  	
-043F: lda.w_bp   	oldrow_039
-0442: pha.w_imp  	
-0444: psh.w_imm16	rowoffset_011
-0448: lda.w_bp   	adj_043
-044B: asl.w_A    	
-044D: clc_imp    	
-044E: adc.w_sp   	0
-0451: sta.w_sp   	0
-0454: lda.w_spI  	0
-0457: adj_imm    	2
-0459: clc_imp    	
-045A: adc.w_sp   	0
-045D: adj_imm    	2
-045F: sta.w_spI  	0
-0462: adj_imm    	2
-0464: lda.w_bp   	newcol_042
-0467: pha.w_imp  	
-0469: lda.w_bp   	oldcol_040
-046C: pha.w_imp  	
-046E: psh.w_imm16	coloffset_012
-0472: lda.w_bp   	adj_043
-0475: asl.w_A    	
-0477: clc_imp    	
-0478: adc.w_sp   	0
-047B: sta.w_sp   	0
-047E: lda.w_spI  	0
-0481: adj_imm    	2
-0483: clc_imp    	
-0484: adc.w_sp   	0
-0487: adj_imm    	2
-0489: sta.w_spI  	0
-048C: adj_imm    	2
-048E: psh.w_imm16	island_002
-0492: lda.w_bpI  	newrow_041
-0495: pha.w_imp  	
-0497: psh.w_imm16	22
-049B: jsr_abs    	_imul
-049E: adj_imm    	4
-04A0: clc_imp    	
-04A1: adc.w_sp   	0
-04A4: sta.w_sp   	0
-04A7: lda.w_bpI  	newcol_042
-04AA: asl.w_A    	
-04AC: clc_imp    	
-04AD: adc.w_sp   	0
-04B0: sta.w_sp   	0
-04B3: lda.w_spI  	0
-04B6: adj_imm    	2
-04B8: sta.w_bp   	what_044
-04BB: lda.w_bp   	what_044
-04BE: pha.w_imp  	
-04C0: lda_imm    	1
-04C2: xma.w_sp   	0
-04C5: cmp.w_sp   	0
-04C8: adj_imm    	2
-04CA: php_imp    	
-04CB: lda_imm    	1
-04CD: plp_imp    	
-04CE: beq_rel    	L_051
-04D0: lda_imm    	0
-04D2: sta.w_bp   	done_045
-04D5: lda.w_bp   	done_045
-04D8: pha.w_imp  	
-04DA: lda.w_bp   	adj_043
-04DD: pha.w_imp  	
-04DF: lda_imm    	4
-04E1: xma.w_sp   	0
-04E4: cmp.w_sp   	0
-04E7: adj_imm    	2
-04E9: php_imp    	
-04EA: lda_imm    	1
-04EC: plp_imp    	
-04ED: beq_rel    	L_052
-04EF: lda_imm    	0
-04F1: ora.w_sp   	0
-04F4: adj_imm    	2
-04F6: cmp.w_imm16	1
-04FA: beq_rel    	L_050
-04FC: jmp_abs    	L_049
-04FF: lda.w_bp   	done_045
-0502: eor_imm    	1
-0504: cmp.w_imm16	1
-0508: beq_rel    	L_053
-050A: jmp_abs    	L_054
-050D: lda_imm    	5
-050F: pha.w_imp  	
-0511: lda.w_bp   	STATIC_LINK
-0514: pha.w_imp  	
-0516: jsr_abs    	random_035
-0519: adj_imm    	4
-051B: sta.w_bp   	adj_043
-051E: lda.w_bp   	newrow_041
-0521: pha.w_imp  	
-0523: lda.w_bp   	oldrow_039
-0526: pha.w_imp  	
-0528: psh.w_imm16	rowoffset_011
-052C: lda.w_bp   	adj_043
-052F: asl.w_A    	
-0531: clc_imp    	
-0532: adc.w_sp   	0
-0535: sta.w_sp   	0
-0538: lda.w_spI  	0
-053B: adj_imm    	2
-053D: clc_imp    	
-053E: adc.w_sp   	0
-0541: adj_imm    	2
-0543: sta.w_spI  	0
-0546: adj_imm    	2
-0548: lda.w_bp   	newcol_042
-054B: pha.w_imp  	
-054D: lda.w_bp   	oldcol_040
-0550: pha.w_imp  	
-0552: psh.w_imm16	coloffset_012
-0556: lda.w_bp   	adj_043
-0559: asl.w_A    	
-055B: clc_imp    	
-055C: adc.w_sp   	0
-055F: sta.w_sp   	0
-0562: lda.w_spI  	0
-0565: adj_imm    	2
-0567: clc_imp    	
-0568: adc.w_sp   	0
-056B: adj_imm    	2
-056D: sta.w_spI  	0
-0570: adj_imm    	2
-0572: psh.w_imm16	island_002
-0576: lda.w_bpI  	newrow_041
-0579: pha.w_imp  	
-057B: psh.w_imm16	22
-057F: jsr_abs    	_imul
-0582: adj_imm    	4
-0584: clc_imp    	
-0585: adc.w_sp   	0
-0588: sta.w_sp   	0
-058B: lda.w_bpI  	newcol_042
-058E: asl.w_A    	
-0590: clc_imp    	
-0591: adc.w_sp   	0
-0594: sta.w_sp   	0
-0597: lda.w_spI  	0
-059A: adj_imm    	2
-059C: sta.w_bp   	what_044
-059F: lda.w_bp   	what_044
-05A2: pha.w_imp  	
-05A4: lda_imm    	4
-05A6: xma.w_sp   	0
-05A9: cmp.w_sp   	0
-05AC: adj_imm    	2
-05AE: php_imp    	
-05AF: lda_imm    	1
-05B1: plp_imp    	
-05B2: beq_rel    	L_057
-05B4: lda_imm    	0
-05B6: pha.w_imp  	
-05B8: lda.w_bpI  	newrow_041
-05BB: pha.w_imp  	
-05BD: lda.w_bp   	oldrow_039
-05C0: xma.w_sp   	0
-05C3: cmp.w_sp   	0
-05C6: adj_imm    	2
-05C8: php_imp    	
-05C9: lda_imm    	1
-05CB: plp_imp    	
-05CC: beq_rel    	L_058
-05CE: lda_imm    	0
-05D0: pha.w_imp  	
-05D2: lda.w_bpI  	newcol_042
-05D5: pha.w_imp  	
-05D7: lda.w_bp   	oldcol_040
-05DA: xma.w_sp   	0
-05DD: cmp.w_sp   	0
-05E0: adj_imm    	2
-05E2: php_imp    	
-05E3: lda_imm    	1
-05E5: plp_imp    	
-05E6: beq_rel    	L_059
-05E8: lda_imm    	0
-05EA: anl.w_sp   	0
-05ED: adj_imm    	2
-05EF: ora.w_sp   	0
-05F2: adj_imm    	2
-05F4: cmp.w_imm16	1
-05F8: beq_rel    	L_056
-05FA: jmp_abs    	L_055
-05FD: txs.w_imp  	
-05FF: plx.w_imp  	
-0601: rts_imp    	
-0602: phx.w_imp  	
-0604: tsx.w_imp  	
-0606: adj_imm    	-6
-0608: psh.w_imm16	foodunits_003
-060C: lda.w_bp   	oldrow_061
-060F: dec.w_A    	
-0611: pha.w_imp  	
-0613: psh.w_imm16	18
-0617: jsr_abs    	_imul
-061A: adj_imm    	4
-061C: clc_imp    	
-061D: adc.w_sp   	0
-0620: sta.w_sp   	0
-0623: lda.w_bp   	oldcol_062
-0626: dec.w_A    	
-0628: asl.w_A    	
-062A: clc_imp    	
-062B: adc.w_sp   	0
-062E: sta.w_sp   	0
-0631: psh.w_imm16	foodunits_003
-0635: lda.w_bp   	oldrow_061
-0638: dec.w_A    	
-063A: pha.w_imp  	
-063C: psh.w_imm16	18
-0640: jsr_abs    	_imul
-0643: adj_imm    	4
-0645: clc_imp    	
-0646: adc.w_sp   	0
-0649: sta.w_sp   	0
-064C: lda.w_bp   	oldcol_062
-064F: dec.w_A    	
-0651: asl.w_A    	
-0653: clc_imp    	
-0654: adc.w_sp   	0
-0657: sta.w_sp   	0
-065A: lda.w_spI  	0
-065D: adj_imm    	2
-065F: pha.w_imp  	
-0661: lda_imm    	1
-0663: xma.w_sp   	0
-0666: sec_imp    	
-0667: sbc.w_sp   	0
-066A: adj_imm    	2
-066C: sta.w_spI  	0
-066F: adj_imm    	2
-0671: psh.w_imm16	foodunits_003
-0675: lda.w_bp   	oldrow_061
-0678: dec.w_A    	
-067A: pha.w_imp  	
-067C: psh.w_imm16	18
-0680: jsr_abs    	_imul
-0683: adj_imm    	4
-0685: clc_imp    	
-0686: adc.w_sp   	0
-0689: sta.w_sp   	0
-068C: lda.w_bp   	oldcol_062
-068F: dec.w_A    	
-0691: asl.w_A    	
-0693: clc_imp    	
-0694: adc.w_sp   	0
-0697: sta.w_sp   	0
-069A: lda.w_spI  	0
-069D: adj_imm    	2
-069F: pha.w_imp  	
-06A1: lda_imm    	0
-06A3: xma.w_sp   	0
-06A6: cmp.w_sp   	0
-06A9: adj_imm    	2
-06AB: php_imp    	
-06AC: lda_imm    	1
-06AE: plp_imp    	
-06AF: beq_rel    	L_068
-06B1: lda_imm    	0
-06B3: cmp.w_imm16	1
-06B7: beq_rel    	L_066
-06B9: jmp_abs    	L_067
-06BC: psh.w_imm16	island_002
-06C0: lda.w_bp   	oldrow_061
-06C3: pha.w_imp  	
-06C5: psh.w_imm16	22
-06C9: jsr_abs    	_imul
-06CC: adj_imm    	4
-06CE: clc_imp    	
-06CF: adc.w_sp   	0
-06D2: sta.w_sp   	0
-06D5: lda.w_bp   	oldcol_062
-06D8: asl.w_A    	
-06DA: clc_imp    	
-06DB: adc.w_sp   	0
-06DE: sta.w_sp   	0
-06E1: lda_imm    	4
-06E3: sta.w_spI  	0
-06E6: adj_imm    	2
-06E8: lda.w_abs  	numwolves_005
-06EC: pha.w_imp  	
-06EE: lda_imm    	1
-06F0: xma.w_sp   	0
-06F3: sec_imp    	
-06F4: sbc.w_sp   	0
-06F7: adj_imm    	2
-06F9: sta.w_abs  	numwolves_005
-06FD: psh.w_imm16	S_069
-0701: psh.w_imm16	0
-0705: psh.w_imm16	3
-0709: jsr_abs    	_swrite
-070C: adj_imm    	6
-070E: lda.w_abs  	t_008
-0712: pha.w_imp  	
-0714: lda_imm    	4
-0716: pha.w_imp  	
-0718: jsr_abs    	_iwrite
-071B: adj_imm    	4
-071D: psh.w_imm16	S_070
-0721: psh.w_imm16	0
-0725: psh.w_imm16	16
-0729: jsr_abs    	_swrite
-072C: adj_imm    	6
-072E: lda_imm    	91
-0730: pha.w_imp  	
-0732: psh.w_imm16	0
-0736: jsr_abs    	_cwrite
-0739: adj_imm    	4
-073B: lda.w_bp   	oldrow_061
-073E: pha.w_imp  	
-0740: lda_imm    	1
-0742: pha.w_imp  	
-0744: jsr_abs    	_iwrite
-0747: adj_imm    	4
-0749: psh.w_imm16	S_071
-074D: psh.w_imm16	0
-0751: psh.w_imm16	2
-0755: jsr_abs    	_swrite
-0758: adj_imm    	6
-075A: lda.w_bp   	oldcol_062
-075D: pha.w_imp  	
-075F: lda_imm    	1
-0761: pha.w_imp  	
-0763: jsr_abs    	_iwrite
-0766: adj_imm    	4
-0768: lda_imm    	93
-076A: pha.w_imp  	
-076C: psh.w_imm16	0
-0770: jsr_abs    	_cwrite
-0773: adj_imm    	4
-0775: jsr_abs    	_writeln
-0778: jmp_abs    	L_072
-077B: lda_imm    	0
-077D: pha.w_imp  	
-077F: lda.w_bp   	oldrow_061
-0782: pha.w_imp  	
-0784: lda.w_bp   	oldcol_062
-0787: pha.w_imp  	
-0789: txa.w_imp  	
-078B: sec_imp    	
-078C: adc.w_imm16	newrow_063
-0790: pha.w_imp  	
-0792: txa.w_imp  	
-0794: sec_imp    	
-0795: adc.w_imm16	newcol_064
-0799: pha.w_imp  	
-079B: lda.w_bp   	STATIC_LINK
-079E: pha.w_imp  	
-07A0: jsr_abs    	newlocation_037
-07A3: adj_imm    	12
-07A5: lda.w_bp   	newrow_063
-07A8: pha.w_imp  	
-07AA: lda.w_bp   	oldrow_061
-07AD: xma.w_sp   	0
-07B0: cmp.w_sp   	0
-07B3: adj_imm    	2
-07B5: php_imp    	
-07B6: lda_imm    	1
-07B8: plp_imp    	
-07B9: bne_rel    	L_073
-07BB: lda_imm    	0
-07BD: pha.w_imp  	
-07BF: lda.w_bp   	newcol_064
-07C2: pha.w_imp  	
-07C4: lda.w_bp   	oldcol_062
-07C7: xma.w_sp   	0
-07CA: cmp.w_sp   	0
-07CD: adj_imm    	2
-07CF: php_imp    	
-07D0: lda_imm    	1
-07D2: plp_imp    	
-07D3: bne_rel    	L_074
-07D5: lda_imm    	0
-07D7: ora.w_sp   	0
-07DA: adj_imm    	2
-07DC: sta.w_bp   	moved_065
-07DF: lda.w_bp   	moved_065
-07E2: cmp.w_imm16	1
-07E6: beq_rel    	L_075
-07E8: jmp_abs    	L_076
-07EB: psh.w_imm16	island_002
-07EF: lda.w_bp   	newrow_063
-07F2: pha.w_imp  	
-07F4: psh.w_imm16	22
-07F8: jsr_abs    	_imul
-07FB: adj_imm    	4
-07FD: clc_imp    	
-07FE: adc.w_sp   	0
-0801: sta.w_sp   	0
-0804: lda.w_bp   	newcol_064
-0807: asl.w_A    	
-0809: clc_imp    	
-080A: adc.w_sp   	0
-080D: sta.w_sp   	0
-0810: lda.w_spI  	0
-0813: adj_imm    	2
-0815: pha.w_imp  	
-0817: lda_imm    	1
-0819: xma.w_sp   	0
-081C: cmp.w_sp   	0
-081F: adj_imm    	2
-0821: php_imp    	
-0822: lda_imm    	1
-0824: plp_imp    	
-0825: beq_rel    	L_079
-0827: lda_imm    	0
-0829: cmp.w_imm16	1
-082D: beq_rel    	L_077
-082F: jmp_abs    	L_078
-0832: psh.w_imm16	foodunits_003
-0836: lda.w_bp   	oldrow_061
-0839: dec.w_A    	
-083B: pha.w_imp  	
-083D: psh.w_imm16	18
-0841: jsr_abs    	_imul
-0844: adj_imm    	4
-0846: clc_imp    	
-0847: adc.w_sp   	0
-084A: sta.w_sp   	0
-084D: lda.w_bp   	oldcol_062
-0850: dec.w_A    	
-0852: asl.w_A    	
-0854: clc_imp    	
-0855: adc.w_sp   	0
-0858: sta.w_sp   	0
-085B: psh.w_imm16	foodunits_003
-085F: lda.w_bp   	oldrow_061
-0862: dec.w_A    	
-0864: pha.w_imp  	
-0866: psh.w_imm16	18
-086A: jsr_abs    	_imul
-086D: adj_imm    	4
-086F: clc_imp    	
-0870: adc.w_sp   	0
-0873: sta.w_sp   	0
-0876: lda.w_bp   	oldcol_062
-0879: dec.w_A    	
-087B: asl.w_A    	
-087D: clc_imp    	
-087E: adc.w_sp   	0
-0881: sta.w_sp   	0
-0884: lda.w_spI  	0
-0887: adj_imm    	2
-0889: pha.w_imp  	
-088B: lda_imm    	6
-088D: clc_imp    	
-088E: adc.w_sp   	0
-0891: adj_imm    	2
-0893: sta.w_spI  	0
-0896: adj_imm    	2
-0898: lda.w_abs  	numrabbits_006
-089C: pha.w_imp  	
-089E: lda_imm    	1
-08A0: xma.w_sp   	0
-08A3: sec_imp    	
-08A4: sbc.w_sp   	0
-08A7: adj_imm    	2
-08A9: sta.w_abs  	numrabbits_006
-08AD: psh.w_imm16	S_069
-08B1: psh.w_imm16	0
-08B5: psh.w_imm16	3
-08B9: jsr_abs    	_swrite
-08BC: adj_imm    	6
-08BE: lda.w_abs  	t_008
-08C2: pha.w_imp  	
-08C4: lda_imm    	4
-08C6: pha.w_imp  	
-08C8: jsr_abs    	_iwrite
-08CB: adj_imm    	4
-08CD: psh.w_imm16	S_080
-08D1: psh.w_imm16	0
-08D5: psh.w_imm16	19
-08D9: jsr_abs    	_swrite
-08DC: adj_imm    	6
-08DE: lda_imm    	91
-08E0: pha.w_imp  	
-08E2: psh.w_imm16	0
-08E6: jsr_abs    	_cwrite
-08E9: adj_imm    	4
-08EB: lda.w_bp   	newrow_063
-08EE: pha.w_imp  	
-08F0: lda_imm    	1
-08F2: pha.w_imp  	
-08F4: jsr_abs    	_iwrite
-08F7: adj_imm    	4
-08F9: psh.w_imm16	S_071
-08FD: psh.w_imm16	0
-0901: psh.w_imm16	2
-0905: jsr_abs    	_swrite
-0908: adj_imm    	6
-090A: lda.w_bp   	newcol_064
-090D: pha.w_imp  	
-090F: lda_imm    	1
-0911: pha.w_imp  	
-0913: jsr_abs    	_iwrite
-0916: adj_imm    	4
-0918: lda_imm    	93
-091A: pha.w_imp  	
-091C: psh.w_imm16	0
-0920: jsr_abs    	_cwrite
-0923: adj_imm    	4
-0925: jsr_abs    	_writeln
-0928: psh.w_imm16	island_002
-092C: lda.w_bp   	newrow_063
-092F: pha.w_imp  	
-0931: psh.w_imm16	22
-0935: jsr_abs    	_imul
-0938: adj_imm    	4
-093A: clc_imp    	
-093B: adc.w_sp   	0
-093E: sta.w_sp   	0
-0941: lda.w_bp   	newcol_064
-0944: asl.w_A    	
-0946: clc_imp    	
-0947: adc.w_sp   	0
-094A: sta.w_sp   	0
-094D: lda_imm    	2
-094F: sta.w_spI  	0
-0952: adj_imm    	2
-0954: psh.w_imm16	island_002
-0958: lda.w_bp   	oldrow_061
-095B: pha.w_imp  	
-095D: psh.w_imm16	22
-0961: jsr_abs    	_imul
-0964: adj_imm    	4
-0966: clc_imp    	
-0967: adc.w_sp   	0
-096A: sta.w_sp   	0
-096D: lda.w_bp   	oldcol_062
-0970: asl.w_A    	
-0972: clc_imp    	
-0973: adc.w_sp   	0
-0976: sta.w_sp   	0
-0979: lda_imm    	4
-097B: sta.w_spI  	0
-097E: adj_imm    	2
-0980: psh.w_imm16	foodunits_003
-0984: lda.w_bp   	newrow_063
-0987: dec.w_A    	
-0989: pha.w_imp  	
-098B: psh.w_imm16	18
-098F: jsr_abs    	_imul
-0992: adj_imm    	4
-0994: clc_imp    	
-0995: adc.w_sp   	0
-0998: sta.w_sp   	0
-099B: lda.w_bp   	newcol_064
-099E: dec.w_A    	
-09A0: asl.w_A    	
-09A2: clc_imp    	
-09A3: adc.w_sp   	0
-09A6: sta.w_sp   	0
-09A9: psh.w_imm16	foodunits_003
-09AD: lda.w_bp   	oldrow_061
-09B0: dec.w_A    	
-09B2: pha.w_imp  	
-09B4: psh.w_imm16	18
-09B8: jsr_abs    	_imul
-09BB: adj_imm    	4
-09BD: clc_imp    	
-09BE: adc.w_sp   	0
-09C1: sta.w_sp   	0
-09C4: lda.w_bp   	oldcol_062
-09C7: dec.w_A    	
-09C9: asl.w_A    	
-09CB: clc_imp    	
-09CC: adc.w_sp   	0
-09CF: sta.w_sp   	0
-09D2: lda.w_spI  	0
-09D5: adj_imm    	2
-09D7: sta.w_spI  	0
-09DA: adj_imm    	2
-09DC: psh.w_imm16	foodunits_003
-09E0: lda.w_bp   	oldrow_061
-09E3: dec.w_A    	
-09E5: pha.w_imp  	
-09E7: psh.w_imm16	18
-09EB: jsr_abs    	_imul
-09EE: adj_imm    	4
-09F0: clc_imp    	
-09F1: adc.w_sp   	0
-09F4: sta.w_sp   	0
-09F7: lda.w_bp   	oldcol_062
-09FA: dec.w_A    	
-09FC: asl.w_A    	
-09FE: clc_imp    	
-09FF: adc.w_sp   	0
-0A02: sta.w_sp   	0
-0A05: lda_imm    	0
-0A07: sta.w_spI  	0
-0A0A: adj_imm    	2
-0A0C: lda.w_abs  	t_008
-0A10: pha.w_imp  	
-0A12: lda_imm    	12
-0A14: pha.w_imp  	
-0A16: jsr_abs    	_idiv
-0A19: adj_imm    	4
-0A1B: swp_imp    	
-0A1C: pha.w_imp  	
-0A1E: lda_imm    	0
-0A20: xma.w_sp   	0
-0A23: cmp.w_sp   	0
-0A26: adj_imm    	2
-0A28: php_imp    	
-0A29: lda_imm    	1
-0A2B: plp_imp    	
-0A2C: beq_rel    	L_083
-0A2E: lda_imm    	0
-0A30: pha.w_imp  	
-0A32: psh.w_imm16	foodunits_003
-0A36: lda.w_bp   	newrow_063
-0A39: dec.w_A    	
-0A3B: pha.w_imp  	
-0A3D: psh.w_imm16	18
-0A41: jsr_abs    	_imul
-0A44: adj_imm    	4
-0A46: clc_imp    	
-0A47: adc.w_sp   	0
-0A4A: sta.w_sp   	0
-0A4D: lda.w_bp   	newcol_064
-0A50: dec.w_A    	
-0A52: asl.w_A    	
-0A54: clc_imp    	
-0A55: adc.w_sp   	0
-0A58: sta.w_sp   	0
-0A5B: lda.w_spI  	0
-0A5E: adj_imm    	2
-0A60: pha.w_imp  	
-0A62: lda_imm    	1
-0A64: xma.w_sp   	0
-0A67: cmp.w_sp   	0
-0A6A: adj_imm    	2
-0A6C: php_imp    	
-0A6D: lda_imm    	1
-0A6F: plp_imp    	
-0A70: bgt_rel    	L_084
-0A73: lda_imm    	0
-0A75: anl.w_sp   	0
-0A78: adj_imm    	2
-0A7A: cmp.w_imm16	1
-0A7E: beq_rel    	L_081
-0A80: jmp_abs    	L_082
-0A83: psh.w_imm16	foodunits_003
-0A87: lda.w_bp   	newrow_063
-0A8A: dec.w_A    	
-0A8C: pha.w_imp  	
-0A8E: psh.w_imm16	18
-0A92: jsr_abs    	_imul
-0A95: adj_imm    	4
-0A97: clc_imp    	
-0A98: adc.w_sp   	0
-0A9B: sta.w_sp   	0
-0A9E: lda.w_bp   	newcol_064
-0AA1: dec.w_A    	
-0AA3: asl.w_A    	
-0AA5: clc_imp    	
-0AA6: adc.w_sp   	0
-0AA9: sta.w_sp   	0
-0AAC: psh.w_imm16	foodunits_003
-0AB0: lda.w_bp   	newrow_063
-0AB3: dec.w_A    	
-0AB5: pha.w_imp  	
-0AB7: psh.w_imm16	18
-0ABB: jsr_abs    	_imul
-0ABE: adj_imm    	4
-0AC0: clc_imp    	
-0AC1: adc.w_sp   	0
-0AC4: sta.w_sp   	0
-0AC7: lda.w_bp   	newcol_064
-0ACA: dec.w_A    	
-0ACC: asl.w_A    	
-0ACE: clc_imp    	
-0ACF: adc.w_sp   	0
-0AD2: sta.w_sp   	0
-0AD5: lda.w_spI  	0
-0AD8: adj_imm    	2
-0ADA: pha.w_imp  	
-0ADC: lda_imm    	2
-0ADE: pha.w_imp  	
-0AE0: jsr_abs    	_idiv
-0AE3: adj_imm    	4
-0AE5: sta.w_spI  	0
-0AE8: adj_imm    	2
-0AEA: lda.w_bp   	moved_065
-0AED: cmp.w_imm16	1
-0AF1: beq_rel    	L_085
-0AF3: jmp_abs    	L_086
-0AF6: psh.w_imm16	island_002
-0AFA: lda.w_bp   	oldrow_061
-0AFD: pha.w_imp  	
-0AFF: psh.w_imm16	22
-0B03: jsr_abs    	_imul
-0B06: adj_imm    	4
-0B08: clc_imp    	
-0B09: adc.w_sp   	0
-0B0C: sta.w_sp   	0
-0B0F: lda.w_bp   	oldcol_062
-0B12: asl.w_A    	
-0B14: clc_imp    	
-0B15: adc.w_sp   	0
-0B18: sta.w_sp   	0
-0B1B: lda_imm    	2
-0B1D: sta.w_spI  	0
-0B20: adj_imm    	2
-0B22: psh.w_imm16	foodunits_003
-0B26: lda.w_bp   	oldrow_061
-0B29: dec.w_A    	
-0B2B: pha.w_imp  	
-0B2D: psh.w_imm16	18
-0B31: jsr_abs    	_imul
-0B34: adj_imm    	4
-0B36: clc_imp    	
-0B37: adc.w_sp   	0
-0B3A: sta.w_sp   	0
-0B3D: lda.w_bp   	oldcol_062
-0B40: dec.w_A    	
-0B42: asl.w_A    	
-0B44: clc_imp    	
-0B45: adc.w_sp   	0
-0B48: sta.w_sp   	0
-0B4B: psh.w_imm16	foodunits_003
-0B4F: lda.w_bp   	newrow_063
-0B52: dec.w_A    	
-0B54: pha.w_imp  	
-0B56: psh.w_imm16	18
-0B5A: jsr_abs    	_imul
-0B5D: adj_imm    	4
-0B5F: clc_imp    	
-0B60: adc.w_sp   	0
-0B63: sta.w_sp   	0
-0B66: lda.w_bp   	newcol_064
-0B69: dec.w_A    	
-0B6B: asl.w_A    	
-0B6D: clc_imp    	
-0B6E: adc.w_sp   	0
-0B71: sta.w_sp   	0
-0B74: lda.w_spI  	0
-0B77: adj_imm    	2
-0B79: sta.w_spI  	0
-0B7C: adj_imm    	2
-0B7E: lda.w_abs  	numwolves_005
-0B82: pha.w_imp  	
-0B84: lda_imm    	1
-0B86: clc_imp    	
-0B87: adc.w_sp   	0
-0B8A: adj_imm    	2
-0B8C: sta.w_abs  	numwolves_005
-0B90: psh.w_imm16	S_069
-0B94: psh.w_imm16	0
-0B98: psh.w_imm16	3
-0B9C: jsr_abs    	_swrite
-0B9F: adj_imm    	6
-0BA1: lda.w_abs  	t_008
-0BA5: pha.w_imp  	
-0BA7: lda_imm    	4
-0BA9: pha.w_imp  	
-0BAB: jsr_abs    	_iwrite
-0BAE: adj_imm    	4
-0BB0: psh.w_imm16	S_087
-0BB4: psh.w_imm16	0
-0BB8: psh.w_imm16	16
-0BBC: jsr_abs    	_swrite
-0BBF: adj_imm    	6
-0BC1: lda_imm    	91
-0BC3: pha.w_imp  	
-0BC5: psh.w_imm16	0
-0BC9: jsr_abs    	_cwrite
-0BCC: adj_imm    	4
-0BCE: lda.w_bp   	oldrow_061
-0BD1: pha.w_imp  	
-0BD3: lda_imm    	1
-0BD5: pha.w_imp  	
-0BD7: jsr_abs    	_iwrite
-0BDA: adj_imm    	4
-0BDC: psh.w_imm16	S_071
-0BE0: psh.w_imm16	0
-0BE4: psh.w_imm16	2
-0BE8: jsr_abs    	_swrite
-0BEB: adj_imm    	6
-0BED: lda.w_bp   	oldcol_062
-0BF0: pha.w_imp  	
-0BF2: lda_imm    	1
-0BF4: pha.w_imp  	
-0BF6: jsr_abs    	_iwrite
-0BF9: adj_imm    	4
-0BFB: lda_imm    	93
-0BFD: pha.w_imp  	
-0BFF: psh.w_imm16	0
-0C03: jsr_abs    	_cwrite
-0C06: adj_imm    	4
-0C08: jsr_abs    	_writeln
-0C0B: txs.w_imp  	
-0C0D: plx.w_imp  	
-0C0F: rts_imp    	
-0C10: phx.w_imp  	
-0C12: tsx.w_imp  	
-0C14: adj_imm    	-6
-0C16: lda_imm    	1
-0C18: pha.w_imp  	
-0C1A: lda.w_bp   	oldrow_089
-0C1D: pha.w_imp  	
-0C1F: lda.w_bp   	oldcol_090
-0C22: pha.w_imp  	
-0C24: txa.w_imp  	
-0C26: sec_imp    	
-0C27: adc.w_imm16	newrow_091
-0C2B: pha.w_imp  	
-0C2D: txa.w_imp  	
-0C2F: sec_imp    	
-0C30: adc.w_imm16	newcol_092
-0C34: pha.w_imp  	
-0C36: lda.w_bp   	STATIC_LINK
-0C39: pha.w_imp  	
-0C3B: jsr_abs    	newlocation_037
-0C3E: adj_imm    	12
-0C40: lda.w_bp   	newrow_091
-0C43: pha.w_imp  	
-0C45: lda.w_bp   	oldrow_089
-0C48: xma.w_sp   	0
-0C4B: cmp.w_sp   	0
-0C4E: adj_imm    	2
-0C50: php_imp    	
-0C51: lda_imm    	1
-0C53: plp_imp    	
-0C54: bne_rel    	L_094
-0C56: lda_imm    	0
-0C58: pha.w_imp  	
-0C5A: lda.w_bp   	newcol_092
-0C5D: pha.w_imp  	
-0C5F: lda.w_bp   	oldcol_090
-0C62: xma.w_sp   	0
-0C65: cmp.w_sp   	0
-0C68: adj_imm    	2
-0C6A: php_imp    	
-0C6B: lda_imm    	1
-0C6D: plp_imp    	
-0C6E: bne_rel    	L_095
-0C70: lda_imm    	0
-0C72: ora.w_sp   	0
-0C75: adj_imm    	2
-0C77: sta.w_bp   	moved_093
-0C7A: lda.w_bp   	moved_093
-0C7D: cmp.w_imm16	1
-0C81: beq_rel    	L_096
-0C83: jmp_abs    	L_097
-0C86: psh.w_imm16	island_002
-0C8A: lda.w_bp   	newrow_091
-0C8D: pha.w_imp  	
-0C8F: psh.w_imm16	22
-0C93: jsr_abs    	_imul
-0C96: adj_imm    	4
-0C98: clc_imp    	
-0C99: adc.w_sp   	0
-0C9C: sta.w_sp   	0
-0C9F: lda.w_bp   	newcol_092
-0CA2: asl.w_A    	
-0CA4: clc_imp    	
-0CA5: adc.w_sp   	0
-0CA8: sta.w_sp   	0
-0CAB: lda_imm    	3
-0CAD: sta.w_spI  	0
-0CB0: adj_imm    	2
-0CB2: psh.w_imm16	island_002
-0CB6: lda.w_bp   	oldrow_089
-0CB9: pha.w_imp  	
-0CBB: psh.w_imm16	22
-0CBF: jsr_abs    	_imul
-0CC2: adj_imm    	4
-0CC4: clc_imp    	
-0CC5: adc.w_sp   	0
-0CC8: sta.w_sp   	0
-0CCB: lda.w_bp   	oldcol_090
-0CCE: asl.w_A    	
-0CD0: clc_imp    	
-0CD1: adc.w_sp   	0
-0CD4: sta.w_sp   	0
-0CD7: lda_imm    	4
-0CD9: sta.w_spI  	0
-0CDC: adj_imm    	2
-0CDE: lda.w_abs  	t_008
-0CE2: pha.w_imp  	
-0CE4: lda_imm    	5
-0CE6: pha.w_imp  	
-0CE8: jsr_abs    	_idiv
-0CEB: adj_imm    	4
-0CED: swp_imp    	
-0CEE: pha.w_imp  	
-0CF0: lda_imm    	0
-0CF2: xma.w_sp   	0
-0CF5: cmp.w_sp   	0
-0CF8: adj_imm    	2
-0CFA: php_imp    	
-0CFB: lda_imm    	1
-0CFD: plp_imp    	
-0CFE: beq_rel    	L_100
-0D00: lda_imm    	0
-0D02: cmp.w_imm16	1
-0D06: beq_rel    	L_098
-0D08: jmp_abs    	L_099
-0D0B: lda.w_bp   	moved_093
-0D0E: cmp.w_imm16	1
-0D12: beq_rel    	L_101
-0D14: jmp_abs    	L_102
-0D17: psh.w_imm16	island_002
-0D1B: lda.w_bp   	oldrow_089
-0D1E: pha.w_imp  	
-0D20: psh.w_imm16	22
-0D24: jsr_abs    	_imul
-0D27: adj_imm    	4
-0D29: clc_imp    	
-0D2A: adc.w_sp   	0
-0D2D: sta.w_sp   	0
-0D30: lda.w_bp   	oldcol_090
-0D33: asl.w_A    	
-0D35: clc_imp    	
-0D36: adc.w_sp   	0
-0D39: sta.w_sp   	0
-0D3C: lda_imm    	3
-0D3E: sta.w_spI  	0
-0D41: adj_imm    	2
-0D43: lda.w_abs  	numrabbits_006
-0D47: pha.w_imp  	
-0D49: lda_imm    	1
-0D4B: clc_imp    	
-0D4C: adc.w_sp   	0
-0D4F: adj_imm    	2
-0D51: sta.w_abs  	numrabbits_006
-0D55: psh.w_imm16	S_069
-0D59: psh.w_imm16	0
-0D5D: psh.w_imm16	3
-0D61: jsr_abs    	_swrite
-0D64: adj_imm    	6
-0D66: lda.w_abs  	t_008
-0D6A: pha.w_imp  	
-0D6C: lda_imm    	4
-0D6E: pha.w_imp  	
-0D70: jsr_abs    	_iwrite
-0D73: adj_imm    	4
-0D75: psh.w_imm16	S_103
-0D79: psh.w_imm16	0
-0D7D: psh.w_imm16	18
-0D81: jsr_abs    	_swrite
-0D84: adj_imm    	6
-0D86: lda_imm    	91
-0D88: pha.w_imp  	
-0D8A: psh.w_imm16	0
-0D8E: jsr_abs    	_cwrite
-0D91: adj_imm    	4
-0D93: lda.w_bp   	oldrow_089
-0D96: pha.w_imp  	
-0D98: lda_imm    	1
-0D9A: pha.w_imp  	
-0D9C: jsr_abs    	_iwrite
-0D9F: adj_imm    	4
-0DA1: psh.w_imm16	S_071
-0DA5: psh.w_imm16	0
-0DA9: psh.w_imm16	2
-0DAD: jsr_abs    	_swrite
-0DB0: adj_imm    	6
-0DB2: lda.w_bp   	oldcol_090
-0DB5: pha.w_imp  	
-0DB7: lda_imm    	1
-0DB9: pha.w_imp  	
-0DBB: jsr_abs    	_iwrite
-0DBE: adj_imm    	4
-0DC0: lda_imm    	93
-0DC2: pha.w_imp  	
-0DC4: psh.w_imm16	0
-0DC8: jsr_abs    	_cwrite
-0DCB: adj_imm    	4
-0DCD: jsr_abs    	_writeln
-0DD0: txs.w_imp  	
-0DD2: plx.w_imp  	
-0DD4: rts_imp    	
-0DD5: phx.w_imp  	
-0DD7: tsx.w_imp  	
-0DD9: adj_imm    	-4
-0DDB: lda_imm    	1
-0DDD: sta.w_bp   	row_105
-0DE0: lda_imm    	9
-0DE2: cmp.w_bp   	row_105
-0DE5: bge_rel    	L_108
-0DE8: jmp_abs    	L_109
-0DEB: lda_imm    	1
-0DED: sta.w_bp   	col_106
-0DF0: lda_imm    	9
-0DF2: cmp.w_bp   	col_106
-0DF5: bge_rel    	L_111
-0DF8: jmp_abs    	L_112
-0DFB: psh.w_imm16	island_002
-0DFF: lda.w_bp   	row_105
-0E02: pha.w_imp  	
-0E04: psh.w_imm16	22
-0E08: jsr_abs    	_imul
-0E0B: adj_imm    	4
-0E0D: clc_imp    	
-0E0E: adc.w_sp   	0
-0E11: sta.w_sp   	0
-0E14: lda.w_bp   	col_106
-0E17: asl.w_A    	
-0E19: clc_imp    	
-0E1A: adc.w_sp   	0
-0E1D: sta.w_sp   	0
-0E20: lda.w_spI  	0
-0E23: adj_imm    	2
-0E25: pha.w_imp  	
-0E27: lda_imm    	0
-0E29: xma.w_sp   	0
-0E2C: cmp.w_sp   	0
-0E2F: adj_imm    	2
-0E31: php_imp    	
-0E32: lda_imm    	1
-0E34: plp_imp    	
-0E35: beq_rel    	L_115
-0E37: lda_imm    	0
-0E39: cmp.w_imm16	1
-0E3D: beq_rel    	L_113
-0E3F: jmp_abs    	L_114
-0E42: lda.w_bp   	row_105
-0E45: pha.w_imp  	
-0E47: lda.w_bp   	col_106
-0E4A: pha.w_imp  	
-0E4C: lda.w_bp   	STATIC_LINK
-0E4F: pha.w_imp  	
-0E51: jsr_abs    	processwolf_060
-0E54: adj_imm    	6
-0E56: inc.w_bp   	col_106
-0E59: jmp_abs    	L_110
-0E5C: dec.w_bp   	col_106
-0E5F: inc.w_bp   	row_105
-0E62: jmp_abs    	L_107
-0E65: dec.w_bp   	row_105
-0E68: lda_imm    	1
-0E6A: sta.w_bp   	row_105
-0E6D: lda_imm    	9
-0E6F: cmp.w_bp   	row_105
-0E72: bge_rel    	L_117
-0E75: jmp_abs    	L_118
-0E78: lda_imm    	1
-0E7A: sta.w_bp   	col_106
-0E7D: lda_imm    	9
-0E7F: cmp.w_bp   	col_106
-0E82: bge_rel    	L_120
-0E85: jmp_abs    	L_121
-0E88: psh.w_imm16	island_002
-0E8C: lda.w_bp   	row_105
-0E8F: pha.w_imp  	
-0E91: psh.w_imm16	22
-0E95: jsr_abs    	_imul
-0E98: adj_imm    	4
-0E9A: clc_imp    	
-0E9B: adc.w_sp   	0
-0E9E: sta.w_sp   	0
-0EA1: lda.w_bp   	col_106
-0EA4: asl.w_A    	
-0EA6: clc_imp    	
-0EA7: adc.w_sp   	0
-0EAA: sta.w_sp   	0
-0EAD: lda.w_spI  	0
-0EB0: adj_imm    	2
-0EB2: pha.w_imp  	
-0EB4: lda_imm    	1
-0EB6: xma.w_sp   	0
-0EB9: cmp.w_sp   	0
-0EBC: adj_imm    	2
-0EBE: php_imp    	
-0EBF: lda_imm    	1
-0EC1: plp_imp    	
-0EC2: beq_rel    	L_124
-0EC4: lda_imm    	0
-0EC6: cmp.w_imm16	1
-0ECA: beq_rel    	L_122
-0ECC: jmp_abs    	L_123
-0ECF: lda.w_bp   	row_105
-0ED2: pha.w_imp  	
-0ED4: lda.w_bp   	col_106
-0ED7: pha.w_imp  	
-0ED9: lda.w_bp   	STATIC_LINK
-0EDC: pha.w_imp  	
-0EDE: jsr_abs    	processrabbit_088
-0EE1: adj_imm    	6
-0EE3: inc.w_bp   	col_106
-0EE6: jmp_abs    	L_119
-0EE9: dec.w_bp   	col_106
-0EEC: inc.w_bp   	row_105
-0EEF: jmp_abs    	L_116
-0EF2: dec.w_bp   	row_105
-0EF5: txs.w_imp  	
-0EF7: plx.w_imp  	
-0EF9: rts_imp    	
-0EFA: phx.w_imp  	
-0EFC: tsx.w_imp  	
-0EFE: adj_imm    	-6
-0F00: jsr_abs    	_writeln
-0F03: psh.w_imm16	S_069
-0F07: psh.w_imm16	0
-0F0B: psh.w_imm16	3
-0F0F: jsr_abs    	_swrite
-0F12: adj_imm    	6
-0F14: lda.w_abs  	t_008
-0F18: pha.w_imp  	
-0F1A: lda_imm    	4
-0F1C: pha.w_imp  	
-0F1E: jsr_abs    	_iwrite
-0F21: adj_imm    	4
-0F23: psh.w_imm16	S_129
-0F27: psh.w_imm16	0
-0F2B: psh.w_imm16	14
-0F2F: jsr_abs    	_swrite
-0F32: adj_imm    	6
-0F34: jsr_abs    	_writeln
-0F37: jsr_abs    	_writeln
-0F3A: lda_imm    	1
-0F3C: sta.w_bp   	row_126
-0F3F: lda_imm    	9
-0F41: cmp.w_bp   	row_126
-0F44: bge_rel    	L_131
-0F47: jmp_abs    	L_132
-0F4A: lda_imm    	32
-0F4C: pha.w_imp  	
-0F4E: lda_imm    	10
-0F50: pha.w_imp  	
-0F52: jsr_abs    	_cwrite
-0F55: adj_imm    	4
-0F57: lda_imm    	1
-0F59: sta.w_bp   	col_127
-0F5C: lda_imm    	9
-0F5E: cmp.w_bp   	col_127
-0F61: bge_rel    	L_134
-0F64: jmp_abs    	L_135
-0F67: psh.w_imm16	island_002
-0F6B: lda.w_bp   	row_126
-0F6E: pha.w_imp  	
-0F70: psh.w_imm16	22
-0F74: jsr_abs    	_imul
-0F77: adj_imm    	4
-0F79: clc_imp    	
-0F7A: adc.w_sp   	0
-0F7D: sta.w_sp   	0
-0F80: lda.w_bp   	col_127
-0F83: asl.w_A    	
-0F85: clc_imp    	
-0F86: adc.w_sp   	0
-0F89: sta.w_sp   	0
-0F8C: lda.w_spI  	0
-0F8F: adj_imm    	2
-0F91: sta.w_bp   	cnts_128
-0F94: lda.w_bp   	cnts_128
-0F97: pha.w_imp  	
-0F99: lda_imm    	4
-0F9B: xma.w_sp   	0
-0F9E: cmp.w_sp   	0
-0FA1: adj_imm    	2
-0FA3: php_imp    	
-0FA4: lda_imm    	1
-0FA6: plp_imp    	
-0FA7: beq_rel    	L_138
-0FA9: lda_imm    	0
-0FAB: cmp.w_imm16	1
-0FAF: beq_rel    	L_136
-0FB1: jmp_abs    	L_137
-0FB4: psh.w_imm16	S_139
-0FB8: psh.w_imm16	0
-0FBC: psh.w_imm16	2
-0FC0: jsr_abs    	_swrite
-0FC3: adj_imm    	6
-0FC5: jmp_abs    	L_140
-0FC8: lda.w_bp   	cnts_128
-0FCB: pha.w_imp  	
-0FCD: lda_imm    	0
-0FCF: xma.w_sp   	0
-0FD2: cmp.w_sp   	0
-0FD5: adj_imm    	2
-0FD7: php_imp    	
-0FD8: lda_imm    	1
-0FDA: plp_imp    	
-0FDB: beq_rel    	L_143
-0FDD: lda_imm    	0
-0FDF: cmp.w_imm16	1
-0FE3: beq_rel    	L_141
-0FE5: jmp_abs    	L_142
-0FE8: psh.w_imm16	S_144
-0FEC: psh.w_imm16	0
-0FF0: psh.w_imm16	2
-0FF4: jsr_abs    	_swrite
-0FF7: adj_imm    	6
-0FF9: jmp_abs    	L_145
-0FFC: lda.w_bp   	cnts_128
-0FFF: pha.w_imp  	
-1001: lda_imm    	1
-1003: xma.w_sp   	0
-1006: cmp.w_sp   	0
-1009: adj_imm    	2
-100B: php_imp    	
-100C: lda_imm    	1
-100E: plp_imp    	
-100F: beq_rel    	L_148
-1011: lda_imm    	0
-1013: cmp.w_imm16	1
-1017: beq_rel    	L_146
-1019: jmp_abs    	L_147
-101C: psh.w_imm16	S_149
-1020: psh.w_imm16	0
-1024: psh.w_imm16	2
-1028: jsr_abs    	_swrite
-102B: adj_imm    	6
-102D: inc.w_bp   	col_127
-1030: jmp_abs    	L_133
-1033: dec.w_bp   	col_127
-1036: jsr_abs    	_writeln
-1039: inc.w_bp   	row_126
-103C: jmp_abs    	L_130
-103F: dec.w_bp   	row_126
-1042: txs.w_imp  	
-1044: plx.w_imp  	
-1046: rts_imp    	
-1047: phx.w_imp  	
-1049: tsx.w_imp  	
-104B: adj_imm    	-4
-104D: lda_imm    	1
-104F: sta.w_bp   	row_151
-1052: lda_imm    	9
-1054: cmp.w_bp   	row_151
-1057: bge_rel    	L_154
-105A: jmp_abs    	L_155
-105D: lda_imm    	1
-105F: sta.w_bp   	col_152
-1062: lda_imm    	9
-1064: cmp.w_bp   	col_152
-1067: bge_rel    	L_157
-106A: jmp_abs    	L_158
-106D: psh.w_imm16	island_002
-1071: lda.w_bp   	row_151
-1074: pha.w_imp  	
-1076: psh.w_imm16	22
-107A: jsr_abs    	_imul
-107D: adj_imm    	4
-107F: clc_imp    	
-1080: adc.w_sp   	0
-1083: sta.w_sp   	0
-1086: lda.w_bp   	col_152
-1089: asl.w_A    	
-108B: clc_imp    	
-108C: adc.w_sp   	0
-108F: sta.w_sp   	0
-1092: lda.w_spI  	0
-1095: adj_imm    	2
-1097: pha.w_imp  	
-1099: lda_imm    	2
-109B: xma.w_sp   	0
-109E: cmp.w_sp   	0
-10A1: adj_imm    	2
-10A3: php_imp    	
-10A4: lda_imm    	1
-10A6: plp_imp    	
-10A7: beq_rel    	L_161
-10A9: lda_imm    	0
-10AB: cmp.w_imm16	1
-10AF: beq_rel    	L_159
-10B1: jmp_abs    	L_160
-10B4: psh.w_imm16	island_002
-10B8: lda.w_bp   	row_151
-10BB: pha.w_imp  	
-10BD: psh.w_imm16	22
-10C1: jsr_abs    	_imul
-10C4: adj_imm    	4
-10C6: clc_imp    	
-10C7: adc.w_sp   	0
-10CA: sta.w_sp   	0
-10CD: lda.w_bp   	col_152
-10D0: asl.w_A    	
-10D2: clc_imp    	
-10D3: adc.w_sp   	0
-10D6: sta.w_sp   	0
-10D9: lda_imm    	0
-10DB: sta.w_spI  	0
-10DE: adj_imm    	2
-10E0: jmp_abs    	L_162
-10E3: psh.w_imm16	island_002
-10E7: lda.w_bp   	row_151
-10EA: pha.w_imp  	
-10EC: psh.w_imm16	22
-10F0: jsr_abs    	_imul
-10F3: adj_imm    	4
-10F5: clc_imp    	
-10F6: adc.w_sp   	0
-10F9: sta.w_sp   	0
-10FC: lda.w_bp   	col_152
-10FF: asl.w_A    	
-1101: clc_imp    	
-1102: adc.w_sp   	0
-1105: sta.w_sp   	0
-1108: lda.w_spI  	0
-110B: adj_imm    	2
-110D: pha.w_imp  	
-110F: lda_imm    	3
-1111: xma.w_sp   	0
-1114: cmp.w_sp   	0
-1117: adj_imm    	2
-1119: php_imp    	
-111A: lda_imm    	1
-111C: plp_imp    	
-111D: beq_rel    	L_165
-111F: lda_imm    	0
-1121: cmp.w_imm16	1
-1125: beq_rel    	L_163
-1127: jmp_abs    	L_164
-112A: psh.w_imm16	island_002
-112E: lda.w_bp   	row_151
-1131: pha.w_imp  	
-1133: psh.w_imm16	22
-1137: jsr_abs    	_imul
-113A: adj_imm    	4
-113C: clc_imp    	
-113D: adc.w_sp   	0
-1140: sta.w_sp   	0
-1143: lda.w_bp   	col_152
-1146: asl.w_A    	
-1148: clc_imp    	
-1149: adc.w_sp   	0
-114C: sta.w_sp   	0
-114F: lda_imm    	1
-1151: sta.w_spI  	0
-1154: adj_imm    	2
-1156: inc.w_bp   	col_152
-1159: jmp_abs    	L_156
-115C: dec.w_bp   	col_152
-115F: inc.w_bp   	row_151
-1162: jmp_abs    	L_153
-1165: dec.w_bp   	row_151
-1168: txs.w_imp  	
-116A: plx.w_imp  	
-116C: rts_imp    	
-116D: phx.w_imp  	
-116F: tsx.w_imp  	
-1171: phx.w_imp  	
-1173: jsr_abs    	initialize_013
-1176: adj_imm    	2
-1178: lda_imm    	0
-117A: sta.w_abs  	t_008
-117E: lda_imm    	1
-1180: sta.w_abs  	xpt_009
-1184: psh.w_imm16	seed_010
-1188: jsr_abs    	_iread
-118B: sta.w_spI  	0
-118E: adj_imm    	2
-1190: phx.w_imp  	
-1192: jsr_abs    	printisland_125
-1195: adj_imm    	2
-1197: jsr_abs    	_writeln
-119A: lda.w_abs  	t_008
-119E: pha.w_imp  	
-11A0: lda_imm    	1
-11A2: clc_imp    	
-11A3: adc.w_sp   	0
-11A6: adj_imm    	2
-11A8: sta.w_abs  	t_008
-11AC: phx.w_imp  	
-11AE: jsr_abs    	eventsoccur_104
-11B1: adj_imm    	2
-11B3: phx.w_imp  	
-11B5: jsr_abs    	resetisland_150
-11B8: adj_imm    	2
-11BA: lda.w_abs  	t_008
-11BE: pha.w_imp  	
-11C0: psh.w_imm16	printtimes_004
-11C4: lda.w_abs  	xpt_009
-11C8: dec.w_A    	
-11CA: asl.w_A    	
-11CC: clc_imp    	
-11CD: adc.w_sp   	0
-11D0: sta.w_sp   	0
-11D3: lda.w_spI  	0
-11D6: adj_imm    	2
-11D8: xma.w_sp   	0
-11DB: cmp.w_sp   	0
-11DE: adj_imm    	2
-11E0: php_imp    	
-11E1: lda_imm    	1
-11E3: plp_imp    	
-11E4: beq_rel    	L_170
-11E6: lda_imm    	0
-11E8: cmp.w_imm16	1
-11EC: beq_rel    	L_168
-11EE: jmp_abs    	L_169
-11F1: phx.w_imp  	
-11F3: jsr_abs    	printisland_125
-11F6: adj_imm    	2
-11F8: lda.w_abs  	xpt_009
-11FC: pha.w_imp  	
-11FE: lda_imm    	1
-1200: clc_imp    	
-1201: adc.w_sp   	0
-1204: adj_imm    	2
-1206: sta.w_abs  	xpt_009
-120A: lda.w_abs  	numwolves_005
-120E: pha.w_imp  	
-1210: lda_imm    	0
-1212: xma.w_sp   	0
-1215: cmp.w_sp   	0
-1218: adj_imm    	2
-121A: php_imp    	
-121B: lda_imm    	1
-121D: plp_imp    	
-121E: beq_rel    	L_171
-1220: lda_imm    	0
-1222: pha.w_imp  	
-1224: lda.w_abs  	numrabbits_006
-1228: pha.w_imp  	
-122A: lda_imm    	0
-122C: xma.w_sp   	0
-122F: cmp.w_sp   	0
-1232: adj_imm    	2
-1234: php_imp    	
-1235: lda_imm    	1
-1237: plp_imp    	
-1238: beq_rel    	L_172
-123A: lda_imm    	0
-123C: ora.w_sp   	0
-123F: adj_imm    	2
-1241: pha.w_imp  	
-1243: lda.w_abs  	xpt_009
-1247: pha.w_imp  	
-1249: lda.w_abs  	numprinttimes_007
-124D: xma.w_sp   	0
-1250: cmp.w_sp   	0
-1253: adj_imm    	2
-1255: php_imp    	
-1256: lda_imm    	1
-1258: plp_imp    	
-1259: bgt_rel    	L_173
-125C: lda_imm    	0
-125E: ora.w_sp   	0
-1261: adj_imm    	2
-1263: cmp.w_imm16	1
-1267: beq_rel    	L_167
-1269: jmp_abs    	L_166
-126C: phx.w_imp  	
-126E: jsr_abs    	printisland_125
-1271: adj_imm    	2
-1273: plx.w_imp  	
-1275: rts_imp    	
+01D0: lda_imm    	24
+01D2: pha.w_imp  	
+01D4: lda_imm    	6
+01D6: pha.w_imp  	
+01D8: jsr_abs    	_fwrite
+01DB: adj_imm    	8
+01DD: lda_imm    	100
+01DF: pha.w_imp  	
+01E1: lda.w_abs  	root_003+2
+01E5: swp_imp    	
+01E6: lda.w_abs  	root_003
+01EA: swp_imp    	
+01EB: pha.w_imp  	
+01ED: swp_imp    	
+01EE: pha.w_imp  	
+01F0: lda.w_abs  	sqroot_004+2
+01F4: swp_imp    	
+01F5: lda.w_abs  	sqroot_004
+01F9: swp_imp    	
+01FA: pha.w_imp  	
+01FC: swp_imp    	
+01FD: pha.w_imp  	
+01FF: jsr_abs    	_fsub
+0202: adj_imm    	8
+0204: swp_imp    	
+0205: pha.w_imp  	
+0207: swp_imp    	
+0208: pha.w_imp  	
+020A: jsr_abs    	_fabs
+020D: adj_imm    	4
+020F: swp_imp    	
+0210: pha.w_imp  	
+0212: swp_imp    	
+0213: pha.w_imp  	
+0215: pla.w_imp  	
+0217: swp_imp    	
+0218: pla.w_imp  	
+021A: ply.w_imp  	
+021C: pha.w_imp  	
+021E: swp_imp    	
+021F: pha.w_imp  	
+0221: phy.w_imp  	
+0223: jsr_abs    	_fconv
+0226: adj_imm    	2
+0228: ply.w_imp  	
+022A: swp.y_imp  	
+022C: ply.w_imp  	
+022E: swp_imp    	
+022F: pha.w_imp  	
+0231: swp_imp    	
+0232: pha.w_imp  	
+0234: phy.w_imp  	
+0236: swp.y_imp  	
+0238: phy.w_imp  	
+023A: jsr_abs    	_fmul
+023D: adj_imm    	8
+023F: swp_imp    	
+0240: pha.w_imp  	
+0242: swp_imp    	
+0243: pha.w_imp  	
+0245: lda.w_abs  	sqroot_004+2
+0249: swp_imp    	
+024A: lda.w_abs  	sqroot_004
+024E: swp_imp    	
+024F: pha.w_imp  	
+0251: swp_imp    	
+0252: pha.w_imp  	
+0254: jsr_abs    	_fdiv
+0257: adj_imm    	8
+0259: swp_imp    	
+025A: pha.w_imp  	
+025C: swp_imp    	
+025D: pha.w_imp  	
+025F: lda_imm    	12
+0261: pha.w_imp  	
+0263: lda_imm    	2
+0265: pha.w_imp  	
+0267: jsr_abs    	_fwrite
+026A: adj_imm    	8
+026C: lda_imm    	37
+026E: pha.w_imp  	
+0270: psh.w_imm16	0
+0274: jsr_abs    	_cwrite
+0277: adj_imm    	4
+0279: jsr_abs    	_writeln
+027C: lda.w_abs  	number_002+2
+0280: swp_imp    	
+0281: lda.w_abs  	number_002
+0285: swp_imp    	
+0286: pha.w_imp  	
+0288: swp_imp    	
+0289: pha.w_imp  	
+028B: lda.w_abs  	root_003+2
+028F: swp_imp    	
+0290: lda.w_abs  	root_003
+0294: swp_imp    	
+0295: pha.w_imp  	
+0297: swp_imp    	
+0298: pha.w_imp  	
+029A: swp_imp    	
+029B: pha.w_imp  	
+029D: swp_imp    	
+029E: pha.w_imp  	
+02A0: jsr_abs    	_fmul
+02A3: adj_imm    	8
+02A5: swp_imp    	
+02A6: pha.w_imp  	
+02A8: swp_imp    	
+02A9: pha.w_imp  	
+02AB: jsr_abs    	_fdiv
+02AE: adj_imm    	8
+02B0: swp_imp    	
+02B1: pha.w_imp  	
+02B3: swp_imp    	
+02B4: pha.w_imp  	
+02B6: lda_imm    	1
+02B8: pha.w_imp  	
+02BA: jsr_abs    	_fconv
+02BD: adj_imm    	2
+02BF: swp_imp    	
+02C0: pha.w_imp  	
+02C2: swp_imp    	
+02C3: pha.w_imp  	
+02C5: jsr_abs    	_fsub
+02C8: adj_imm    	8
+02CA: swp_imp    	
+02CB: pha.w_imp  	
+02CD: swp_imp    	
+02CE: pha.w_imp  	
+02D0: jsr_abs    	_fabs
+02D3: adj_imm    	4
+02D5: swp_imp    	
+02D6: pha.w_imp  	
+02D8: swp_imp    	
+02D9: pha.w_imp  	
+02DB: lda.w_abs  	F_020+2
+02DF: swp_imp    	
+02E0: lda.w_abs  	F_020
+02E4: swp_imp    	
+02E5: pha.w_imp  	
+02E7: swp_imp    	
+02E8: pha.w_imp  	
+02EA: jsr_abs    	_fcmp
+02ED: adj_imm    	8
+02EF: cmp.w_imm16	0
+02F3: php_imp    	
+02F4: lda_imm    	1
+02F6: plp_imp    	
+02F7: blt_rel    	L_021
+02FA: lda_imm    	0
+02FC: cmp.w_imm16	1
+0300: beq_rel    	L_019
+0302: jmp_abs    	L_018
+0305: lda.w_abs  	number_002+2
+0309: swp_imp    	
+030A: lda.w_abs  	number_002
+030E: swp_imp    	
+030F: pha.w_imp  	
+0311: swp_imp    	
+0312: pha.w_imp  	
+0314: lda_imm    	0
+0316: pha.w_imp  	
+0318: jsr_abs    	_fconv
+031B: adj_imm    	2
+031D: swp_imp    	
+031E: pha.w_imp  	
+0320: swp_imp    	
+0321: pha.w_imp  	
+0323: jsr_abs    	_fcmp
+0326: adj_imm    	8
+0328: cmp.w_imm16	0
+032C: php_imp    	
+032D: lda_imm    	1
+032F: plp_imp    	
+0330: beq_rel    	L_022
+0332: lda_imm    	0
+0334: cmp.w_imm16	1
+0338: beq_rel    	L_006
+033A: jmp_abs    	L_005
+033D: plx.w_imp  	
+033F: rts_imp    	
+0340: .DB 	4
+0344: .DB 	4
+0348: .DB 	4
+034C: .DD 	1.000000e-06
+0350: .DD 	0.000000e+00
+0354: .DS 	"*** ERROR:  number < 0"
+036A: .DS 	"Enter new number (0 to quit): "
 
 
 ----------------------------------------------------------
@@ -1962,182 +485,31 @@ Assembler Symbol Table
 
 ----------------------------------------------------------
 
-oldrow_039           => 000C =>                     
-done_045             => FFFA =>                     
-L_046                => 0425 => L_046               
-L_047                => 04FF => L_047               
-numprinttimes_007    => 1472 => numprinttimes_007   
-L_048                => 041C => L_048               
-L_049                => 042A => L_049               
-numrabbits_006       => 1470 => numrabbits_006      
-S_129                => 148E => S_069               
-S_144                => 148E => S_069               
-numwolves_005        => 146E => numwolves_005       
-L_066                => 06BC => L_066               
-L_100                => 0D02 => L_100               
-L_067                => 077B => L_067               
-xpt_009              => 1476 => xpt_009             
-L_101                => 0D17 => L_101               
-L_081                => 0A83 => L_081               
-L_068                => 06B3 => L_068               
-L_102                => 0DD0 => L_099               
-processrabbit_088    => 0C10 => processrabbit_088   
-L_082                => 0C0B => L_072               
-L_083                => 0A30 => L_083               
-S_149                => 148E => S_069               
-rowoffset_011        => 147A => rowoffset_011       
-L_084                => 0A75 => L_084               
-oldcol_040           => 000A =>                     
-L_085                => 0AF6 => L_085               
-L_086                => 0C0B => L_072               
-coloffset_012        => 1484 => coloffset_012       
-cnts_128             => FFFA =>                     
-L_120                => 0E88 => L_120               
-L_107                => 0DE0 => L_107               
-L_121                => 0EE9 => L_121               
-L_108                => 0DEB => L_108               
-L_122                => 0ECF => L_122               
-L_109                => 0E65 => L_109               
-col_016              => FFFA =>                     
-L_123                => 0EE3 => L_123               
-L_124                => 0EC6 => L_124               
-row_105              => FFFE =>                     
-moved_093            => FFFA =>                     
-newrow_091           => FFFE =>                     
-oldcol_062           => 0006 =>                     
-L_140                => 102D => L_140               
-L_141                => 0FE8 => L_141               
-L_142                => 0FFC => L_142               
-L_143                => 0FDF => L_143               
-creature_038         => 000E =>                     
-L_145                => 102D => L_140               
-L_146                => 101C => L_146               
-L_160                => 10E3 => L_160               
-L_147                => 102D => L_140               
-row_126              => FFFE =>                     
-L_161                => 10AB => L_161               
-L_148                => 1013 => L_148               
-L_162                => 1156 => L_162               
-L_163                => 112A => L_163               
-resetisland_150      => 1047 => resetisland_150     
-L_164                => 1156 => L_162               
-L_165                => 1121 => L_165               
-L_166                => 1197 => L_166               
-L_167                => 126C => L_167               
-L_168                => 11F1 => L_168               
-L_169                => 120A => L_169               
-printtimes_004       => 140A => printtimes_004      
-newcol_042           => 0006 =>                     
-S_070                => 148E => S_069               
-newcol_064           => FFFC =>                     
-S_071                => 148E => S_069               
-island_002           => 1276 => island_002          
-L_017                => 000B => L_017               
-L_030                => 021C => L_030               
-col_152              => FFFC =>                     
-L_018                => 0016 => L_018               
-L_031                => 0270 => L_031               
-L_019                => 00C8 => L_019               
-L_032                => 0284 => L_032               
-_pc65_main           => 116D => _pc65_main          
-L_033                => 0291 => L_033               
-L_034                => 02B1 => L_034               
-row_015              => FFFC =>                     
-L_050                => 04FF => L_047               
-L_051                => 04D2 => L_051               
-L_052                => 04F1 => L_052               
-oldrow_061           => 0008 =>                     
-L_053                => 050D => L_055               
-L_054                => 05FD => L_054               
-L_055                => 050D => L_055               
-L_056                => 05FD => L_054               
-newrow_041           => 0008 =>                     
-L_057                => 05B6 => L_057               
-foodunits_003        => 1368 => foodunits_003       
-printisland_125      => 0EFA => printisland_125     
-L_058                => 05D0 => L_058               
-L_072                => 0C0B => L_072               
-L_059                => 05EA => L_059               
+L_010                => 005A => L_010               
+STATIC_LINK          => 0004 => L_005               
+L_012                => 0305 => L_012               
+L_021                => 02FC => L_021               
+_pc65_main           => 0000 => _pc65_main          
+sqroot_004           => 0348 => sqroot_004          
+L_022                => 0334 => L_022               
+L_013                => 00DA => L_013               
+S_007                => 036A => S_007               
+S_016                => 0354 => S_016               
+L_014                => 00F1 => L_014               
+L_005                => 0004 => L_005               
+L_006                => 033D => L_006               
+L_015                => 00D1 => L_015               
 RETURN_VALUE         => FFFC =>                     
-L_073                => 07BD => L_073               
-S_139                => 148E => S_069               
-L_074                => 07D7 => L_074               
-L_075                => 07EB => L_075               
-L_076                => 0A0C => L_076               
-L_110                => 0DF0 => L_110               
-L_077                => 0832 => L_077               
-L_111                => 0DFB => L_111               
-L_078                => 0928 => L_078               
-moved_065            => FFFA =>                     
-newrow_063           => FFFE =>                     
-L_112                => 0E5C => L_112               
-L_079                => 0829 => L_079               
-L_113                => 0E42 => L_113               
-newlocation_037      => 03FA => newlocation_037     
-L_114                => 0E56 => L_114               
-L_094                => 0C58 => L_094               
-oldrow_089           => 0008 =>                     
-L_115                => 0E39 => L_115               
-L_095                => 0C72 => L_095               
-L_116                => 0E6D => L_116               
-L_096                => 0C86 => L_096               
-random_035           => 03A1 => random_035          
-L_130                => 0F3F => L_130               
-L_117                => 0E78 => L_117               
-L_097                => 0CDE => L_097               
-L_131                => 0F4A => L_131               
-L_118                => 0EF2 => L_118               
-L_098                => 0D0B => L_098               
-L_132                => 103F => L_132               
-L_119                => 0E7D => L_119               
-L_099                => 0DD0 => L_099               
+L_017                => 0305 => L_012               
+L_008                => 0063 => L_008               
+root_003             => 0344 => root_003            
+L_018                => 0160 => L_018               
+L_009                => 00A1 => L_009               
+F_011                => 0350 => F_011               
+F_020                => 034C => F_020               
+number_002           => 0340 => number_002          
+L_019                => 0305 => L_012               
 HIGH_RETURN_VALUE    => FFFE =>                     
-L_133                => 0F5C => L_133               
-L_134                => 0F67 => L_134               
-L_135                => 1033 => L_135               
-L_136                => 0FB4 => L_136               
-L_137                => 0FC8 => L_137               
-what_044             => FFFC =>                     
-L_138                => 0FAB => L_138               
-processwolf_060      => 0602 => processwolf_060     
-STATIC_LINK          => 0004 =>                     
-L_153                => 1052 => L_153               
-L_154                => 105D => L_154               
-oldcol_090           => 0006 =>                     
-L_155                => 1165 => L_155               
-eventsoccur_104      => 0DD5 => eventsoccur_104     
-L_156                => 1062 => L_156               
-L_170                => 11E8 => L_170               
-L_157                => 106D => L_157               
-L_171                => 1222 => L_171               
-L_158                => 115C => L_158               
-L_172                => 123C => L_172               
-L_159                => 10B4 => L_159               
-row_151              => FFFE =>                     
-L_173                => 125E => L_173               
-initialize_013       => 0000 => initialize_013      
-seed_010             => 1478 => seed_010            
-t_008                => 1474 => t_008               
-col_106              => FFFC =>                     
-limit_036            => 0006 =>                     
-adj_043              => FFFE =>                     
-col_127              => FFFC =>                     
-L_020                => 00D0 => L_020               
-L_021                => 00DB => L_021               
-S_080                => 148E => S_069               
-L_022                => 0156 => L_022               
-L_023                => 00E0 => L_023               
-S_069                => 148E => S_069               
-L_024                => 00EB => L_024               
-S_103                => 148E => S_069               
-L_025                => 014D => L_025               
-L_026                => 016A => L_026               
-newcol_092           => FFFC =>                     
-L_027                => 0177 => L_027               
-L_028                => 01FB => L_028               
-i_014                => FFFE =>                     
-S_087                => 148E => S_069               
-L_029                => 020F => L_029               
 
 
 ----------------------------------------------------------
@@ -2146,1988 +518,434 @@ Assembler Pass 2
 
 ----------------------------------------------------------
 
-					; initialize_013
+0000:				; _pc65_main
 0000: ABDA    		;			phx.w_imp  	
 0002: ABBA    		;			tsx.w_imp  	
-0004: 62FA    		;			adj_imm    	-6
-0006: A900    		;			lda_imm    	0
-0008: AB87FE  		;			sta.w_bp   	i_014
-					; L_017
-000B: A90A    		;			lda_imm    	10
-000D: ABC7FE  		;			cmp.w_bp   	i_014
-0010: AB5003  		;			bge_rel    	L_018
-0013: 4CC800  		;			jmp_abs    	L_019
-					; L_018
-0016: AB547612		;			psh.w_imm16	island_002
-001A: A900    		;			lda_imm    	0
-001C: AB48    		;			pha.w_imp  	
-001E: AB541600		;			psh.w_imm16	22
-0022: 20FFFF  		;			jsr_abs    	_imul
-0025: 6204    		;			adj_imm    	4
-0027: 18      		;			clc_imp    	
-0028: AB6300  		;			adc.w_sp   	0
-002B: AB8300  		;			sta.w_sp   	0
-002E: ABA7FE  		;			lda.w_bp   	i_014
-0031: AB0A    		;			asl.w_A    	
-0033: 18      		;			clc_imp    	
-0034: AB6300  		;			adc.w_sp   	0
-0037: AB8300  		;			sta.w_sp   	0
-003A: A905    		;			lda_imm    	5
-003C: BB8300  		;			sta.w_spI  	0
-003F: 6202    		;			adj_imm    	2
-0041: AB547612		;			psh.w_imm16	island_002
-0045: A90A    		;			lda_imm    	10
+0004:				; L_005
+0004: 20FFFF  		;			jsr_abs    	_writeln
+0007: AB546A03		;			psh.w_imm16	S_007
+000B: AB540000		;			psh.w_imm16	0
+000F: AB541E00		;			psh.w_imm16	30
+0013: 20FFFF  		;			jsr_abs    	_swrite
+0016: 6206    		;			adj_imm    	6
+0018: AB544003		;			psh.w_imm16	number_002
+001C: 20FFFF  		;			jsr_abs    	_fread
+001F: 1B      		;			swp_imp    	
+0020: A002    		;			ldy_imm    	2
+0022: AB9300  		;			sta.w_spIY 	0
+0025: 1B      		;			swp_imp    	
+0026: BB8300  		;			sta.w_spI  	0
+0029: 6202    		;			adj_imm    	2
+002B: ABADFFFF		;			lda.w_abs  	number_002+2
+002F: 1B      		;			swp_imp    	
+0030: ABAD4003		;			lda.w_abs  	number_002
+0034: 1B      		;			swp_imp    	
+0035: AB48    		;			pha.w_imp  	
+0037: 1B      		;			swp_imp    	
+0038: AB48    		;			pha.w_imp  	
+003A: A900    		;			lda_imm    	0
+003C: AB48    		;			pha.w_imp  	
+003E: 20FFFF  		;			jsr_abs    	_fconv
+0041: 6202    		;			adj_imm    	2
+0043: 1B      		;			swp_imp    	
+0044: AB48    		;			pha.w_imp  	
+0046: 1B      		;			swp_imp    	
 0047: AB48    		;			pha.w_imp  	
-0049: AB541600		;			psh.w_imm16	22
-004D: 20FFFF  		;			jsr_abs    	_imul
-0050: 6204    		;			adj_imm    	4
-0052: 18      		;			clc_imp    	
-0053: AB6300  		;			adc.w_sp   	0
-0056: AB8300  		;			sta.w_sp   	0
-0059: ABA7FE  		;			lda.w_bp   	i_014
-005C: AB0A    		;			asl.w_A    	
-005E: 18      		;			clc_imp    	
-005F: AB6300  		;			adc.w_sp   	0
-0062: AB8300  		;			sta.w_sp   	0
-0065: A905    		;			lda_imm    	5
-0067: BB8300  		;			sta.w_spI  	0
-006A: 6202    		;			adj_imm    	2
-006C: AB547612		;			psh.w_imm16	island_002
-0070: ABA7FE  		;			lda.w_bp   	i_014
-0073: AB48    		;			pha.w_imp  	
-0075: AB541600		;			psh.w_imm16	22
-0079: 20FFFF  		;			jsr_abs    	_imul
-007C: 6204    		;			adj_imm    	4
-007E: 18      		;			clc_imp    	
-007F: AB6300  		;			adc.w_sp   	0
-0082: AB8300  		;			sta.w_sp   	0
-0085: A900    		;			lda_imm    	0
-0087: AB0A    		;			asl.w_A    	
-0089: 18      		;			clc_imp    	
-008A: AB6300  		;			adc.w_sp   	0
-008D: AB8300  		;			sta.w_sp   	0
-0090: A905    		;			lda_imm    	5
-0092: BB8300  		;			sta.w_spI  	0
-0095: 6202    		;			adj_imm    	2
-0097: AB547612		;			psh.w_imm16	island_002
-009B: ABA7FE  		;			lda.w_bp   	i_014
-009E: AB48    		;			pha.w_imp  	
-00A0: AB541600		;			psh.w_imm16	22
-00A4: 20FFFF  		;			jsr_abs    	_imul
-00A7: 6204    		;			adj_imm    	4
-00A9: 18      		;			clc_imp    	
-00AA: AB6300  		;			adc.w_sp   	0
-00AD: AB8300  		;			sta.w_sp   	0
-00B0: A90A    		;			lda_imm    	10
-00B2: AB0A    		;			asl.w_A    	
-00B4: 18      		;			clc_imp    	
-00B5: AB6300  		;			adc.w_sp   	0
-00B8: AB8300  		;			sta.w_sp   	0
-00BB: A905    		;			lda_imm    	5
-00BD: BB8300  		;			sta.w_spI  	0
-00C0: 6202    		;			adj_imm    	2
-00C2: ABF7FE  		;			inc.w_bp   	i_014
-00C5: 4C0B00  		;			jmp_abs    	L_017
-					; L_019
-00C8: ABD7FE  		;			dec.w_bp   	i_014
-00CB: A901    		;			lda_imm    	1
-00CD: AB87FC  		;			sta.w_bp   	row_015
-					; L_020
-00D0: A909    		;			lda_imm    	9
-00D2: ABC7FC  		;			cmp.w_bp   	row_015
-00D5: AB5003  		;			bge_rel    	L_021
-00D8: 4C5601  		;			jmp_abs    	L_022
-					; L_021
-00DB: A901    		;			lda_imm    	1
-00DD: AB87FA  		;			sta.w_bp   	col_016
-					; L_023
-00E0: A909    		;			lda_imm    	9
-00E2: ABC7FA  		;			cmp.w_bp   	col_016
-00E5: AB5003  		;			bge_rel    	L_024
-00E8: 4C4D01  		;			jmp_abs    	L_025
-					; L_024
-00EB: AB547612		;			psh.w_imm16	island_002
-00EF: ABA7FC  		;			lda.w_bp   	row_015
-00F2: AB48    		;			pha.w_imp  	
-00F4: AB541600		;			psh.w_imm16	22
-00F8: 20FFFF  		;			jsr_abs    	_imul
-00FB: 6204    		;			adj_imm    	4
-00FD: 18      		;			clc_imp    	
-00FE: AB6300  		;			adc.w_sp   	0
-0101: AB8300  		;			sta.w_sp   	0
-0104: ABA7FA  		;			lda.w_bp   	col_016
-0107: AB0A    		;			asl.w_A    	
-0109: 18      		;			clc_imp    	
-010A: AB6300  		;			adc.w_sp   	0
-010D: AB8300  		;			sta.w_sp   	0
-0110: A904    		;			lda_imm    	4
-0112: BB8300  		;			sta.w_spI  	0
-0115: 6202    		;			adj_imm    	2
-0117: AB546813		;			psh.w_imm16	foodunits_003
-011B: ABA7FC  		;			lda.w_bp   	row_015
-011E: AB3A    		;			dec.w_A    	
+0049: 20FFFF  		;			jsr_abs    	_fcmp
+004C: 6208    		;			adj_imm    	8
+004E: ABC90000		;			cmp.w_imm16	0
+0052: 08      		;			php_imp    	
+0053: A901    		;			lda_imm    	1
+0055: 28      		;			plp_imp    	
+0056: F002    		;			beq_rel    	L_010
+0058: A900    		;			lda_imm    	0
+005A:				; L_010
+005A: ABC90100		;			cmp.w_imm16	1
+005E: F003    		;			beq_rel    	L_008
+0060: 4CA100  		;			jmp_abs    	L_009
+0063:				; L_008
+0063: ABADFFFF		;			lda.w_abs  	number_002+2
+0067: 1B      		;			swp_imp    	
+0068: ABAD4003		;			lda.w_abs  	number_002
+006C: 1B      		;			swp_imp    	
+006D: AB48    		;			pha.w_imp  	
+006F: 1B      		;			swp_imp    	
+0070: AB48    		;			pha.w_imp  	
+0072: A90C    		;			lda_imm    	12
+0074: AB48    		;			pha.w_imp  	
+0076: A906    		;			lda_imm    	6
+0078: AB48    		;			pha.w_imp  	
+007A: 20FFFF  		;			jsr_abs    	_fwrite
+007D: 6208    		;			adj_imm    	8
+007F: ABADFFFF		;			lda.w_abs  	F_011+2
+0083: 1B      		;			swp_imp    	
+0084: ABAD5003		;			lda.w_abs  	F_011
+0088: 1B      		;			swp_imp    	
+0089: AB48    		;			pha.w_imp  	
+008B: 1B      		;			swp_imp    	
+008C: AB48    		;			pha.w_imp  	
+008E: A90C    		;			lda_imm    	12
+0090: AB48    		;			pha.w_imp  	
+0092: A906    		;			lda_imm    	6
+0094: AB48    		;			pha.w_imp  	
+0096: 20FFFF  		;			jsr_abs    	_fwrite
+0099: 6208    		;			adj_imm    	8
+009B: 20FFFF  		;			jsr_abs    	_writeln
+009E: 4C0503  		;			jmp_abs    	L_012
+00A1:				; L_009
+00A1: ABADFFFF		;			lda.w_abs  	number_002+2
+00A5: 1B      		;			swp_imp    	
+00A6: ABAD4003		;			lda.w_abs  	number_002
+00AA: 1B      		;			swp_imp    	
+00AB: AB48    		;			pha.w_imp  	
+00AD: 1B      		;			swp_imp    	
+00AE: AB48    		;			pha.w_imp  	
+00B0: A900    		;			lda_imm    	0
+00B2: AB48    		;			pha.w_imp  	
+00B4: 20FFFF  		;			jsr_abs    	_fconv
+00B7: 6202    		;			adj_imm    	2
+00B9: 1B      		;			swp_imp    	
+00BA: AB48    		;			pha.w_imp  	
+00BC: 1B      		;			swp_imp    	
+00BD: AB48    		;			pha.w_imp  	
+00BF: 20FFFF  		;			jsr_abs    	_fcmp
+00C2: 6208    		;			adj_imm    	8
+00C4: ABC90000		;			cmp.w_imm16	0
+00C8: 08      		;			php_imp    	
+00C9: A901    		;			lda_imm    	1
+00CB: 28      		;			plp_imp    	
+00CC: AB7002  		;			blt_rel    	L_015
+00CF: A900    		;			lda_imm    	0
+00D1:				; L_015
+00D1: ABC90100		;			cmp.w_imm16	1
+00D5: F003    		;			beq_rel    	L_013
+00D7: 4CF100  		;			jmp_abs    	L_014
+00DA:				; L_013
+00DA: AB545403		;			psh.w_imm16	S_016
+00DE: AB540000		;			psh.w_imm16	0
+00E2: AB541600		;			psh.w_imm16	22
+00E6: 20FFFF  		;			jsr_abs    	_swrite
+00E9: 6206    		;			adj_imm    	6
+00EB: 20FFFF  		;			jsr_abs    	_writeln
+00EE: 4C0503  		;			jmp_abs    	L_012
+00F1:				; L_014
+00F1: ABADFFFF		;			lda.w_abs  	number_002+2
+00F5: 1B      		;			swp_imp    	
+00F6: ABAD4003		;			lda.w_abs  	number_002
+00FA: 1B      		;			swp_imp    	
+00FB: AB48    		;			pha.w_imp  	
+00FD: 1B      		;			swp_imp    	
+00FE: AB48    		;			pha.w_imp  	
+0100: 20FFFF  		;			jsr_abs    	_fsqrt
+0103: 6204    		;			adj_imm    	4
+0105: 1B      		;			swp_imp    	
+0106: AB8DFFFF		;			sta.w_abs  	sqroot_004+2
+010A: 1B      		;			swp_imp    	
+010B: AB8D4803		;			sta.w_abs  	sqroot_004
+010F: ABADFFFF		;			lda.w_abs  	number_002+2
+0113: 1B      		;			swp_imp    	
+0114: ABAD4003		;			lda.w_abs  	number_002
+0118: 1B      		;			swp_imp    	
+0119: AB48    		;			pha.w_imp  	
+011B: 1B      		;			swp_imp    	
+011C: AB48    		;			pha.w_imp  	
+011E: A90C    		;			lda_imm    	12
 0120: AB48    		;			pha.w_imp  	
-0122: AB541200		;			psh.w_imm16	18
-0126: 20FFFF  		;			jsr_abs    	_imul
-0129: 6204    		;			adj_imm    	4
-012B: 18      		;			clc_imp    	
-012C: AB6300  		;			adc.w_sp   	0
-012F: AB8300  		;			sta.w_sp   	0
-0132: ABA7FA  		;			lda.w_bp   	col_016
-0135: AB3A    		;			dec.w_A    	
-0137: AB0A    		;			asl.w_A    	
-0139: 18      		;			clc_imp    	
-013A: AB6300  		;			adc.w_sp   	0
-013D: AB8300  		;			sta.w_sp   	0
-0140: A900    		;			lda_imm    	0
-0142: BB8300  		;			sta.w_spI  	0
-0145: 6202    		;			adj_imm    	2
-0147: ABF7FA  		;			inc.w_bp   	col_016
-014A: 4CE000  		;			jmp_abs    	L_023
-					; L_025
-014D: ABD7FA  		;			dec.w_bp   	col_016
-0150: ABF7FC  		;			inc.w_bp   	row_015
-0153: 4CD000  		;			jmp_abs    	L_020
-					; L_022
-0156: ABD7FC  		;			dec.w_bp   	row_015
-0159: AB546E14		;			psh.w_imm16	numwolves_005
-015D: 20FFFF  		;			jsr_abs    	_iread
-0160: BB8300  		;			sta.w_spI  	0
-0163: 6202    		;			adj_imm    	2
-0165: A901    		;			lda_imm    	1
-0167: AB87FE  		;			sta.w_bp   	i_014
-					; L_026
-016A: ABAD6E14		;			lda.w_abs  	numwolves_005
-016E: ABC7FE  		;			cmp.w_bp   	i_014
-0171: AB5003  		;			bge_rel    	L_027
-0174: 4CFB01  		;			jmp_abs    	L_028
-					; L_027
-0177: AB8A    		;			txa.w_imp  	
-0179: 38      		;			sec_imp    	
-017A: AB69FCFF		;			adc.w_imm16	row_015
-017E: AB48    		;			pha.w_imp  	
-0180: 20FFFF  		;			jsr_abs    	_iread
-0183: BB8300  		;			sta.w_spI  	0
-0186: 6202    		;			adj_imm    	2
-0188: AB8A    		;			txa.w_imp  	
-018A: 38      		;			sec_imp    	
-018B: AB69FAFF		;			adc.w_imm16	col_016
-018F: AB48    		;			pha.w_imp  	
-0191: 20FFFF  		;			jsr_abs    	_iread
-0194: BB8300  		;			sta.w_spI  	0
-0197: 6202    		;			adj_imm    	2
-0199: AB547612		;			psh.w_imm16	island_002
-019D: ABA7FC  		;			lda.w_bp   	row_015
-01A0: AB48    		;			pha.w_imp  	
-01A2: AB541600		;			psh.w_imm16	22
-01A6: 20FFFF  		;			jsr_abs    	_imul
-01A9: 6204    		;			adj_imm    	4
-01AB: 18      		;			clc_imp    	
-01AC: AB6300  		;			adc.w_sp   	0
-01AF: AB8300  		;			sta.w_sp   	0
-01B2: ABA7FA  		;			lda.w_bp   	col_016
-01B5: AB0A    		;			asl.w_A    	
-01B7: 18      		;			clc_imp    	
-01B8: AB6300  		;			adc.w_sp   	0
-01BB: AB8300  		;			sta.w_sp   	0
-01BE: A900    		;			lda_imm    	0
-01C0: BB8300  		;			sta.w_spI  	0
-01C3: 6202    		;			adj_imm    	2
-01C5: AB546813		;			psh.w_imm16	foodunits_003
-01C9: ABA7FC  		;			lda.w_bp   	row_015
-01CC: AB3A    		;			dec.w_A    	
+0122: A906    		;			lda_imm    	6
+0124: AB48    		;			pha.w_imp  	
+0126: 20FFFF  		;			jsr_abs    	_fwrite
+0129: 6208    		;			adj_imm    	8
+012B: ABADFFFF		;			lda.w_abs  	sqroot_004+2
+012F: 1B      		;			swp_imp    	
+0130: ABAD4803		;			lda.w_abs  	sqroot_004
+0134: 1B      		;			swp_imp    	
+0135: AB48    		;			pha.w_imp  	
+0137: 1B      		;			swp_imp    	
+0138: AB48    		;			pha.w_imp  	
+013A: A90C    		;			lda_imm    	12
+013C: AB48    		;			pha.w_imp  	
+013E: A906    		;			lda_imm    	6
+0140: AB48    		;			pha.w_imp  	
+0142: 20FFFF  		;			jsr_abs    	_fwrite
+0145: 6208    		;			adj_imm    	8
+0147: 20FFFF  		;			jsr_abs    	_writeln
+014A: 20FFFF  		;			jsr_abs    	_writeln
+014D: A901    		;			lda_imm    	1
+014F: AB48    		;			pha.w_imp  	
+0151: 20FFFF  		;			jsr_abs    	_fconv
+0154: 6202    		;			adj_imm    	2
+0156: 1B      		;			swp_imp    	
+0157: AB8DFFFF		;			sta.w_abs  	root_003+2
+015B: 1B      		;			swp_imp    	
+015C: AB8D4403		;			sta.w_abs  	root_003
+0160:				; L_018
+0160: ABADFFFF		;			lda.w_abs  	number_002+2
+0164: 1B      		;			swp_imp    	
+0165: ABAD4003		;			lda.w_abs  	number_002
+0169: 1B      		;			swp_imp    	
+016A: AB48    		;			pha.w_imp  	
+016C: 1B      		;			swp_imp    	
+016D: AB48    		;			pha.w_imp  	
+016F: ABADFFFF		;			lda.w_abs  	root_003+2
+0173: 1B      		;			swp_imp    	
+0174: ABAD4403		;			lda.w_abs  	root_003
+0178: 1B      		;			swp_imp    	
+0179: AB48    		;			pha.w_imp  	
+017B: 1B      		;			swp_imp    	
+017C: AB48    		;			pha.w_imp  	
+017E: 20FFFF  		;			jsr_abs    	_fdiv
+0181: 6208    		;			adj_imm    	8
+0183: 1B      		;			swp_imp    	
+0184: AB48    		;			pha.w_imp  	
+0186: 1B      		;			swp_imp    	
+0187: AB48    		;			pha.w_imp  	
+0189: ABADFFFF		;			lda.w_abs  	root_003+2
+018D: 1B      		;			swp_imp    	
+018E: ABAD4403		;			lda.w_abs  	root_003
+0192: 1B      		;			swp_imp    	
+0193: AB48    		;			pha.w_imp  	
+0195: 1B      		;			swp_imp    	
+0196: AB48    		;			pha.w_imp  	
+0198: 20FFFF  		;			jsr_abs    	_fadd
+019B: 6208    		;			adj_imm    	8
+019D: 1B      		;			swp_imp    	
+019E: AB48    		;			pha.w_imp  	
+01A0: 1B      		;			swp_imp    	
+01A1: AB48    		;			pha.w_imp  	
+01A3: A902    		;			lda_imm    	2
+01A5: AB48    		;			pha.w_imp  	
+01A7: 20FFFF  		;			jsr_abs    	_fconv
+01AA: 6202    		;			adj_imm    	2
+01AC: 1B      		;			swp_imp    	
+01AD: AB48    		;			pha.w_imp  	
+01AF: 1B      		;			swp_imp    	
+01B0: AB48    		;			pha.w_imp  	
+01B2: 20FFFF  		;			jsr_abs    	_fdiv
+01B5: 6208    		;			adj_imm    	8
+01B7: 1B      		;			swp_imp    	
+01B8: AB8DFFFF		;			sta.w_abs  	root_003+2
+01BC: 1B      		;			swp_imp    	
+01BD: AB8D4403		;			sta.w_abs  	root_003
+01C1: ABADFFFF		;			lda.w_abs  	root_003+2
+01C5: 1B      		;			swp_imp    	
+01C6: ABAD4403		;			lda.w_abs  	root_003
+01CA: 1B      		;			swp_imp    	
+01CB: AB48    		;			pha.w_imp  	
+01CD: 1B      		;			swp_imp    	
 01CE: AB48    		;			pha.w_imp  	
-01D0: AB541200		;			psh.w_imm16	18
-01D4: 20FFFF  		;			jsr_abs    	_imul
-01D7: 6204    		;			adj_imm    	4
-01D9: 18      		;			clc_imp    	
-01DA: AB6300  		;			adc.w_sp   	0
-01DD: AB8300  		;			sta.w_sp   	0
-01E0: ABA7FA  		;			lda.w_bp   	col_016
-01E3: AB3A    		;			dec.w_A    	
-01E5: AB0A    		;			asl.w_A    	
-01E7: 18      		;			clc_imp    	
-01E8: AB6300  		;			adc.w_sp   	0
-01EB: AB8300  		;			sta.w_sp   	0
-01EE: A906    		;			lda_imm    	6
-01F0: BB8300  		;			sta.w_spI  	0
-01F3: 6202    		;			adj_imm    	2
-01F5: ABF7FE  		;			inc.w_bp   	i_014
-01F8: 4C6A01  		;			jmp_abs    	L_026
-					; L_028
-01FB: ABD7FE  		;			dec.w_bp   	i_014
-01FE: AB547014		;			psh.w_imm16	numrabbits_006
-0202: 20FFFF  		;			jsr_abs    	_iread
-0205: BB8300  		;			sta.w_spI  	0
-0208: 6202    		;			adj_imm    	2
-020A: A901    		;			lda_imm    	1
-020C: AB87FE  		;			sta.w_bp   	i_014
-					; L_029
-020F: ABAD7014		;			lda.w_abs  	numrabbits_006
-0213: ABC7FE  		;			cmp.w_bp   	i_014
-0216: AB5003  		;			bge_rel    	L_030
-0219: 4C7002  		;			jmp_abs    	L_031
-					; L_030
-021C: AB8A    		;			txa.w_imp  	
-021E: 38      		;			sec_imp    	
-021F: AB69FCFF		;			adc.w_imm16	row_015
-0223: AB48    		;			pha.w_imp  	
-0225: 20FFFF  		;			jsr_abs    	_iread
-0228: BB8300  		;			sta.w_spI  	0
-022B: 6202    		;			adj_imm    	2
-022D: AB8A    		;			txa.w_imp  	
-022F: 38      		;			sec_imp    	
-0230: AB69FAFF		;			adc.w_imm16	col_016
-0234: AB48    		;			pha.w_imp  	
-0236: 20FFFF  		;			jsr_abs    	_iread
-0239: BB8300  		;			sta.w_spI  	0
-023C: 6202    		;			adj_imm    	2
-023E: AB547612		;			psh.w_imm16	island_002
-0242: ABA7FC  		;			lda.w_bp   	row_015
-0245: AB48    		;			pha.w_imp  	
-0247: AB541600		;			psh.w_imm16	22
-024B: 20FFFF  		;			jsr_abs    	_imul
-024E: 6204    		;			adj_imm    	4
-0250: 18      		;			clc_imp    	
-0251: AB6300  		;			adc.w_sp   	0
-0254: AB8300  		;			sta.w_sp   	0
-0257: ABA7FA  		;			lda.w_bp   	col_016
-025A: AB0A    		;			asl.w_A    	
-025C: 18      		;			clc_imp    	
-025D: AB6300  		;			adc.w_sp   	0
-0260: AB8300  		;			sta.w_sp   	0
-0263: A901    		;			lda_imm    	1
-0265: BB8300  		;			sta.w_spI  	0
-0268: 6202    		;			adj_imm    	2
-026A: ABF7FE  		;			inc.w_bp   	i_014
-026D: 4C0F02  		;			jmp_abs    	L_029
-					; L_031
-0270: ABD7FE  		;			dec.w_bp   	i_014
-0273: AB547214		;			psh.w_imm16	numprinttimes_007
-0277: 20FFFF  		;			jsr_abs    	_iread
-027A: BB8300  		;			sta.w_spI  	0
-027D: 6202    		;			adj_imm    	2
-027F: A901    		;			lda_imm    	1
-0281: AB87FE  		;			sta.w_bp   	i_014
-					; L_032
-0284: ABAD7214		;			lda.w_abs  	numprinttimes_007
-0288: ABC7FE  		;			cmp.w_bp   	i_014
-028B: AB5003  		;			bge_rel    	L_033
-028E: 4CB102  		;			jmp_abs    	L_034
-					; L_033
-0291: AB540A14		;			psh.w_imm16	printtimes_004
-0295: ABA7FE  		;			lda.w_bp   	i_014
-0298: AB3A    		;			dec.w_A    	
-029A: AB0A    		;			asl.w_A    	
-029C: 18      		;			clc_imp    	
-029D: AB6300  		;			adc.w_sp   	0
-02A0: AB8300  		;			sta.w_sp   	0
-02A3: 20FFFF  		;			jsr_abs    	_iread
-02A6: BB8300  		;			sta.w_spI  	0
-02A9: 6202    		;			adj_imm    	2
-02AB: ABF7FE  		;			inc.w_bp   	i_014
-02AE: 4C8402  		;			jmp_abs    	L_032
-					; L_034
-02B1: ABD7FE  		;			dec.w_bp   	i_014
-02B4: AB547A14		;			psh.w_imm16	rowoffset_011
-02B8: A900    		;			lda_imm    	0
-02BA: AB0A    		;			asl.w_A    	
-02BC: 18      		;			clc_imp    	
-02BD: AB6300  		;			adc.w_sp   	0
-02C0: AB8300  		;			sta.w_sp   	0
-02C3: A900    		;			lda_imm    	0
-02C5: BB8300  		;			sta.w_spI  	0
-02C8: 6202    		;			adj_imm    	2
-02CA: AB548414		;			psh.w_imm16	coloffset_012
-02CE: A900    		;			lda_imm    	0
-02D0: AB0A    		;			asl.w_A    	
-02D2: 18      		;			clc_imp    	
-02D3: AB6300  		;			adc.w_sp   	0
-02D6: AB8300  		;			sta.w_sp   	0
-02D9: A900    		;			lda_imm    	0
-02DB: BB8300  		;			sta.w_spI  	0
-02DE: 6202    		;			adj_imm    	2
-02E0: AB547A14		;			psh.w_imm16	rowoffset_011
-02E4: A901    		;			lda_imm    	1
-02E6: AB0A    		;			asl.w_A    	
-02E8: 18      		;			clc_imp    	
-02E9: AB6300  		;			adc.w_sp   	0
-02EC: AB8300  		;			sta.w_sp   	0
-02EF: A901    		;			lda_imm    	1
-02F1: AB49FFFF		;			eor.w_imm16	-1
-02F5: AB1A    		;			inc.w_A    	
-02F7: BB8300  		;			sta.w_spI  	0
-02FA: 6202    		;			adj_imm    	2
-02FC: AB548414		;			psh.w_imm16	coloffset_012
-0300: A901    		;			lda_imm    	1
-0302: AB0A    		;			asl.w_A    	
-0304: 18      		;			clc_imp    	
-0305: AB6300  		;			adc.w_sp   	0
-0308: AB8300  		;			sta.w_sp   	0
-030B: A900    		;			lda_imm    	0
-030D: BB8300  		;			sta.w_spI  	0
-0310: 6202    		;			adj_imm    	2
-0312: AB547A14		;			psh.w_imm16	rowoffset_011
-0316: A902    		;			lda_imm    	2
-0318: AB0A    		;			asl.w_A    	
-031A: 18      		;			clc_imp    	
-031B: AB6300  		;			adc.w_sp   	0
-031E: AB8300  		;			sta.w_sp   	0
-0321: A900    		;			lda_imm    	0
-0323: BB8300  		;			sta.w_spI  	0
-0326: 6202    		;			adj_imm    	2
-0328: AB548414		;			psh.w_imm16	coloffset_012
-032C: A902    		;			lda_imm    	2
-032E: AB0A    		;			asl.w_A    	
-0330: 18      		;			clc_imp    	
-0331: AB6300  		;			adc.w_sp   	0
-0334: AB8300  		;			sta.w_sp   	0
-0337: A901    		;			lda_imm    	1
-0339: AB49FFFF		;			eor.w_imm16	-1
-033D: AB1A    		;			inc.w_A    	
-033F: BB8300  		;			sta.w_spI  	0
-0342: 6202    		;			adj_imm    	2
-0344: AB547A14		;			psh.w_imm16	rowoffset_011
-0348: A903    		;			lda_imm    	3
-034A: AB0A    		;			asl.w_A    	
-034C: 18      		;			clc_imp    	
-034D: AB6300  		;			adc.w_sp   	0
-0350: AB8300  		;			sta.w_sp   	0
-0353: A900    		;			lda_imm    	0
-0355: BB8300  		;			sta.w_spI  	0
-0358: 6202    		;			adj_imm    	2
-035A: AB548414		;			psh.w_imm16	coloffset_012
-035E: A903    		;			lda_imm    	3
-0360: AB0A    		;			asl.w_A    	
-0362: 18      		;			clc_imp    	
-0363: AB6300  		;			adc.w_sp   	0
-0366: AB8300  		;			sta.w_sp   	0
-0369: A901    		;			lda_imm    	1
-036B: BB8300  		;			sta.w_spI  	0
-036E: 6202    		;			adj_imm    	2
-0370: AB547A14		;			psh.w_imm16	rowoffset_011
-0374: A904    		;			lda_imm    	4
-0376: AB0A    		;			asl.w_A    	
-0378: 18      		;			clc_imp    	
-0379: AB6300  		;			adc.w_sp   	0
-037C: AB8300  		;			sta.w_sp   	0
-037F: A901    		;			lda_imm    	1
-0381: BB8300  		;			sta.w_spI  	0
-0384: 6202    		;			adj_imm    	2
-0386: AB548414		;			psh.w_imm16	coloffset_012
-038A: A904    		;			lda_imm    	4
-038C: AB0A    		;			asl.w_A    	
-038E: 18      		;			clc_imp    	
-038F: AB6300  		;			adc.w_sp   	0
-0392: AB8300  		;			sta.w_sp   	0
-0395: A900    		;			lda_imm    	0
-0397: BB8300  		;			sta.w_spI  	0
-039A: 6202    		;			adj_imm    	2
-039C: AB9A    		;			txs.w_imp  	
-039E: ABFA    		;			plx.w_imp  	
-03A0: 60      		;			rts_imp    	
-					; random_035
-03A1: ABDA    		;			phx.w_imp  	
-03A3: ABBA    		;			tsx.w_imp  	
-03A5: 62FC    		;			adj_imm    	-4
-03A7: ABAD7814		;			lda.w_abs  	seed_010
-03AB: AB48    		;			pha.w_imp  	
-03AD: A915    		;			lda_imm    	21
-03AF: AB48    		;			pha.w_imp  	
-03B1: 20FFFF  		;			jsr_abs    	_imul
-03B4: 6204    		;			adj_imm    	4
-03B6: AB48    		;			pha.w_imp  	
-03B8: A94D    		;			lda_imm    	77
-03BA: 18      		;			clc_imp    	
-03BB: AB6300  		;			adc.w_sp   	0
-03BE: 6202    		;			adj_imm    	2
-03C0: AB48    		;			pha.w_imp  	
-03C2: ABA90004		;			lda.w_imm16	1024
-03C6: AB48    		;			pha.w_imp  	
-03C8: 20FFFF  		;			jsr_abs    	_idiv
-03CB: 6204    		;			adj_imm    	4
-03CD: 1B      		;			swp_imp    	
-03CE: AB8D7814		;			sta.w_abs  	seed_010
-03D2: ABAD7814		;			lda.w_abs  	seed_010
-03D6: AB48    		;			pha.w_imp  	
-03D8: ABA706  		;			lda.w_bp   	limit_036
-03DB: AB48    		;			pha.w_imp  	
-03DD: 20FFFF  		;			jsr_abs    	_imul
-03E0: 6204    		;			adj_imm    	4
-03E2: AB48    		;			pha.w_imp  	
-03E4: ABA90004		;			lda.w_imm16	1024
-03E8: AB48    		;			pha.w_imp  	
-03EA: 20FFFF  		;			jsr_abs    	_idiv
-03ED: 6204    		;			adj_imm    	4
-03EF: AB87FC  		;			sta.w_bp   	RETURN_VALUE
-03F2: ABA7FC  		;			lda.w_bp   	RETURN_VALUE
-03F5: AB9A    		;			txs.w_imp  	
-03F7: ABFA    		;			plx.w_imp  	
-03F9: 60      		;			rts_imp    	
-					; newlocation_037
-03FA: ABDA    		;			phx.w_imp  	
-03FC: ABBA    		;			tsx.w_imp  	
-03FE: 62FA    		;			adj_imm    	-6
-0400: A900    		;			lda_imm    	0
-0402: AB87FA  		;			sta.w_bp   	done_045
-0405: ABA70E  		;			lda.w_bp   	creature_038
-0408: AB48    		;			pha.w_imp  	
-040A: A900    		;			lda_imm    	0
-040C: AB5C00  		;			xma.w_sp   	0
-040F: ABC300  		;			cmp.w_sp   	0
-0412: 6202    		;			adj_imm    	2
-0414: 08      		;			php_imp    	
-0415: A901    		;			lda_imm    	1
-0417: 28      		;			plp_imp    	
-0418: F002    		;			beq_rel    	L_048
-041A: A900    		;			lda_imm    	0
-					; L_048
-041C: ABC90100		;			cmp.w_imm16	1
-0420: F003    		;			beq_rel    	L_046
-0422: 4CFF04  		;			jmp_abs    	L_047
-					; L_046
-0425: A900    		;			lda_imm    	0
-0427: AB87FE  		;			sta.w_bp   	adj_043
-					; L_049
-042A: ABA7FE  		;			lda.w_bp   	adj_043
-042D: AB48    		;			pha.w_imp  	
-042F: A901    		;			lda_imm    	1
-0431: 18      		;			clc_imp    	
-0432: AB6300  		;			adc.w_sp   	0
-0435: 6202    		;			adj_imm    	2
-0437: AB87FE  		;			sta.w_bp   	adj_043
-043A: ABA708  		;			lda.w_bp   	newrow_041
-043D: AB48    		;			pha.w_imp  	
-043F: ABA70C  		;			lda.w_bp   	oldrow_039
-0442: AB48    		;			pha.w_imp  	
-0444: AB547A14		;			psh.w_imm16	rowoffset_011
-0448: ABA7FE  		;			lda.w_bp   	adj_043
-044B: AB0A    		;			asl.w_A    	
-044D: 18      		;			clc_imp    	
-044E: AB6300  		;			adc.w_sp   	0
-0451: AB8300  		;			sta.w_sp   	0
-0454: BBA300  		;			lda.w_spI  	0
-0457: 6202    		;			adj_imm    	2
-0459: 18      		;			clc_imp    	
-045A: AB6300  		;			adc.w_sp   	0
-045D: 6202    		;			adj_imm    	2
-045F: BB8300  		;			sta.w_spI  	0
-0462: 6202    		;			adj_imm    	2
-0464: ABA706  		;			lda.w_bp   	newcol_042
-0467: AB48    		;			pha.w_imp  	
-0469: ABA70A  		;			lda.w_bp   	oldcol_040
-046C: AB48    		;			pha.w_imp  	
-046E: AB548414		;			psh.w_imm16	coloffset_012
-0472: ABA7FE  		;			lda.w_bp   	adj_043
-0475: AB0A    		;			asl.w_A    	
-0477: 18      		;			clc_imp    	
-0478: AB6300  		;			adc.w_sp   	0
-047B: AB8300  		;			sta.w_sp   	0
-047E: BBA300  		;			lda.w_spI  	0
-0481: 6202    		;			adj_imm    	2
-0483: 18      		;			clc_imp    	
-0484: AB6300  		;			adc.w_sp   	0
-0487: 6202    		;			adj_imm    	2
-0489: BB8300  		;			sta.w_spI  	0
-048C: 6202    		;			adj_imm    	2
-048E: AB547612		;			psh.w_imm16	island_002
-0492: BBA708  		;			lda.w_bpI  	newrow_041
-0495: AB48    		;			pha.w_imp  	
-0497: AB541600		;			psh.w_imm16	22
-049B: 20FFFF  		;			jsr_abs    	_imul
-049E: 6204    		;			adj_imm    	4
-04A0: 18      		;			clc_imp    	
-04A1: AB6300  		;			adc.w_sp   	0
-04A4: AB8300  		;			sta.w_sp   	0
-04A7: BBA706  		;			lda.w_bpI  	newcol_042
-04AA: AB0A    		;			asl.w_A    	
-04AC: 18      		;			clc_imp    	
-04AD: AB6300  		;			adc.w_sp   	0
-04B0: AB8300  		;			sta.w_sp   	0
-04B3: BBA300  		;			lda.w_spI  	0
-04B6: 6202    		;			adj_imm    	2
-04B8: AB87FC  		;			sta.w_bp   	what_044
-04BB: ABA7FC  		;			lda.w_bp   	what_044
-04BE: AB48    		;			pha.w_imp  	
-04C0: A901    		;			lda_imm    	1
-04C2: AB5C00  		;			xma.w_sp   	0
-04C5: ABC300  		;			cmp.w_sp   	0
-04C8: 6202    		;			adj_imm    	2
-04CA: 08      		;			php_imp    	
-04CB: A901    		;			lda_imm    	1
-04CD: 28      		;			plp_imp    	
-04CE: F002    		;			beq_rel    	L_051
-04D0: A900    		;			lda_imm    	0
-					; L_051
-04D2: AB87FA  		;			sta.w_bp   	done_045
-04D5: ABA7FA  		;			lda.w_bp   	done_045
-04D8: AB48    		;			pha.w_imp  	
-04DA: ABA7FE  		;			lda.w_bp   	adj_043
-04DD: AB48    		;			pha.w_imp  	
-04DF: A904    		;			lda_imm    	4
-04E1: AB5C00  		;			xma.w_sp   	0
-04E4: ABC300  		;			cmp.w_sp   	0
-04E7: 6202    		;			adj_imm    	2
-04E9: 08      		;			php_imp    	
-04EA: A901    		;			lda_imm    	1
-04EC: 28      		;			plp_imp    	
-04ED: F002    		;			beq_rel    	L_052
-04EF: A900    		;			lda_imm    	0
-					; L_052
-04F1: AB0300  		;			ora.w_sp   	0
-04F4: 6202    		;			adj_imm    	2
-04F6: ABC90100		;			cmp.w_imm16	1
-04FA: F003    		;			beq_rel    	L_047
-04FC: 4C2A04  		;			jmp_abs    	L_049
-					; L_047
-04FF: ABA7FA  		;			lda.w_bp   	done_045
-0502: 4901    		;			eor_imm    	1
-0504: ABC90100		;			cmp.w_imm16	1
-0508: F003    		;			beq_rel    	L_055
-050A: 4CFD05  		;			jmp_abs    	L_054
-					; L_055
-050D: A905    		;			lda_imm    	5
-050F: AB48    		;			pha.w_imp  	
-0511: ABA704  		;			lda.w_bp   	STATIC_LINK
-0514: AB48    		;			pha.w_imp  	
-0516: 20A103  		;			jsr_abs    	random_035
-0519: 6204    		;			adj_imm    	4
-051B: AB87FE  		;			sta.w_bp   	adj_043
-051E: ABA708  		;			lda.w_bp   	newrow_041
-0521: AB48    		;			pha.w_imp  	
-0523: ABA70C  		;			lda.w_bp   	oldrow_039
-0526: AB48    		;			pha.w_imp  	
-0528: AB547A14		;			psh.w_imm16	rowoffset_011
-052C: ABA7FE  		;			lda.w_bp   	adj_043
-052F: AB0A    		;			asl.w_A    	
-0531: 18      		;			clc_imp    	
-0532: AB6300  		;			adc.w_sp   	0
-0535: AB8300  		;			sta.w_sp   	0
-0538: BBA300  		;			lda.w_spI  	0
-053B: 6202    		;			adj_imm    	2
-053D: 18      		;			clc_imp    	
-053E: AB6300  		;			adc.w_sp   	0
-0541: 6202    		;			adj_imm    	2
-0543: BB8300  		;			sta.w_spI  	0
-0546: 6202    		;			adj_imm    	2
-0548: ABA706  		;			lda.w_bp   	newcol_042
-054B: AB48    		;			pha.w_imp  	
-054D: ABA70A  		;			lda.w_bp   	oldcol_040
-0550: AB48    		;			pha.w_imp  	
-0552: AB548414		;			psh.w_imm16	coloffset_012
-0556: ABA7FE  		;			lda.w_bp   	adj_043
-0559: AB0A    		;			asl.w_A    	
-055B: 18      		;			clc_imp    	
-055C: AB6300  		;			adc.w_sp   	0
-055F: AB8300  		;			sta.w_sp   	0
-0562: BBA300  		;			lda.w_spI  	0
-0565: 6202    		;			adj_imm    	2
-0567: 18      		;			clc_imp    	
-0568: AB6300  		;			adc.w_sp   	0
-056B: 6202    		;			adj_imm    	2
-056D: BB8300  		;			sta.w_spI  	0
-0570: 6202    		;			adj_imm    	2
-0572: AB547612		;			psh.w_imm16	island_002
-0576: BBA708  		;			lda.w_bpI  	newrow_041
-0579: AB48    		;			pha.w_imp  	
-057B: AB541600		;			psh.w_imm16	22
-057F: 20FFFF  		;			jsr_abs    	_imul
-0582: 6204    		;			adj_imm    	4
-0584: 18      		;			clc_imp    	
-0585: AB6300  		;			adc.w_sp   	0
-0588: AB8300  		;			sta.w_sp   	0
-058B: BBA706  		;			lda.w_bpI  	newcol_042
-058E: AB0A    		;			asl.w_A    	
-0590: 18      		;			clc_imp    	
-0591: AB6300  		;			adc.w_sp   	0
-0594: AB8300  		;			sta.w_sp   	0
-0597: BBA300  		;			lda.w_spI  	0
-059A: 6202    		;			adj_imm    	2
-059C: AB87FC  		;			sta.w_bp   	what_044
-059F: ABA7FC  		;			lda.w_bp   	what_044
-05A2: AB48    		;			pha.w_imp  	
-05A4: A904    		;			lda_imm    	4
-05A6: AB5C00  		;			xma.w_sp   	0
-05A9: ABC300  		;			cmp.w_sp   	0
-05AC: 6202    		;			adj_imm    	2
-05AE: 08      		;			php_imp    	
-05AF: A901    		;			lda_imm    	1
-05B1: 28      		;			plp_imp    	
-05B2: F002    		;			beq_rel    	L_057
-05B4: A900    		;			lda_imm    	0
-					; L_057
-05B6: AB48    		;			pha.w_imp  	
-05B8: BBA708  		;			lda.w_bpI  	newrow_041
-05BB: AB48    		;			pha.w_imp  	
-05BD: ABA70C  		;			lda.w_bp   	oldrow_039
-05C0: AB5C00  		;			xma.w_sp   	0
-05C3: ABC300  		;			cmp.w_sp   	0
-05C6: 6202    		;			adj_imm    	2
-05C8: 08      		;			php_imp    	
-05C9: A901    		;			lda_imm    	1
-05CB: 28      		;			plp_imp    	
-05CC: F002    		;			beq_rel    	L_058
-05CE: A900    		;			lda_imm    	0
-					; L_058
-05D0: AB48    		;			pha.w_imp  	
-05D2: BBA706  		;			lda.w_bpI  	newcol_042
-05D5: AB48    		;			pha.w_imp  	
-05D7: ABA70A  		;			lda.w_bp   	oldcol_040
-05DA: AB5C00  		;			xma.w_sp   	0
-05DD: ABC300  		;			cmp.w_sp   	0
-05E0: 6202    		;			adj_imm    	2
-05E2: 08      		;			php_imp    	
-05E3: A901    		;			lda_imm    	1
-05E5: 28      		;			plp_imp    	
-05E6: F002    		;			beq_rel    	L_059
-05E8: A900    		;			lda_imm    	0
-					; L_059
-05EA: AB2300  		;			anl.w_sp   	0
-05ED: 6202    		;			adj_imm    	2
-05EF: AB0300  		;			ora.w_sp   	0
-05F2: 6202    		;			adj_imm    	2
-05F4: ABC90100		;			cmp.w_imm16	1
-05F8: F003    		;			beq_rel    	L_054
-05FA: 4C0D05  		;			jmp_abs    	L_055
-					; L_054
-05FD: AB9A    		;			txs.w_imp  	
-05FF: ABFA    		;			plx.w_imp  	
-0601: 60      		;			rts_imp    	
-					; processwolf_060
-0602: ABDA    		;			phx.w_imp  	
-0604: ABBA    		;			tsx.w_imp  	
-0606: 62FA    		;			adj_imm    	-6
-0608: AB546813		;			psh.w_imm16	foodunits_003
-060C: ABA708  		;			lda.w_bp   	oldrow_061
-060F: AB3A    		;			dec.w_A    	
-0611: AB48    		;			pha.w_imp  	
-0613: AB541200		;			psh.w_imm16	18
-0617: 20FFFF  		;			jsr_abs    	_imul
-061A: 6204    		;			adj_imm    	4
-061C: 18      		;			clc_imp    	
-061D: AB6300  		;			adc.w_sp   	0
-0620: AB8300  		;			sta.w_sp   	0
-0623: ABA706  		;			lda.w_bp   	oldcol_062
-0626: AB3A    		;			dec.w_A    	
-0628: AB0A    		;			asl.w_A    	
-062A: 18      		;			clc_imp    	
-062B: AB6300  		;			adc.w_sp   	0
-062E: AB8300  		;			sta.w_sp   	0
-0631: AB546813		;			psh.w_imm16	foodunits_003
-0635: ABA708  		;			lda.w_bp   	oldrow_061
-0638: AB3A    		;			dec.w_A    	
-063A: AB48    		;			pha.w_imp  	
-063C: AB541200		;			psh.w_imm16	18
-0640: 20FFFF  		;			jsr_abs    	_imul
-0643: 6204    		;			adj_imm    	4
-0645: 18      		;			clc_imp    	
-0646: AB6300  		;			adc.w_sp   	0
-0649: AB8300  		;			sta.w_sp   	0
-064C: ABA706  		;			lda.w_bp   	oldcol_062
-064F: AB3A    		;			dec.w_A    	
-0651: AB0A    		;			asl.w_A    	
-0653: 18      		;			clc_imp    	
-0654: AB6300  		;			adc.w_sp   	0
-0657: AB8300  		;			sta.w_sp   	0
-065A: BBA300  		;			lda.w_spI  	0
-065D: 6202    		;			adj_imm    	2
-065F: AB48    		;			pha.w_imp  	
-0661: A901    		;			lda_imm    	1
-0663: AB5C00  		;			xma.w_sp   	0
-0666: 38      		;			sec_imp    	
-0667: ABE300  		;			sbc.w_sp   	0
-066A: 6202    		;			adj_imm    	2
-066C: BB8300  		;			sta.w_spI  	0
-066F: 6202    		;			adj_imm    	2
-0671: AB546813		;			psh.w_imm16	foodunits_003
-0675: ABA708  		;			lda.w_bp   	oldrow_061
-0678: AB3A    		;			dec.w_A    	
-067A: AB48    		;			pha.w_imp  	
-067C: AB541200		;			psh.w_imm16	18
-0680: 20FFFF  		;			jsr_abs    	_imul
-0683: 6204    		;			adj_imm    	4
-0685: 18      		;			clc_imp    	
-0686: AB6300  		;			adc.w_sp   	0
-0689: AB8300  		;			sta.w_sp   	0
-068C: ABA706  		;			lda.w_bp   	oldcol_062
-068F: AB3A    		;			dec.w_A    	
-0691: AB0A    		;			asl.w_A    	
-0693: 18      		;			clc_imp    	
-0694: AB6300  		;			adc.w_sp   	0
-0697: AB8300  		;			sta.w_sp   	0
-069A: BBA300  		;			lda.w_spI  	0
-069D: 6202    		;			adj_imm    	2
-069F: AB48    		;			pha.w_imp  	
-06A1: A900    		;			lda_imm    	0
-06A3: AB5C00  		;			xma.w_sp   	0
-06A6: ABC300  		;			cmp.w_sp   	0
-06A9: 6202    		;			adj_imm    	2
-06AB: 08      		;			php_imp    	
-06AC: A901    		;			lda_imm    	1
-06AE: 28      		;			plp_imp    	
-06AF: F002    		;			beq_rel    	L_068
-06B1: A900    		;			lda_imm    	0
-					; L_068
-06B3: ABC90100		;			cmp.w_imm16	1
-06B7: F003    		;			beq_rel    	L_066
-06B9: 4C7B07  		;			jmp_abs    	L_067
-					; L_066
-06BC: AB547612		;			psh.w_imm16	island_002
-06C0: ABA708  		;			lda.w_bp   	oldrow_061
-06C3: AB48    		;			pha.w_imp  	
-06C5: AB541600		;			psh.w_imm16	22
-06C9: 20FFFF  		;			jsr_abs    	_imul
-06CC: 6204    		;			adj_imm    	4
-06CE: 18      		;			clc_imp    	
-06CF: AB6300  		;			adc.w_sp   	0
-06D2: AB8300  		;			sta.w_sp   	0
-06D5: ABA706  		;			lda.w_bp   	oldcol_062
-06D8: AB0A    		;			asl.w_A    	
-06DA: 18      		;			clc_imp    	
-06DB: AB6300  		;			adc.w_sp   	0
-06DE: AB8300  		;			sta.w_sp   	0
-06E1: A904    		;			lda_imm    	4
-06E3: BB8300  		;			sta.w_spI  	0
-06E6: 6202    		;			adj_imm    	2
-06E8: ABAD6E14		;			lda.w_abs  	numwolves_005
-06EC: AB48    		;			pha.w_imp  	
-06EE: A901    		;			lda_imm    	1
-06F0: AB5C00  		;			xma.w_sp   	0
-06F3: 38      		;			sec_imp    	
-06F4: ABE300  		;			sbc.w_sp   	0
-06F7: 6202    		;			adj_imm    	2
-06F9: AB8D6E14		;			sta.w_abs  	numwolves_005
-06FD: AB548E14		;			psh.w_imm16	S_069
-0701: AB540000		;			psh.w_imm16	0
-0705: AB540300		;			psh.w_imm16	3
-0709: 20FFFF  		;			jsr_abs    	_swrite
-070C: 6206    		;			adj_imm    	6
-070E: ABAD7414		;			lda.w_abs  	t_008
-0712: AB48    		;			pha.w_imp  	
-0714: A904    		;			lda_imm    	4
-0716: AB48    		;			pha.w_imp  	
-0718: 20FFFF  		;			jsr_abs    	_iwrite
-071B: 6204    		;			adj_imm    	4
-071D: AB548E14		;			psh.w_imm16	S_069
-0721: AB540000		;			psh.w_imm16	0
-0725: AB541000		;			psh.w_imm16	16
-0729: 20FFFF  		;			jsr_abs    	_swrite
-072C: 6206    		;			adj_imm    	6
-072E: A95B    		;			lda_imm    	91
-0730: AB48    		;			pha.w_imp  	
-0732: AB540000		;			psh.w_imm16	0
-0736: 20FFFF  		;			jsr_abs    	_cwrite
-0739: 6204    		;			adj_imm    	4
-073B: ABA708  		;			lda.w_bp   	oldrow_061
-073E: AB48    		;			pha.w_imp  	
-0740: A901    		;			lda_imm    	1
-0742: AB48    		;			pha.w_imp  	
-0744: 20FFFF  		;			jsr_abs    	_iwrite
-0747: 6204    		;			adj_imm    	4
-0749: AB548E14		;			psh.w_imm16	S_069
-074D: AB540000		;			psh.w_imm16	0
-0751: AB540200		;			psh.w_imm16	2
-0755: 20FFFF  		;			jsr_abs    	_swrite
-0758: 6206    		;			adj_imm    	6
-075A: ABA706  		;			lda.w_bp   	oldcol_062
-075D: AB48    		;			pha.w_imp  	
-075F: A901    		;			lda_imm    	1
-0761: AB48    		;			pha.w_imp  	
-0763: 20FFFF  		;			jsr_abs    	_iwrite
-0766: 6204    		;			adj_imm    	4
-0768: A95D    		;			lda_imm    	93
-076A: AB48    		;			pha.w_imp  	
-076C: AB540000		;			psh.w_imm16	0
-0770: 20FFFF  		;			jsr_abs    	_cwrite
-0773: 6204    		;			adj_imm    	4
-0775: 20FFFF  		;			jsr_abs    	_writeln
-0778: 4C0B0C  		;			jmp_abs    	L_072
-					; L_067
-077B: A900    		;			lda_imm    	0
-077D: AB48    		;			pha.w_imp  	
-077F: ABA708  		;			lda.w_bp   	oldrow_061
-0782: AB48    		;			pha.w_imp  	
-0784: ABA706  		;			lda.w_bp   	oldcol_062
-0787: AB48    		;			pha.w_imp  	
-0789: AB8A    		;			txa.w_imp  	
-078B: 38      		;			sec_imp    	
-078C: AB69FEFF		;			adc.w_imm16	newrow_063
-0790: AB48    		;			pha.w_imp  	
-0792: AB8A    		;			txa.w_imp  	
-0794: 38      		;			sec_imp    	
-0795: AB69FCFF		;			adc.w_imm16	newcol_064
-0799: AB48    		;			pha.w_imp  	
-079B: ABA704  		;			lda.w_bp   	STATIC_LINK
-079E: AB48    		;			pha.w_imp  	
-07A0: 20FA03  		;			jsr_abs    	newlocation_037
-07A3: 620C    		;			adj_imm    	12
-07A5: ABA7FE  		;			lda.w_bp   	newrow_063
-07A8: AB48    		;			pha.w_imp  	
-07AA: ABA708  		;			lda.w_bp   	oldrow_061
-07AD: AB5C00  		;			xma.w_sp   	0
-07B0: ABC300  		;			cmp.w_sp   	0
-07B3: 6202    		;			adj_imm    	2
-07B5: 08      		;			php_imp    	
-07B6: A901    		;			lda_imm    	1
-07B8: 28      		;			plp_imp    	
-07B9: D002    		;			bne_rel    	L_073
-07BB: A900    		;			lda_imm    	0
-					; L_073
-07BD: AB48    		;			pha.w_imp  	
-07BF: ABA7FC  		;			lda.w_bp   	newcol_064
-07C2: AB48    		;			pha.w_imp  	
-07C4: ABA706  		;			lda.w_bp   	oldcol_062
-07C7: AB5C00  		;			xma.w_sp   	0
-07CA: ABC300  		;			cmp.w_sp   	0
-07CD: 6202    		;			adj_imm    	2
-07CF: 08      		;			php_imp    	
-07D0: A901    		;			lda_imm    	1
-07D2: 28      		;			plp_imp    	
-07D3: D002    		;			bne_rel    	L_074
-07D5: A900    		;			lda_imm    	0
-					; L_074
-07D7: AB0300  		;			ora.w_sp   	0
-07DA: 6202    		;			adj_imm    	2
-07DC: AB87FA  		;			sta.w_bp   	moved_065
-07DF: ABA7FA  		;			lda.w_bp   	moved_065
-07E2: ABC90100		;			cmp.w_imm16	1
-07E6: F003    		;			beq_rel    	L_075
-07E8: 4C0C0A  		;			jmp_abs    	L_076
-					; L_075
-07EB: AB547612		;			psh.w_imm16	island_002
-07EF: ABA7FE  		;			lda.w_bp   	newrow_063
-07F2: AB48    		;			pha.w_imp  	
-07F4: AB541600		;			psh.w_imm16	22
-07F8: 20FFFF  		;			jsr_abs    	_imul
-07FB: 6204    		;			adj_imm    	4
-07FD: 18      		;			clc_imp    	
-07FE: AB6300  		;			adc.w_sp   	0
-0801: AB8300  		;			sta.w_sp   	0
-0804: ABA7FC  		;			lda.w_bp   	newcol_064
-0807: AB0A    		;			asl.w_A    	
-0809: 18      		;			clc_imp    	
-080A: AB6300  		;			adc.w_sp   	0
-080D: AB8300  		;			sta.w_sp   	0
-0810: BBA300  		;			lda.w_spI  	0
-0813: 6202    		;			adj_imm    	2
-0815: AB48    		;			pha.w_imp  	
-0817: A901    		;			lda_imm    	1
-0819: AB5C00  		;			xma.w_sp   	0
-081C: ABC300  		;			cmp.w_sp   	0
-081F: 6202    		;			adj_imm    	2
-0821: 08      		;			php_imp    	
-0822: A901    		;			lda_imm    	1
-0824: 28      		;			plp_imp    	
-0825: F002    		;			beq_rel    	L_079
-0827: A900    		;			lda_imm    	0
-					; L_079
-0829: ABC90100		;			cmp.w_imm16	1
-082D: F003    		;			beq_rel    	L_077
-082F: 4C2809  		;			jmp_abs    	L_078
-					; L_077
-0832: AB546813		;			psh.w_imm16	foodunits_003
-0836: ABA708  		;			lda.w_bp   	oldrow_061
-0839: AB3A    		;			dec.w_A    	
-083B: AB48    		;			pha.w_imp  	
-083D: AB541200		;			psh.w_imm16	18
-0841: 20FFFF  		;			jsr_abs    	_imul
-0844: 6204    		;			adj_imm    	4
-0846: 18      		;			clc_imp    	
-0847: AB6300  		;			adc.w_sp   	0
-084A: AB8300  		;			sta.w_sp   	0
-084D: ABA706  		;			lda.w_bp   	oldcol_062
-0850: AB3A    		;			dec.w_A    	
-0852: AB0A    		;			asl.w_A    	
-0854: 18      		;			clc_imp    	
-0855: AB6300  		;			adc.w_sp   	0
-0858: AB8300  		;			sta.w_sp   	0
-085B: AB546813		;			psh.w_imm16	foodunits_003
-085F: ABA708  		;			lda.w_bp   	oldrow_061
-0862: AB3A    		;			dec.w_A    	
-0864: AB48    		;			pha.w_imp  	
-0866: AB541200		;			psh.w_imm16	18
-086A: 20FFFF  		;			jsr_abs    	_imul
-086D: 6204    		;			adj_imm    	4
-086F: 18      		;			clc_imp    	
-0870: AB6300  		;			adc.w_sp   	0
-0873: AB8300  		;			sta.w_sp   	0
-0876: ABA706  		;			lda.w_bp   	oldcol_062
-0879: AB3A    		;			dec.w_A    	
-087B: AB0A    		;			asl.w_A    	
-087D: 18      		;			clc_imp    	
-087E: AB6300  		;			adc.w_sp   	0
-0881: AB8300  		;			sta.w_sp   	0
-0884: BBA300  		;			lda.w_spI  	0
-0887: 6202    		;			adj_imm    	2
-0889: AB48    		;			pha.w_imp  	
-088B: A906    		;			lda_imm    	6
-088D: 18      		;			clc_imp    	
-088E: AB6300  		;			adc.w_sp   	0
-0891: 6202    		;			adj_imm    	2
-0893: BB8300  		;			sta.w_spI  	0
-0896: 6202    		;			adj_imm    	2
-0898: ABAD7014		;			lda.w_abs  	numrabbits_006
-089C: AB48    		;			pha.w_imp  	
-089E: A901    		;			lda_imm    	1
-08A0: AB5C00  		;			xma.w_sp   	0
-08A3: 38      		;			sec_imp    	
-08A4: ABE300  		;			sbc.w_sp   	0
-08A7: 6202    		;			adj_imm    	2
-08A9: AB8D7014		;			sta.w_abs  	numrabbits_006
-08AD: AB548E14		;			psh.w_imm16	S_069
-08B1: AB540000		;			psh.w_imm16	0
-08B5: AB540300		;			psh.w_imm16	3
-08B9: 20FFFF  		;			jsr_abs    	_swrite
-08BC: 6206    		;			adj_imm    	6
-08BE: ABAD7414		;			lda.w_abs  	t_008
-08C2: AB48    		;			pha.w_imp  	
-08C4: A904    		;			lda_imm    	4
-08C6: AB48    		;			pha.w_imp  	
-08C8: 20FFFF  		;			jsr_abs    	_iwrite
-08CB: 6204    		;			adj_imm    	4
-08CD: AB548E14		;			psh.w_imm16	S_069
-08D1: AB540000		;			psh.w_imm16	0
-08D5: AB541300		;			psh.w_imm16	19
-08D9: 20FFFF  		;			jsr_abs    	_swrite
-08DC: 6206    		;			adj_imm    	6
-08DE: A95B    		;			lda_imm    	91
-08E0: AB48    		;			pha.w_imp  	
-08E2: AB540000		;			psh.w_imm16	0
-08E6: 20FFFF  		;			jsr_abs    	_cwrite
-08E9: 6204    		;			adj_imm    	4
-08EB: ABA7FE  		;			lda.w_bp   	newrow_063
-08EE: AB48    		;			pha.w_imp  	
-08F0: A901    		;			lda_imm    	1
-08F2: AB48    		;			pha.w_imp  	
-08F4: 20FFFF  		;			jsr_abs    	_iwrite
-08F7: 6204    		;			adj_imm    	4
-08F9: AB548E14		;			psh.w_imm16	S_069
-08FD: AB540000		;			psh.w_imm16	0
-0901: AB540200		;			psh.w_imm16	2
-0905: 20FFFF  		;			jsr_abs    	_swrite
-0908: 6206    		;			adj_imm    	6
-090A: ABA7FC  		;			lda.w_bp   	newcol_064
-090D: AB48    		;			pha.w_imp  	
-090F: A901    		;			lda_imm    	1
-0911: AB48    		;			pha.w_imp  	
-0913: 20FFFF  		;			jsr_abs    	_iwrite
-0916: 6204    		;			adj_imm    	4
-0918: A95D    		;			lda_imm    	93
-091A: AB48    		;			pha.w_imp  	
-091C: AB540000		;			psh.w_imm16	0
-0920: 20FFFF  		;			jsr_abs    	_cwrite
-0923: 6204    		;			adj_imm    	4
-0925: 20FFFF  		;			jsr_abs    	_writeln
-					; L_078
-0928: AB547612		;			psh.w_imm16	island_002
-092C: ABA7FE  		;			lda.w_bp   	newrow_063
-092F: AB48    		;			pha.w_imp  	
-0931: AB541600		;			psh.w_imm16	22
-0935: 20FFFF  		;			jsr_abs    	_imul
-0938: 6204    		;			adj_imm    	4
-093A: 18      		;			clc_imp    	
-093B: AB6300  		;			adc.w_sp   	0
-093E: AB8300  		;			sta.w_sp   	0
-0941: ABA7FC  		;			lda.w_bp   	newcol_064
-0944: AB0A    		;			asl.w_A    	
-0946: 18      		;			clc_imp    	
-0947: AB6300  		;			adc.w_sp   	0
-094A: AB8300  		;			sta.w_sp   	0
-094D: A902    		;			lda_imm    	2
-094F: BB8300  		;			sta.w_spI  	0
-0952: 6202    		;			adj_imm    	2
-0954: AB547612		;			psh.w_imm16	island_002
-0958: ABA708  		;			lda.w_bp   	oldrow_061
-095B: AB48    		;			pha.w_imp  	
-095D: AB541600		;			psh.w_imm16	22
-0961: 20FFFF  		;			jsr_abs    	_imul
-0964: 6204    		;			adj_imm    	4
-0966: 18      		;			clc_imp    	
-0967: AB6300  		;			adc.w_sp   	0
-096A: AB8300  		;			sta.w_sp   	0
-096D: ABA706  		;			lda.w_bp   	oldcol_062
-0970: AB0A    		;			asl.w_A    	
-0972: 18      		;			clc_imp    	
-0973: AB6300  		;			adc.w_sp   	0
-0976: AB8300  		;			sta.w_sp   	0
-0979: A904    		;			lda_imm    	4
-097B: BB8300  		;			sta.w_spI  	0
-097E: 6202    		;			adj_imm    	2
-0980: AB546813		;			psh.w_imm16	foodunits_003
-0984: ABA7FE  		;			lda.w_bp   	newrow_063
-0987: AB3A    		;			dec.w_A    	
-0989: AB48    		;			pha.w_imp  	
-098B: AB541200		;			psh.w_imm16	18
-098F: 20FFFF  		;			jsr_abs    	_imul
-0992: 6204    		;			adj_imm    	4
-0994: 18      		;			clc_imp    	
-0995: AB6300  		;			adc.w_sp   	0
-0998: AB8300  		;			sta.w_sp   	0
-099B: ABA7FC  		;			lda.w_bp   	newcol_064
-099E: AB3A    		;			dec.w_A    	
-09A0: AB0A    		;			asl.w_A    	
-09A2: 18      		;			clc_imp    	
-09A3: AB6300  		;			adc.w_sp   	0
-09A6: AB8300  		;			sta.w_sp   	0
-09A9: AB546813		;			psh.w_imm16	foodunits_003
-09AD: ABA708  		;			lda.w_bp   	oldrow_061
-09B0: AB3A    		;			dec.w_A    	
-09B2: AB48    		;			pha.w_imp  	
-09B4: AB541200		;			psh.w_imm16	18
-09B8: 20FFFF  		;			jsr_abs    	_imul
-09BB: 6204    		;			adj_imm    	4
-09BD: 18      		;			clc_imp    	
-09BE: AB6300  		;			adc.w_sp   	0
-09C1: AB8300  		;			sta.w_sp   	0
-09C4: ABA706  		;			lda.w_bp   	oldcol_062
-09C7: AB3A    		;			dec.w_A    	
-09C9: AB0A    		;			asl.w_A    	
-09CB: 18      		;			clc_imp    	
-09CC: AB6300  		;			adc.w_sp   	0
-09CF: AB8300  		;			sta.w_sp   	0
-09D2: BBA300  		;			lda.w_spI  	0
-09D5: 6202    		;			adj_imm    	2
-09D7: BB8300  		;			sta.w_spI  	0
-09DA: 6202    		;			adj_imm    	2
-09DC: AB546813		;			psh.w_imm16	foodunits_003
-09E0: ABA708  		;			lda.w_bp   	oldrow_061
-09E3: AB3A    		;			dec.w_A    	
-09E5: AB48    		;			pha.w_imp  	
-09E7: AB541200		;			psh.w_imm16	18
-09EB: 20FFFF  		;			jsr_abs    	_imul
-09EE: 6204    		;			adj_imm    	4
-09F0: 18      		;			clc_imp    	
-09F1: AB6300  		;			adc.w_sp   	0
-09F4: AB8300  		;			sta.w_sp   	0
-09F7: ABA706  		;			lda.w_bp   	oldcol_062
-09FA: AB3A    		;			dec.w_A    	
-09FC: AB0A    		;			asl.w_A    	
-09FE: 18      		;			clc_imp    	
-09FF: AB6300  		;			adc.w_sp   	0
-0A02: AB8300  		;			sta.w_sp   	0
-0A05: A900    		;			lda_imm    	0
-0A07: BB8300  		;			sta.w_spI  	0
-0A0A: 6202    		;			adj_imm    	2
-					; L_076
-0A0C: ABAD7414		;			lda.w_abs  	t_008
-0A10: AB48    		;			pha.w_imp  	
-0A12: A90C    		;			lda_imm    	12
-0A14: AB48    		;			pha.w_imp  	
-0A16: 20FFFF  		;			jsr_abs    	_idiv
-0A19: 6204    		;			adj_imm    	4
-0A1B: 1B      		;			swp_imp    	
-0A1C: AB48    		;			pha.w_imp  	
-0A1E: A900    		;			lda_imm    	0
-0A20: AB5C00  		;			xma.w_sp   	0
-0A23: ABC300  		;			cmp.w_sp   	0
-0A26: 6202    		;			adj_imm    	2
-0A28: 08      		;			php_imp    	
-0A29: A901    		;			lda_imm    	1
-0A2B: 28      		;			plp_imp    	
-0A2C: F002    		;			beq_rel    	L_083
-0A2E: A900    		;			lda_imm    	0
-					; L_083
-0A30: AB48    		;			pha.w_imp  	
-0A32: AB546813		;			psh.w_imm16	foodunits_003
-0A36: ABA7FE  		;			lda.w_bp   	newrow_063
-0A39: AB3A    		;			dec.w_A    	
-0A3B: AB48    		;			pha.w_imp  	
-0A3D: AB541200		;			psh.w_imm16	18
-0A41: 20FFFF  		;			jsr_abs    	_imul
-0A44: 6204    		;			adj_imm    	4
-0A46: 18      		;			clc_imp    	
-0A47: AB6300  		;			adc.w_sp   	0
-0A4A: AB8300  		;			sta.w_sp   	0
-0A4D: ABA7FC  		;			lda.w_bp   	newcol_064
-0A50: AB3A    		;			dec.w_A    	
-0A52: AB0A    		;			asl.w_A    	
-0A54: 18      		;			clc_imp    	
-0A55: AB6300  		;			adc.w_sp   	0
-0A58: AB8300  		;			sta.w_sp   	0
-0A5B: BBA300  		;			lda.w_spI  	0
-0A5E: 6202    		;			adj_imm    	2
-0A60: AB48    		;			pha.w_imp  	
-0A62: A901    		;			lda_imm    	1
-0A64: AB5C00  		;			xma.w_sp   	0
-0A67: ABC300  		;			cmp.w_sp   	0
-0A6A: 6202    		;			adj_imm    	2
-0A6C: 08      		;			php_imp    	
-0A6D: A901    		;			lda_imm    	1
-0A6F: 28      		;			plp_imp    	
-0A70: AB1002  		;			bgt_rel    	L_084
-0A73: A900    		;			lda_imm    	0
-					; L_084
-0A75: AB2300  		;			anl.w_sp   	0
-0A78: 6202    		;			adj_imm    	2
-0A7A: ABC90100		;			cmp.w_imm16	1
-0A7E: F003    		;			beq_rel    	L_081
-0A80: 4C0B0C  		;			jmp_abs    	L_072
-					; L_081
-0A83: AB546813		;			psh.w_imm16	foodunits_003
-0A87: ABA7FE  		;			lda.w_bp   	newrow_063
-0A8A: AB3A    		;			dec.w_A    	
-0A8C: AB48    		;			pha.w_imp  	
-0A8E: AB541200		;			psh.w_imm16	18
-0A92: 20FFFF  		;			jsr_abs    	_imul
-0A95: 6204    		;			adj_imm    	4
-0A97: 18      		;			clc_imp    	
-0A98: AB6300  		;			adc.w_sp   	0
-0A9B: AB8300  		;			sta.w_sp   	0
-0A9E: ABA7FC  		;			lda.w_bp   	newcol_064
-0AA1: AB3A    		;			dec.w_A    	
-0AA3: AB0A    		;			asl.w_A    	
-0AA5: 18      		;			clc_imp    	
-0AA6: AB6300  		;			adc.w_sp   	0
-0AA9: AB8300  		;			sta.w_sp   	0
-0AAC: AB546813		;			psh.w_imm16	foodunits_003
-0AB0: ABA7FE  		;			lda.w_bp   	newrow_063
-0AB3: AB3A    		;			dec.w_A    	
-0AB5: AB48    		;			pha.w_imp  	
-0AB7: AB541200		;			psh.w_imm16	18
-0ABB: 20FFFF  		;			jsr_abs    	_imul
-0ABE: 6204    		;			adj_imm    	4
-0AC0: 18      		;			clc_imp    	
-0AC1: AB6300  		;			adc.w_sp   	0
-0AC4: AB8300  		;			sta.w_sp   	0
-0AC7: ABA7FC  		;			lda.w_bp   	newcol_064
-0ACA: AB3A    		;			dec.w_A    	
-0ACC: AB0A    		;			asl.w_A    	
-0ACE: 18      		;			clc_imp    	
-0ACF: AB6300  		;			adc.w_sp   	0
-0AD2: AB8300  		;			sta.w_sp   	0
-0AD5: BBA300  		;			lda.w_spI  	0
-0AD8: 6202    		;			adj_imm    	2
-0ADA: AB48    		;			pha.w_imp  	
-0ADC: A902    		;			lda_imm    	2
-0ADE: AB48    		;			pha.w_imp  	
-0AE0: 20FFFF  		;			jsr_abs    	_idiv
-0AE3: 6204    		;			adj_imm    	4
-0AE5: BB8300  		;			sta.w_spI  	0
-0AE8: 6202    		;			adj_imm    	2
-0AEA: ABA7FA  		;			lda.w_bp   	moved_065
-0AED: ABC90100		;			cmp.w_imm16	1
-0AF1: F003    		;			beq_rel    	L_085
-0AF3: 4C0B0C  		;			jmp_abs    	L_072
-					; L_085
-0AF6: AB547612		;			psh.w_imm16	island_002
-0AFA: ABA708  		;			lda.w_bp   	oldrow_061
-0AFD: AB48    		;			pha.w_imp  	
-0AFF: AB541600		;			psh.w_imm16	22
-0B03: 20FFFF  		;			jsr_abs    	_imul
-0B06: 6204    		;			adj_imm    	4
-0B08: 18      		;			clc_imp    	
-0B09: AB6300  		;			adc.w_sp   	0
-0B0C: AB8300  		;			sta.w_sp   	0
-0B0F: ABA706  		;			lda.w_bp   	oldcol_062
-0B12: AB0A    		;			asl.w_A    	
-0B14: 18      		;			clc_imp    	
-0B15: AB6300  		;			adc.w_sp   	0
-0B18: AB8300  		;			sta.w_sp   	0
-0B1B: A902    		;			lda_imm    	2
-0B1D: BB8300  		;			sta.w_spI  	0
-0B20: 6202    		;			adj_imm    	2
-0B22: AB546813		;			psh.w_imm16	foodunits_003
-0B26: ABA708  		;			lda.w_bp   	oldrow_061
-0B29: AB3A    		;			dec.w_A    	
-0B2B: AB48    		;			pha.w_imp  	
-0B2D: AB541200		;			psh.w_imm16	18
-0B31: 20FFFF  		;			jsr_abs    	_imul
-0B34: 6204    		;			adj_imm    	4
-0B36: 18      		;			clc_imp    	
-0B37: AB6300  		;			adc.w_sp   	0
-0B3A: AB8300  		;			sta.w_sp   	0
-0B3D: ABA706  		;			lda.w_bp   	oldcol_062
-0B40: AB3A    		;			dec.w_A    	
-0B42: AB0A    		;			asl.w_A    	
-0B44: 18      		;			clc_imp    	
-0B45: AB6300  		;			adc.w_sp   	0
-0B48: AB8300  		;			sta.w_sp   	0
-0B4B: AB546813		;			psh.w_imm16	foodunits_003
-0B4F: ABA7FE  		;			lda.w_bp   	newrow_063
-0B52: AB3A    		;			dec.w_A    	
-0B54: AB48    		;			pha.w_imp  	
-0B56: AB541200		;			psh.w_imm16	18
-0B5A: 20FFFF  		;			jsr_abs    	_imul
-0B5D: 6204    		;			adj_imm    	4
-0B5F: 18      		;			clc_imp    	
-0B60: AB6300  		;			adc.w_sp   	0
-0B63: AB8300  		;			sta.w_sp   	0
-0B66: ABA7FC  		;			lda.w_bp   	newcol_064
-0B69: AB3A    		;			dec.w_A    	
-0B6B: AB0A    		;			asl.w_A    	
-0B6D: 18      		;			clc_imp    	
-0B6E: AB6300  		;			adc.w_sp   	0
-0B71: AB8300  		;			sta.w_sp   	0
-0B74: BBA300  		;			lda.w_spI  	0
-0B77: 6202    		;			adj_imm    	2
-0B79: BB8300  		;			sta.w_spI  	0
-0B7C: 6202    		;			adj_imm    	2
-0B7E: ABAD6E14		;			lda.w_abs  	numwolves_005
-0B82: AB48    		;			pha.w_imp  	
-0B84: A901    		;			lda_imm    	1
-0B86: 18      		;			clc_imp    	
-0B87: AB6300  		;			adc.w_sp   	0
-0B8A: 6202    		;			adj_imm    	2
-0B8C: AB8D6E14		;			sta.w_abs  	numwolves_005
-0B90: AB548E14		;			psh.w_imm16	S_069
-0B94: AB540000		;			psh.w_imm16	0
-0B98: AB540300		;			psh.w_imm16	3
-0B9C: 20FFFF  		;			jsr_abs    	_swrite
-0B9F: 6206    		;			adj_imm    	6
-0BA1: ABAD7414		;			lda.w_abs  	t_008
-0BA5: AB48    		;			pha.w_imp  	
-0BA7: A904    		;			lda_imm    	4
-0BA9: AB48    		;			pha.w_imp  	
-0BAB: 20FFFF  		;			jsr_abs    	_iwrite
-0BAE: 6204    		;			adj_imm    	4
-0BB0: AB548E14		;			psh.w_imm16	S_069
-0BB4: AB540000		;			psh.w_imm16	0
-0BB8: AB541000		;			psh.w_imm16	16
-0BBC: 20FFFF  		;			jsr_abs    	_swrite
-0BBF: 6206    		;			adj_imm    	6
-0BC1: A95B    		;			lda_imm    	91
-0BC3: AB48    		;			pha.w_imp  	
-0BC5: AB540000		;			psh.w_imm16	0
-0BC9: 20FFFF  		;			jsr_abs    	_cwrite
-0BCC: 6204    		;			adj_imm    	4
-0BCE: ABA708  		;			lda.w_bp   	oldrow_061
-0BD1: AB48    		;			pha.w_imp  	
-0BD3: A901    		;			lda_imm    	1
-0BD5: AB48    		;			pha.w_imp  	
-0BD7: 20FFFF  		;			jsr_abs    	_iwrite
-0BDA: 6204    		;			adj_imm    	4
-0BDC: AB548E14		;			psh.w_imm16	S_069
-0BE0: AB540000		;			psh.w_imm16	0
-0BE4: AB540200		;			psh.w_imm16	2
-0BE8: 20FFFF  		;			jsr_abs    	_swrite
-0BEB: 6206    		;			adj_imm    	6
-0BED: ABA706  		;			lda.w_bp   	oldcol_062
-0BF0: AB48    		;			pha.w_imp  	
-0BF2: A901    		;			lda_imm    	1
-0BF4: AB48    		;			pha.w_imp  	
-0BF6: 20FFFF  		;			jsr_abs    	_iwrite
-0BF9: 6204    		;			adj_imm    	4
-0BFB: A95D    		;			lda_imm    	93
-0BFD: AB48    		;			pha.w_imp  	
-0BFF: AB540000		;			psh.w_imm16	0
-0C03: 20FFFF  		;			jsr_abs    	_cwrite
-0C06: 6204    		;			adj_imm    	4
-0C08: 20FFFF  		;			jsr_abs    	_writeln
-					; L_072
-0C0B: AB9A    		;			txs.w_imp  	
-0C0D: ABFA    		;			plx.w_imp  	
-0C0F: 60      		;			rts_imp    	
-					; processrabbit_088
-0C10: ABDA    		;			phx.w_imp  	
-0C12: ABBA    		;			tsx.w_imp  	
-0C14: 62FA    		;			adj_imm    	-6
-0C16: A901    		;			lda_imm    	1
-0C18: AB48    		;			pha.w_imp  	
-0C1A: ABA708  		;			lda.w_bp   	oldrow_089
-0C1D: AB48    		;			pha.w_imp  	
-0C1F: ABA706  		;			lda.w_bp   	oldcol_090
-0C22: AB48    		;			pha.w_imp  	
-0C24: AB8A    		;			txa.w_imp  	
-0C26: 38      		;			sec_imp    	
-0C27: AB69FEFF		;			adc.w_imm16	newrow_091
-0C2B: AB48    		;			pha.w_imp  	
-0C2D: AB8A    		;			txa.w_imp  	
-0C2F: 38      		;			sec_imp    	
-0C30: AB69FCFF		;			adc.w_imm16	newcol_092
-0C34: AB48    		;			pha.w_imp  	
-0C36: ABA704  		;			lda.w_bp   	STATIC_LINK
-0C39: AB48    		;			pha.w_imp  	
-0C3B: 20FA03  		;			jsr_abs    	newlocation_037
-0C3E: 620C    		;			adj_imm    	12
-0C40: ABA7FE  		;			lda.w_bp   	newrow_091
-0C43: AB48    		;			pha.w_imp  	
-0C45: ABA708  		;			lda.w_bp   	oldrow_089
-0C48: AB5C00  		;			xma.w_sp   	0
-0C4B: ABC300  		;			cmp.w_sp   	0
-0C4E: 6202    		;			adj_imm    	2
-0C50: 08      		;			php_imp    	
-0C51: A901    		;			lda_imm    	1
-0C53: 28      		;			plp_imp    	
-0C54: D002    		;			bne_rel    	L_094
-0C56: A900    		;			lda_imm    	0
-					; L_094
-0C58: AB48    		;			pha.w_imp  	
-0C5A: ABA7FC  		;			lda.w_bp   	newcol_092
-0C5D: AB48    		;			pha.w_imp  	
-0C5F: ABA706  		;			lda.w_bp   	oldcol_090
-0C62: AB5C00  		;			xma.w_sp   	0
-0C65: ABC300  		;			cmp.w_sp   	0
-0C68: 6202    		;			adj_imm    	2
-0C6A: 08      		;			php_imp    	
-0C6B: A901    		;			lda_imm    	1
-0C6D: 28      		;			plp_imp    	
-0C6E: D002    		;			bne_rel    	L_095
-0C70: A900    		;			lda_imm    	0
-					; L_095
-0C72: AB0300  		;			ora.w_sp   	0
-0C75: 6202    		;			adj_imm    	2
-0C77: AB87FA  		;			sta.w_bp   	moved_093
-0C7A: ABA7FA  		;			lda.w_bp   	moved_093
-0C7D: ABC90100		;			cmp.w_imm16	1
-0C81: F003    		;			beq_rel    	L_096
-0C83: 4CDE0C  		;			jmp_abs    	L_097
-					; L_096
-0C86: AB547612		;			psh.w_imm16	island_002
-0C8A: ABA7FE  		;			lda.w_bp   	newrow_091
-0C8D: AB48    		;			pha.w_imp  	
-0C8F: AB541600		;			psh.w_imm16	22
-0C93: 20FFFF  		;			jsr_abs    	_imul
-0C96: 6204    		;			adj_imm    	4
-0C98: 18      		;			clc_imp    	
-0C99: AB6300  		;			adc.w_sp   	0
-0C9C: AB8300  		;			sta.w_sp   	0
-0C9F: ABA7FC  		;			lda.w_bp   	newcol_092
-0CA2: AB0A    		;			asl.w_A    	
-0CA4: 18      		;			clc_imp    	
-0CA5: AB6300  		;			adc.w_sp   	0
-0CA8: AB8300  		;			sta.w_sp   	0
-0CAB: A903    		;			lda_imm    	3
-0CAD: BB8300  		;			sta.w_spI  	0
-0CB0: 6202    		;			adj_imm    	2
-0CB2: AB547612		;			psh.w_imm16	island_002
-0CB6: ABA708  		;			lda.w_bp   	oldrow_089
-0CB9: AB48    		;			pha.w_imp  	
-0CBB: AB541600		;			psh.w_imm16	22
-0CBF: 20FFFF  		;			jsr_abs    	_imul
-0CC2: 6204    		;			adj_imm    	4
-0CC4: 18      		;			clc_imp    	
-0CC5: AB6300  		;			adc.w_sp   	0
-0CC8: AB8300  		;			sta.w_sp   	0
-0CCB: ABA706  		;			lda.w_bp   	oldcol_090
-0CCE: AB0A    		;			asl.w_A    	
-0CD0: 18      		;			clc_imp    	
-0CD1: AB6300  		;			adc.w_sp   	0
-0CD4: AB8300  		;			sta.w_sp   	0
-0CD7: A904    		;			lda_imm    	4
-0CD9: BB8300  		;			sta.w_spI  	0
-0CDC: 6202    		;			adj_imm    	2
-					; L_097
-0CDE: ABAD7414		;			lda.w_abs  	t_008
-0CE2: AB48    		;			pha.w_imp  	
-0CE4: A905    		;			lda_imm    	5
-0CE6: AB48    		;			pha.w_imp  	
-0CE8: 20FFFF  		;			jsr_abs    	_idiv
-0CEB: 6204    		;			adj_imm    	4
-0CED: 1B      		;			swp_imp    	
-0CEE: AB48    		;			pha.w_imp  	
-0CF0: A900    		;			lda_imm    	0
-0CF2: AB5C00  		;			xma.w_sp   	0
-0CF5: ABC300  		;			cmp.w_sp   	0
-0CF8: 6202    		;			adj_imm    	2
-0CFA: 08      		;			php_imp    	
-0CFB: A901    		;			lda_imm    	1
-0CFD: 28      		;			plp_imp    	
-0CFE: F002    		;			beq_rel    	L_100
-0D00: A900    		;			lda_imm    	0
-					; L_100
-0D02: ABC90100		;			cmp.w_imm16	1
-0D06: F003    		;			beq_rel    	L_098
-0D08: 4CD00D  		;			jmp_abs    	L_099
-					; L_098
-0D0B: ABA7FA  		;			lda.w_bp   	moved_093
-0D0E: ABC90100		;			cmp.w_imm16	1
-0D12: F003    		;			beq_rel    	L_101
-0D14: 4CD00D  		;			jmp_abs    	L_099
-					; L_101
-0D17: AB547612		;			psh.w_imm16	island_002
-0D1B: ABA708  		;			lda.w_bp   	oldrow_089
-0D1E: AB48    		;			pha.w_imp  	
-0D20: AB541600		;			psh.w_imm16	22
-0D24: 20FFFF  		;			jsr_abs    	_imul
-0D27: 6204    		;			adj_imm    	4
-0D29: 18      		;			clc_imp    	
-0D2A: AB6300  		;			adc.w_sp   	0
-0D2D: AB8300  		;			sta.w_sp   	0
-0D30: ABA706  		;			lda.w_bp   	oldcol_090
-0D33: AB0A    		;			asl.w_A    	
-0D35: 18      		;			clc_imp    	
-0D36: AB6300  		;			adc.w_sp   	0
-0D39: AB8300  		;			sta.w_sp   	0
-0D3C: A903    		;			lda_imm    	3
-0D3E: BB8300  		;			sta.w_spI  	0
-0D41: 6202    		;			adj_imm    	2
-0D43: ABAD7014		;			lda.w_abs  	numrabbits_006
-0D47: AB48    		;			pha.w_imp  	
-0D49: A901    		;			lda_imm    	1
-0D4B: 18      		;			clc_imp    	
-0D4C: AB6300  		;			adc.w_sp   	0
-0D4F: 6202    		;			adj_imm    	2
-0D51: AB8D7014		;			sta.w_abs  	numrabbits_006
-0D55: AB548E14		;			psh.w_imm16	S_069
-0D59: AB540000		;			psh.w_imm16	0
-0D5D: AB540300		;			psh.w_imm16	3
-0D61: 20FFFF  		;			jsr_abs    	_swrite
-0D64: 6206    		;			adj_imm    	6
-0D66: ABAD7414		;			lda.w_abs  	t_008
-0D6A: AB48    		;			pha.w_imp  	
-0D6C: A904    		;			lda_imm    	4
-0D6E: AB48    		;			pha.w_imp  	
-0D70: 20FFFF  		;			jsr_abs    	_iwrite
-0D73: 6204    		;			adj_imm    	4
-0D75: AB548E14		;			psh.w_imm16	S_069
-0D79: AB540000		;			psh.w_imm16	0
-0D7D: AB541200		;			psh.w_imm16	18
-0D81: 20FFFF  		;			jsr_abs    	_swrite
-0D84: 6206    		;			adj_imm    	6
-0D86: A95B    		;			lda_imm    	91
-0D88: AB48    		;			pha.w_imp  	
-0D8A: AB540000		;			psh.w_imm16	0
-0D8E: 20FFFF  		;			jsr_abs    	_cwrite
-0D91: 6204    		;			adj_imm    	4
-0D93: ABA708  		;			lda.w_bp   	oldrow_089
-0D96: AB48    		;			pha.w_imp  	
-0D98: A901    		;			lda_imm    	1
-0D9A: AB48    		;			pha.w_imp  	
-0D9C: 20FFFF  		;			jsr_abs    	_iwrite
-0D9F: 6204    		;			adj_imm    	4
-0DA1: AB548E14		;			psh.w_imm16	S_069
-0DA5: AB540000		;			psh.w_imm16	0
-0DA9: AB540200		;			psh.w_imm16	2
-0DAD: 20FFFF  		;			jsr_abs    	_swrite
-0DB0: 6206    		;			adj_imm    	6
-0DB2: ABA706  		;			lda.w_bp   	oldcol_090
-0DB5: AB48    		;			pha.w_imp  	
-0DB7: A901    		;			lda_imm    	1
-0DB9: AB48    		;			pha.w_imp  	
-0DBB: 20FFFF  		;			jsr_abs    	_iwrite
-0DBE: 6204    		;			adj_imm    	4
-0DC0: A95D    		;			lda_imm    	93
-0DC2: AB48    		;			pha.w_imp  	
-0DC4: AB540000		;			psh.w_imm16	0
-0DC8: 20FFFF  		;			jsr_abs    	_cwrite
-0DCB: 6204    		;			adj_imm    	4
-0DCD: 20FFFF  		;			jsr_abs    	_writeln
-					; L_099
-0DD0: AB9A    		;			txs.w_imp  	
-0DD2: ABFA    		;			plx.w_imp  	
-0DD4: 60      		;			rts_imp    	
-					; eventsoccur_104
-0DD5: ABDA    		;			phx.w_imp  	
-0DD7: ABBA    		;			tsx.w_imp  	
-0DD9: 62FC    		;			adj_imm    	-4
-0DDB: A901    		;			lda_imm    	1
-0DDD: AB87FE  		;			sta.w_bp   	row_105
-					; L_107
-0DE0: A909    		;			lda_imm    	9
-0DE2: ABC7FE  		;			cmp.w_bp   	row_105
-0DE5: AB5003  		;			bge_rel    	L_108
-0DE8: 4C650E  		;			jmp_abs    	L_109
-					; L_108
-0DEB: A901    		;			lda_imm    	1
-0DED: AB87FC  		;			sta.w_bp   	col_106
-					; L_110
-0DF0: A909    		;			lda_imm    	9
-0DF2: ABC7FC  		;			cmp.w_bp   	col_106
-0DF5: AB5003  		;			bge_rel    	L_111
-0DF8: 4C5C0E  		;			jmp_abs    	L_112
-					; L_111
-0DFB: AB547612		;			psh.w_imm16	island_002
-0DFF: ABA7FE  		;			lda.w_bp   	row_105
-0E02: AB48    		;			pha.w_imp  	
-0E04: AB541600		;			psh.w_imm16	22
-0E08: 20FFFF  		;			jsr_abs    	_imul
-0E0B: 6204    		;			adj_imm    	4
-0E0D: 18      		;			clc_imp    	
-0E0E: AB6300  		;			adc.w_sp   	0
-0E11: AB8300  		;			sta.w_sp   	0
-0E14: ABA7FC  		;			lda.w_bp   	col_106
-0E17: AB0A    		;			asl.w_A    	
-0E19: 18      		;			clc_imp    	
-0E1A: AB6300  		;			adc.w_sp   	0
-0E1D: AB8300  		;			sta.w_sp   	0
-0E20: BBA300  		;			lda.w_spI  	0
-0E23: 6202    		;			adj_imm    	2
-0E25: AB48    		;			pha.w_imp  	
-0E27: A900    		;			lda_imm    	0
-0E29: AB5C00  		;			xma.w_sp   	0
-0E2C: ABC300  		;			cmp.w_sp   	0
-0E2F: 6202    		;			adj_imm    	2
-0E31: 08      		;			php_imp    	
-0E32: A901    		;			lda_imm    	1
-0E34: 28      		;			plp_imp    	
-0E35: F002    		;			beq_rel    	L_115
-0E37: A900    		;			lda_imm    	0
-					; L_115
-0E39: ABC90100		;			cmp.w_imm16	1
-0E3D: F003    		;			beq_rel    	L_113
-0E3F: 4C560E  		;			jmp_abs    	L_114
-					; L_113
-0E42: ABA7FE  		;			lda.w_bp   	row_105
-0E45: AB48    		;			pha.w_imp  	
-0E47: ABA7FC  		;			lda.w_bp   	col_106
-0E4A: AB48    		;			pha.w_imp  	
-0E4C: ABA704  		;			lda.w_bp   	STATIC_LINK
-0E4F: AB48    		;			pha.w_imp  	
-0E51: 200206  		;			jsr_abs    	processwolf_060
-0E54: 6206    		;			adj_imm    	6
-					; L_114
-0E56: ABF7FC  		;			inc.w_bp   	col_106
-0E59: 4CF00D  		;			jmp_abs    	L_110
-					; L_112
-0E5C: ABD7FC  		;			dec.w_bp   	col_106
-0E5F: ABF7FE  		;			inc.w_bp   	row_105
-0E62: 4CE00D  		;			jmp_abs    	L_107
-					; L_109
-0E65: ABD7FE  		;			dec.w_bp   	row_105
-0E68: A901    		;			lda_imm    	1
-0E6A: AB87FE  		;			sta.w_bp   	row_105
-					; L_116
-0E6D: A909    		;			lda_imm    	9
-0E6F: ABC7FE  		;			cmp.w_bp   	row_105
-0E72: AB5003  		;			bge_rel    	L_117
-0E75: 4CF20E  		;			jmp_abs    	L_118
-					; L_117
-0E78: A901    		;			lda_imm    	1
-0E7A: AB87FC  		;			sta.w_bp   	col_106
-					; L_119
-0E7D: A909    		;			lda_imm    	9
-0E7F: ABC7FC  		;			cmp.w_bp   	col_106
-0E82: AB5003  		;			bge_rel    	L_120
-0E85: 4CE90E  		;			jmp_abs    	L_121
-					; L_120
-0E88: AB547612		;			psh.w_imm16	island_002
-0E8C: ABA7FE  		;			lda.w_bp   	row_105
-0E8F: AB48    		;			pha.w_imp  	
-0E91: AB541600		;			psh.w_imm16	22
-0E95: 20FFFF  		;			jsr_abs    	_imul
-0E98: 6204    		;			adj_imm    	4
-0E9A: 18      		;			clc_imp    	
-0E9B: AB6300  		;			adc.w_sp   	0
-0E9E: AB8300  		;			sta.w_sp   	0
-0EA1: ABA7FC  		;			lda.w_bp   	col_106
-0EA4: AB0A    		;			asl.w_A    	
-0EA6: 18      		;			clc_imp    	
-0EA7: AB6300  		;			adc.w_sp   	0
-0EAA: AB8300  		;			sta.w_sp   	0
-0EAD: BBA300  		;			lda.w_spI  	0
-0EB0: 6202    		;			adj_imm    	2
-0EB2: AB48    		;			pha.w_imp  	
-0EB4: A901    		;			lda_imm    	1
-0EB6: AB5C00  		;			xma.w_sp   	0
-0EB9: ABC300  		;			cmp.w_sp   	0
-0EBC: 6202    		;			adj_imm    	2
-0EBE: 08      		;			php_imp    	
-0EBF: A901    		;			lda_imm    	1
-0EC1: 28      		;			plp_imp    	
-0EC2: F002    		;			beq_rel    	L_124
-0EC4: A900    		;			lda_imm    	0
-					; L_124
-0EC6: ABC90100		;			cmp.w_imm16	1
-0ECA: F003    		;			beq_rel    	L_122
-0ECC: 4CE30E  		;			jmp_abs    	L_123
-					; L_122
-0ECF: ABA7FE  		;			lda.w_bp   	row_105
-0ED2: AB48    		;			pha.w_imp  	
-0ED4: ABA7FC  		;			lda.w_bp   	col_106
-0ED7: AB48    		;			pha.w_imp  	
-0ED9: ABA704  		;			lda.w_bp   	STATIC_LINK
-0EDC: AB48    		;			pha.w_imp  	
-0EDE: 20100C  		;			jsr_abs    	processrabbit_088
-0EE1: 6206    		;			adj_imm    	6
-					; L_123
-0EE3: ABF7FC  		;			inc.w_bp   	col_106
-0EE6: 4C7D0E  		;			jmp_abs    	L_119
-					; L_121
-0EE9: ABD7FC  		;			dec.w_bp   	col_106
-0EEC: ABF7FE  		;			inc.w_bp   	row_105
-0EEF: 4C6D0E  		;			jmp_abs    	L_116
-					; L_118
-0EF2: ABD7FE  		;			dec.w_bp   	row_105
-0EF5: AB9A    		;			txs.w_imp  	
-0EF7: ABFA    		;			plx.w_imp  	
-0EF9: 60      		;			rts_imp    	
-					; printisland_125
-0EFA: ABDA    		;			phx.w_imp  	
-0EFC: ABBA    		;			tsx.w_imp  	
-0EFE: 62FA    		;			adj_imm    	-6
-0F00: 20FFFF  		;			jsr_abs    	_writeln
-0F03: AB548E14		;			psh.w_imm16	S_069
-0F07: AB540000		;			psh.w_imm16	0
-0F0B: AB540300		;			psh.w_imm16	3
-0F0F: 20FFFF  		;			jsr_abs    	_swrite
-0F12: 6206    		;			adj_imm    	6
-0F14: ABAD7414		;			lda.w_abs  	t_008
-0F18: AB48    		;			pha.w_imp  	
-0F1A: A904    		;			lda_imm    	4
-0F1C: AB48    		;			pha.w_imp  	
-0F1E: 20FFFF  		;			jsr_abs    	_iwrite
-0F21: 6204    		;			adj_imm    	4
-0F23: AB548E14		;			psh.w_imm16	S_069
-0F27: AB540000		;			psh.w_imm16	0
-0F2B: AB540E00		;			psh.w_imm16	14
-0F2F: 20FFFF  		;			jsr_abs    	_swrite
-0F32: 6206    		;			adj_imm    	6
-0F34: 20FFFF  		;			jsr_abs    	_writeln
-0F37: 20FFFF  		;			jsr_abs    	_writeln
-0F3A: A901    		;			lda_imm    	1
-0F3C: AB87FE  		;			sta.w_bp   	row_126
-					; L_130
-0F3F: A909    		;			lda_imm    	9
-0F41: ABC7FE  		;			cmp.w_bp   	row_126
-0F44: AB5003  		;			bge_rel    	L_131
-0F47: 4C3F10  		;			jmp_abs    	L_132
-					; L_131
-0F4A: A920    		;			lda_imm    	32
-0F4C: AB48    		;			pha.w_imp  	
-0F4E: A90A    		;			lda_imm    	10
-0F50: AB48    		;			pha.w_imp  	
-0F52: 20FFFF  		;			jsr_abs    	_cwrite
-0F55: 6204    		;			adj_imm    	4
-0F57: A901    		;			lda_imm    	1
-0F59: AB87FC  		;			sta.w_bp   	col_127
-					; L_133
-0F5C: A909    		;			lda_imm    	9
-0F5E: ABC7FC  		;			cmp.w_bp   	col_127
-0F61: AB5003  		;			bge_rel    	L_134
-0F64: 4C3310  		;			jmp_abs    	L_135
-					; L_134
-0F67: AB547612		;			psh.w_imm16	island_002
-0F6B: ABA7FE  		;			lda.w_bp   	row_126
-0F6E: AB48    		;			pha.w_imp  	
-0F70: AB541600		;			psh.w_imm16	22
-0F74: 20FFFF  		;			jsr_abs    	_imul
-0F77: 6204    		;			adj_imm    	4
-0F79: 18      		;			clc_imp    	
-0F7A: AB6300  		;			adc.w_sp   	0
-0F7D: AB8300  		;			sta.w_sp   	0
-0F80: ABA7FC  		;			lda.w_bp   	col_127
-0F83: AB0A    		;			asl.w_A    	
-0F85: 18      		;			clc_imp    	
-0F86: AB6300  		;			adc.w_sp   	0
-0F89: AB8300  		;			sta.w_sp   	0
-0F8C: BBA300  		;			lda.w_spI  	0
-0F8F: 6202    		;			adj_imm    	2
-0F91: AB87FA  		;			sta.w_bp   	cnts_128
-0F94: ABA7FA  		;			lda.w_bp   	cnts_128
-0F97: AB48    		;			pha.w_imp  	
-0F99: A904    		;			lda_imm    	4
-0F9B: AB5C00  		;			xma.w_sp   	0
-0F9E: ABC300  		;			cmp.w_sp   	0
-0FA1: 6202    		;			adj_imm    	2
-0FA3: 08      		;			php_imp    	
-0FA4: A901    		;			lda_imm    	1
-0FA6: 28      		;			plp_imp    	
-0FA7: F002    		;			beq_rel    	L_138
-0FA9: A900    		;			lda_imm    	0
-					; L_138
-0FAB: ABC90100		;			cmp.w_imm16	1
-0FAF: F003    		;			beq_rel    	L_136
-0FB1: 4CC80F  		;			jmp_abs    	L_137
-					; L_136
-0FB4: AB548E14		;			psh.w_imm16	S_069
-0FB8: AB540000		;			psh.w_imm16	0
-0FBC: AB540200		;			psh.w_imm16	2
-0FC0: 20FFFF  		;			jsr_abs    	_swrite
-0FC3: 6206    		;			adj_imm    	6
-0FC5: 4C2D10  		;			jmp_abs    	L_140
-					; L_137
-0FC8: ABA7FA  		;			lda.w_bp   	cnts_128
-0FCB: AB48    		;			pha.w_imp  	
-0FCD: A900    		;			lda_imm    	0
-0FCF: AB5C00  		;			xma.w_sp   	0
-0FD2: ABC300  		;			cmp.w_sp   	0
-0FD5: 6202    		;			adj_imm    	2
-0FD7: 08      		;			php_imp    	
-0FD8: A901    		;			lda_imm    	1
-0FDA: 28      		;			plp_imp    	
-0FDB: F002    		;			beq_rel    	L_143
-0FDD: A900    		;			lda_imm    	0
-					; L_143
-0FDF: ABC90100		;			cmp.w_imm16	1
-0FE3: F003    		;			beq_rel    	L_141
-0FE5: 4CFC0F  		;			jmp_abs    	L_142
-					; L_141
-0FE8: AB548E14		;			psh.w_imm16	S_069
-0FEC: AB540000		;			psh.w_imm16	0
-0FF0: AB540200		;			psh.w_imm16	2
-0FF4: 20FFFF  		;			jsr_abs    	_swrite
-0FF7: 6206    		;			adj_imm    	6
-0FF9: 4C2D10  		;			jmp_abs    	L_140
-					; L_142
-0FFC: ABA7FA  		;			lda.w_bp   	cnts_128
-0FFF: AB48    		;			pha.w_imp  	
-1001: A901    		;			lda_imm    	1
-1003: AB5C00  		;			xma.w_sp   	0
-1006: ABC300  		;			cmp.w_sp   	0
-1009: 6202    		;			adj_imm    	2
-100B: 08      		;			php_imp    	
-100C: A901    		;			lda_imm    	1
-100E: 28      		;			plp_imp    	
-100F: F002    		;			beq_rel    	L_148
-1011: A900    		;			lda_imm    	0
-					; L_148
-1013: ABC90100		;			cmp.w_imm16	1
-1017: F003    		;			beq_rel    	L_146
-1019: 4C2D10  		;			jmp_abs    	L_140
-					; L_146
-101C: AB548E14		;			psh.w_imm16	S_069
-1020: AB540000		;			psh.w_imm16	0
-1024: AB540200		;			psh.w_imm16	2
-1028: 20FFFF  		;			jsr_abs    	_swrite
-102B: 6206    		;			adj_imm    	6
-					; L_140
-102D: ABF7FC  		;			inc.w_bp   	col_127
-1030: 4C5C0F  		;			jmp_abs    	L_133
-					; L_135
-1033: ABD7FC  		;			dec.w_bp   	col_127
-1036: 20FFFF  		;			jsr_abs    	_writeln
-1039: ABF7FE  		;			inc.w_bp   	row_126
-103C: 4C3F0F  		;			jmp_abs    	L_130
-					; L_132
-103F: ABD7FE  		;			dec.w_bp   	row_126
-1042: AB9A    		;			txs.w_imp  	
-1044: ABFA    		;			plx.w_imp  	
-1046: 60      		;			rts_imp    	
-					; resetisland_150
-1047: ABDA    		;			phx.w_imp  	
-1049: ABBA    		;			tsx.w_imp  	
-104B: 62FC    		;			adj_imm    	-4
-104D: A901    		;			lda_imm    	1
-104F: AB87FE  		;			sta.w_bp   	row_151
-					; L_153
-1052: A909    		;			lda_imm    	9
-1054: ABC7FE  		;			cmp.w_bp   	row_151
-1057: AB5003  		;			bge_rel    	L_154
-105A: 4C6511  		;			jmp_abs    	L_155
-					; L_154
-105D: A901    		;			lda_imm    	1
-105F: AB87FC  		;			sta.w_bp   	col_152
-					; L_156
-1062: A909    		;			lda_imm    	9
-1064: ABC7FC  		;			cmp.w_bp   	col_152
-1067: AB5003  		;			bge_rel    	L_157
-106A: 4C5C11  		;			jmp_abs    	L_158
-					; L_157
-106D: AB547612		;			psh.w_imm16	island_002
-1071: ABA7FE  		;			lda.w_bp   	row_151
-1074: AB48    		;			pha.w_imp  	
-1076: AB541600		;			psh.w_imm16	22
-107A: 20FFFF  		;			jsr_abs    	_imul
-107D: 6204    		;			adj_imm    	4
-107F: 18      		;			clc_imp    	
-1080: AB6300  		;			adc.w_sp   	0
-1083: AB8300  		;			sta.w_sp   	0
-1086: ABA7FC  		;			lda.w_bp   	col_152
-1089: AB0A    		;			asl.w_A    	
-108B: 18      		;			clc_imp    	
-108C: AB6300  		;			adc.w_sp   	0
-108F: AB8300  		;			sta.w_sp   	0
-1092: BBA300  		;			lda.w_spI  	0
-1095: 6202    		;			adj_imm    	2
-1097: AB48    		;			pha.w_imp  	
-1099: A902    		;			lda_imm    	2
-109B: AB5C00  		;			xma.w_sp   	0
-109E: ABC300  		;			cmp.w_sp   	0
-10A1: 6202    		;			adj_imm    	2
-10A3: 08      		;			php_imp    	
-10A4: A901    		;			lda_imm    	1
-10A6: 28      		;			plp_imp    	
-10A7: F002    		;			beq_rel    	L_161
-10A9: A900    		;			lda_imm    	0
-					; L_161
-10AB: ABC90100		;			cmp.w_imm16	1
-10AF: F003    		;			beq_rel    	L_159
-10B1: 4CE310  		;			jmp_abs    	L_160
-					; L_159
-10B4: AB547612		;			psh.w_imm16	island_002
-10B8: ABA7FE  		;			lda.w_bp   	row_151
-10BB: AB48    		;			pha.w_imp  	
-10BD: AB541600		;			psh.w_imm16	22
-10C1: 20FFFF  		;			jsr_abs    	_imul
-10C4: 6204    		;			adj_imm    	4
-10C6: 18      		;			clc_imp    	
-10C7: AB6300  		;			adc.w_sp   	0
-10CA: AB8300  		;			sta.w_sp   	0
-10CD: ABA7FC  		;			lda.w_bp   	col_152
-10D0: AB0A    		;			asl.w_A    	
-10D2: 18      		;			clc_imp    	
-10D3: AB6300  		;			adc.w_sp   	0
-10D6: AB8300  		;			sta.w_sp   	0
-10D9: A900    		;			lda_imm    	0
-10DB: BB8300  		;			sta.w_spI  	0
-10DE: 6202    		;			adj_imm    	2
-10E0: 4C5611  		;			jmp_abs    	L_162
-					; L_160
-10E3: AB547612		;			psh.w_imm16	island_002
-10E7: ABA7FE  		;			lda.w_bp   	row_151
-10EA: AB48    		;			pha.w_imp  	
-10EC: AB541600		;			psh.w_imm16	22
-10F0: 20FFFF  		;			jsr_abs    	_imul
-10F3: 6204    		;			adj_imm    	4
-10F5: 18      		;			clc_imp    	
-10F6: AB6300  		;			adc.w_sp   	0
-10F9: AB8300  		;			sta.w_sp   	0
-10FC: ABA7FC  		;			lda.w_bp   	col_152
-10FF: AB0A    		;			asl.w_A    	
-1101: 18      		;			clc_imp    	
-1102: AB6300  		;			adc.w_sp   	0
-1105: AB8300  		;			sta.w_sp   	0
-1108: BBA300  		;			lda.w_spI  	0
-110B: 6202    		;			adj_imm    	2
-110D: AB48    		;			pha.w_imp  	
-110F: A903    		;			lda_imm    	3
-1111: AB5C00  		;			xma.w_sp   	0
-1114: ABC300  		;			cmp.w_sp   	0
-1117: 6202    		;			adj_imm    	2
-1119: 08      		;			php_imp    	
-111A: A901    		;			lda_imm    	1
-111C: 28      		;			plp_imp    	
-111D: F002    		;			beq_rel    	L_165
-111F: A900    		;			lda_imm    	0
-					; L_165
-1121: ABC90100		;			cmp.w_imm16	1
-1125: F003    		;			beq_rel    	L_163
-1127: 4C5611  		;			jmp_abs    	L_162
-					; L_163
-112A: AB547612		;			psh.w_imm16	island_002
-112E: ABA7FE  		;			lda.w_bp   	row_151
-1131: AB48    		;			pha.w_imp  	
-1133: AB541600		;			psh.w_imm16	22
-1137: 20FFFF  		;			jsr_abs    	_imul
-113A: 6204    		;			adj_imm    	4
-113C: 18      		;			clc_imp    	
-113D: AB6300  		;			adc.w_sp   	0
-1140: AB8300  		;			sta.w_sp   	0
-1143: ABA7FC  		;			lda.w_bp   	col_152
-1146: AB0A    		;			asl.w_A    	
-1148: 18      		;			clc_imp    	
-1149: AB6300  		;			adc.w_sp   	0
-114C: AB8300  		;			sta.w_sp   	0
-114F: A901    		;			lda_imm    	1
-1151: BB8300  		;			sta.w_spI  	0
-1154: 6202    		;			adj_imm    	2
-					; L_162
-1156: ABF7FC  		;			inc.w_bp   	col_152
-1159: 4C6210  		;			jmp_abs    	L_156
-					; L_158
-115C: ABD7FC  		;			dec.w_bp   	col_152
-115F: ABF7FE  		;			inc.w_bp   	row_151
-1162: 4C5210  		;			jmp_abs    	L_153
-					; L_155
-1165: ABD7FE  		;			dec.w_bp   	row_151
-1168: AB9A    		;			txs.w_imp  	
-116A: ABFA    		;			plx.w_imp  	
-116C: 60      		;			rts_imp    	
-					; _pc65_main
-116D: ABDA    		;			phx.w_imp  	
-116F: ABBA    		;			tsx.w_imp  	
-1171: ABDA    		;			phx.w_imp  	
-1173: 200000  		;			jsr_abs    	initialize_013
-1176: 6202    		;			adj_imm    	2
-1178: A900    		;			lda_imm    	0
-117A: AB8D7414		;			sta.w_abs  	t_008
-117E: A901    		;			lda_imm    	1
-1180: AB8D7614		;			sta.w_abs  	xpt_009
-1184: AB547814		;			psh.w_imm16	seed_010
-1188: 20FFFF  		;			jsr_abs    	_iread
-118B: BB8300  		;			sta.w_spI  	0
-118E: 6202    		;			adj_imm    	2
-1190: ABDA    		;			phx.w_imp  	
-1192: 20FA0E  		;			jsr_abs    	printisland_125
-1195: 6202    		;			adj_imm    	2
-					; L_166
-1197: 20FFFF  		;			jsr_abs    	_writeln
-119A: ABAD7414		;			lda.w_abs  	t_008
-119E: AB48    		;			pha.w_imp  	
-11A0: A901    		;			lda_imm    	1
-11A2: 18      		;			clc_imp    	
-11A3: AB6300  		;			adc.w_sp   	0
-11A6: 6202    		;			adj_imm    	2
-11A8: AB8D7414		;			sta.w_abs  	t_008
-11AC: ABDA    		;			phx.w_imp  	
-11AE: 20D50D  		;			jsr_abs    	eventsoccur_104
-11B1: 6202    		;			adj_imm    	2
-11B3: ABDA    		;			phx.w_imp  	
-11B5: 204710  		;			jsr_abs    	resetisland_150
-11B8: 6202    		;			adj_imm    	2
-11BA: ABAD7414		;			lda.w_abs  	t_008
-11BE: AB48    		;			pha.w_imp  	
-11C0: AB540A14		;			psh.w_imm16	printtimes_004
-11C4: ABAD7614		;			lda.w_abs  	xpt_009
-11C8: AB3A    		;			dec.w_A    	
-11CA: AB0A    		;			asl.w_A    	
-11CC: 18      		;			clc_imp    	
-11CD: AB6300  		;			adc.w_sp   	0
-11D0: AB8300  		;			sta.w_sp   	0
-11D3: BBA300  		;			lda.w_spI  	0
-11D6: 6202    		;			adj_imm    	2
-11D8: AB5C00  		;			xma.w_sp   	0
-11DB: ABC300  		;			cmp.w_sp   	0
-11DE: 6202    		;			adj_imm    	2
-11E0: 08      		;			php_imp    	
-11E1: A901    		;			lda_imm    	1
-11E3: 28      		;			plp_imp    	
-11E4: F002    		;			beq_rel    	L_170
-11E6: A900    		;			lda_imm    	0
-					; L_170
-11E8: ABC90100		;			cmp.w_imm16	1
-11EC: F003    		;			beq_rel    	L_168
-11EE: 4C0A12  		;			jmp_abs    	L_169
-					; L_168
-11F1: ABDA    		;			phx.w_imp  	
-11F3: 20FA0E  		;			jsr_abs    	printisland_125
-11F6: 6202    		;			adj_imm    	2
-11F8: ABAD7614		;			lda.w_abs  	xpt_009
-11FC: AB48    		;			pha.w_imp  	
-11FE: A901    		;			lda_imm    	1
-1200: 18      		;			clc_imp    	
-1201: AB6300  		;			adc.w_sp   	0
-1204: 6202    		;			adj_imm    	2
-1206: AB8D7614		;			sta.w_abs  	xpt_009
-					; L_169
-120A: ABAD6E14		;			lda.w_abs  	numwolves_005
-120E: AB48    		;			pha.w_imp  	
-1210: A900    		;			lda_imm    	0
-1212: AB5C00  		;			xma.w_sp   	0
-1215: ABC300  		;			cmp.w_sp   	0
-1218: 6202    		;			adj_imm    	2
-121A: 08      		;			php_imp    	
-121B: A901    		;			lda_imm    	1
-121D: 28      		;			plp_imp    	
-121E: F002    		;			beq_rel    	L_171
-1220: A900    		;			lda_imm    	0
-					; L_171
-1222: AB48    		;			pha.w_imp  	
-1224: ABAD7014		;			lda.w_abs  	numrabbits_006
-1228: AB48    		;			pha.w_imp  	
-122A: A900    		;			lda_imm    	0
-122C: AB5C00  		;			xma.w_sp   	0
-122F: ABC300  		;			cmp.w_sp   	0
-1232: 6202    		;			adj_imm    	2
-1234: 08      		;			php_imp    	
-1235: A901    		;			lda_imm    	1
-1237: 28      		;			plp_imp    	
-1238: F002    		;			beq_rel    	L_172
-123A: A900    		;			lda_imm    	0
-					; L_172
-123C: AB0300  		;			ora.w_sp   	0
-123F: 6202    		;			adj_imm    	2
-1241: AB48    		;			pha.w_imp  	
-1243: ABAD7614		;			lda.w_abs  	xpt_009
-1247: AB48    		;			pha.w_imp  	
-1249: ABAD7214		;			lda.w_abs  	numprinttimes_007
-124D: AB5C00  		;			xma.w_sp   	0
-1250: ABC300  		;			cmp.w_sp   	0
-1253: 6202    		;			adj_imm    	2
-1255: 08      		;			php_imp    	
-1256: A901    		;			lda_imm    	1
-1258: 28      		;			plp_imp    	
-1259: AB1002  		;			bgt_rel    	L_173
-125C: A900    		;			lda_imm    	0
-					; L_173
-125E: AB0300  		;			ora.w_sp   	0
-1261: 6202    		;			adj_imm    	2
-1263: ABC90100		;			cmp.w_imm16	1
-1267: F003    		;			beq_rel    	L_167
-1269: 4C9711  		;			jmp_abs    	L_166
-					; L_167
-126C: ABDA    		;			phx.w_imp  	
-126E: 20FA0E  		;			jsr_abs    	printisland_125
-1271: 6202    		;			adj_imm    	2
-1273: ABFA    		;			plx.w_imp  	
-1275: 60      		;			rts_imp    	
+01D0: A918    		;			lda_imm    	24
+01D2: AB48    		;			pha.w_imp  	
+01D4: A906    		;			lda_imm    	6
+01D6: AB48    		;			pha.w_imp  	
+01D8: 20FFFF  		;			jsr_abs    	_fwrite
+01DB: 6208    		;			adj_imm    	8
+01DD: A964    		;			lda_imm    	100
+01DF: AB48    		;			pha.w_imp  	
+01E1: ABADFFFF		;			lda.w_abs  	root_003+2
+01E5: 1B      		;			swp_imp    	
+01E6: ABAD4403		;			lda.w_abs  	root_003
+01EA: 1B      		;			swp_imp    	
+01EB: AB48    		;			pha.w_imp  	
+01ED: 1B      		;			swp_imp    	
+01EE: AB48    		;			pha.w_imp  	
+01F0: ABADFFFF		;			lda.w_abs  	sqroot_004+2
+01F4: 1B      		;			swp_imp    	
+01F5: ABAD4803		;			lda.w_abs  	sqroot_004
+01F9: 1B      		;			swp_imp    	
+01FA: AB48    		;			pha.w_imp  	
+01FC: 1B      		;			swp_imp    	
+01FD: AB48    		;			pha.w_imp  	
+01FF: 20FFFF  		;			jsr_abs    	_fsub
+0202: 6208    		;			adj_imm    	8
+0204: 1B      		;			swp_imp    	
+0205: AB48    		;			pha.w_imp  	
+0207: 1B      		;			swp_imp    	
+0208: AB48    		;			pha.w_imp  	
+020A: 20FFFF  		;			jsr_abs    	_fabs
+020D: 6204    		;			adj_imm    	4
+020F: 1B      		;			swp_imp    	
+0210: AB48    		;			pha.w_imp  	
+0212: 1B      		;			swp_imp    	
+0213: AB48    		;			pha.w_imp  	
+0215: AB68    		;			pla.w_imp  	
+0217: 1B      		;			swp_imp    	
+0218: AB68    		;			pla.w_imp  	
+021A: AB7A    		;			ply.w_imp  	
+021C: AB48    		;			pha.w_imp  	
+021E: 1B      		;			swp_imp    	
+021F: AB48    		;			pha.w_imp  	
+0221: AB5A    		;			phy.w_imp  	
+0223: 20FFFF  		;			jsr_abs    	_fconv
+0226: 6202    		;			adj_imm    	2
+0228: AB7A    		;			ply.w_imp  	
+022A: FB1B    		;			swp.y_imp  	
+022C: AB7A    		;			ply.w_imp  	
+022E: 1B      		;			swp_imp    	
+022F: AB48    		;			pha.w_imp  	
+0231: 1B      		;			swp_imp    	
+0232: AB48    		;			pha.w_imp  	
+0234: AB5A    		;			phy.w_imp  	
+0236: FB1B    		;			swp.y_imp  	
+0238: AB5A    		;			phy.w_imp  	
+023A: 20FFFF  		;			jsr_abs    	_fmul
+023D: 6208    		;			adj_imm    	8
+023F: 1B      		;			swp_imp    	
+0240: AB48    		;			pha.w_imp  	
+0242: 1B      		;			swp_imp    	
+0243: AB48    		;			pha.w_imp  	
+0245: ABADFFFF		;			lda.w_abs  	sqroot_004+2
+0249: 1B      		;			swp_imp    	
+024A: ABAD4803		;			lda.w_abs  	sqroot_004
+024E: 1B      		;			swp_imp    	
+024F: AB48    		;			pha.w_imp  	
+0251: 1B      		;			swp_imp    	
+0252: AB48    		;			pha.w_imp  	
+0254: 20FFFF  		;			jsr_abs    	_fdiv
+0257: 6208    		;			adj_imm    	8
+0259: 1B      		;			swp_imp    	
+025A: AB48    		;			pha.w_imp  	
+025C: 1B      		;			swp_imp    	
+025D: AB48    		;			pha.w_imp  	
+025F: A90C    		;			lda_imm    	12
+0261: AB48    		;			pha.w_imp  	
+0263: A902    		;			lda_imm    	2
+0265: AB48    		;			pha.w_imp  	
+0267: 20FFFF  		;			jsr_abs    	_fwrite
+026A: 6208    		;			adj_imm    	8
+026C: A925    		;			lda_imm    	37
+026E: AB48    		;			pha.w_imp  	
+0270: AB540000		;			psh.w_imm16	0
+0274: 20FFFF  		;			jsr_abs    	_cwrite
+0277: 6204    		;			adj_imm    	4
+0279: 20FFFF  		;			jsr_abs    	_writeln
+027C: ABADFFFF		;			lda.w_abs  	number_002+2
+0280: 1B      		;			swp_imp    	
+0281: ABAD4003		;			lda.w_abs  	number_002
+0285: 1B      		;			swp_imp    	
+0286: AB48    		;			pha.w_imp  	
+0288: 1B      		;			swp_imp    	
+0289: AB48    		;			pha.w_imp  	
+028B: ABADFFFF		;			lda.w_abs  	root_003+2
+028F: 1B      		;			swp_imp    	
+0290: ABAD4403		;			lda.w_abs  	root_003
+0294: 1B      		;			swp_imp    	
+0295: AB48    		;			pha.w_imp  	
+0297: 1B      		;			swp_imp    	
+0298: AB48    		;			pha.w_imp  	
+029A: 1B      		;			swp_imp    	
+029B: AB48    		;			pha.w_imp  	
+029D: 1B      		;			swp_imp    	
+029E: AB48    		;			pha.w_imp  	
+02A0: 20FFFF  		;			jsr_abs    	_fmul
+02A3: 6208    		;			adj_imm    	8
+02A5: 1B      		;			swp_imp    	
+02A6: AB48    		;			pha.w_imp  	
+02A8: 1B      		;			swp_imp    	
+02A9: AB48    		;			pha.w_imp  	
+02AB: 20FFFF  		;			jsr_abs    	_fdiv
+02AE: 6208    		;			adj_imm    	8
+02B0: 1B      		;			swp_imp    	
+02B1: AB48    		;			pha.w_imp  	
+02B3: 1B      		;			swp_imp    	
+02B4: AB48    		;			pha.w_imp  	
+02B6: A901    		;			lda_imm    	1
+02B8: AB48    		;			pha.w_imp  	
+02BA: 20FFFF  		;			jsr_abs    	_fconv
+02BD: 6202    		;			adj_imm    	2
+02BF: 1B      		;			swp_imp    	
+02C0: AB48    		;			pha.w_imp  	
+02C2: 1B      		;			swp_imp    	
+02C3: AB48    		;			pha.w_imp  	
+02C5: 20FFFF  		;			jsr_abs    	_fsub
+02C8: 6208    		;			adj_imm    	8
+02CA: 1B      		;			swp_imp    	
+02CB: AB48    		;			pha.w_imp  	
+02CD: 1B      		;			swp_imp    	
+02CE: AB48    		;			pha.w_imp  	
+02D0: 20FFFF  		;			jsr_abs    	_fabs
+02D3: 6204    		;			adj_imm    	4
+02D5: 1B      		;			swp_imp    	
+02D6: AB48    		;			pha.w_imp  	
+02D8: 1B      		;			swp_imp    	
+02D9: AB48    		;			pha.w_imp  	
+02DB: ABADFFFF		;			lda.w_abs  	F_020+2
+02DF: 1B      		;			swp_imp    	
+02E0: ABAD4C03		;			lda.w_abs  	F_020
+02E4: 1B      		;			swp_imp    	
+02E5: AB48    		;			pha.w_imp  	
+02E7: 1B      		;			swp_imp    	
+02E8: AB48    		;			pha.w_imp  	
+02EA: 20FFFF  		;			jsr_abs    	_fcmp
+02ED: 6208    		;			adj_imm    	8
+02EF: ABC90000		;			cmp.w_imm16	0
+02F3: 08      		;			php_imp    	
+02F4: A901    		;			lda_imm    	1
+02F6: 28      		;			plp_imp    	
+02F7: AB7002  		;			blt_rel    	L_021
+02FA: A900    		;			lda_imm    	0
+02FC:				; L_021
+02FC: ABC90100		;			cmp.w_imm16	1
+0300: F003    		;			beq_rel    	L_012
+0302: 4C6001  		;			jmp_abs    	L_018
+0305:				; L_012
+0305: ABADFFFF		;			lda.w_abs  	number_002+2
+0309: 1B      		;			swp_imp    	
+030A: ABAD4003		;			lda.w_abs  	number_002
+030E: 1B      		;			swp_imp    	
+030F: AB48    		;			pha.w_imp  	
+0311: 1B      		;			swp_imp    	
+0312: AB48    		;			pha.w_imp  	
+0314: A900    		;			lda_imm    	0
+0316: AB48    		;			pha.w_imp  	
+0318: 20FFFF  		;			jsr_abs    	_fconv
+031B: 6202    		;			adj_imm    	2
+031D: 1B      		;			swp_imp    	
+031E: AB48    		;			pha.w_imp  	
+0320: 1B      		;			swp_imp    	
+0321: AB48    		;			pha.w_imp  	
+0323: 20FFFF  		;			jsr_abs    	_fcmp
+0326: 6208    		;			adj_imm    	8
+0328: ABC90000		;			cmp.w_imm16	0
+032C: 08      		;			php_imp    	
+032D: A901    		;			lda_imm    	1
+032F: 28      		;			plp_imp    	
+0330: F002    		;			beq_rel    	L_022
+0332: A900    		;			lda_imm    	0
+0334:				; L_022
+0334: ABC90100		;			cmp.w_imm16	1
+0338: F003    		;			beq_rel    	L_006
+033A: 4C0400  		;			jmp_abs    	L_005
+033D:				; L_006
+033D: ABFA    		;			plx.w_imp  	
+033F: 60      		;			rts_imp    	
+0340:				; number_002
+0340:				;			.DB 	4
+0340: 00000000
+0344:				; root_003
+0344:				;			.DB 	4
+0344: 00000000
+0348:				; sqroot_004
+0348:				;			.DB 	4
+0348: 00000000
+034C:				; F_020
+034C:				;			.DD 	0
+034C: .DD 	1.000000e-06
+0350:				; F_011
+0350:				;			.DD 	0
+0350: .DD 	0.000000e+00
+0354:				; S_016		.DS		"*** ERROR:  number < 0"
+0354: 2A2A2A20
+0358: 4552524F
+035C: 523A2020
+0360: 6E756D62
+0364: 6572203C
+0368: 2030
+036A:				; S_007		.DS		"Enter new number (0 to quit): "
+036A: 456E7465
+036E: 72206E65
+0372: 77206E75
+0376: 6D626572
+037A: 20283020
+037E: 746F2071
+0382: 75697429
+0386: 3A20

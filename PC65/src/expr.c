@@ -297,7 +297,7 @@ TYPE_STRUCT_PTR expression(void)
 	        emit_2(MOVE, reg(ES), reg(AX));
             fprintf(code_file, "\tjsr _cmpsb\t;---");
 	        emit(COMPARE_STRINGS);
-	        fprintf(code_file, "adj #%+d\t; remove parameters\n", 6);
+	        fprintf(code_file, "\tadj #%+d\t; remove parameters\n", 6);
             fprintf(code_file, "\tphp\t;---");
         	emit_2(MOVE, reg(AX), integer_lit(1));  /* default: load 1 */
             fprintf(code_file, "\tlda #%d\t;load integer literal\n", 1);

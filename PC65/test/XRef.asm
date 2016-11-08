@@ -87,7 +87,7 @@ nextchar_016	.PROC
 	jmp  L_019	;---	jmp		L_019
 L_018
 ;   60:         readln;
-	call	_read_line
+	jsr _readln	;---	call	_read_line
 ;   61:         writeln;
 	jsr _writeln	;---	call	_write_line
 ;   62:         linenumber := linenumber + 1;
@@ -141,8 +141,7 @@ L_022
 	pha.w	;---	push	ax
 	jsr _cread	;---	call	_read_char
 					;---	pop		bx
-	sta (0,S)	;store byte
-	mov		BYTE PTR [bx],al
+	sta (0,S)	;store byte---	mov		BYTE PTR [bx],al
 	adj #2	;pop ops/params
 ;   70:         write(ch);
 					;---	sub		ax,ax
@@ -726,7 +725,7 @@ L_066
 						;---	mov		ax,ds
 						;---	mov		es,ax
 	jsr _cmpsb	;---	repe	cmpsb
-adj #+6	; remove parameters
+	adj #+6	; remove parameters
 	php	;---	mov		ax,1
 	lda #1	;load integer literal
 	plp	;pull PSW
@@ -1049,7 +1048,7 @@ L_088
 						;---	mov		ax,ds
 						;---	mov		es,ax
 	jsr _cmpsb	;---	repe	cmpsb
-adj #+6	; remove parameters
+	adj #+6	; remove parameters
 	php	;---	mov		ax,1
 	lda #1	;load integer literal
 	plp	;pull PSW
@@ -1085,8 +1084,7 @@ L_090
 						;---	mov		ax,ds
 						;---	mov		es,ax
 						;---	cld
-	mvb #51	;blk move: inc si, inc di
-	rep	movsb
+	mvb #51	;blk move: inc si, inc di---	rep	movsb
 	swp.x	;--- Restore BP
 ;  213:             wordtable[i] := wordtable[j];
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
@@ -1122,8 +1120,7 @@ L_090
 						;---	mov		ax,ds
 						;---	mov		es,ax
 						;---	cld
-	mvb #51	;blk move: inc si, inc di
-	rep	movsb
+	mvb #51	;blk move: inc si, inc di---	rep	movsb
 	swp.x	;--- Restore BP
 ;  214:             wordtable[j] := temp;
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
@@ -1150,8 +1147,7 @@ L_090
 						;---	mov		ax,ds
 						;---	mov		es,ax
 						;---	cld
-	mvb #51	;blk move: inc si, inc di
-	rep	movsb
+	mvb #51	;blk move: inc si, inc di---	rep	movsb
 	swp.x	;--- Restore BP
 ;  215:         END;
 L_091

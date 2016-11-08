@@ -23,7 +23,7 @@ inc.w_A         2
 inc.w_abs       2
 inc.w_bp       18
 jmp_abs       150
-jsr_abs       275
+jsr_abs       276
 lda_bp         12
 lda_imm       346
 lda.w_abs     113

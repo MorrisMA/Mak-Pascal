@@ -1,53 +1,987 @@
-adc.w_imm16    17
-adc.w_sp       32
-adj_imm       101
-anl.w_sp        3
-asl.w_A        10
-beq_rel        22
-bge_rel         7
-bgt_rel         1
-ble_rel         3
-blt_rel         4
-bne_rel         2
-clc_imp        49
-cmp.w_bp        4
-cmp.w_imm16    21
-cmp.w_sp       12
-dec.w_A        18
-dec.w_bp        4
-eor_imm         3
-inc.w_bp        4
-jmp_abs        38
-jsr_abs        64
-lda_bp         12
-lda_imm        77
-lda.w_abs      30
-lda.w_bp       40
-lda.w_imm16     2
-lda.w_spI       5
-mvb_imm         3
-ora.w_sp        5
-pha.w_imp      96
-php_imp        14
-phx.w_imp      12
-pla.w_imp      17
-plp_imp        14
-plx.w_imp      12
-ply.w_imp       3
-psh.w_imm16    66
-rts_imp         9
-sbc.w_sp        7
-sec_imp        10
-sta_abs         4
-sta_spI         3
-sta.w_abs      15
-sta.w_bp       13
-sta.w_sp       23
-sta.w_spI       6
-swp.x_imp       6
-tay_imp         1
-tsx.w_imp       9
-txa.w_imp       3
-txs.w_imp       8
-tya_imp         1
-xma.w_sp       19
+phx.w_imp	
+tsx.w_imp	
+adj_imm	-4
+adj_imm	-2
+jsr_abs	_eol
+sta.w_abs	newline_014
+lda.w_abs	newline_014
+cmp.w_imm16	1
+beq_rel	L_018
+jmp_abs	L_019
+jsr_abs	_readln
+jsr_abs	_writeln
+lda.w_abs	linenumber_011
+pha.w_imp	
+lda_imm	1
+clc_imp	
+adc.w_sp	0
+adj_imm	2
+sta.w_abs	linenumber_011
+lda.w_abs	linenumber_011
+pha.w_imp	
+lda_imm	5
+pha.w_imp	
+jsr_abs	_iwrite
+adj_imm	4
+psh.w_imm16	S_020
+psh.w_imm16	0
+psh.w_imm16	3
+jsr_abs	_swrite
+adj_imm	6
+lda.w_abs	newline_014
+pha.w_imp	
+jsr_abs	_eof
+ora.w_sp	0
+adj_imm	2
+cmp.w_imm16	1
+beq_rel	L_021
+jmp_abs	L_022
+lda_imm	'
+sta_abs	ch_017
+jmp_abs	L_023
+txa.w_imp	
+sec_imp	
+adc.w_imm16	ch_017
+pha.w_imp	
+jsr_abs	_cread
+sta_spI	0
+adj_imm	2
+lda_bp	ch_017
+pha.w_imp	
+psh.w_imm16	0
+jsr_abs	_cwrite
+adj_imm	4
+lda_bp	ch_017
+tay_imp	
+tya_imp	
+sta.w_bp	RETURN_VALUE
+lda.w_bp	RETURN_VALUE
+txs.w_imp	
+plx.w_imp	
+rts_imp	
+phx.w_imp	
+tsx.w_imp	
+adj_imm	-4
+lda_bp	ch_025
+pha.w_imp	
+lda_imm	97
+xma.w_sp	0
+cmp.w_sp	0
+adj_imm	2
+php_imp	
+lda_imm	1
+plp_imp	
+bge_rel	L_026
+lda_imm	0
+pha.w_imp	
+lda_bp	ch_025
+pha.w_imp	
+lda_imm	122
+xma.w_sp	0
+cmp.w_sp	0
+adj_imm	2
+php_imp	
+lda_imm	1
+plp_imp	
+ble_rel	L_027
+lda_imm	0
+anl.w_sp	0
+adj_imm	2
+pha.w_imp	
+lda_bp	ch_025
+pha.w_imp	
+lda_imm	65
+xma.w_sp	0
+cmp.w_sp	0
+adj_imm	2
+php_imp	
+lda_imm	1
+plp_imp	
+bge_rel	L_028
+lda_imm	0
+pha.w_imp	
+lda_bp	ch_025
+pha.w_imp	
+lda_imm	90
+xma.w_sp	0
+cmp.w_sp	0
+adj_imm	2
+php_imp	
+lda_imm	1
+plp_imp	
+ble_rel	L_029
+lda_imm	0
+anl.w_sp	0
+adj_imm	2
+ora.w_sp	0
+adj_imm	2
+sta.w_bp	RETURN_VALUE
+lda.w_bp	RETURN_VALUE
+txs.w_imp	
+plx.w_imp	
+rts_imp	
+phx.w_imp	
+tsx.w_imp	
+adj_imm	-4
+lda_imm	0
+sta.w_abs	gotword_015
+jsr_abs	_eof
+eor_imm	1
+cmp.w_imm16	1
+beq_rel	L_034
+jmp_abs	L_035
+lda.w_bp	STATIC_LINK
+pha.w_imp	
+jsr_abs	nextchar_016
+adj_imm	2
+sta_abs	ch_033
+jsr_abs	_eof
+pha.w_imp	
+lda_bp	ch_033
+pha.w_imp	
+lda.w_bp	STATIC_LINK
+pha.w_imp	
+jsr_abs	isletter_024
+adj_imm	4
+ora.w_sp	0
+adj_imm	2
+cmp.w_imm16	1
+beq_rel	L_037
+jmp_abs	L_036
+jsr_abs	_eof
+eor_imm	1
+cmp.w_imm16	1
+beq_rel	L_038
+jmp_abs	L_039
+lda_imm	0
+sta.w_bp	charcount_032
+lda_bp	ch_033
+pha.w_imp	
+lda.w_bp	STATIC_LINK
+pha.w_imp	
+jsr_abs	isletter_024
+adj_imm	4
+cmp.w_imm16	1
+beq_rel	L_041
+jmp_abs	L_042
+lda.w_bp	charcount_032
+pha.w_imp	
+lda_imm	20
+xma.w_sp	0
+cmp.w_sp	0
+adj_imm	2
+php_imp	
+lda_imm	1
+plp_imp	
+blt_rel	L_045
+lda_imm	0
+cmp.w_imm16	1
+beq_rel	L_043
+jmp_abs	L_044
+lda_bp	ch_033
+pha.w_imp	
+lda_imm	65
+xma.w_sp	0
+cmp.w_sp	0
+adj_imm	2
+php_imp	
+lda_imm	1
+plp_imp	
+bge_rel	L_048
+lda_imm	0
+pha.w_imp	
+lda_bp	ch_033
+pha.w_imp	
+lda_imm	90
+xma.w_sp	0
+cmp.w_sp	0
+adj_imm	2
+php_imp	
+lda_imm	1
+plp_imp	
+ble_rel	L_049
+lda_imm	0
+anl.w_sp	0
+adj_imm	2
+cmp.w_imm16	1
+beq_rel	L_046
+jmp_abs	L_047
+lda_bp	ch_033
+pha.w_imp	
+lda_imm	97
+pha.w_imp	
+lda_imm	65
+xma.w_sp	0
+sec_imp	
+sbc.w_sp	0
+adj_imm	2
+clc_imp	
+adc.w_sp	0
+adj_imm	2
+sta_abs	ch_033
+lda.w_bp	charcount_032
+pha.w_imp	
+lda_imm	1
+clc_imp	
+adc.w_sp	0
+adj_imm	2
+sta.w_bp	charcount_032
+lda.w_bp	buffer_031
+pha.w_imp	
+lda.w_bp	charcount_032
+dec.w_A	
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+lda_bp	ch_033
+sta_spI	0
+adj_imm	2
+lda.w_bp	STATIC_LINK
+pha.w_imp	
+jsr_abs	nextchar_016
+adj_imm	2
+sta_abs	ch_033
+jmp_abs	L_040
+lda.w_bp	charcount_032
+pha.w_imp	
+lda_imm	1
+clc_imp	
+adc.w_sp	0
+adj_imm	2
+sta.w_bp	charcount_032
+lda_imm	20
+cmp.w_bp	charcount_032
+bge_rel	L_051
+jmp_abs	L_052
+lda.w_bp	buffer_031
+pha.w_imp	
+lda.w_bp	charcount_032
+dec.w_A	
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+lda_imm	'
+sta_spI	0
+adj_imm	2
+inc.w_bp	charcount_032
+jmp_abs	L_050
+dec.w_bp	charcount_032
+lda_imm	1
+sta.w_abs	gotword_015
+txs.w_imp	
+plx.w_imp	
+rts_imp	
+phx.w_imp	
+tsx.w_imp	
+adj_imm	-4
+lda.w_abs	nextnumberindex_010
+pha.w_imp	
+lda.w_imm16	1000
+xma.w_sp	0
+cmp.w_sp	0
+adj_imm	2
+php_imp	
+lda_imm	1
+plp_imp	
+blt_rel	L_057
+lda_imm	0
+cmp.w_imm16	1
+beq_rel	L_055
+jmp_abs	L_056
+lda.w_bp	lastnumberindex_054
+pha.w_imp	
+lda_imm	0
+xma.w_sp	0
+cmp.w_sp	0
+adj_imm	2
+php_imp	
+lda_imm	1
+plp_imp	
+bne_rel	L_060
+lda_imm	0
+cmp.w_imm16	1
+beq_rel	L_058
+jmp_abs	L_059
+psh.w_imm16	numbertable_008
+lda.w_bp	lastnumberindex_054
+asl.w_A	
+asl.w_A	
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+pla.w_imp	
+clc_imp	
+adc.w_imm16	nextindex_006
+pha.w_imp	
+lda.w_abs	nextnumberindex_010
+sta.w_spI	0
+adj_imm	2
+psh.w_imm16	numbertable_008
+lda.w_abs	nextnumberindex_010
+asl.w_A	
+asl.w_A	
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+pla.w_imp	
+clc_imp	
+adc.w_imm16	number_005
+pha.w_imp	
+lda.w_abs	linenumber_011
+sta.w_spI	0
+adj_imm	2
+psh.w_imm16	numbertable_008
+lda.w_abs	nextnumberindex_010
+asl.w_A	
+asl.w_A	
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+pla.w_imp	
+clc_imp	
+adc.w_imm16	nextindex_006
+pha.w_imp	
+lda_imm	0
+sta.w_spI	0
+adj_imm	2
+lda.w_abs	nextnumberindex_010
+sta.w_bp	RETURN_VALUE
+lda.w_abs	nextnumberindex_010
+pha.w_imp	
+lda_imm	1
+clc_imp	
+adc.w_sp	0
+adj_imm	2
+sta.w_abs	nextnumberindex_010
+jmp_abs	L_061
+lda_imm	1
+sta.w_abs	numbertablefull_013
+lda_imm	0
+sta.w_bp	RETURN_VALUE
+lda.w_bp	RETURN_VALUE
+txs.w_imp	
+plx.w_imp	
+rts_imp	
+phx.w_imp	
+tsx.w_imp	
+adj_imm	-2
+lda.w_abs	newline_014
+cmp.w_imm16	1
+beq_rel	L_064
+jmp_abs	L_065
+lda.w_abs	linenumber_011
+pha.w_imp	
+lda_imm	1
+xma.w_sp	0
+sec_imp	
+sbc.w_sp	0
+adj_imm	2
+sta.w_abs	linenumber_011
+lda_imm	1
+sta.w_bp	i_063
+psh.w_imm16	wordtable_007
+lda.w_bp	i_063
+dec.w_A	
+pha.w_imp	
+psh.w_imm16	24
+jsr_abs	_imul
+adj_imm	4
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+pla.w_imp	
+clc_imp	
+adc.w_imm16	word_002
+pha.w_imp	
+psh.w_imm16	wordtable_007
+lda.w_abs	nextwordindex_009
+dec.w_A	
+pha.w_imp	
+psh.w_imm16	24
+jsr_abs	_imul
+adj_imm	4
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+pla.w_imp	
+clc_imp	
+adc.w_imm16	word_002
+pha.w_imp	
+psh.w_imm16	20
+jsr_abs	_cmpsb
+adj_imm	+6
+php_imp	
+lda_imm	1
+plp_imp	
+bne_rel	L_069
+lda_imm	0
+cmp.w_imm16	1
+beq_rel	L_067
+jmp_abs	L_068
+lda.w_bp	i_063
+pha.w_imp	
+lda_imm	1
+clc_imp	
+adc.w_sp	0
+adj_imm	2
+sta.w_bp	i_063
+jmp_abs	L_066
+lda.w_bp	i_063
+pha.w_imp	
+lda.w_abs	nextwordindex_009
+xma.w_sp	0
+cmp.w_sp	0
+adj_imm	2
+php_imp	
+lda_imm	1
+plp_imp	
+blt_rel	L_072
+lda_imm	0
+cmp.w_imm16	1
+beq_rel	L_070
+jmp_abs	L_071
+psh.w_imm16	wordtable_007
+lda.w_bp	i_063
+dec.w_A	
+pha.w_imp	
+psh.w_imm16	24
+jsr_abs	_imul
+adj_imm	4
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+pla.w_imp	
+clc_imp	
+adc.w_imm16	lastnumberindex_004
+pha.w_imp	
+psh.w_imm16	wordtable_007
+lda.w_bp	i_063
+dec.w_A	
+pha.w_imp	
+psh.w_imm16	24
+jsr_abs	_imul
+adj_imm	4
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+pla.w_imp	
+clc_imp	
+adc.w_imm16	lastnumberindex_004
+pha.w_imp	
+lda.w_spI	0
+adj_imm	2
+pha.w_imp	
+lda.w_bp	STATIC_LINK
+pha.w_imp	
+jsr_abs	appendlinenumber_053
+adj_imm	4
+sta.w_spI	0
+adj_imm	2
+jmp_abs	L_073
+lda.w_abs	nextwordindex_009
+pha.w_imp	
+lda.w_imm16	500
+xma.w_sp	0
+cmp.w_sp	0
+adj_imm	2
+php_imp	
+lda_imm	1
+plp_imp	
+blt_rel	L_076
+lda_imm	0
+cmp.w_imm16	1
+beq_rel	L_074
+jmp_abs	L_075
+lda.w_abs	nextwordindex_009
+pha.w_imp	
+lda_imm	1
+clc_imp	
+adc.w_sp	0
+adj_imm	2
+sta.w_abs	nextwordindex_009
+psh.w_imm16	wordtable_007
+lda.w_bp	i_063
+dec.w_A	
+pha.w_imp	
+psh.w_imm16	24
+jsr_abs	_imul
+adj_imm	4
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+pla.w_imp	
+clc_imp	
+adc.w_imm16	firstnumberindex_003
+pha.w_imp	
+lda_imm	0
+pha.w_imp	
+lda.w_bp	STATIC_LINK
+pha.w_imp	
+jsr_abs	appendlinenumber_053
+adj_imm	4
+sta.w_spI	0
+adj_imm	2
+psh.w_imm16	wordtable_007
+lda.w_bp	i_063
+dec.w_A	
+pha.w_imp	
+psh.w_imm16	24
+jsr_abs	_imul
+adj_imm	4
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+pla.w_imp	
+clc_imp	
+adc.w_imm16	lastnumberindex_004
+pha.w_imp	
+psh.w_imm16	wordtable_007
+lda.w_bp	i_063
+dec.w_A	
+pha.w_imp	
+psh.w_imm16	24
+jsr_abs	_imul
+adj_imm	4
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+pla.w_imp	
+clc_imp	
+adc.w_imm16	firstnumberindex_003
+pha.w_imp	
+lda.w_spI	0
+adj_imm	2
+sta.w_spI	0
+adj_imm	2
+jmp_abs	L_077
+lda_imm	1
+sta.w_abs	wordtablefull_012
+lda.w_abs	newline_014
+cmp.w_imm16	1
+beq_rel	L_078
+jmp_abs	L_079
+lda.w_abs	linenumber_011
+pha.w_imp	
+lda_imm	1
+clc_imp	
+adc.w_sp	0
+adj_imm	2
+sta.w_abs	linenumber_011
+txs.w_imp	
+plx.w_imp	
+rts_imp	
+phx.w_imp	
+tsx.w_imp	
+adj_imm	-28
+lda_imm	1
+sta.w_bp	i_081
+lda.w_abs	nextwordindex_009
+pha.w_imp	
+lda_imm	2
+xma.w_sp	0
+sec_imp	
+sbc.w_sp	0
+adj_imm	2
+cmp.w_bp	i_081
+bge_rel	L_085
+jmp_abs	L_086
+lda.w_bp	i_081
+pha.w_imp	
+lda_imm	1
+clc_imp	
+adc.w_sp	0
+adj_imm	2
+sta.w_bp	j_082
+lda.w_abs	nextwordindex_009
+pha.w_imp	
+lda_imm	1
+xma.w_sp	0
+sec_imp	
+sbc.w_sp	0
+adj_imm	2
+cmp.w_bp	j_082
+bge_rel	L_088
+jmp_abs	L_089
+psh.w_imm16	wordtable_007
+lda.w_bp	i_081
+dec.w_A	
+pha.w_imp	
+psh.w_imm16	24
+jsr_abs	_imul
+adj_imm	4
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+pla.w_imp	
+clc_imp	
+adc.w_imm16	word_002
+pha.w_imp	
+psh.w_imm16	wordtable_007
+lda.w_bp	j_082
+dec.w_A	
+pha.w_imp	
+psh.w_imm16	24
+jsr_abs	_imul
+adj_imm	4
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+pla.w_imp	
+clc_imp	
+adc.w_imm16	word_002
+pha.w_imp	
+psh.w_imm16	20
+jsr_abs	_cmpsb
+adj_imm	+6
+php_imp	
+lda_imm	1
+plp_imp	
+bgt_rel	L_092
+lda_imm	0
+cmp.w_imm16	1
+beq_rel	L_090
+jmp_abs	L_091
+txa.w_imp	
+sec_imp	
+adc.w_imm16	temp_083
+pha.w_imp	
+psh.w_imm16	wordtable_007
+lda.w_bp	i_081
+dec.w_A	
+pha.w_imp	
+psh.w_imm16	24
+jsr_abs	_imul
+adj_imm	4
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+swp.x_imp	
+lda_imm	24
+plx.w_imp	
+ply.w_imp	
+mvb_imm	51
+swp.x_imp	
+psh.w_imm16	wordtable_007
+lda.w_bp	i_081
+dec.w_A	
+pha.w_imp	
+psh.w_imm16	24
+jsr_abs	_imul
+adj_imm	4
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+psh.w_imm16	wordtable_007
+lda.w_bp	j_082
+dec.w_A	
+pha.w_imp	
+psh.w_imm16	24
+jsr_abs	_imul
+adj_imm	4
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+swp.x_imp	
+lda_imm	24
+plx.w_imp	
+ply.w_imp	
+mvb_imm	51
+swp.x_imp	
+psh.w_imm16	wordtable_007
+lda.w_bp	j_082
+dec.w_A	
+pha.w_imp	
+psh.w_imm16	24
+jsr_abs	_imul
+adj_imm	4
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+txa.w_imp	
+sec_imp	
+adc.w_imm16	temp_083
+pha.w_imp	
+swp.x_imp	
+lda_imm	24
+plx.w_imp	
+ply.w_imp	
+mvb_imm	51
+swp.x_imp	
+inc.w_bp	j_082
+jmp_abs	L_087
+dec.w_bp	j_082
+inc.w_bp	i_081
+jmp_abs	L_084
+dec.w_bp	i_081
+txs.w_imp	
+plx.w_imp	
+rts_imp	
+phx.w_imp	
+tsx.w_imp	
+psh.w_imm16	numbertable_008
+lda.w_bp	i_094
+asl.w_A	
+asl.w_A	
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+pla.w_imp	
+clc_imp	
+adc.w_imm16	number_005
+pha.w_imp	
+lda.w_spI	0
+adj_imm	2
+pha.w_imp	
+lda_imm	4
+pha.w_imp	
+jsr_abs	_iwrite
+adj_imm	4
+psh.w_imm16	numbertable_008
+lda.w_bp	i_094
+asl.w_A	
+asl.w_A	
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+pla.w_imp	
+clc_imp	
+adc.w_imm16	nextindex_006
+pha.w_imp	
+lda.w_spI	0
+adj_imm	2
+sta.w_bp	i_094
+lda.w_bp	i_094
+pha.w_imp	
+lda_imm	0
+xma.w_sp	0
+cmp.w_sp	0
+adj_imm	2
+php_imp	
+lda_imm	1
+plp_imp	
+beq_rel	L_097
+lda_imm	0
+cmp.w_imm16	1
+beq_rel	L_096
+jmp_abs	L_095
+jsr_abs	_writeln
+txs.w_imp	
+plx.w_imp	
+rts_imp	
+phx.w_imp	
+tsx.w_imp	
+adj_imm	-2
+jsr_abs	_writeln
+jsr_abs	_writeln
+psh.w_imm16	S_100
+psh.w_imm16	0
+psh.w_imm16	15
+jsr_abs	_swrite
+adj_imm	6
+jsr_abs	_writeln
+psh.w_imm16	S_101
+psh.w_imm16	0
+psh.w_imm16	15
+jsr_abs	_swrite
+adj_imm	6
+jsr_abs	_writeln
+jsr_abs	_writeln
+lda.w_bp	STATIC_LINK
+pha.w_imp	
+jsr_abs	sortwords_080
+adj_imm	2
+lda_imm	1
+sta.w_bp	i_099
+lda.w_abs	nextwordindex_009
+pha.w_imp	
+lda_imm	1
+xma.w_sp	0
+sec_imp	
+sbc.w_sp	0
+adj_imm	2
+cmp.w_bp	i_099
+bge_rel	L_103
+jmp_abs	L_104
+psh.w_imm16	wordtable_007
+lda.w_bp	i_099
+dec.w_A	
+pha.w_imp	
+psh.w_imm16	24
+jsr_abs	_imul
+adj_imm	4
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+pla.w_imp	
+clc_imp	
+adc.w_imm16	word_002
+pha.w_imp	
+psh.w_imm16	0
+psh.w_imm16	20
+jsr_abs	_swrite
+adj_imm	6
+psh.w_imm16	wordtable_007
+lda.w_bp	i_099
+dec.w_A	
+pha.w_imp	
+psh.w_imm16	24
+jsr_abs	_imul
+adj_imm	4
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+pla.w_imp	
+clc_imp	
+adc.w_imm16	firstnumberindex_003
+pha.w_imp	
+lda.w_spI	0
+adj_imm	2
+pha.w_imp	
+lda.w_bp	STATIC_LINK
+pha.w_imp	
+jsr_abs	printnumbers_093
+adj_imm	4
+inc.w_bp	i_099
+jmp_abs	L_102
+dec.w_bp	i_099
+txs.w_imp	
+plx.w_imp	
+rts_imp	
+phx.w_imp	
+tsx.w_imp	
+lda_imm	0
+sta.w_abs	wordtablefull_012
+lda_imm	0
+sta.w_abs	numbertablefull_013
+lda_imm	1
+sta.w_abs	nextwordindex_009
+lda_imm	1
+sta.w_abs	nextnumberindex_010
+lda_imm	1
+sta.w_abs	linenumber_011
+psh.w_imm16	S_105
+psh.w_imm16	0
+psh.w_imm16	8
+jsr_abs	_swrite
+adj_imm	6
+jsr_abs	_eof
+pha.w_imp	
+lda.w_abs	wordtablefull_012
+ora.w_sp	0
+adj_imm	2
+pha.w_imp	
+lda.w_abs	numbertablefull_013
+ora.w_sp	0
+adj_imm	2
+eor_imm	1
+cmp.w_imm16	1
+beq_rel	L_107
+jmp_abs	L_108
+psh.w_imm16	wordtable_007
+lda.w_abs	nextwordindex_009
+dec.w_A	
+pha.w_imp	
+psh.w_imm16	24
+jsr_abs	_imul
+adj_imm	4
+clc_imp	
+adc.w_sp	0
+sta.w_sp	0
+pla.w_imp	
+clc_imp	
+adc.w_imm16	word_002
+pha.w_imp	
+phx.w_imp	
+jsr_abs	readword_030
+adj_imm	4
+lda.w_abs	gotword_015
+cmp.w_imm16	1
+beq_rel	L_109
+jmp_abs	L_110
+phx.w_imp	
+jsr_abs	enterword_062
+adj_imm	2
+jmp_abs	L_106
+lda.w_abs	wordtablefull_012
+cmp.w_imm16	1
+beq_rel	L_111
+jmp_abs	L_112
+jsr_abs	_writeln
+psh.w_imm16	S_113
+psh.w_imm16	0
+psh.w_imm16	43
+jsr_abs	_swrite
+adj_imm	6
+jsr_abs	_writeln
+jmp_abs	L_114
+lda.w_abs	numbertablefull_013
+cmp.w_imm16	1
+beq_rel	L_115
+jmp_abs	L_116
+jsr_abs	_writeln
+psh.w_imm16	S_117
+psh.w_imm16	0
+psh.w_imm16	45
+jsr_abs	_swrite
+adj_imm	6
+jsr_abs	_writeln
+jmp_abs	L_118
+phx.w_imp	
+jsr_abs	printxref_098
+adj_imm	2
+jsr_abs	_writeln
+lda.w_abs	nextwordindex_009
+pha.w_imp	
+lda_imm	1
+xma.w_sp	0
+sec_imp	
+sbc.w_sp	0
+adj_imm	2
+pha.w_imp	
+lda_imm	5
+pha.w_imp	
+jsr_abs	_iwrite
+adj_imm	4
+psh.w_imm16	S_119
+psh.w_imm16	0
+psh.w_imm16	14
+jsr_abs	_swrite
+adj_imm	6
+jsr_abs	_writeln
+lda.w_abs	nextnumberindex_010
+pha.w_imp	
+lda_imm	1
+xma.w_sp	0
+sec_imp	
+sbc.w_sp	0
+adj_imm	2
+pha.w_imp	
+lda_imm	5
+pha.w_imp	
+jsr_abs	_iwrite
+adj_imm	4
+psh.w_imm16	S_120
+psh.w_imm16	0
+psh.w_imm16	21
+jsr_abs	_swrite
+adj_imm	6
+jsr_abs	_writeln
+plx.w_imp	
+rts_imp	
+.DB	12000
+.DB	4004
+.DB	2
+.DB	2
+.DB	2
+.DB	2
+.DB	2
+.DB	2
+.DB	2
+.DS	" line number entries."
+.DS	" word entries."
+.DS	"*** The number table is not large enough. ***"
+.DS	"*** The word table is not large enough. ***"
+.DS	"    1 : "
+.DS	"---------------"
+.DS	"Cross-reference"
+.DS	" : "

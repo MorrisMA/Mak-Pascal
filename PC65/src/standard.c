@@ -179,7 +179,7 @@ void read_readln(SYMTAB_NODE_PTR rtn_idp)
 		            emit_1(CALL, name_lit(READ_CHAR));
                     fprintf(code_file, "\t\t\t\t\t;---");
 		            emit_1(POP,  reg(BX));
-                    fprintf(code_file, "\tsta (0,S)\t;store byte\n");
+                    fprintf(code_file, "\tsta (0,S)\t;store byte---");
 		            emit_2(MOVE, byte_indirect(BX), reg(AL));
                     fprintf(code_file, "\tadj #%d\t;pop ops/params\n", 2);
 		        }
@@ -199,8 +199,10 @@ void read_readln(SYMTAB_NODE_PTR rtn_idp)
     } else if (rtn_idp->defn.info.routine.key == READ)
 	    error(WRONG_NUMBER_OF_PARMS);
 
-    if (rtn_idp->defn.info.routine.key == READLN)
+    if (rtn_idp->defn.info.routine.key == READLN) {
+        fprintf(code_file, "\tjsr _readln\t;---");
 	    emit_1(CALL, name_lit(READ_LINE));
+    }
 }
 
 /*--------------------------------------------------------------*/

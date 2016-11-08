@@ -252,7 +252,7 @@ void assignment_statement(SYMTAB_NODE_PTR var_idp)
 	    emit_2(MOVE, reg(ES), reg(AX));
         fprintf(code_file, "\t\t\t\t\t\t;---");
 	    emit(CLEAR_DIRECTION);
-        fprintf(code_file, "\tmvb #51\t;blk move: inc si, inc di\n");
+        fprintf(code_file, "\tmvb #51\t;blk move: inc si, inc di---");
 	    emit(MOVE_BLOCK);
         fprintf(code_file, "\tswp.x\t;--- Restore BP\n");
     } else {

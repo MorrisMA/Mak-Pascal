@@ -18,6 +18,7 @@ nextchar_016	.SUB
 			beq     L_018
 			jmp     L_019
 L_018	.     
+			jsr     _readln
 			jsr     _writeln
 			lda.w   linenumber_011
 			pha.w   
