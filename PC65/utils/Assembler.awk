@@ -275,7 +275,10 @@ BEGIN {
                 printf("\n") > outfile
                 nextmem += dt               
             } else if(op == ".DD") {    # Define float literals
-                printf("%04X: %-4s\t%-s\n", nextmem, op, dt)
+                printf("%04X: ", nextmem)
+                printf("%04X: ", nextmem) > outfile
+                printf("%08X\n", dt)
+                printf("%08X\n", dt) > outfile
                 nextmem += 4
             } else if(op == ".DS") {    # Define string literals
                 printf("%04X: ", nextmem)

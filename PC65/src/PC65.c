@@ -1,12 +1,15 @@
-/*
- ============================================================================
- Name        : PC65.c
- Author      : Michael A. Morris
- Version     :
- Copyright   : Copyright 2016 - GPLv3
- Description : Hello World in C, Ansi-style
- ============================================================================
- */
+/****************************************************************/
+/*                                                              */
+/*	PC86 - Pascal Compiler for Intel 8086 processor             */
+/*                                                              */
+/*      Copyright (c) 1991 by Ronald Mak                        */
+/*      For instructional purposes only.  No warranties.        */
+/*                                                              */
+/*	PC65 - Pascal Compiler for M65C02A processor core           */
+/*	Copyright (c) 2015-2016 by Michael A. Morris                */
+/*	Released under GPLv3 by permission Ron Mak 13-Dec-2015      */
+/*                                                              */
+/****************************************************************/
 
 #include <stdio.h>
 #include <stdlib.h>
