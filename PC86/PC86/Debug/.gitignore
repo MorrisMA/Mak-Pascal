@@ -1,0 +1,13 @@
+*.bak
+*.opt
+*.obj
+*.ilk
+*.map
+*.pdb
+*.idb
+*.dsp
+*.mak
+*.plg
+*.bsc
+*.scc
+*.ncb
