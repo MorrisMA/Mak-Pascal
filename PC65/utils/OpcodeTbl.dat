@@ -1,6 +1,6 @@
 adc.w_imm16    17   2   2   AB69    imm16
 adc.w_sp      147   2   1   AB63    sp
-adj_imm       434   1   1   62      imm
+adj_imm       434   1   1   C2      imm
 anl.w_sp        6   2   1   AB23    sp
 asl.w_A        70   2   0   AB0A
 beq_rel        86   1   1   F0      rel
@@ -42,7 +42,7 @@ pla.w_imp      19   2   0   AB68
 plp_imp        58   1   0   28
 plx.w_imp      29   2   0   ABFA
 ply.w_imp       6   2   0   AB7A
-psh.w_imm16   342   2   2   AB54    imm16
+psh.w_imm16   342   2   2   ABE2    imm16
 rts_imp        26   1   0   60
 sbc.w_sp       10   2   1   ABE3    sp
 sec_imp        21   1   0   38
@@ -61,4 +61,4 @@ tsx.w_imp      26   2   0   ABBA
 txa.w_imp      11   2   0   AB8A
 txs.w_imp      21   2   0   AB9A
 tya_imp         1   1   0   98
-xma.w_sp       62   2   1   AB5C    sp
+xma.w_sp       62   2   1   AB44    sp

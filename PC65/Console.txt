@@ -2,8 +2,8 @@
 
 ----------------------------------------------------------
 
-test/Newton.asm => test/Newton : asm => test/Newton.p01
-test/Newton.asm => test/Newton : asm => test/Newton.out
+test/Sieve.asm => test/Sieve : asm => test/Sieve.p01
+test/Sieve.asm => test/Sieve : asm => test/Sieve.out
 
 ----------------------------------------------------------
 
@@ -13,7 +13,7 @@ Opcode Table
 
 adc.w_imm16 : AB69          4  2
 adc.w_sp    : AB63          3  1
-adj_imm     : 62            2  1
+adj_imm     : C2            2  1
 anl.w_sp    : AB23          3  1
 asl.w_A     : AB0A          2  0
 beq_rel     : F0            2  1
@@ -55,7 +55,7 @@ pla.w_imp   : AB68          2  0
 plp_imp     : 28            1  0
 plx.w_imp   : ABFA          2  0
 ply.w_imp   : AB7A          2  0
-psh.w_imm16 : AB54          4  2
+psh.w_imm16 : ABE2          4  2
 rts_imp     : 60            1  0
 sbc.w_sp    : ABE3          3  1
 sec_imp     : 38            1  0
@@ -74,7 +74,7 @@ tsx.w_imp   : ABBA          2  0
 txa.w_imp   : AB8A          2  0
 txs.w_imp   : AB9A          2  0
 tya_imp     : 98            1  0
-xma.w_sp    : AB5C          3  1
+xma.w_sp    : AB44          3  1
 
 
 ----------------------------------------------------------
@@ -85,398 +85,206 @@ Assembler Pass 1
 
 0000: phx.w_imp  	
 0002: tsx.w_imp  	
-0004: jsr_abs    	_writeln
-0007: psh.w_imm16	S_007
-000B: psh.w_imm16	0
-000F: psh.w_imm16	30
-0013: jsr_abs    	_swrite
-0016: adj_imm    	6
-0018: psh.w_imm16	number_002
-001C: jsr_abs    	_fread
-001F: swp_imp    	
-0020: ldy_imm    	2
-0022: sta.w_spIY 	0
-0025: swp_imp    	
-0026: sta.w_spI  	0
-0029: adj_imm    	2
-002B: lda.w_abs  	number_002+2
-002F: swp_imp    	
-0030: lda.w_abs  	number_002
-0034: swp_imp    	
-0035: pha.w_imp  	
-0037: swp_imp    	
-0038: pha.w_imp  	
-003A: lda_imm    	0
-003C: pha.w_imp  	
-003E: jsr_abs    	_fconv
-0041: adj_imm    	2
-0043: swp_imp    	
-0044: pha.w_imp  	
-0046: swp_imp    	
-0047: pha.w_imp  	
-0049: jsr_abs    	_fcmp
-004C: adj_imm    	8
-004E: cmp.w_imm16	0
-0052: php_imp    	
-0053: lda_imm    	1
-0055: plp_imp    	
-0056: beq_rel    	L_010
-0058: lda_imm    	0
-005A: cmp.w_imm16	1
-005E: beq_rel    	L_008
-0060: jmp_abs    	L_009
-0063: lda.w_abs  	number_002+2
-0067: swp_imp    	
-0068: lda.w_abs  	number_002
-006C: swp_imp    	
-006D: pha.w_imp  	
-006F: swp_imp    	
-0070: pha.w_imp  	
-0072: lda_imm    	12
-0074: pha.w_imp  	
-0076: lda_imm    	6
-0078: pha.w_imp  	
-007A: jsr_abs    	_fwrite
-007D: adj_imm    	8
-007F: lda.w_abs  	F_011+2
-0083: swp_imp    	
-0084: lda.w_abs  	F_011
-0088: swp_imp    	
-0089: pha.w_imp  	
-008B: swp_imp    	
-008C: pha.w_imp  	
-008E: lda_imm    	12
-0090: pha.w_imp  	
-0092: lda_imm    	6
-0094: pha.w_imp  	
-0096: jsr_abs    	_fwrite
-0099: adj_imm    	8
-009B: jsr_abs    	_writeln
-009E: jmp_abs    	L_012
-00A1: lda.w_abs  	number_002+2
-00A5: swp_imp    	
-00A6: lda.w_abs  	number_002
-00AA: swp_imp    	
-00AB: pha.w_imp  	
-00AD: swp_imp    	
-00AE: pha.w_imp  	
-00B0: lda_imm    	0
-00B2: pha.w_imp  	
-00B4: jsr_abs    	_fconv
-00B7: adj_imm    	2
-00B9: swp_imp    	
+0004: lda.w_imm16	1000
+0008: pha.w_imp  	
+000A: lda_imm    	2
+000C: pha.w_imp  	
+000E: jsr_abs    	_idiv
+0011: adj_imm    	4
+0013: sta.w_abs  	limit_005
+0017: psh.w_imm16	sieve_002
+001B: lda_imm    	1
+001D: dec.w_A    	
+001F: asl.w_A    	
+0021: clc_imp    	
+0022: adc.w_sp   	0
+0025: sta.w_sp   	0
+0028: lda_imm    	0
+002A: sta.w_spI  	0
+002D: adj_imm    	2
+002F: lda_imm    	2
+0031: sta.w_abs  	i_003
+0035: lda.w_imm16	1000
+0039: cmp.w_abs  	i_003
+003D: bge_rel    	L_009
+0040: jmp_abs    	L_010
+0043: psh.w_imm16	sieve_002
+0047: lda.w_abs  	i_003
+004B: dec.w_A    	
+004D: asl.w_A    	
+004F: clc_imp    	
+0050: adc.w_sp   	0
+0053: sta.w_sp   	0
+0056: lda_imm    	1
+0058: sta.w_spI  	0
+005B: adj_imm    	2
+005D: inc.w_abs  	i_003
+0061: jmp_abs    	L_008
+0064: dec.w_abs  	i_003
+0068: lda_imm    	1
+006A: sta.w_abs  	prime_006
+006E: lda.w_abs  	prime_006
+0072: pha.w_imp  	
+0074: lda_imm    	1
+0076: clc_imp    	
+0077: adc.w_sp   	0
+007A: adj_imm    	2
+007C: sta.w_abs  	prime_006
+0080: psh.w_imm16	sieve_002
+0084: lda.w_abs  	prime_006
+0088: dec.w_A    	
+008A: asl.w_A    	
+008C: clc_imp    	
+008D: adc.w_sp   	0
+0090: sta.w_sp   	0
+0093: lda.w_spI  	0
+0096: adj_imm    	2
+0098: eor_imm    	1
+009A: cmp.w_imm16	1
+009E: beq_rel    	L_014
+00A0: jmp_abs    	L_015
+00A3: lda.w_abs  	prime_006
+00A7: pha.w_imp  	
+00A9: lda_imm    	1
+00AB: clc_imp    	
+00AC: adc.w_sp   	0
+00AF: adj_imm    	2
+00B1: sta.w_abs  	prime_006
+00B5: jmp_abs    	L_013
+00B8: lda_imm    	2
 00BA: pha.w_imp  	
-00BC: swp_imp    	
-00BD: pha.w_imp  	
-00BF: jsr_abs    	_fcmp
-00C2: adj_imm    	8
-00C4: cmp.w_imm16	0
-00C8: php_imp    	
-00C9: lda_imm    	1
-00CB: plp_imp    	
-00CC: blt_rel    	L_015
-00CF: lda_imm    	0
-00D1: cmp.w_imm16	1
-00D5: beq_rel    	L_013
-00D7: jmp_abs    	L_014
-00DA: psh.w_imm16	S_016
-00DE: psh.w_imm16	0
-00E2: psh.w_imm16	22
-00E6: jsr_abs    	_swrite
-00E9: adj_imm    	6
-00EB: jsr_abs    	_writeln
-00EE: jmp_abs    	L_017
-00F1: lda.w_abs  	number_002+2
-00F5: swp_imp    	
-00F6: lda.w_abs  	number_002
-00FA: swp_imp    	
-00FB: pha.w_imp  	
-00FD: swp_imp    	
-00FE: pha.w_imp  	
-0100: jsr_abs    	_fsqrt
-0103: adj_imm    	4
-0105: swp_imp    	
-0106: sta.w_abs  	sqroot_004+2
-010A: swp_imp    	
-010B: sta.w_abs  	sqroot_004
-010F: lda.w_abs  	number_002+2
-0113: swp_imp    	
-0114: lda.w_abs  	number_002
-0118: swp_imp    	
-0119: pha.w_imp  	
-011B: swp_imp    	
-011C: pha.w_imp  	
-011E: lda_imm    	12
-0120: pha.w_imp  	
-0122: lda_imm    	6
+00BC: lda.w_abs  	prime_006
+00C0: pha.w_imp  	
+00C2: jsr_abs    	_imul
+00C5: adj_imm    	4
+00C7: sta.w_abs  	factor_007
+00CB: lda.w_abs  	factor_007
+00CF: pha.w_imp  	
+00D1: lda.w_imm16	1000
+00D5: xma.w_sp   	0
+00D8: cmp.w_sp   	0
+00DB: adj_imm    	2
+00DD: php_imp    	
+00DE: lda_imm    	1
+00E0: plp_imp    	
+00E1: ble_rel    	L_019
+00E4: lda_imm    	0
+00E6: cmp.w_imm16	1
+00EA: beq_rel    	L_017
+00EC: jmp_abs    	L_018
+00EF: psh.w_imm16	sieve_002
+00F3: lda.w_abs  	factor_007
+00F7: dec.w_A    	
+00F9: asl.w_A    	
+00FB: clc_imp    	
+00FC: adc.w_sp   	0
+00FF: sta.w_sp   	0
+0102: lda_imm    	0
+0104: sta.w_spI  	0
+0107: adj_imm    	2
+0109: lda.w_abs  	factor_007
+010D: pha.w_imp  	
+010F: lda.w_abs  	prime_006
+0113: clc_imp    	
+0114: adc.w_sp   	0
+0117: adj_imm    	2
+0119: sta.w_abs  	factor_007
+011D: jmp_abs    	L_016
+0120: lda.w_abs  	prime_006
 0124: pha.w_imp  	
-0126: jsr_abs    	_fwrite
-0129: adj_imm    	8
-012B: lda.w_abs  	sqroot_004+2
-012F: swp_imp    	
-0130: lda.w_abs  	sqroot_004
-0134: swp_imp    	
-0135: pha.w_imp  	
-0137: swp_imp    	
-0138: pha.w_imp  	
-013A: lda_imm    	12
-013C: pha.w_imp  	
-013E: lda_imm    	6
-0140: pha.w_imp  	
-0142: jsr_abs    	_fwrite
-0145: adj_imm    	8
-0147: jsr_abs    	_writeln
-014A: jsr_abs    	_writeln
-014D: lda_imm    	1
-014F: pha.w_imp  	
-0151: jsr_abs    	_fconv
-0154: adj_imm    	2
-0156: swp_imp    	
-0157: sta.w_abs  	root_003+2
-015B: swp_imp    	
-015C: sta.w_abs  	root_003
-0160: lda.w_abs  	number_002+2
-0164: swp_imp    	
-0165: lda.w_abs  	number_002
-0169: swp_imp    	
-016A: pha.w_imp  	
-016C: swp_imp    	
-016D: pha.w_imp  	
-016F: lda.w_abs  	root_003+2
-0173: swp_imp    	
-0174: lda.w_abs  	root_003
-0178: swp_imp    	
-0179: pha.w_imp  	
-017B: swp_imp    	
-017C: pha.w_imp  	
-017E: jsr_abs    	_fdiv
-0181: adj_imm    	8
-0183: swp_imp    	
-0184: pha.w_imp  	
-0186: swp_imp    	
-0187: pha.w_imp  	
-0189: lda.w_abs  	root_003+2
-018D: swp_imp    	
-018E: lda.w_abs  	root_003
-0192: swp_imp    	
-0193: pha.w_imp  	
-0195: swp_imp    	
-0196: pha.w_imp  	
-0198: jsr_abs    	_fadd
-019B: adj_imm    	8
-019D: swp_imp    	
-019E: pha.w_imp  	
-01A0: swp_imp    	
-01A1: pha.w_imp  	
-01A3: lda_imm    	2
-01A5: pha.w_imp  	
-01A7: jsr_abs    	_fconv
-01AA: adj_imm    	2
-01AC: swp_imp    	
-01AD: pha.w_imp  	
-01AF: swp_imp    	
+0126: lda.w_abs  	limit_005
+012A: xma.w_sp   	0
+012D: cmp.w_sp   	0
+0130: adj_imm    	2
+0132: php_imp    	
+0133: lda_imm    	1
+0135: plp_imp    	
+0136: bgt_rel    	L_020
+0139: lda_imm    	0
+013B: cmp.w_imm16	1
+013F: beq_rel    	L_012
+0141: jmp_abs    	L_011
+0144: psh.w_imm16	S_021
+0148: psh.w_imm16	0
+014C: psh.w_imm16	21
+0150: jsr_abs    	_swrite
+0153: adj_imm    	6
+0155: jsr_abs    	_writeln
+0158: jsr_abs    	_writeln
+015B: lda_imm    	1
+015D: sta.w_abs  	i_003
+0161: lda_imm    	0
+0163: sta.w_abs  	j_004
+0167: lda_imm    	19
+0169: cmp.w_abs  	j_004
+016D: bge_rel    	L_025
+0170: jmp_abs    	L_026
+0173: lda.w_abs  	i_003
+0177: pha.w_imp  	
+0179: lda.w_abs  	j_004
+017D: clc_imp    	
+017E: adc.w_sp   	0
+0181: adj_imm    	2
+0183: sta.w_abs  	prime_006
+0187: psh.w_imm16	sieve_002
+018B: lda.w_abs  	prime_006
+018F: dec.w_A    	
+0191: asl.w_A    	
+0193: clc_imp    	
+0194: adc.w_sp   	0
+0197: sta.w_sp   	0
+019A: lda.w_spI  	0
+019D: adj_imm    	2
+019F: cmp.w_imm16	1
+01A3: beq_rel    	L_027
+01A5: jmp_abs    	L_028
+01A8: lda.w_abs  	prime_006
+01AC: pha.w_imp  	
+01AE: lda_imm    	3
 01B0: pha.w_imp  	
-01B2: jsr_abs    	_fdiv
-01B5: adj_imm    	8
-01B7: swp_imp    	
-01B8: sta.w_abs  	root_003+2
-01BC: swp_imp    	
-01BD: sta.w_abs  	root_003
-01C1: lda.w_abs  	root_003+2
-01C5: swp_imp    	
-01C6: lda.w_abs  	root_003
-01CA: swp_imp    	
-01CB: pha.w_imp  	
-01CD: swp_imp    	
-01CE: pha.w_imp  	
-01D0: lda_imm    	24
-01D2: pha.w_imp  	
-01D4: lda_imm    	6
-01D6: pha.w_imp  	
-01D8: jsr_abs    	_fwrite
-01DB: adj_imm    	8
-01DD: lda_imm    	100
-01DF: pha.w_imp  	
-01E1: lda.w_abs  	root_003+2
-01E5: swp_imp    	
-01E6: lda.w_abs  	root_003
-01EA: swp_imp    	
-01EB: pha.w_imp  	
-01ED: swp_imp    	
-01EE: pha.w_imp  	
-01F0: lda.w_abs  	sqroot_004+2
-01F4: swp_imp    	
-01F5: lda.w_abs  	sqroot_004
-01F9: swp_imp    	
-01FA: pha.w_imp  	
-01FC: swp_imp    	
-01FD: pha.w_imp  	
-01FF: jsr_abs    	_fsub
-0202: adj_imm    	8
-0204: swp_imp    	
-0205: pha.w_imp  	
-0207: swp_imp    	
-0208: pha.w_imp  	
-020A: jsr_abs    	_fabs
-020D: adj_imm    	4
-020F: swp_imp    	
-0210: pha.w_imp  	
-0212: swp_imp    	
-0213: pha.w_imp  	
-0215: pla.w_imp  	
-0217: swp_imp    	
-0218: pla.w_imp  	
-021A: ply.w_imp  	
-021C: pha.w_imp  	
-021E: swp_imp    	
-021F: pha.w_imp  	
-0221: phy.w_imp  	
-0223: jsr_abs    	_fconv
-0226: adj_imm    	2
-0228: ply.w_imp  	
-022A: swp.y_imp  	
-022C: ply.w_imp  	
-022E: swp_imp    	
-022F: pha.w_imp  	
-0231: swp_imp    	
-0232: pha.w_imp  	
-0234: phy.w_imp  	
-0236: swp.y_imp  	
-0238: phy.w_imp  	
-023A: jsr_abs    	_fmul
-023D: adj_imm    	8
-023F: swp_imp    	
-0240: pha.w_imp  	
-0242: swp_imp    	
-0243: pha.w_imp  	
-0245: lda.w_abs  	sqroot_004+2
-0249: swp_imp    	
-024A: lda.w_abs  	sqroot_004
-024E: swp_imp    	
-024F: pha.w_imp  	
-0251: swp_imp    	
-0252: pha.w_imp  	
-0254: jsr_abs    	_fdiv
-0257: adj_imm    	8
-0259: swp_imp    	
-025A: pha.w_imp  	
-025C: swp_imp    	
-025D: pha.w_imp  	
-025F: lda_imm    	12
-0261: pha.w_imp  	
-0263: lda_imm    	2
-0265: pha.w_imp  	
-0267: jsr_abs    	_fwrite
-026A: adj_imm    	8
-026C: lda_imm    	37
-026E: pha.w_imp  	
-0270: psh.w_imm16	0
-0274: jsr_abs    	_cwrite
-0277: adj_imm    	4
-0279: jsr_abs    	_writeln
-027C: lda.w_abs  	number_002+2
-0280: swp_imp    	
-0281: lda.w_abs  	number_002
-0285: swp_imp    	
-0286: pha.w_imp  	
-0288: swp_imp    	
-0289: pha.w_imp  	
-028B: lda.w_abs  	root_003+2
-028F: swp_imp    	
-0290: lda.w_abs  	root_003
-0294: swp_imp    	
-0295: pha.w_imp  	
-0297: swp_imp    	
-0298: pha.w_imp  	
-029A: swp_imp    	
-029B: pha.w_imp  	
-029D: swp_imp    	
-029E: pha.w_imp  	
-02A0: jsr_abs    	_fmul
-02A3: adj_imm    	8
-02A5: swp_imp    	
-02A6: pha.w_imp  	
-02A8: swp_imp    	
-02A9: pha.w_imp  	
-02AB: jsr_abs    	_fdiv
-02AE: adj_imm    	8
-02B0: swp_imp    	
-02B1: pha.w_imp  	
-02B3: swp_imp    	
-02B4: pha.w_imp  	
-02B6: lda_imm    	1
-02B8: pha.w_imp  	
-02BA: jsr_abs    	_fconv
-02BD: adj_imm    	2
-02BF: swp_imp    	
-02C0: pha.w_imp  	
-02C2: swp_imp    	
-02C3: pha.w_imp  	
-02C5: jsr_abs    	_fsub
-02C8: adj_imm    	8
-02CA: swp_imp    	
-02CB: pha.w_imp  	
-02CD: swp_imp    	
-02CE: pha.w_imp  	
-02D0: jsr_abs    	_fabs
-02D3: adj_imm    	4
-02D5: swp_imp    	
-02D6: pha.w_imp  	
-02D8: swp_imp    	
-02D9: pha.w_imp  	
-02DB: lda.w_abs  	F_020+2
-02DF: swp_imp    	
-02E0: lda.w_abs  	F_020
-02E4: swp_imp    	
-02E5: pha.w_imp  	
-02E7: swp_imp    	
-02E8: pha.w_imp  	
-02EA: jsr_abs    	_fcmp
-02ED: adj_imm    	8
-02EF: cmp.w_imm16	0
-02F3: php_imp    	
-02F4: lda_imm    	1
-02F6: plp_imp    	
-02F7: blt_rel    	L_021
-02FA: lda_imm    	0
-02FC: cmp.w_imm16	1
-0300: beq_rel    	L_019
-0302: jmp_abs    	L_018
-0305: lda.w_abs  	number_002+2
-0309: swp_imp    	
-030A: lda.w_abs  	number_002
-030E: swp_imp    	
-030F: pha.w_imp  	
-0311: swp_imp    	
-0312: pha.w_imp  	
-0314: lda_imm    	0
-0316: pha.w_imp  	
-0318: jsr_abs    	_fconv
-031B: adj_imm    	2
-031D: swp_imp    	
-031E: pha.w_imp  	
-0320: swp_imp    	
-0321: pha.w_imp  	
-0323: jsr_abs    	_fcmp
-0326: adj_imm    	8
-0328: cmp.w_imm16	0
-032C: php_imp    	
-032D: lda_imm    	1
-032F: plp_imp    	
-0330: beq_rel    	L_022
-0332: lda_imm    	0
-0334: cmp.w_imm16	1
-0338: beq_rel    	L_006
-033A: jmp_abs    	L_005
-033D: plx.w_imp  	
-033F: rts_imp    	
-0340: .DB 	4
-0344: .DB 	4
-0348: .DB 	4
-034C: .DD 	1.000000e-06
-0350: .DD 	0.000000e+00
-0354: .DS 	"*** ERROR:  number < 0"
-036A: .DS 	"Enter new number (0 to quit): "
+01B2: jsr_abs    	_iwrite
+01B5: adj_imm    	4
+01B7: jmp_abs    	L_029
+01BA: psh.w_imm16	S_030
+01BE: psh.w_imm16	0
+01C2: psh.w_imm16	3
+01C6: jsr_abs    	_swrite
+01C9: adj_imm    	6
+01CB: inc.w_abs  	j_004
+01CF: jmp_abs    	L_024
+01D2: dec.w_abs  	j_004
+01D6: jsr_abs    	_writeln
+01D9: lda.w_abs  	i_003
+01DD: pha.w_imp  	
+01DF: lda_imm    	20
+01E1: clc_imp    	
+01E2: adc.w_sp   	0
+01E5: adj_imm    	2
+01E7: sta.w_abs  	i_003
+01EB: lda.w_abs  	i_003
+01EF: pha.w_imp  	
+01F1: lda.w_imm16	1000
+01F5: xma.w_sp   	0
+01F8: cmp.w_sp   	0
+01FB: adj_imm    	2
+01FD: php_imp    	
+01FE: lda_imm    	1
+0200: plp_imp    	
+0201: bgt_rel    	L_031
+0204: lda_imm    	0
+0206: cmp.w_imm16	1
+020A: beq_rel    	L_023
+020C: jmp_abs    	L_022
+020F: plx.w_imp  	
+0211: rts_imp    	
+0212: .DB 	2000
+09E2: .DB 	2
+09E4: .DB 	2
+09E6: .DB 	2
+09E8: .DB 	2
+09EA: .DB 	2
+09EC: .DS 	"   "
+09EF: .DS 	"Sieve of Eratosthenes"
 
 
 ----------------------------------------------------------
@@ -485,30 +293,39 @@ Assembler Symbol Table
 
 ----------------------------------------------------------
 
-L_010                => 005A => L_010               
-STATIC_LINK          => 0004 => L_005               
-L_012                => 0305 => L_012               
-L_021                => 02FC => L_021               
+S_021                => 09EF => S_021               
+S_030                => 09EC => S_030               
+i_003                => 09E2 => i_003               
+L_010                => 0064 => L_010               
+L_020                => 013B => L_020               
+L_011                => 006E => L_011               
+STATIC_LINK          => 0004 =>                     
+limit_005            => 09E6 => limit_005           
+L_012                => 0144 => L_012               
 _pc65_main           => 0000 => _pc65_main          
-sqroot_004           => 0348 => sqroot_004          
-L_022                => 0334 => L_022               
-L_013                => 00DA => L_013               
-S_007                => 036A => S_007               
-S_016                => 0354 => S_016               
-L_014                => 00F1 => L_014               
-L_005                => 0004 => L_005               
-L_006                => 033D => L_006               
-L_015                => 00D1 => L_015               
+L_031                => 0206 => L_031               
+L_022                => 0161 => L_022               
+L_013                => 0080 => L_013               
+sieve_002            => 0212 => sieve_002           
+L_023                => 020F => L_023               
+L_014                => 00A3 => L_014               
+L_024                => 0167 => L_024               
+L_015                => 00B8 => L_015               
+L_025                => 0173 => L_025               
+L_016                => 00CB => L_016               
 RETURN_VALUE         => FFFC =>                     
-L_017                => 0305 => L_012               
-L_008                => 0063 => L_008               
-root_003             => 0344 => root_003            
-L_018                => 0160 => L_018               
-L_009                => 00A1 => L_009               
-F_011                => 0350 => F_011               
-F_020                => 034C => F_020               
-number_002           => 0340 => number_002          
-L_019                => 0305 => L_012               
+j_004                => 09E4 => j_004               
+L_026                => 01D2 => L_026               
+L_017                => 00EF => L_017               
+L_008                => 0035 => L_008               
+factor_007           => 09EA => factor_007          
+prime_006            => 09E8 => prime_006           
+L_027                => 01A8 => L_027               
+L_018                => 0120 => L_018               
+L_009                => 0043 => L_009               
+L_028                => 01BA => L_028               
+L_019                => 00E6 => L_019               
+L_029                => 01CB => L_029               
 HIGH_RETURN_VALUE    => FFFE =>                     
 
 
@@ -521,431 +338,743 @@ Assembler Pass 2
 0000:				; _pc65_main
 0000: ABDA    		;			phx.w_imp  	
 0002: ABBA    		;			tsx.w_imp  	
-0004:				; L_005
-0004: 20FFFF  		;			jsr_abs    	_writeln
-0007: AB546A03		;			psh.w_imm16	S_007
-000B: AB540000		;			psh.w_imm16	0
-000F: AB541E00		;			psh.w_imm16	30
-0013: 20FFFF  		;			jsr_abs    	_swrite
-0016: 6206    		;			adj_imm    	6
-0018: AB544003		;			psh.w_imm16	number_002
-001C: 20FFFF  		;			jsr_abs    	_fread
-001F: 1B      		;			swp_imp    	
-0020: A002    		;			ldy_imm    	2
-0022: AB9300  		;			sta.w_spIY 	0
-0025: 1B      		;			swp_imp    	
-0026: BB8300  		;			sta.w_spI  	0
-0029: 6202    		;			adj_imm    	2
-002B: ABADFFFF		;			lda.w_abs  	number_002+2
-002F: 1B      		;			swp_imp    	
-0030: ABAD4003		;			lda.w_abs  	number_002
-0034: 1B      		;			swp_imp    	
-0035: AB48    		;			pha.w_imp  	
-0037: 1B      		;			swp_imp    	
-0038: AB48    		;			pha.w_imp  	
-003A: A900    		;			lda_imm    	0
-003C: AB48    		;			pha.w_imp  	
-003E: 20FFFF  		;			jsr_abs    	_fconv
-0041: 6202    		;			adj_imm    	2
-0043: 1B      		;			swp_imp    	
-0044: AB48    		;			pha.w_imp  	
-0046: 1B      		;			swp_imp    	
-0047: AB48    		;			pha.w_imp  	
-0049: 20FFFF  		;			jsr_abs    	_fcmp
-004C: 6208    		;			adj_imm    	8
-004E: ABC90000		;			cmp.w_imm16	0
-0052: 08      		;			php_imp    	
-0053: A901    		;			lda_imm    	1
-0055: 28      		;			plp_imp    	
-0056: F002    		;			beq_rel    	L_010
-0058: A900    		;			lda_imm    	0
-005A:				; L_010
-005A: ABC90100		;			cmp.w_imm16	1
-005E: F003    		;			beq_rel    	L_008
-0060: 4CA100  		;			jmp_abs    	L_009
-0063:				; L_008
-0063: ABADFFFF		;			lda.w_abs  	number_002+2
-0067: 1B      		;			swp_imp    	
-0068: ABAD4003		;			lda.w_abs  	number_002
-006C: 1B      		;			swp_imp    	
-006D: AB48    		;			pha.w_imp  	
-006F: 1B      		;			swp_imp    	
-0070: AB48    		;			pha.w_imp  	
-0072: A90C    		;			lda_imm    	12
-0074: AB48    		;			pha.w_imp  	
-0076: A906    		;			lda_imm    	6
-0078: AB48    		;			pha.w_imp  	
-007A: 20FFFF  		;			jsr_abs    	_fwrite
-007D: 6208    		;			adj_imm    	8
-007F: ABADFFFF		;			lda.w_abs  	F_011+2
-0083: 1B      		;			swp_imp    	
-0084: ABAD5003		;			lda.w_abs  	F_011
-0088: 1B      		;			swp_imp    	
-0089: AB48    		;			pha.w_imp  	
-008B: 1B      		;			swp_imp    	
-008C: AB48    		;			pha.w_imp  	
-008E: A90C    		;			lda_imm    	12
-0090: AB48    		;			pha.w_imp  	
-0092: A906    		;			lda_imm    	6
-0094: AB48    		;			pha.w_imp  	
-0096: 20FFFF  		;			jsr_abs    	_fwrite
-0099: 6208    		;			adj_imm    	8
-009B: 20FFFF  		;			jsr_abs    	_writeln
-009E: 4C0503  		;			jmp_abs    	L_012
-00A1:				; L_009
-00A1: ABADFFFF		;			lda.w_abs  	number_002+2
-00A5: 1B      		;			swp_imp    	
-00A6: ABAD4003		;			lda.w_abs  	number_002
-00AA: 1B      		;			swp_imp    	
-00AB: AB48    		;			pha.w_imp  	
-00AD: 1B      		;			swp_imp    	
-00AE: AB48    		;			pha.w_imp  	
-00B0: A900    		;			lda_imm    	0
-00B2: AB48    		;			pha.w_imp  	
-00B4: 20FFFF  		;			jsr_abs    	_fconv
-00B7: 6202    		;			adj_imm    	2
-00B9: 1B      		;			swp_imp    	
+0004: ABA9E803		;			lda.w_imm16	1000
+0008: AB48    		;			pha.w_imp  	
+000A: A902    		;			lda_imm    	2
+000C: AB48    		;			pha.w_imp  	
+000E: 20FFFF  		;			jsr_abs    	_idiv
+0011: C204    		;			adj_imm    	4
+0013: AB8DE609		;			sta.w_abs  	limit_005
+0017: ABE21202		;			psh.w_imm16	sieve_002
+001B: A901    		;			lda_imm    	1
+001D: AB3A    		;			dec.w_A    	
+001F: AB0A    		;			asl.w_A    	
+0021: 18      		;			clc_imp    	
+0022: AB6300  		;			adc.w_sp   	0
+0025: AB8300  		;			sta.w_sp   	0
+0028: A900    		;			lda_imm    	0
+002A: BB8300  		;			sta.w_spI  	0
+002D: C202    		;			adj_imm    	2
+002F: A902    		;			lda_imm    	2
+0031: AB8DE209		;			sta.w_abs  	i_003
+0035:				; L_008
+0035: ABA9E803		;			lda.w_imm16	1000
+0039: ABCDE209		;			cmp.w_abs  	i_003
+003D: AB5003  		;			bge_rel    	L_009
+0040: 4C6400  		;			jmp_abs    	L_010
+0043:				; L_009
+0043: ABE21202		;			psh.w_imm16	sieve_002
+0047: ABADE209		;			lda.w_abs  	i_003
+004B: AB3A    		;			dec.w_A    	
+004D: AB0A    		;			asl.w_A    	
+004F: 18      		;			clc_imp    	
+0050: AB6300  		;			adc.w_sp   	0
+0053: AB8300  		;			sta.w_sp   	0
+0056: A901    		;			lda_imm    	1
+0058: BB8300  		;			sta.w_spI  	0
+005B: C202    		;			adj_imm    	2
+005D: ABEEE209		;			inc.w_abs  	i_003
+0061: 4C3500  		;			jmp_abs    	L_008
+0064:				; L_010
+0064: ABCEE209		;			dec.w_abs  	i_003
+0068: A901    		;			lda_imm    	1
+006A: AB8DE809		;			sta.w_abs  	prime_006
+006E:				; L_011
+006E: ABADE809		;			lda.w_abs  	prime_006
+0072: AB48    		;			pha.w_imp  	
+0074: A901    		;			lda_imm    	1
+0076: 18      		;			clc_imp    	
+0077: AB6300  		;			adc.w_sp   	0
+007A: C202    		;			adj_imm    	2
+007C: AB8DE809		;			sta.w_abs  	prime_006
+0080:				; L_013
+0080: ABE21202		;			psh.w_imm16	sieve_002
+0084: ABADE809		;			lda.w_abs  	prime_006
+0088: AB3A    		;			dec.w_A    	
+008A: AB0A    		;			asl.w_A    	
+008C: 18      		;			clc_imp    	
+008D: AB6300  		;			adc.w_sp   	0
+0090: AB8300  		;			sta.w_sp   	0
+0093: BBA300  		;			lda.w_spI  	0
+0096: C202    		;			adj_imm    	2
+0098: 4901    		;			eor_imm    	1
+009A: ABC90100		;			cmp.w_imm16	1
+009E: F003    		;			beq_rel    	L_014
+00A0: 4CB800  		;			jmp_abs    	L_015
+00A3:				; L_014
+00A3: ABADE809		;			lda.w_abs  	prime_006
+00A7: AB48    		;			pha.w_imp  	
+00A9: A901    		;			lda_imm    	1
+00AB: 18      		;			clc_imp    	
+00AC: AB6300  		;			adc.w_sp   	0
+00AF: C202    		;			adj_imm    	2
+00B1: AB8DE809		;			sta.w_abs  	prime_006
+00B5: 4C8000  		;			jmp_abs    	L_013
+00B8:				; L_015
+00B8: A902    		;			lda_imm    	2
 00BA: AB48    		;			pha.w_imp  	
-00BC: 1B      		;			swp_imp    	
-00BD: AB48    		;			pha.w_imp  	
-00BF: 20FFFF  		;			jsr_abs    	_fcmp
-00C2: 6208    		;			adj_imm    	8
-00C4: ABC90000		;			cmp.w_imm16	0
-00C8: 08      		;			php_imp    	
-00C9: A901    		;			lda_imm    	1
-00CB: 28      		;			plp_imp    	
-00CC: AB7002  		;			blt_rel    	L_015
-00CF: A900    		;			lda_imm    	0
-00D1:				; L_015
-00D1: ABC90100		;			cmp.w_imm16	1
-00D5: F003    		;			beq_rel    	L_013
-00D7: 4CF100  		;			jmp_abs    	L_014
-00DA:				; L_013
-00DA: AB545403		;			psh.w_imm16	S_016
-00DE: AB540000		;			psh.w_imm16	0
-00E2: AB541600		;			psh.w_imm16	22
-00E6: 20FFFF  		;			jsr_abs    	_swrite
-00E9: 6206    		;			adj_imm    	6
-00EB: 20FFFF  		;			jsr_abs    	_writeln
-00EE: 4C0503  		;			jmp_abs    	L_012
-00F1:				; L_014
-00F1: ABADFFFF		;			lda.w_abs  	number_002+2
-00F5: 1B      		;			swp_imp    	
-00F6: ABAD4003		;			lda.w_abs  	number_002
-00FA: 1B      		;			swp_imp    	
-00FB: AB48    		;			pha.w_imp  	
-00FD: 1B      		;			swp_imp    	
-00FE: AB48    		;			pha.w_imp  	
-0100: 20FFFF  		;			jsr_abs    	_fsqrt
-0103: 6204    		;			adj_imm    	4
-0105: 1B      		;			swp_imp    	
-0106: AB8DFFFF		;			sta.w_abs  	sqroot_004+2
-010A: 1B      		;			swp_imp    	
-010B: AB8D4803		;			sta.w_abs  	sqroot_004
-010F: ABADFFFF		;			lda.w_abs  	number_002+2
-0113: 1B      		;			swp_imp    	
-0114: ABAD4003		;			lda.w_abs  	number_002
-0118: 1B      		;			swp_imp    	
-0119: AB48    		;			pha.w_imp  	
-011B: 1B      		;			swp_imp    	
-011C: AB48    		;			pha.w_imp  	
-011E: A90C    		;			lda_imm    	12
-0120: AB48    		;			pha.w_imp  	
-0122: A906    		;			lda_imm    	6
+00BC: ABADE809		;			lda.w_abs  	prime_006
+00C0: AB48    		;			pha.w_imp  	
+00C2: 20FFFF  		;			jsr_abs    	_imul
+00C5: C204    		;			adj_imm    	4
+00C7: AB8DEA09		;			sta.w_abs  	factor_007
+00CB:				; L_016
+00CB: ABADEA09		;			lda.w_abs  	factor_007
+00CF: AB48    		;			pha.w_imp  	
+00D1: ABA9E803		;			lda.w_imm16	1000
+00D5: AB4400  		;			xma.w_sp   	0
+00D8: ABC300  		;			cmp.w_sp   	0
+00DB: C202    		;			adj_imm    	2
+00DD: 08      		;			php_imp    	
+00DE: A901    		;			lda_imm    	1
+00E0: 28      		;			plp_imp    	
+00E1: AB3002  		;			ble_rel    	L_019
+00E4: A900    		;			lda_imm    	0
+00E6:				; L_019
+00E6: ABC90100		;			cmp.w_imm16	1
+00EA: F003    		;			beq_rel    	L_017
+00EC: 4C2001  		;			jmp_abs    	L_018
+00EF:				; L_017
+00EF: ABE21202		;			psh.w_imm16	sieve_002
+00F3: ABADEA09		;			lda.w_abs  	factor_007
+00F7: AB3A    		;			dec.w_A    	
+00F9: AB0A    		;			asl.w_A    	
+00FB: 18      		;			clc_imp    	
+00FC: AB6300  		;			adc.w_sp   	0
+00FF: AB8300  		;			sta.w_sp   	0
+0102: A900    		;			lda_imm    	0
+0104: BB8300  		;			sta.w_spI  	0
+0107: C202    		;			adj_imm    	2
+0109: ABADEA09		;			lda.w_abs  	factor_007
+010D: AB48    		;			pha.w_imp  	
+010F: ABADE809		;			lda.w_abs  	prime_006
+0113: 18      		;			clc_imp    	
+0114: AB6300  		;			adc.w_sp   	0
+0117: C202    		;			adj_imm    	2
+0119: AB8DEA09		;			sta.w_abs  	factor_007
+011D: 4CCB00  		;			jmp_abs    	L_016
+0120:				; L_018
+0120: ABADE809		;			lda.w_abs  	prime_006
 0124: AB48    		;			pha.w_imp  	
-0126: 20FFFF  		;			jsr_abs    	_fwrite
-0129: 6208    		;			adj_imm    	8
-012B: ABADFFFF		;			lda.w_abs  	sqroot_004+2
-012F: 1B      		;			swp_imp    	
-0130: ABAD4803		;			lda.w_abs  	sqroot_004
-0134: 1B      		;			swp_imp    	
-0135: AB48    		;			pha.w_imp  	
-0137: 1B      		;			swp_imp    	
-0138: AB48    		;			pha.w_imp  	
-013A: A90C    		;			lda_imm    	12
-013C: AB48    		;			pha.w_imp  	
-013E: A906    		;			lda_imm    	6
-0140: AB48    		;			pha.w_imp  	
-0142: 20FFFF  		;			jsr_abs    	_fwrite
-0145: 6208    		;			adj_imm    	8
-0147: 20FFFF  		;			jsr_abs    	_writeln
-014A: 20FFFF  		;			jsr_abs    	_writeln
-014D: A901    		;			lda_imm    	1
-014F: AB48    		;			pha.w_imp  	
-0151: 20FFFF  		;			jsr_abs    	_fconv
-0154: 6202    		;			adj_imm    	2
-0156: 1B      		;			swp_imp    	
-0157: AB8DFFFF		;			sta.w_abs  	root_003+2
-015B: 1B      		;			swp_imp    	
-015C: AB8D4403		;			sta.w_abs  	root_003
-0160:				; L_018
-0160: ABADFFFF		;			lda.w_abs  	number_002+2
-0164: 1B      		;			swp_imp    	
-0165: ABAD4003		;			lda.w_abs  	number_002
-0169: 1B      		;			swp_imp    	
-016A: AB48    		;			pha.w_imp  	
-016C: 1B      		;			swp_imp    	
-016D: AB48    		;			pha.w_imp  	
-016F: ABADFFFF		;			lda.w_abs  	root_003+2
-0173: 1B      		;			swp_imp    	
-0174: ABAD4403		;			lda.w_abs  	root_003
-0178: 1B      		;			swp_imp    	
-0179: AB48    		;			pha.w_imp  	
-017B: 1B      		;			swp_imp    	
-017C: AB48    		;			pha.w_imp  	
-017E: 20FFFF  		;			jsr_abs    	_fdiv
-0181: 6208    		;			adj_imm    	8
-0183: 1B      		;			swp_imp    	
-0184: AB48    		;			pha.w_imp  	
-0186: 1B      		;			swp_imp    	
-0187: AB48    		;			pha.w_imp  	
-0189: ABADFFFF		;			lda.w_abs  	root_003+2
-018D: 1B      		;			swp_imp    	
-018E: ABAD4403		;			lda.w_abs  	root_003
-0192: 1B      		;			swp_imp    	
-0193: AB48    		;			pha.w_imp  	
-0195: 1B      		;			swp_imp    	
-0196: AB48    		;			pha.w_imp  	
-0198: 20FFFF  		;			jsr_abs    	_fadd
-019B: 6208    		;			adj_imm    	8
-019D: 1B      		;			swp_imp    	
-019E: AB48    		;			pha.w_imp  	
-01A0: 1B      		;			swp_imp    	
-01A1: AB48    		;			pha.w_imp  	
-01A3: A902    		;			lda_imm    	2
-01A5: AB48    		;			pha.w_imp  	
-01A7: 20FFFF  		;			jsr_abs    	_fconv
-01AA: 6202    		;			adj_imm    	2
-01AC: 1B      		;			swp_imp    	
-01AD: AB48    		;			pha.w_imp  	
-01AF: 1B      		;			swp_imp    	
+0126: ABADE609		;			lda.w_abs  	limit_005
+012A: AB4400  		;			xma.w_sp   	0
+012D: ABC300  		;			cmp.w_sp   	0
+0130: C202    		;			adj_imm    	2
+0132: 08      		;			php_imp    	
+0133: A901    		;			lda_imm    	1
+0135: 28      		;			plp_imp    	
+0136: AB1002  		;			bgt_rel    	L_020
+0139: A900    		;			lda_imm    	0
+013B:				; L_020
+013B: ABC90100		;			cmp.w_imm16	1
+013F: F003    		;			beq_rel    	L_012
+0141: 4C6E00  		;			jmp_abs    	L_011
+0144:				; L_012
+0144: ABE2EF09		;			psh.w_imm16	S_021
+0148: ABE20000		;			psh.w_imm16	0
+014C: ABE21500		;			psh.w_imm16	21
+0150: 20FFFF  		;			jsr_abs    	_swrite
+0153: C206    		;			adj_imm    	6
+0155: 20FFFF  		;			jsr_abs    	_writeln
+0158: 20FFFF  		;			jsr_abs    	_writeln
+015B: A901    		;			lda_imm    	1
+015D: AB8DE209		;			sta.w_abs  	i_003
+0161:				; L_022
+0161: A900    		;			lda_imm    	0
+0163: AB8DE409		;			sta.w_abs  	j_004
+0167:				; L_024
+0167: A913    		;			lda_imm    	19
+0169: ABCDE409		;			cmp.w_abs  	j_004
+016D: AB5003  		;			bge_rel    	L_025
+0170: 4CD201  		;			jmp_abs    	L_026
+0173:				; L_025
+0173: ABADE209		;			lda.w_abs  	i_003
+0177: AB48    		;			pha.w_imp  	
+0179: ABADE409		;			lda.w_abs  	j_004
+017D: 18      		;			clc_imp    	
+017E: AB6300  		;			adc.w_sp   	0
+0181: C202    		;			adj_imm    	2
+0183: AB8DE809		;			sta.w_abs  	prime_006
+0187: ABE21202		;			psh.w_imm16	sieve_002
+018B: ABADE809		;			lda.w_abs  	prime_006
+018F: AB3A    		;			dec.w_A    	
+0191: AB0A    		;			asl.w_A    	
+0193: 18      		;			clc_imp    	
+0194: AB6300  		;			adc.w_sp   	0
+0197: AB8300  		;			sta.w_sp   	0
+019A: BBA300  		;			lda.w_spI  	0
+019D: C202    		;			adj_imm    	2
+019F: ABC90100		;			cmp.w_imm16	1
+01A3: F003    		;			beq_rel    	L_027
+01A5: 4CBA01  		;			jmp_abs    	L_028
+01A8:				; L_027
+01A8: ABADE809		;			lda.w_abs  	prime_006
+01AC: AB48    		;			pha.w_imp  	
+01AE: A903    		;			lda_imm    	3
 01B0: AB48    		;			pha.w_imp  	
-01B2: 20FFFF  		;			jsr_abs    	_fdiv
-01B5: 6208    		;			adj_imm    	8
-01B7: 1B      		;			swp_imp    	
-01B8: AB8DFFFF		;			sta.w_abs  	root_003+2
-01BC: 1B      		;			swp_imp    	
-01BD: AB8D4403		;			sta.w_abs  	root_003
-01C1: ABADFFFF		;			lda.w_abs  	root_003+2
-01C5: 1B      		;			swp_imp    	
-01C6: ABAD4403		;			lda.w_abs  	root_003
-01CA: 1B      		;			swp_imp    	
-01CB: AB48    		;			pha.w_imp  	
-01CD: 1B      		;			swp_imp    	
-01CE: AB48    		;			pha.w_imp  	
-01D0: A918    		;			lda_imm    	24
-01D2: AB48    		;			pha.w_imp  	
-01D4: A906    		;			lda_imm    	6
-01D6: AB48    		;			pha.w_imp  	
-01D8: 20FFFF  		;			jsr_abs    	_fwrite
-01DB: 6208    		;			adj_imm    	8
-01DD: A964    		;			lda_imm    	100
-01DF: AB48    		;			pha.w_imp  	
-01E1: ABADFFFF		;			lda.w_abs  	root_003+2
-01E5: 1B      		;			swp_imp    	
-01E6: ABAD4403		;			lda.w_abs  	root_003
-01EA: 1B      		;			swp_imp    	
-01EB: AB48    		;			pha.w_imp  	
-01ED: 1B      		;			swp_imp    	
-01EE: AB48    		;			pha.w_imp  	
-01F0: ABADFFFF		;			lda.w_abs  	sqroot_004+2
-01F4: 1B      		;			swp_imp    	
-01F5: ABAD4803		;			lda.w_abs  	sqroot_004
-01F9: 1B      		;			swp_imp    	
-01FA: AB48    		;			pha.w_imp  	
-01FC: 1B      		;			swp_imp    	
-01FD: AB48    		;			pha.w_imp  	
-01FF: 20FFFF  		;			jsr_abs    	_fsub
-0202: 6208    		;			adj_imm    	8
-0204: 1B      		;			swp_imp    	
-0205: AB48    		;			pha.w_imp  	
-0207: 1B      		;			swp_imp    	
-0208: AB48    		;			pha.w_imp  	
-020A: 20FFFF  		;			jsr_abs    	_fabs
-020D: 6204    		;			adj_imm    	4
-020F: 1B      		;			swp_imp    	
-0210: AB48    		;			pha.w_imp  	
-0212: 1B      		;			swp_imp    	
-0213: AB48    		;			pha.w_imp  	
-0215: AB68    		;			pla.w_imp  	
-0217: 1B      		;			swp_imp    	
-0218: AB68    		;			pla.w_imp  	
-021A: AB7A    		;			ply.w_imp  	
-021C: AB48    		;			pha.w_imp  	
-021E: 1B      		;			swp_imp    	
-021F: AB48    		;			pha.w_imp  	
-0221: AB5A    		;			phy.w_imp  	
-0223: 20FFFF  		;			jsr_abs    	_fconv
-0226: 6202    		;			adj_imm    	2
-0228: AB7A    		;			ply.w_imp  	
-022A: FB1B    		;			swp.y_imp  	
-022C: AB7A    		;			ply.w_imp  	
-022E: 1B      		;			swp_imp    	
-022F: AB48    		;			pha.w_imp  	
-0231: 1B      		;			swp_imp    	
-0232: AB48    		;			pha.w_imp  	
-0234: AB5A    		;			phy.w_imp  	
-0236: FB1B    		;			swp.y_imp  	
-0238: AB5A    		;			phy.w_imp  	
-023A: 20FFFF  		;			jsr_abs    	_fmul
-023D: 6208    		;			adj_imm    	8
-023F: 1B      		;			swp_imp    	
-0240: AB48    		;			pha.w_imp  	
-0242: 1B      		;			swp_imp    	
-0243: AB48    		;			pha.w_imp  	
-0245: ABADFFFF		;			lda.w_abs  	sqroot_004+2
-0249: 1B      		;			swp_imp    	
-024A: ABAD4803		;			lda.w_abs  	sqroot_004
-024E: 1B      		;			swp_imp    	
-024F: AB48    		;			pha.w_imp  	
-0251: 1B      		;			swp_imp    	
-0252: AB48    		;			pha.w_imp  	
-0254: 20FFFF  		;			jsr_abs    	_fdiv
-0257: 6208    		;			adj_imm    	8
-0259: 1B      		;			swp_imp    	
-025A: AB48    		;			pha.w_imp  	
-025C: 1B      		;			swp_imp    	
-025D: AB48    		;			pha.w_imp  	
-025F: A90C    		;			lda_imm    	12
-0261: AB48    		;			pha.w_imp  	
-0263: A902    		;			lda_imm    	2
-0265: AB48    		;			pha.w_imp  	
-0267: 20FFFF  		;			jsr_abs    	_fwrite
-026A: 6208    		;			adj_imm    	8
-026C: A925    		;			lda_imm    	37
-026E: AB48    		;			pha.w_imp  	
-0270: AB540000		;			psh.w_imm16	0
-0274: 20FFFF  		;			jsr_abs    	_cwrite
-0277: 6204    		;			adj_imm    	4
-0279: 20FFFF  		;			jsr_abs    	_writeln
-027C: ABADFFFF		;			lda.w_abs  	number_002+2
-0280: 1B      		;			swp_imp    	
-0281: ABAD4003		;			lda.w_abs  	number_002
-0285: 1B      		;			swp_imp    	
-0286: AB48    		;			pha.w_imp  	
-0288: 1B      		;			swp_imp    	
-0289: AB48    		;			pha.w_imp  	
-028B: ABADFFFF		;			lda.w_abs  	root_003+2
-028F: 1B      		;			swp_imp    	
-0290: ABAD4403		;			lda.w_abs  	root_003
-0294: 1B      		;			swp_imp    	
-0295: AB48    		;			pha.w_imp  	
-0297: 1B      		;			swp_imp    	
-0298: AB48    		;			pha.w_imp  	
-029A: 1B      		;			swp_imp    	
-029B: AB48    		;			pha.w_imp  	
-029D: 1B      		;			swp_imp    	
-029E: AB48    		;			pha.w_imp  	
-02A0: 20FFFF  		;			jsr_abs    	_fmul
-02A3: 6208    		;			adj_imm    	8
-02A5: 1B      		;			swp_imp    	
-02A6: AB48    		;			pha.w_imp  	
-02A8: 1B      		;			swp_imp    	
-02A9: AB48    		;			pha.w_imp  	
-02AB: 20FFFF  		;			jsr_abs    	_fdiv
-02AE: 6208    		;			adj_imm    	8
-02B0: 1B      		;			swp_imp    	
-02B1: AB48    		;			pha.w_imp  	
-02B3: 1B      		;			swp_imp    	
-02B4: AB48    		;			pha.w_imp  	
-02B6: A901    		;			lda_imm    	1
-02B8: AB48    		;			pha.w_imp  	
-02BA: 20FFFF  		;			jsr_abs    	_fconv
-02BD: 6202    		;			adj_imm    	2
-02BF: 1B      		;			swp_imp    	
-02C0: AB48    		;			pha.w_imp  	
-02C2: 1B      		;			swp_imp    	
-02C3: AB48    		;			pha.w_imp  	
-02C5: 20FFFF  		;			jsr_abs    	_fsub
-02C8: 6208    		;			adj_imm    	8
-02CA: 1B      		;			swp_imp    	
-02CB: AB48    		;			pha.w_imp  	
-02CD: 1B      		;			swp_imp    	
-02CE: AB48    		;			pha.w_imp  	
-02D0: 20FFFF  		;			jsr_abs    	_fabs
-02D3: 6204    		;			adj_imm    	4
-02D5: 1B      		;			swp_imp    	
-02D6: AB48    		;			pha.w_imp  	
-02D8: 1B      		;			swp_imp    	
-02D9: AB48    		;			pha.w_imp  	
-02DB: ABADFFFF		;			lda.w_abs  	F_020+2
-02DF: 1B      		;			swp_imp    	
-02E0: ABAD4C03		;			lda.w_abs  	F_020
-02E4: 1B      		;			swp_imp    	
-02E5: AB48    		;			pha.w_imp  	
-02E7: 1B      		;			swp_imp    	
-02E8: AB48    		;			pha.w_imp  	
-02EA: 20FFFF  		;			jsr_abs    	_fcmp
-02ED: 6208    		;			adj_imm    	8
-02EF: ABC90000		;			cmp.w_imm16	0
-02F3: 08      		;			php_imp    	
-02F4: A901    		;			lda_imm    	1
-02F6: 28      		;			plp_imp    	
-02F7: AB7002  		;			blt_rel    	L_021
-02FA: A900    		;			lda_imm    	0
-02FC:				; L_021
-02FC: ABC90100		;			cmp.w_imm16	1
-0300: F003    		;			beq_rel    	L_012
-0302: 4C6001  		;			jmp_abs    	L_018
-0305:				; L_012
-0305: ABADFFFF		;			lda.w_abs  	number_002+2
-0309: 1B      		;			swp_imp    	
-030A: ABAD4003		;			lda.w_abs  	number_002
-030E: 1B      		;			swp_imp    	
-030F: AB48    		;			pha.w_imp  	
-0311: 1B      		;			swp_imp    	
-0312: AB48    		;			pha.w_imp  	
-0314: A900    		;			lda_imm    	0
-0316: AB48    		;			pha.w_imp  	
-0318: 20FFFF  		;			jsr_abs    	_fconv
-031B: 6202    		;			adj_imm    	2
-031D: 1B      		;			swp_imp    	
-031E: AB48    		;			pha.w_imp  	
-0320: 1B      		;			swp_imp    	
-0321: AB48    		;			pha.w_imp  	
-0323: 20FFFF  		;			jsr_abs    	_fcmp
-0326: 6208    		;			adj_imm    	8
-0328: ABC90000		;			cmp.w_imm16	0
-032C: 08      		;			php_imp    	
-032D: A901    		;			lda_imm    	1
-032F: 28      		;			plp_imp    	
-0330: F002    		;			beq_rel    	L_022
-0332: A900    		;			lda_imm    	0
-0334:				; L_022
-0334: ABC90100		;			cmp.w_imm16	1
-0338: F003    		;			beq_rel    	L_006
-033A: 4C0400  		;			jmp_abs    	L_005
-033D:				; L_006
-033D: ABFA    		;			plx.w_imp  	
-033F: 60      		;			rts_imp    	
-0340:				; number_002
-0340:				;			.DB 	4
-0340: 00000000
-0344:				; root_003
-0344:				;			.DB 	4
-0344: 00000000
-0348:				; sqroot_004
-0348:				;			.DB 	4
-0348: 00000000
-034C:				; F_020
-034C:				;			.DD 	0
-034C: 00000000
-0350:				; F_011
-0350:				;			.DD 	0
-0350: 00000000
-0354:				; S_016		.DS		"*** ERROR:  number < 0"
-0354: 2A2A2A20
-0358: 4552524F
-035C: 523A2020
-0360: 6E756D62
-0364: 6572203C
-0368: 2030
-036A:				; S_007		.DS		"Enter new number (0 to quit): "
-036A: 456E7465
-036E: 72206E65
-0372: 77206E75
-0376: 6D626572
-037A: 20283020
-037E: 746F2071
-0382: 75697429
-0386: 3A20
+01B2: 20FFFF  		;			jsr_abs    	_iwrite
+01B5: C204    		;			adj_imm    	4
+01B7: 4CCB01  		;			jmp_abs    	L_029
+01BA:				; L_028
+01BA: ABE2EC09		;			psh.w_imm16	S_030
+01BE: ABE20000		;			psh.w_imm16	0
+01C2: ABE20300		;			psh.w_imm16	3
+01C6: 20FFFF  		;			jsr_abs    	_swrite
+01C9: C206    		;			adj_imm    	6
+01CB:				; L_029
+01CB: ABEEE409		;			inc.w_abs  	j_004
+01CF: 4C6701  		;			jmp_abs    	L_024
+01D2:				; L_026
+01D2: ABCEE409		;			dec.w_abs  	j_004
+01D6: 20FFFF  		;			jsr_abs    	_writeln
+01D9: ABADE209		;			lda.w_abs  	i_003
+01DD: AB48    		;			pha.w_imp  	
+01DF: A914    		;			lda_imm    	20
+01E1: 18      		;			clc_imp    	
+01E2: AB6300  		;			adc.w_sp   	0
+01E5: C202    		;			adj_imm    	2
+01E7: AB8DE209		;			sta.w_abs  	i_003
+01EB: ABADE209		;			lda.w_abs  	i_003
+01EF: AB48    		;			pha.w_imp  	
+01F1: ABA9E803		;			lda.w_imm16	1000
+01F5: AB4400  		;			xma.w_sp   	0
+01F8: ABC300  		;			cmp.w_sp   	0
+01FB: C202    		;			adj_imm    	2
+01FD: 08      		;			php_imp    	
+01FE: A901    		;			lda_imm    	1
+0200: 28      		;			plp_imp    	
+0201: AB1002  		;			bgt_rel    	L_031
+0204: A900    		;			lda_imm    	0
+0206:				; L_031
+0206: ABC90100		;			cmp.w_imm16	1
+020A: F003    		;			beq_rel    	L_023
+020C: 4C6101  		;			jmp_abs    	L_022
+020F:				; L_023
+020F: ABFA    		;			plx.w_imp  	
+0211: 60      		;			rts_imp    	
+0212:				; sieve_002
+0212:				;			.DB 	2000
+0212: 00000000
+0216: 00000000
+021A: 00000000
+021E: 00000000
+0222: 00000000
+0226: 00000000
+022A: 00000000
+022E: 00000000
+0232: 00000000
+0236: 00000000
+023A: 00000000
+023E: 00000000
+0242: 00000000
+0246: 00000000
+024A: 00000000
+024E: 00000000
+0252: 00000000
+0256: 00000000
+025A: 00000000
+025E: 00000000
+0262: 00000000
+0266: 00000000
+026A: 00000000
+026E: 00000000
+0272: 00000000
+0276: 00000000
+027A: 00000000
+027E: 00000000
+0282: 00000000
+0286: 00000000
+028A: 00000000
+028E: 00000000
+0292: 00000000
+0296: 00000000
+029A: 00000000
+029E: 00000000
+02A2: 00000000
+02A6: 00000000
+02AA: 00000000
+02AE: 00000000
+02B2: 00000000
+02B6: 00000000
+02BA: 00000000
+02BE: 00000000
+02C2: 00000000
+02C6: 00000000
+02CA: 00000000
+02CE: 00000000
+02D2: 00000000
+02D6: 00000000
+02DA: 00000000
+02DE: 00000000
+02E2: 00000000
+02E6: 00000000
+02EA: 00000000
+02EE: 00000000
+02F2: 00000000
+02F6: 00000000
+02FA: 00000000
+02FE: 00000000
+0302: 00000000
+0306: 00000000
+030A: 00000000
+030E: 00000000
+0312: 00000000
+0316: 00000000
+031A: 00000000
+031E: 00000000
+0322: 00000000
+0326: 00000000
+032A: 00000000
+032E: 00000000
+0332: 00000000
+0336: 00000000
+033A: 00000000
+033E: 00000000
+0342: 00000000
+0346: 00000000
+034A: 00000000
+034E: 00000000
+0352: 00000000
+0356: 00000000
+035A: 00000000
+035E: 00000000
+0362: 00000000
+0366: 00000000
+036A: 00000000
+036E: 00000000
+0372: 00000000
+0376: 00000000
+037A: 00000000
+037E: 00000000
+0382: 00000000
+0386: 00000000
+038A: 00000000
+038E: 00000000
+0392: 00000000
+0396: 00000000
+039A: 00000000
+039E: 00000000
+03A2: 00000000
+03A6: 00000000
+03AA: 00000000
+03AE: 00000000
+03B2: 00000000
+03B6: 00000000
+03BA: 00000000
+03BE: 00000000
+03C2: 00000000
+03C6: 00000000
+03CA: 00000000
+03CE: 00000000
+03D2: 00000000
+03D6: 00000000
+03DA: 00000000
+03DE: 00000000
+03E2: 00000000
+03E6: 00000000
+03EA: 00000000
+03EE: 00000000
+03F2: 00000000
+03F6: 00000000
+03FA: 00000000
+03FE: 00000000
+0402: 00000000
+0406: 00000000
+040A: 00000000
+040E: 00000000
+0412: 00000000
+0416: 00000000
+041A: 00000000
+041E: 00000000
+0422: 00000000
+0426: 00000000
+042A: 00000000
+042E: 00000000
+0432: 00000000
+0436: 00000000
+043A: 00000000
+043E: 00000000
+0442: 00000000
+0446: 00000000
+044A: 00000000
+044E: 00000000
+0452: 00000000
+0456: 00000000
+045A: 00000000
+045E: 00000000
+0462: 00000000
+0466: 00000000
+046A: 00000000
+046E: 00000000
+0472: 00000000
+0476: 00000000
+047A: 00000000
+047E: 00000000
+0482: 00000000
+0486: 00000000
+048A: 00000000
+048E: 00000000
+0492: 00000000
+0496: 00000000
+049A: 00000000
+049E: 00000000
+04A2: 00000000
+04A6: 00000000
+04AA: 00000000
+04AE: 00000000
+04B2: 00000000
+04B6: 00000000
+04BA: 00000000
+04BE: 00000000
+04C2: 00000000
+04C6: 00000000
+04CA: 00000000
+04CE: 00000000
+04D2: 00000000
+04D6: 00000000
+04DA: 00000000
+04DE: 00000000
+04E2: 00000000
+04E6: 00000000
+04EA: 00000000
+04EE: 00000000
+04F2: 00000000
+04F6: 00000000
+04FA: 00000000
+04FE: 00000000
+0502: 00000000
+0506: 00000000
+050A: 00000000
+050E: 00000000
+0512: 00000000
+0516: 00000000
+051A: 00000000
+051E: 00000000
+0522: 00000000
+0526: 00000000
+052A: 00000000
+052E: 00000000
+0532: 00000000
+0536: 00000000
+053A: 00000000
+053E: 00000000
+0542: 00000000
+0546: 00000000
+054A: 00000000
+054E: 00000000
+0552: 00000000
+0556: 00000000
+055A: 00000000
+055E: 00000000
+0562: 00000000
+0566: 00000000
+056A: 00000000
+056E: 00000000
+0572: 00000000
+0576: 00000000
+057A: 00000000
+057E: 00000000
+0582: 00000000
+0586: 00000000
+058A: 00000000
+058E: 00000000
+0592: 00000000
+0596: 00000000
+059A: 00000000
+059E: 00000000
+05A2: 00000000
+05A6: 00000000
+05AA: 00000000
+05AE: 00000000
+05B2: 00000000
+05B6: 00000000
+05BA: 00000000
+05BE: 00000000
+05C2: 00000000
+05C6: 00000000
+05CA: 00000000
+05CE: 00000000
+05D2: 00000000
+05D6: 00000000
+05DA: 00000000
+05DE: 00000000
+05E2: 00000000
+05E6: 00000000
+05EA: 00000000
+05EE: 00000000
+05F2: 00000000
+05F6: 00000000
+05FA: 00000000
+05FE: 00000000
+0602: 00000000
+0606: 00000000
+060A: 00000000
+060E: 00000000
+0612: 00000000
+0616: 00000000
+061A: 00000000
+061E: 00000000
+0622: 00000000
+0626: 00000000
+062A: 00000000
+062E: 00000000
+0632: 00000000
+0636: 00000000
+063A: 00000000
+063E: 00000000
+0642: 00000000
+0646: 00000000
+064A: 00000000
+064E: 00000000
+0652: 00000000
+0656: 00000000
+065A: 00000000
+065E: 00000000
+0662: 00000000
+0666: 00000000
+066A: 00000000
+066E: 00000000
+0672: 00000000
+0676: 00000000
+067A: 00000000
+067E: 00000000
+0682: 00000000
+0686: 00000000
+068A: 00000000
+068E: 00000000
+0692: 00000000
+0696: 00000000
+069A: 00000000
+069E: 00000000
+06A2: 00000000
+06A6: 00000000
+06AA: 00000000
+06AE: 00000000
+06B2: 00000000
+06B6: 00000000
+06BA: 00000000
+06BE: 00000000
+06C2: 00000000
+06C6: 00000000
+06CA: 00000000
+06CE: 00000000
+06D2: 00000000
+06D6: 00000000
+06DA: 00000000
+06DE: 00000000
+06E2: 00000000
+06E6: 00000000
+06EA: 00000000
+06EE: 00000000
+06F2: 00000000
+06F6: 00000000
+06FA: 00000000
+06FE: 00000000
+0702: 00000000
+0706: 00000000
+070A: 00000000
+070E: 00000000
+0712: 00000000
+0716: 00000000
+071A: 00000000
+071E: 00000000
+0722: 00000000
+0726: 00000000
+072A: 00000000
+072E: 00000000
+0732: 00000000
+0736: 00000000
+073A: 00000000
+073E: 00000000
+0742: 00000000
+0746: 00000000
+074A: 00000000
+074E: 00000000
+0752: 00000000
+0756: 00000000
+075A: 00000000
+075E: 00000000
+0762: 00000000
+0766: 00000000
+076A: 00000000
+076E: 00000000
+0772: 00000000
+0776: 00000000
+077A: 00000000
+077E: 00000000
+0782: 00000000
+0786: 00000000
+078A: 00000000
+078E: 00000000
+0792: 00000000
+0796: 00000000
+079A: 00000000
+079E: 00000000
+07A2: 00000000
+07A6: 00000000
+07AA: 00000000
+07AE: 00000000
+07B2: 00000000
+07B6: 00000000
+07BA: 00000000
+07BE: 00000000
+07C2: 00000000
+07C6: 00000000
+07CA: 00000000
+07CE: 00000000
+07D2: 00000000
+07D6: 00000000
+07DA: 00000000
+07DE: 00000000
+07E2: 00000000
+07E6: 00000000
+07EA: 00000000
+07EE: 00000000
+07F2: 00000000
+07F6: 00000000
+07FA: 00000000
+07FE: 00000000
+0802: 00000000
+0806: 00000000
+080A: 00000000
+080E: 00000000
+0812: 00000000
+0816: 00000000
+081A: 00000000
+081E: 00000000
+0822: 00000000
+0826: 00000000
+082A: 00000000
+082E: 00000000
+0832: 00000000
+0836: 00000000
+083A: 00000000
+083E: 00000000
+0842: 00000000
+0846: 00000000
+084A: 00000000
+084E: 00000000
+0852: 00000000
+0856: 00000000
+085A: 00000000
+085E: 00000000
+0862: 00000000
+0866: 00000000
+086A: 00000000
+086E: 00000000
+0872: 00000000
+0876: 00000000
+087A: 00000000
+087E: 00000000
+0882: 00000000
+0886: 00000000
+088A: 00000000
+088E: 00000000
+0892: 00000000
+0896: 00000000
+089A: 00000000
+089E: 00000000
+08A2: 00000000
+08A6: 00000000
+08AA: 00000000
+08AE: 00000000
+08B2: 00000000
+08B6: 00000000
+08BA: 00000000
+08BE: 00000000
+08C2: 00000000
+08C6: 00000000
+08CA: 00000000
+08CE: 00000000
+08D2: 00000000
+08D6: 00000000
+08DA: 00000000
+08DE: 00000000
+08E2: 00000000
+08E6: 00000000
+08EA: 00000000
+08EE: 00000000
+08F2: 00000000
+08F6: 00000000
+08FA: 00000000
+08FE: 00000000
+0902: 00000000
+0906: 00000000
+090A: 00000000
+090E: 00000000
+0912: 00000000
+0916: 00000000
+091A: 00000000
+091E: 00000000
+0922: 00000000
+0926: 00000000
+092A: 00000000
+092E: 00000000
+0932: 00000000
+0936: 00000000
+093A: 00000000
+093E: 00000000
+0942: 00000000
+0946: 00000000
+094A: 00000000
+094E: 00000000
+0952: 00000000
+0956: 00000000
+095A: 00000000
+095E: 00000000
+0962: 00000000
+0966: 00000000
+096A: 00000000
+096E: 00000000
+0972: 00000000
+0976: 00000000
+097A: 00000000
+097E: 00000000
+0982: 00000000
+0986: 00000000
+098A: 00000000
+098E: 00000000
+0992: 00000000
+0996: 00000000
+099A: 00000000
+099E: 00000000
+09A2: 00000000
+09A6: 00000000
+09AA: 00000000
+09AE: 00000000
+09B2: 00000000
+09B6: 00000000
+09BA: 00000000
+09BE: 00000000
+09C2: 00000000
+09C6: 00000000
+09CA: 00000000
+09CE: 00000000
+09D2: 00000000
+09D6: 00000000
+09DA: 00000000
+09DE: 00000000
+09E2:				; i_003
+09E2:				;			.DB 	2
+09E2: 0000
+09E4:				; j_004
+09E4:				;			.DB 	2
+09E4: 0000
+09E6:				; limit_005
+09E6:				;			.DB 	2
+09E6: 0000
+09E8:				; prime_006
+09E8:				;			.DB 	2
+09E8: 0000
+09EA:				; factor_007
+09EA:				;			.DB 	2
+09EA: 0000
+09EC:				; S_030		.DS		"   "
+09EC: 202020
+09EF:				; S_021		.DS		"Sieve of Eratosthenes"
+09EF: 53696576
+09F3: 65206F66
+09F7: 20457261
+09FB: 746F7374
+09FF: 68656E65
+0A03: 73

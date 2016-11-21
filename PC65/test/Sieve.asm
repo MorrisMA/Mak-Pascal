@@ -33,6 +33,7 @@ _pc65_main	.PROC
 	sta.w limit_005	;---	mov		WORD PTR limit_005,ax
 ;   12:     sieve[1] := FALSE;
 	psh.w #sieve_002	;---	lea		ax,WORD PTR sieve_002
+						;---	push	ax
 	lda #1	;---	mov		ax,1
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,2
@@ -58,6 +59,7 @@ L_008
 L_009
 ;   15:         sieve[i] := TRUE;
 	psh.w #sieve_002	;---	lea		ax,WORD PTR sieve_002
+						;---	push	ax
 	lda.w i_003	;---	mov		ax,WORD PTR i_003
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,2
@@ -94,6 +96,7 @@ L_011
 ;   21:         WHILE NOT sieve[prime] DO
 L_013
 	psh.w #sieve_002	;---	lea		ax,WORD PTR sieve_002
+						;---	push	ax
 	lda.w prime_006	;---	mov		ax,WORD PTR prime_006
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,2
@@ -152,6 +155,7 @@ L_019
 L_017
 ;   27:             sieve[factor] := FALSE;
 	psh.w #sieve_002	;---	lea		ax,WORD PTR sieve_002
+						;---	push	ax
 	lda.w factor_007	;---	mov		ax,WORD PTR factor_007
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,2
@@ -233,6 +237,7 @@ L_025
 	sta.w prime_006	;---	mov		WORD PTR prime_006,ax
 ;   39:             IF sieve[prime] THEN
 	psh.w #sieve_002	;---	lea		ax,WORD PTR sieve_002
+						;---	push	ax
 	lda.w prime_006	;---	mov		ax,WORD PTR prime_006
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,2

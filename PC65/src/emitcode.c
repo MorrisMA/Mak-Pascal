@@ -537,6 +537,8 @@ void emit_push_address(SYMTAB_NODE_PTR var_idp)
             if (var_level == 1) {
                 fprintf(code_file, "\tpsh.w #%s_%03d\t;---", var_idp->name, var_idp->label_index);
                 emit_2(LOAD_ADDRESS, reg(AX), word(var_idp));
+                fprintf(code_file, "\t\t\t\t\t\t;---");
+                emit_1(PUSH, reg(AX));
             } else {
                 fprintf(code_file, "\ttxa.w\t;---");
                 emit_2(LOAD_ADDRESS, reg(AX), word(var_idp));

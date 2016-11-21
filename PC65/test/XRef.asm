@@ -550,6 +550,7 @@ L_060
 L_058
 ;  144:             numbertable[lastnumberindex].nextindex := nextnumberindex;
 	psh.w #numbertable_008	;---	lea		ax,WORD PTR numbertable_008
+						;---	push	ax
 	lda.w lastnumberindex_054,B	;---	mov		ax,WORD PTR lastnumberindex_054
 						;---	mov		dx,4
 						;---	imul	dx
@@ -571,6 +572,7 @@ L_058
 L_059
 ;  146:         numbertable[nextnumberindex].number    := linenumber;
 	psh.w #numbertable_008	;---	lea		ax,WORD PTR numbertable_008
+						;---	push	ax
 	lda.w nextnumberindex_010	;---	mov		ax,WORD PTR nextnumberindex_010
 						;---	mov		dx,4
 						;---	imul	dx
@@ -590,6 +592,7 @@ L_059
 	adj #2	;--- pop TOS
 ;  147:         numbertable[nextnumberindex].nextindex := 0;
 	psh.w #numbertable_008	;---	lea		ax,WORD PTR numbertable_008
+						;---	push	ax
 	lda.w nextnumberindex_010	;---	mov		ax,WORD PTR nextnumberindex_010
 						;---	mov		dx,4
 						;---	imul	dx
@@ -684,6 +687,7 @@ L_065
 ;  174:     WHILE    wordtable[i].word
 L_066
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
+						;---	push	ax
 	lda.w i_063,B	;---	mov		ax,WORD PTR i_063
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,24
@@ -702,6 +706,7 @@ L_066
 	adc.w #word_002	;compute field offset
 	pha.w	;---	push	ax
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
+						;---	push	ax
 	lda.w nextwordindex_009	;---	mov		ax,WORD PTR nextwordindex_009
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,24
@@ -769,6 +774,7 @@ L_072
 L_070
 ;  181:         wordtable[i].lastnumberindex :=
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
+						;---	push	ax
 	lda.w i_063,B	;---	mov		ax,WORD PTR i_063
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,24
@@ -787,6 +793,7 @@ L_070
 	pha.w	;---	push	ax
 ;  182:         appendlinenumber(wordtable[i].lastnumberindex);
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
+						;---	push	ax
 	lda.w i_063,B	;---	mov		ax,WORD PTR i_063
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,24
@@ -847,6 +854,7 @@ L_074
 	sta.w nextwordindex_009	;---	mov		WORD PTR nextwordindex_009,ax
 ;  188:         wordtable[i].firstnumberindex := appendlinenumber(0);
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
+						;---	push	ax
 	lda.w i_063,B	;---	mov		ax,WORD PTR i_063
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,24
@@ -874,6 +882,7 @@ L_074
 	adj #2	;--- pop TOS
 ;  189:         wordtable[i].lastnumberindex :=
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
+						;---	push	ax
 	lda.w i_063,B	;---	mov		ax,WORD PTR i_063
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,24
@@ -892,6 +901,7 @@ L_074
 	pha.w	;---	push	ax
 ;  190:         wordtable[i].firstnumberindex;
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
+						;---	push	ax
 	lda.w i_063,B	;---	mov		ax,WORD PTR i_063
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,24
@@ -1008,6 +1018,7 @@ L_087
 L_088
 ;  211:         IF wordtable[i].word > wordtable[j].word THEN BEGIN
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
+						;---	push	ax
 	lda.w i_081,B	;---	mov		ax,WORD PTR i_081
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,24
@@ -1025,6 +1036,7 @@ L_088
 	adc.w #word_002	;compute field offset
 	pha.w	;---	push	ax
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
+						;---	push	ax
 	lda.w j_082,B	;---	mov		ax,WORD PTR j_082
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,24
@@ -1065,6 +1077,7 @@ L_090
 	adc.w #temp_083	compute effective address
 	pha.w	;---	push	ax
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
+						;---	push	ax
 	lda.w i_081,B	;---	mov		ax,WORD PTR i_081
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,24
@@ -1088,6 +1101,7 @@ L_090
 	swp.x	;--- Restore BP
 ;  213:             wordtable[i] := wordtable[j];
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
+						;---	push	ax
 	lda.w i_081,B	;---	mov		ax,WORD PTR i_081
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,24
@@ -1101,6 +1115,7 @@ L_090
 	adc.w 0,S	;add index offset to array base
 	sta.w 0,S	;store address of array element ---	push	dx
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
+						;---	push	ax
 	lda.w j_082,B	;---	mov		ax,WORD PTR j_082
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,24
@@ -1124,6 +1139,7 @@ L_090
 	swp.x	;--- Restore BP
 ;  214:             wordtable[j] := temp;
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
+						;---	push	ax
 	lda.w j_082,B	;---	mov		ax,WORD PTR j_082
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,24
@@ -1184,6 +1200,7 @@ printnumbers_093	.PROC
 L_095
 ;  227:         write(numbertable[i].number:4);
 	psh.w #numbertable_008	;---	lea		ax,WORD PTR numbertable_008
+						;---	push	ax
 	lda.w i_094,B	;---	mov		ax,WORD PTR i_094
 						;---	mov		dx,4
 						;---	imul	dx
@@ -1207,6 +1224,7 @@ L_095
 	adj #4	;---	add		sp,4
 ;  228:         i := numbertable[i].nextindex;
 	psh.w #numbertable_008	;---	lea		ax,WORD PTR numbertable_008
+						;---	push	ax
 	lda.w i_094,B	;---	mov		ax,WORD PTR i_094
 						;---	mov		dx,4
 						;---	imul	dx
@@ -1316,6 +1334,7 @@ L_102
 L_103
 ;  249:         write(wordtable[i].word);
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
+						;---	push	ax
 	lda.w i_099,B	;---	mov		ax,WORD PTR i_099
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,24
@@ -1340,6 +1359,7 @@ L_103
 	adj #6	;---	add		sp,6
 ;  250:         printnumbers(wordtable[i].firstnumberindex);
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
+						;---	push	ax
 	lda.w i_099,B	;---	mov		ax,WORD PTR i_099
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,24
@@ -1428,6 +1448,7 @@ L_106
 L_107
 ;  265:     readword(wordtable[nextwordindex].word);
 	psh.w #wordtable_007	;---	lea		ax,WORD PTR wordtable_007
+						;---	push	ax
 	lda.w nextwordindex_009	;---	mov		ax,WORD PTR nextwordindex_009
 	dec.w a	;---	sub		ax,1
 						;---	mov		dx,24
