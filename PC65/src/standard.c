@@ -595,7 +595,7 @@ TYPE_STRUCT_PTR odd(void)
     } else
         error(WRONG_NUMBER_OF_PARMS);
 
-    fprintf(code_file, "\tanl.w #%d\t;---", 1);
+    fprintf(code_file, "\tand.w #%d\t;---", 1);
     emit_2(AND_BITS, reg(AX), integer_lit(1));
     return(boolean_typep);
 }

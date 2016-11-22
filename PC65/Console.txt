@@ -14,7 +14,7 @@ Opcode Table
 adc.w_imm16 : AB69          4  2
 adc.w_sp    : AB63          3  1
 adj_imm     : C2            2  1
-anl.w_sp    : AB23          3  1
+and.w_sp    : AB23          3  1
 asl.w_A     : AB0A          2  0
 beq_rel     : F0            2  1
 bge_rel     : AB50          3  1

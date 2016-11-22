@@ -630,7 +630,7 @@ TYPE_STRUCT_PTR term(void)
 		        if (boolean_operands(result_tp, tp2)) {
                     fprintf(code_file, "\t\t\t\t\t\t;---");
 		            emit_1(POP, reg(DX));
-                    fprintf(code_file, "\tanl.w 0,S\t;---");
+                    fprintf(code_file, "\tand.w 0,S\t;---");
 		            emit_2(AND_BITS, reg(AX), reg(DX));
                     fprintf(code_file, "\tadj #%d\t;pop ops/params\n", 2);
                 } else

@@ -1,7 +1,7 @@
 adc.w_imm16    17   2   2   AB69    imm16
 adc.w_sp      147   2   1   AB63    sp
 adj_imm       434   1   1   C2      imm
-anl.w_sp        6   2   1   AB23    sp
+and.w_sp        6   2   1   AB23    sp
 asl.w_A        70   2   0   AB0A
 beq_rel        86   1   1   F0      rel
 bge_rel        24   2   1   AB50    rel
