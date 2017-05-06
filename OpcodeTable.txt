@@ -1,0 +1,32 @@
+adc.w_imm16   17  2  2  AB69  imm16 ||  lda.w_spI     27  2  1  BBA3  sp   
+adc.w_sp     147  2  1  AB63  sp    ||  ldy_imm        1  1  1  A0    imm  
+adj_imm      434  1  1  C2    imm   ||  mvb_imm        3  1  1  82    imm  
+and.w_sp       6  2  1  AB23  sp    ||  ora.w_sp      11  2  1  AB03  sp   
+asl.w_A       70  2  0  AB0A        ||  pha.w_imp    401  2  0  AB48       
+beq_rel       86  1  1  F0    rel   ||  php_imp       58  1  0  08         
+bge_rel       24  2  1  AB50  rel   ||  phx.w_imp     42  2  0  ABDA       
+bgt_rel       11  2  1  AB10  rel   ||  phy.w_imp      3  2  0  AB5A       
+ble_rel        5  2  1  AB30  rel   ||  pla.w_imp     19  2  0  AB68       
+blt_rel        7  2  1  AB70  rel   ||  plp_imp       58  1  0  28         
+bne_rel       33  1  1  D0    rel   ||  plx.w_imp     29  2  0  ABFA       
+clc_imp      164  1  0  18          ||  ply.w_imp      6  2  0  AB7A       
+cmp.w_abs      2  2  2  ABCD  abs   ||  psh.w_imm16  342  2  2  ABE2  imm16
+cmp.w_bp      18  2  1  ABC7  bp    ||  rts_imp       26  1  0  60         
+cmp.w_imm16   92  2  2  ABC9  imm16 ||  sbc.w_sp      10  2  1  ABE3  sp   
+cmp.w_sp      52  2  1  ABC3  sp    ||  sec_imp       21  1  0  38         
+dec.w_abs      2  2  2  ABCE  abs   ||  sta_abs        4  1  2  8D    abs  
+dec.w_A       55  2  0  AB3A        ||  sta_spI        3  2  1  9B83  sp   
+dec.w_bp      18  2  1  ABD7  bp    ||  sta.w_abs     62  2  2  AB8D  abs  
+eor_imm        5  1  1  49    imm   ||  sta.w_bp      23  2  1  AB87  bp   
+eor.w_imm16    2  2  2  AB49  imm16 ||  sta.w_sp     122  2  1  AB83  sp   
+inc.w_abs      2  2  2  ABEE  abs   ||  sta.w_spI     58  2  1  BB83  sp   
+inc.w_A        2  2  0  AB1A        ||  sta.w_spIY     1  2  1  AB93  sp   
+inc.w_bp      18  2  1  ABF7  bp    ||  swp_imp      104  1  0  1B         
+jmp_abs      150  1  2  4C    abs   ||  swp.x_imp      6  2  0  EB1B       
+jsr_abs      275  1  2  20    abs   ||  swp.y_imp      2  2  0  FB1B       
+lda_bp        12  1  1  A7    bp    ||  tay_imp        1  1  0  A8         
+lda_imm      346  1  1  A9    imm   ||  tsx.w_imp     26  2  0  ABBA       
+lda.w_abs    113  2  2  ABAD  abs   ||  txa.w_imp     11  2  0  AB8A       
+lda.w_bp     192  2  1  ABA7  bp    ||  txs.w_imp     21  2  0  AB9A       
+lda.w_bpI      6  2  1  BBA7  bp    ||  tya_imp        1  1  0  98         
+lda.w_imm16   12  2  2  ABA9  imm16 ||  xma.w_sp      62  2  1  AB44  sp   
