@@ -43,8 +43,10 @@ extern LITERAL          literal;
 extern SYMTAB_NODE_PTR  symtab_display[];
 extern int              level;
 
-extern TYPE_STRUCT_PTR  integer_typep, real_typep,
-                        boolean_typep, char_typep;
+extern TYPE_STRUCT_PTR  integer_typep;
+extern TYPE_STRUCT_PTR  real_typep;
+//extern TYPE_STRUCT_PTR  boolean_typep;
+extern TYPE_STRUCT_PTR  char_typep;
 
 extern TYPE_STRUCT      dummy_type;
 

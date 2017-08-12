@@ -39,7 +39,6 @@
 
 extern int              line_number;
 extern int              error_count;
-extern long             exec_stmt_count;
 
 extern TOKEN_CODE       token;
 extern char             word_string[];
@@ -89,7 +88,6 @@ extern void emit_main_prologue(void);
 extern void emit_main_epilogue(void);
 extern void emit_routine_prologue(SYMTAB_NODE_PTR);
 extern void emit_routine_epilogue(SYMTAB_NODE_PTR);
-extern void emit_declarations(SYMTAB_NODE_PTR);
 extern void quit_scanner(void);
 extern void get_token(void);
 extern void synchronize(TOKEN_CODE *, TOKEN_CODE *, TOKEN_CODE *);
@@ -637,6 +635,7 @@ SYMTAB_NODE_PTR formal_parm_list(int *countp, int *total_sizep)
     /*
     --  Assign the offset to all parm ids in reverse order.
     */
+
     reverse_list(&parm_listp);
 
     for (parm_idp = parm_listp; parm_idp != NULL; parm_idp = parm_idp->next) {

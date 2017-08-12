@@ -33,8 +33,10 @@
 //  Externals                                                   //
 //////////////////////////////////////////////////////////////////
 
-extern TYPE_STRUCT_PTR  integer_typep, real_typep,
-			            boolean_typep, char_typep;
+extern TYPE_STRUCT_PTR  integer_typep;
+extern TYPE_STRUCT_PTR  real_typep;
+//extern TYPE_STRUCT_PTR  boolean_typep;
+extern TYPE_STRUCT_PTR  char_typep;
 
 extern int level;
 
@@ -63,7 +65,6 @@ extern void word_indirect(REGISTER);
 extern void high_dword_indirect(REGISTER);
 extern void name_lit(char *);
 extern void integer_lit(int);
-extern void char_lit(char);
 extern void emit_text_equate(SYMTAB_NODE_PTR);
 
 

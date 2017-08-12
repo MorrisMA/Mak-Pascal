@@ -58,6 +58,7 @@ char *register_strings[] = {
     "si",
     "di",
 };
+
 char *instruction_strings[] = {
     "mov\t",
     "rep\tmovsb",

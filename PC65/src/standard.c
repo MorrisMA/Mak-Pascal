@@ -159,9 +159,9 @@ void read_readln(SYMTAB_NODE_PTR rtn_idp)
 		        search_and_find_all_symtab(idp);
 		        actual_parm_tp = base_type(variable(idp, VARPARM_USE));
 
-		        if (actual_parm_tp->form != SCALAR_FORM)
+		        if (actual_parm_tp->form != SCALAR_FORM) {
 		            error(INCOMPATIBLE_TYPES);
-		        else if (actual_parm_tp == integer_typep) {
+		        } else if (actual_parm_tp == integer_typep) {
                     fprintf(code_file, "\tjsr _iread\t;---");
 		            emit_1(CALL, name_lit(READ_INTEGER));
                     fprintf(code_file,"\t\t\t\t\t;---");
@@ -251,14 +251,16 @@ void write_writeln(SYMTAB_NODE_PTR rtn_idp)
 	        --  A string value is already on the stack.
 	        */
 
-	        if (actual_parm_tp->form != ARRAY_FORM)
+	        if (actual_parm_tp->form != ARRAY_FORM) {
 		        emit_push_operand(actual_parm_tp);
+	        }
 
 	        if ((actual_parm_tp->form != SCALAR_FORM)   &&
 		        (actual_parm_tp       != boolean_typep) &&
 		       ((actual_parm_tp->form != ARRAY_FORM) ||
-		        (actual_parm_tp->info.array.elmt_typep != char_typep)))
+		        (actual_parm_tp->info.array.elmt_typep != char_typep))) {
 		        error(INVALID_EXPRESSION);
+	        }
 
 	        /*
 	        --  Optional field width <expr>
@@ -271,8 +273,9 @@ void write_writeln(SYMTAB_NODE_PTR rtn_idp)
                 fprintf(code_file, "\tpha.w\t;---");
 		        emit_1(PUSH, reg(AX));
 
-		        if (field_width_tp != integer_typep)
+		        if (field_width_tp != integer_typep) {
 		            error(INCOMPATIBLE_TYPES);
+		        }
 
 		        /*
 		        --  Optional precision <expr>
@@ -289,8 +292,9 @@ void write_writeln(SYMTAB_NODE_PTR rtn_idp)
 			            emit_1(PUSH, reg(AX));
                     }
 
-		            if (precision_tp != integer_typep)
-			        error(INCOMPATIBLE_TYPES);
+		            if (precision_tp != integer_typep) {
+				        error(INCOMPATIBLE_TYPES);
+		            }
                 } else if (actual_parm_tp == real_typep) {
                     fprintf(code_file, "\tpsh.w #%d\t;---", DEFAULT_PRECISION);
 		            emit_2(MOVE, reg(AX), integer_lit(DEFAULT_PRECISION));
@@ -362,8 +366,9 @@ void write_writeln(SYMTAB_NODE_PTR rtn_idp)
 	    } while (token == COMMA);
 
     	if_token_get_else_error(RPAREN, MISSING_RPAREN);
-    } else if (rtn_idp->defn.info.routine.key == WRITE)
+    } else if (rtn_idp->defn.info.routine.key == WRITE) {
 	    error(WRONG_NUMBER_OF_PARMS);
+    }
 
     if (rtn_idp->defn.info.routine.key == WRITELN) {
         fprintf(code_file, "\tjsr _writeln\t;---");
@@ -411,12 +416,14 @@ TYPE_STRUCT_PTR abs_sqr(SYMTAB_NODE_PTR rtn_idp)
 	    if ((parm_tp != integer_typep) && (parm_tp != real_typep)) {
 	        error(INCOMPATIBLE_TYPES);
 	        result_tp = real_typep;
-        } else
+        } else {
             result_tp = parm_tp;
+        }
 
 	    if_token_get_else_error(RPAREN, MISSING_RPAREN);
-    } else
+    } else {
         error(WRONG_NUMBER_OF_PARMS);
+    }
 
     switch (rtn_idp->defn.info.routine.key) {
 	    case ABS :  if (parm_tp == integer_typep) {
@@ -455,7 +462,9 @@ TYPE_STRUCT_PTR abs_sqr(SYMTAB_NODE_PTR rtn_idp)
 		                emit_2(ADD, reg(SP), integer_lit(8));
 	                }
 	                break;
+	    default :   return(NULL);
 	}
+
     return(result_tp);
 }
 
@@ -475,12 +484,14 @@ TYPE_STRUCT_PTR arctan_cos_exp_ln_sin_sqrt(SYMTAB_NODE_PTR rtn_idp)
 	    get_token();
 	    parm_tp = base_type(expression());
 
-	    if ((parm_tp != integer_typep) && (parm_tp != real_typep))
+	    if ((parm_tp != integer_typep) && (parm_tp != real_typep)) {
 	        error(INCOMPATIBLE_TYPES);
+	    }
 
 	    if_token_get_else_error(RPAREN, MISSING_RPAREN);
-    } else
+    } else {
         error(WRONG_NUMBER_OF_PARMS);
+    }
 
     if (parm_tp == integer_typep) {
 	    fprintf(code_file, "\tpha.w\t;---");
@@ -511,6 +522,7 @@ TYPE_STRUCT_PTR arctan_cos_exp_ln_sin_sqrt(SYMTAB_NODE_PTR rtn_idp)
 	    case SQRT   :   std_func_name = STD_SQRT;
 						fprintf(code_file, "\tjsr _fsqrt\t;---");
 						break;
+	    default     :   return(NULL);
     }
     emit_1(CALL, name_lit(std_func_name));
     fprintf(code_file, "\tadj #%d\t;---", 4);
@@ -537,19 +549,21 @@ TYPE_STRUCT_PTR pred_succ(SYMTAB_NODE_PTR rtn_idp)
 	    if ((parm_tp != integer_typep) && (parm_tp->form != ENUM_FORM)) {
 	        error(INCOMPATIBLE_TYPES);
 	        result_tp = integer_typep;
-        } else result_tp = parm_tp;
+        } else {
+        	result_tp = parm_tp;
+        }
 
 	    if_token_get_else_error(RPAREN, MISSING_RPAREN);
-    } else
+    } else {
         error(WRONG_NUMBER_OF_PARMS);
+    }
 
     if(rtn_idp->defn.info.routine.key == (PRED)) {
     	fprintf(code_file, "\tdec.w\t;---");
     } else {
     	fprintf(code_file, "\tinc.w\t'---");
     }
-
-    emit_1(rtn_idp->defn.info.routine.key == (PRED) ? DECREMENT : INCREMENT, reg(AX));
+    emit_1((rtn_idp->defn.info.routine.key == (PRED) ? DECREMENT : INCREMENT), reg(AX));
 
     return(result_tp);
 }
@@ -567,11 +581,13 @@ TYPE_STRUCT_PTR chr(void)
 	    get_token();
 	    parm_tp = base_type(expression());
 
-	    if (parm_tp != integer_typep)
+	    if (parm_tp != integer_typep) {
             error(INCOMPATIBLE_TYPES);
+	    }
 	    if_token_get_else_error(RPAREN, MISSING_RPAREN);
-    } else
+    } else {
         error(WRONG_NUMBER_OF_PARMS);
+    }
 
     return(char_typep);
 }
@@ -589,11 +605,13 @@ TYPE_STRUCT_PTR odd(void)
 	    get_token();
 	    parm_tp = base_type(expression());
 
-	    if (parm_tp != integer_typep)
+	    if (parm_tp != integer_typep) {
             error(INCOMPATIBLE_TYPES);
+	    }
 	    if_token_get_else_error(RPAREN, MISSING_RPAREN);
-    } else
+    } else {
         error(WRONG_NUMBER_OF_PARMS);
+    }
 
     fprintf(code_file, "\tand.w #%d\t;---", 1);
     emit_2(AND_BITS, reg(AX), integer_lit(1));
@@ -613,11 +631,13 @@ TYPE_STRUCT_PTR ord(void)
 	    get_token();
 	    parm_tp = base_type(expression());
             
-	    if ((parm_tp->form != ENUM_FORM) && (parm_tp != char_typep)) /* 2/9/91 */
+	    if ((parm_tp->form != ENUM_FORM) && (parm_tp != char_typep)) { /* 2/9/91 */
 	        error(INCOMPATIBLE_TYPES);
+	    }
 	    if_token_get_else_error(RPAREN, MISSING_RPAREN);
-    } else
+    } else {
         error(WRONG_NUMBER_OF_PARMS);
+    }
 
     return(integer_typep);
 }
@@ -635,11 +655,13 @@ TYPE_STRUCT_PTR round_trunc(SYMTAB_NODE_PTR rtn_idp)
 	    get_token();
 	    parm_tp = base_type(expression());
 
-	    if (parm_tp != real_typep)
+	    if (parm_tp != real_typep) {
             error(INCOMPATIBLE_TYPES);
+	    }
 	    if_token_get_else_error(RPAREN, MISSING_RPAREN);
-    } else
+    } else {
         error(WRONG_NUMBER_OF_PARMS);
+    }
 
     emit_push_operand(parm_tp);
     if(rtn_idp->defn.info.routine.key == (ROUND)) {
