@@ -49,8 +49,6 @@ extern TYPE_STRUCT_PTR  integer_typep, real_typep;
 extern TYPE_STRUCT      dummy_type;
 
 extern int              label_index;
-extern char             asm_buffer[];
-extern char             *asm_bufferp;
 extern FILE             *code_file;
 
 extern TOKEN_CODE       statement_start_list[],
@@ -92,11 +90,6 @@ extern void quit_scanner(void);
 extern void get_token(void);
 extern void synchronize(TOKEN_CODE *, TOKEN_CODE *, TOKEN_CODE *);
 extern void print_line(char *);
-extern void reg(REGISTER);
-extern void _operator(INSTRUCTION);
-extern void tagged_name(SYMTAB_NODE_PTR);
-extern void name_lit(char *);
-extern void integer_lit(int);
 extern void error(ERROR_CODE);
 extern void compound_statement(void);
 
@@ -736,16 +729,14 @@ TYPE_STRUCT_PTR declared_routine_call(SYMTAB_NODE_PTR rtn_idp,
         --  Calling a routine nested within the caller:
         --  Push pointer to caller's stack frame.
         */
-        fprintf(code_file, "\tphx.w\t;---");
-        emit_1(PUSH, reg(BP));
+        fprintf(code_file, "\tphx.w\n");
     } else if (new_level == old_level) {
         /*
         --  Calling another routine at the same level:
         --  Push pointer to stack frame of common parent.
         */
-        fprintf(code_file, "\tlda.w %s,B\t;---", STATIC_LINK);
-        emit_1(PUSH, name_lit(STATIC_LINK));
-        fprintf(code_file, "\tpha.w\t;push acc\n");
+        fprintf(code_file, "\tlda.w %s,B\n", STATIC_LINK);
+        fprintf(code_file, "\tpha.w\n");
     } else  /* new_level < old_level */  {
         /*
         --  Calling a routine at a lesser level (nested less deeply):
@@ -753,21 +744,16 @@ TYPE_STRUCT_PTR declared_routine_call(SYMTAB_NODE_PTR rtn_idp,
         */
         int lev;
 
-        fprintf(code_file, "\tdup.x\t;---");
-        emit_2(MOVE, reg(BX), reg(BP));
+        fprintf(code_file, "\tdup.x\n");
         for (lev = old_level; lev >= new_level; --lev) {
-            fprintf(code_file, "\tlda.xw %s,B\t;---", STATIC_LINK);
-            emit_2(MOVE, reg(BP), name_lit(STATIC_LINK));
+            fprintf(code_file, "\tlda.xw %s,B\n", STATIC_LINK);
         }
-        fprintf(code_file, "\tphx.w\t;---");
-        emit_1(PUSH, reg(BP));
-        fprintf(code_file, "\trot.x\t;---");
-        emit_2(MOVE, reg(BP), reg(BX));
+        fprintf(code_file, "\tphx.w\n");
+        fprintf(code_file, "\trot.x\n");
     }
 
-    fprintf(code_file, "\tjsr %s_%03d\t;---", rtn_idp->name, rtn_idp->label_index);
-    emit_1(CALL, tagged_name(rtn_idp));
-    fprintf(code_file, "\tadj #%d\t;pop ops/params\n", rtn_idp->defn.info.routine.total_parm_size+2);
+    fprintf(code_file, "\tjsr %s_%03d\n", rtn_idp->name, rtn_idp->label_index);
+    fprintf(code_file, "\tadj #%d\n", rtn_idp->defn.info.routine.total_parm_size+2);
 
     return(rtn_idp->defn.key == PROC_DEFN ? NULL : rtn_idp->typep);
 }
@@ -831,19 +817,14 @@ void actual_parm_list(SYMTAB_NODE_PTR rtn_idp, BOOLEAN parm_check_flag)
                     --  Real formal parm.
                     */
                     if (actual_parm_tp == integer_typep) {
-                        fprintf(code_file, "\tpha.w\t;---");
-                        emit_1(PUSH, reg(AX));
-                        fprintf(code_file, "\tjsr _fconv\t;---");
-                        emit_1(CALL, name_lit(FLOAT_CONVERT));
-                        fprintf(code_file, "\tadj #%d\t;---", 2);
-                        emit_2(ADD,  reg(SP), integer_lit(2));
+                        fprintf(code_file, "\tpha.w\n");
+                        fprintf(code_file, "\tjsr _fconv\n");
+                        fprintf(code_file, "\tadj #%d\n", 2);
                     }
-                    fprintf(code_file, "\tswp\t;---");  // ATOS = high word
-                    emit_1(PUSH, reg(DX));
-                    fprintf(code_file, "\tpha.w\t;---");
-                    fprintf(code_file, "\tswp\t;---");  // ATOS = low word 
-                    emit_1(PUSH, reg(AX));
-                    fprintf(code_file, "\tpha.w\t;---");
+                    fprintf(code_file, "\tswp\n");  // ATOS = high word
+                    fprintf(code_file, "\tpha.w\n");
+                    fprintf(code_file, "\tswp\n");  // ATOS = low word
+                    fprintf(code_file, "\tpha.w\n");
                 } else if (   (actual_parm_tp->form == ARRAY_FORM)
                            || (actual_parm_tp->form == RECORD_FORM)) {
                     /*
@@ -852,37 +833,25 @@ void actual_parm_list(SYMTAB_NODE_PTR rtn_idp, BOOLEAN parm_check_flag)
                     int size   = actual_parm_tp->size;
                     int offset = ((size % 2) == 0) ? size : size + 1;
 
-                    fprintf(code_file, "\t\t\t\t\t\t;---");
-                    emit(CLEAR_DIRECTION);
                     if(size < 0){
-                        fprintf(code_file, "\tadj.w #%d\t;---", -offset);
+                        fprintf(code_file, "\tadj.w #%d\n", -offset);
                     } else {
-                        fprintf(code_file, "\tadj #%d\t;---", -offset);
+                        fprintf(code_file, "\tadj #%d\n", -offset);
                     }
-                    emit_2(SUBTRACT, reg(SP), integer_lit(offset));
-                    fprintf(code_file, "\tphx.sw\t;---");
-                    emit_2(MOVE, reg(DI), reg(SP));
-                    fprintf(code_file, "\tply.w\t;pull destination pointer\n");
+                    fprintf(code_file, "\tphx.sw\n");
+                    fprintf(code_file, "\tply.w\n");
                     if(    (size >= 0  )
                         && (size <= 255)) {
-                        fprintf(code_file, "\tlda #%d\t;---", size);
+                        fprintf(code_file, "\tlda #%d\n", size);
                     } else {
-                        fprintf(code_file, "\tlda.w #%d\t;---", size);
+                        fprintf(code_file, "\tlda.w #%d\n", size);
                     }
-                    emit_2(MOVE, reg(CX), integer_lit(size));
-                    fprintf(code_file, "\t\t\t\t\t\t;---");
-                    emit_2(MOVE, reg(AX), reg(DS));
-                    fprintf(code_file, "\t\t\t\t\t\t;---");
-                    emit_2(MOVE, reg(ES), reg(AX));
-                    fprintf(code_file, "\tdup.x\t;--- Save BP");
-                    emit_1(POP,  reg(SI));
-                    fprintf(code_file, "\tplx.w\t;pull source pointer\n");
-                    fprintf(code_file, "\tmvb #51\t;---");
-                    emit(MOVE_BLOCK);
-                    fprintf(code_file, "\trot.x\t;--- Restore BP\n");
+                    fprintf(code_file, "\tdup.x\n");
+                    fprintf(code_file, "\tplx.w\n");
+                    fprintf(code_file, "\tmvb #51\n");
+                    fprintf(code_file, "\trot.x\n");
                 } else {
-                    fprintf(code_file, "\tpha.w\t;---");
-                    emit_1(PUSH, reg(AX));
+                    fprintf(code_file, "\tpha.w\n");
                 }
             } else { /* formal_parm_defn == VARPARM_DEFN */  
                 if (token == IDENTIFIER) {

@@ -11,7 +11,7 @@ HIGH_RETURN_VALUE	.equ	-2
 ;    6: VAR
 ;    7:     sieve : ARRAY [1..max] OF BOOLEAN;
 ;    8:     i, j, limit, prime, factor : INTEGER;
-;    9: 
+;    9:     
 ;   10: BEGIN
 _pc65_main	.sub
 	phx.w
@@ -30,12 +30,12 @@ _pc65_main	.sub
 	dec.w a
 	asl.w a
 	clc
-	adc.w 1,S
-	sta.w 1,S
+	adc.w 0,S
+	tai
 	lda #0
 	sta.w (1,S)
 	adj #2
-;   13: 
+;   13:     
 ;   14:     FOR i := 2 TO max DO
 	lda #2
 	sta.w i_003
@@ -51,8 +51,8 @@ L_009
 	dec.w a
 	asl.w a
 	clc
-	adc.w 1,S
-	sta.w 1,S
+	adc.w 0,S
+	tai
 	lda #1
 	sta.w (1,S)
 	adj #2
@@ -67,8 +67,29 @@ L_010
 ;   18: 
 ;   19:     REPEAT
 L_011
-;   20:         prime := prime + 1;
+;   20:         prime := (((prime * 2 + 1) - 1) DIV 2) + 1;
 	lda.w prime_006
+	pha.w
+	lda #2
+	pha.w
+	jsr _imul
+	adj #4
+	pha.w
+	lda #1
+	clc
+	adc.w 1,S
+	adj #2
+	pha.w
+	lda #1
+	xma.w 1,S
+	sec
+	sbc.w 1,S
+	adj #2
+	pha.w
+	lda #2
+	pha.w
+	jsr _idiv
+	adj #4
 	pha.w
 	lda #1
 	clc
@@ -82,8 +103,8 @@ L_013
 	dec.w a
 	asl.w a
 	clc
-	adc.w 1,S
-	sta.w 1,S
+	adc.w 0,S
+	tai
 	lda.w (1,S)
 	adj #2
 	eor #1
@@ -135,8 +156,8 @@ L_017
 	dec.w a
 	asl.w a
 	clc
-	adc.w 1,S
-	sta.w 1,S
+	adc.w 0,S
+	tai
 	lda #0
 	sta.w (1,S)
 	adj #2
@@ -207,8 +228,8 @@ L_025
 	dec.w a
 	asl.w a
 	clc
-	adc.w 1,S
-	sta.w 1,S
+	adc.w 0,S
+	tai
 	lda.w (1,S)
 	adj #2
 	cmp.w #1
@@ -219,7 +240,7 @@ L_027
 	lda.w prime_006
 	pha.w
 	lda #3
-	pha.w	;---	push	ax
+	pha.w
 	jsr _iwrite
 	adj #4
 ;   41:             ELSE

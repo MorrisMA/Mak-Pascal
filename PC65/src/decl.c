@@ -797,7 +797,8 @@ void var_declarations(SYMTAB_NODE_PTR rtn_idp)
 {
     var_or_field_declarations(rtn_idp,
                               NULL,
-                              (rtn_idp->defn.key == PROC_DEFN) ? PROC_LOCALS_STACK_FRAME_OFFSET : FUNC_LOCALS_STACK_FRAME_OFFSET);
+                              (rtn_idp->defn.key == PROC_DEFN) ? PROC_LOCALS_STACK_FRAME_OFFSET
+                            		                           : FUNC_LOCALS_STACK_FRAME_OFFSET);
 }
 
 /*--------------------------------------------------------------*/

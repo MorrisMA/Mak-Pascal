@@ -1,0 +1,65 @@
+adc.w_imm16    17   2   2   AB69    imm16
+adc.w_sp      147   2   1   CB75    sp
+adj_imm       434   1   1   C2      imm
+and.w_sp        6   2   1   CB35    sp
+asl.w_A        70   2   0   AB0A
+beq_rel        86   1   1   F0      rel
+bge_rel        24   2   1   AB50    rel
+bgt_rel        11   2   1   AB10    rel
+ble_rel         5   2   1   AB30    rel
+blt_rel         7   2   1   AB70    rel
+bne_rel        33   1   1   D0      rel
+clc_imp       164   1   0   18
+cmp.w_abs       2   2   2   ABCD    abs
+cmp.w_bp       18   2   1   ABD5    bp
+cmp.w_imm16    92   2   2   ABC9    imm16
+cmp.w_sp       52   2   1   CBD5    sp
+dec.w_abs       2   2   2   ABCE    abs
+dec.w_A        55   2   0   AB3A
+dec.w_bp       18   2   1   ABD6    bp
+eor_imm         5   1   1   49      imm
+eor.w_imm16     2   2   2   AB49    imm16
+inc.w_abs       2   2   2   ABEE    abs
+inc.w_A         2   2   0   AB1A
+inc.w_bp       18   2   1   ABF6    bp
+jmp_abs       150   1   2   4C      abs
+jsr_abs       275   1   2   20      abs
+lda_bp         12   1   1   B5      bp
+lda_imm       346   1   1   A9      imm
+lda.w_abs     113   2   2   ABAD    abs
+lda.w_bp      192   2   1   ABB5    bp
+lda.w_bpI       6   2   1   BBB5    bp
+lda.w_imm16    12   2   2   ABA9    imm16
+lda.w_spI      27   2   1   DBB5    sp
+ldy_imm         1   1   1   A0      imm
+mvb_imm         3   1   1   82      imm
+ora.w_sp       11   2   1   CB15    sp
+pha.w_imp     401   2   0   AB48
+php_imp        58   1   0   08
+phx.w_imp      42   2   0   ABDA
+phy.w_imp       3   2   0   AB5A
+pla.w_imp      19   2   0   AB68
+plp_imp        58   1   0   28
+plx.w_imp      29   2   0   ABFA
+ply.w_imp       6   2   0   AB7A
+psh.w_imm16   342   2   2   ABE2    imm16
+rts_imp        26   1   0   60
+sbc.w_sp       10   2   1   CBF5    sp
+sec_imp        21   1   0   38
+sta_abs         4   1   2   8D      abs
+sta_spI         3   3   1   8B9B95  sp
+sta.w_abs      62   2   2   AB8D    abs
+sta.w_bp       23   2   1   AB95    bp
+sta.w_sp      122   2   1   CB95    sp
+sta.w_spI      58   2   1   DB95    sp
+sta.w_spIY      1   2   1   CB91    sp
+swp_imp       104   1   0   1B
+swp.x_imp       6   2   0   EB1B
+swp.y_imp       2   2   0   FB1B
+tay_imp         1   1   0   A8
+tsx.w_imp      26   2   0   ABBA
+txa.w_imp      11   2   0   AB8A
+txs.w_imp      21   2   0   AB9A
+tya_imp         1   1   0   98
+xma.w_sp       62   2   1   CB44    sp
+

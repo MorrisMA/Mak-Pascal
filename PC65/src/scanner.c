@@ -153,7 +153,7 @@ CHAR_CODE char_table[256];
 /*  char_code           Return the character code of ch.        */
 /*--------------------------------------------------------------*/
 
-#define char_code(ch)   char_table[ch]
+#define char_code(ch)   char_table[((int) ch)]
 
 /*--------------------------------------------------------------*/
 /*  Function Prototypes                                         */
@@ -716,7 +716,7 @@ void synchronize(TOKEN_CODE token_list1[],
                          (! token_in(token_list3));
 
     if (error_flag) {
-        error(token == ((END_OF_FILE) ? UNEXPECTED_END_OF_FILE : UNEXPECTED_TOKEN));
+        error((token == END_OF_FILE) ? UNEXPECTED_END_OF_FILE : UNEXPECTED_TOKEN);
 
 
 		/*

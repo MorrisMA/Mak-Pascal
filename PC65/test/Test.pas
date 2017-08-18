@@ -6,18 +6,18 @@ CONST
 VAR
     sieve : ARRAY [1..max] OF BOOLEAN;
     i, j, limit, prime, factor : INTEGER;
-
+    
 BEGIN
     limit := max DIV 2;
     sieve[1] := FALSE;
-
+    
     FOR i := 2 TO max DO
         sieve[i] := TRUE;
 
     prime := 1;
 
     REPEAT
-        prime := prime + 1;
+        prime := (((prime * 2 + 1) - 1) DIV 2) + 1;
         WHILE NOT sieve[prime] DO
             prime := prime + 1;
 

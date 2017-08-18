@@ -47,9 +47,6 @@ extern TYPE_STRUCT      dummy_type;
 extern TYPE_STRUCT_PTR  integer_typep, real_typep,
 			            boolean_typep, char_typep;
 
-extern int              label_index;
-extern char             asm_buffer[];
-extern char             *asm_bufferp;
 extern FILE             *code_file;
 
 extern TOKEN_CODE       follow_parm_list[];
@@ -73,14 +70,6 @@ TYPE_STRUCT_PTR round_trunc(SYMTAB_NODE_PTR);
 
 extern void get_token(void);
 extern void synchronize(TOKEN_CODE *, TOKEN_CODE *, TOKEN_CODE *);
-extern void label(char *, int);
-extern void reg(REGISTER);
-extern void _operator(INSTRUCTION);
-extern void byte_indirect(REGISTER);
-extern void word_indirect(REGISTER);
-extern void high_dword_indirect(REGISTER);
-extern void name_lit(char *);
-extern void integer_lit(int);
 extern void emit_push_operand(TYPE_STRUCT_PTR);
 extern void actual_parm_list(SYMTAB_NODE_PTR, BOOLEAN);
 
@@ -97,35 +86,50 @@ TYPE_STRUCT_PTR standard_routine_call(SYMTAB_NODE_PTR rtn_idp)
 {
     switch (rtn_idp->defn.info.routine.key) {
 	    case READ   :
-	    case READLN :   read_readln(rtn_idp);   return(NULL);
+	    case READLN :
+	    	read_readln(rtn_idp);
+	    	return(NULL);
 
 	    case WRITE  :
-	    case WRITELN:   write_writeln(rtn_idp); return(NULL);
+	    case WRITELN:
+	    	write_writeln(rtn_idp);
+	    	return(NULL);
 
-	    case EOFF   :
-	    case EOLN   :   return(eof_eoln(rtn_idp));
+	    case EOFF :
+	    case EOLN :
+	    	return(eof_eoln(rtn_idp));
 
-	    case ABS    :
-	    case SQR    :   return(abs_sqr(rtn_idp));
+	    case ABS :
+	    case SQR :
+	    	return(abs_sqr(rtn_idp));
 
 	    case ARCTAN :
 	    case COS    :
 	    case EXP    :
 	    case LN     :
 	    case SIN    :
-	    case SQRT   :   return(arctan_cos_exp_ln_sin_sqrt(rtn_idp));
+	    case SQRT   :
+	    	return(arctan_cos_exp_ln_sin_sqrt(rtn_idp));
 
-	    case PRED   :
-	    case SUCC   :   return(pred_succ(rtn_idp));
+	    case PRED :
+	    case SUCC :
+	    	return(pred_succ(rtn_idp));
 
-	    case CHR    :   return(chr());
-	    case ODD    :   return(odd());
-	    case ORD    :   return(ord());
+	    case CHR :
+	    	return(chr());
 
-	    case ROUND  :
-	    case TRUNC  :   return(round_trunc(rtn_idp));
+	    case ODD :
+	    	return(odd());
 
-        default     :   return(NULL);  // mam, 15L04, added default clause
+	    case ORD :
+	    	return(ord());
+
+	    case ROUND :
+	    case TRUNC :
+	    	return(round_trunc(rtn_idp));
+
+        default :
+        	return(NULL);  // mam, 15L04, added default clause
     }
 }
 
@@ -162,34 +166,21 @@ void read_readln(SYMTAB_NODE_PTR rtn_idp)
 		        if (actual_parm_tp->form != SCALAR_FORM) {
 		            error(INCOMPATIBLE_TYPES);
 		        } else if (actual_parm_tp == integer_typep) {
-                    fprintf(code_file, "\tjsr _iread\t;---");
-		            emit_1(CALL, name_lit(READ_INTEGER));
-                    fprintf(code_file,"\t\t\t\t\t;---");
-		            emit_1(POP,  reg(BX));
-                    fprintf(code_file, "\tsta.w (0,S)\t;---");
-		            emit_2(MOVE, word_indirect(BX), reg(AX));
-                    fprintf(code_file, "\tadj #%d\t;pop ops/params\n", 2);
+                    fprintf(code_file, "\tjsr _iread\n");
+                    fprintf(code_file, "\tsta.w (1,S)\n");
+                    fprintf(code_file, "\tadj #%d\n", 2);
                 } else if (actual_parm_tp == real_typep) {
-                    fprintf(code_file, "\tjsr _fread\t;---");
-		            emit_1(CALL, name_lit(READ_REAL));
-                    fprintf(code_file, "\t\t\t\t\t;---");
-		            emit_1(POP,  reg(BX));
-                    fprintf(code_file, "\tswp\t;---");
-		            emit_2(MOVE, high_dword_indirect(BX), reg(DX));
-                    fprintf(code_file, "\tldy #2\t;load offset to hi word\n");
-                    fprintf(code_file, "\tsta.w (0,S),Y\t;store hi word\n");
-                    fprintf(code_file, "\tswp\t;---");
-		            emit_2(MOVE, word_indirect(BX), reg(AX));
-                    fprintf(code_file, "\tsta.w (0,S)\t;store lo word\n");
-                    fprintf(code_file, "\tadj #%d\t;pop ops/params\n", 2);
+                    fprintf(code_file, "\tjsr _fread\n");
+                    fprintf(code_file, "\tswp\n");
+                    fprintf(code_file, "\tldy #2\n");
+                    fprintf(code_file, "\tsta.w (1,S),Y\t; *********** Check Addressing Mode\n");
+                    fprintf(code_file, "\tswp\n");
+                    fprintf(code_file, "\tsta.w (1,S)\n");
+                    fprintf(code_file, "\tadj #%d\n", 2);
                 } else if (actual_parm_tp == char_typep) {
-                    fprintf(code_file, "\tjsr _cread\t;---");
-		            emit_1(CALL, name_lit(READ_CHAR));
-                    fprintf(code_file, "\t\t\t\t\t;---");
-		            emit_1(POP,  reg(BX));
-                    fprintf(code_file, "\tsta (0,S)\t;store byte---");
-		            emit_2(MOVE, byte_indirect(BX), reg(AL));
-                    fprintf(code_file, "\tadj #%d\t;pop ops/params\n", 2);
+                    fprintf(code_file, "\tjsr _cread\n");
+                    fprintf(code_file, "\tsta (1,S)\n");
+                    fprintf(code_file, "\tadj #%d\n", 2);
 		        }
             } else {
 		        actual_parm_tp = expression();
@@ -208,8 +199,7 @@ void read_readln(SYMTAB_NODE_PTR rtn_idp)
 	    error(WRONG_NUMBER_OF_PARMS);
 
     if (rtn_idp->defn.info.routine.key == READLN) {
-        fprintf(code_file, "\tjsr _readln\t;---");
-	    emit_1(CALL, name_lit(READ_LINE));
+        fprintf(code_file, "\tjsr _readln\n");
     }
 }
 
@@ -270,8 +260,8 @@ void write_writeln(SYMTAB_NODE_PTR rtn_idp)
 	        if (token == COLON) {
 		        get_token();
 		        field_width_tp = base_type(expression());
-                fprintf(code_file, "\tpha.w\t;---");
-		        emit_1(PUSH, reg(AX));
+                //fprintf(code_file, "\tpha.w\n");
+		        emit_push_operand(integer_typep);
 
 		        if (field_width_tp != integer_typep) {
 		            error(INCOMPATIBLE_TYPES);
@@ -288,74 +278,46 @@ void write_writeln(SYMTAB_NODE_PTR rtn_idp)
 		            precision_tp = base_type(expression());
 
                     if (actual_parm_tp == real_typep) {
-                        fprintf(code_file, "\tpha.w\t;---");
-			            emit_1(PUSH, reg(AX));
+                        //fprintf(code_file, "\tpha.w\n");
+                    	emit_push_operand(integer_typep);
                     }
 
 		            if (precision_tp != integer_typep) {
 				        error(INCOMPATIBLE_TYPES);
 		            }
                 } else if (actual_parm_tp == real_typep) {
-                    fprintf(code_file, "\tpsh.w #%d\t;---", DEFAULT_PRECISION);
-		            emit_2(MOVE, reg(AX), integer_lit(DEFAULT_PRECISION));
-                    fprintf(code_file, "\t\t\t\t\t\t;---");
-		            emit_1(PUSH, reg(AX));
+                    fprintf(code_file, "\tpsh.w #%d\n", DEFAULT_PRECISION);
 		        }
             } else {
 		        if (actual_parm_tp == integer_typep) {
-                    fprintf(code_file, "\tpsh.w #%d\t;---", DEFAULT_NUMERIC_FIELD_WIDTH);
-		            emit_2(MOVE, reg(AX), integer_lit(DEFAULT_NUMERIC_FIELD_WIDTH));
-                    fprintf(code_file, "\t\t\t\t\t\t;---");
-		            emit_1(PUSH, reg(AX));
+                    fprintf(code_file, "\tpsh.w #%d\n", DEFAULT_NUMERIC_FIELD_WIDTH);
                 } else if (actual_parm_tp == real_typep) {
-                    fprintf(code_file, "\tpsh.w #%d\t;---", DEFAULT_NUMERIC_FIELD_WIDTH);
-		            emit_2(MOVE, reg(AX), integer_lit(DEFAULT_NUMERIC_FIELD_WIDTH));
-                    fprintf(code_file, "\t\t\t\t\t\t;---");
-		            emit_1(PUSH, reg(AX));
-                    fprintf(code_file, "\tpsh.w #%d\t;---", DEFAULT_PRECISION);
-		            emit_2(MOVE, reg(AX), integer_lit(DEFAULT_PRECISION));
-                    fprintf(code_file, "\t\t\t\t\t\t;---");
-		            emit_1(PUSH, reg(AX));
+                    fprintf(code_file, "\tpsh.w #%d\n", DEFAULT_NUMERIC_FIELD_WIDTH);
+                    fprintf(code_file, "\tpsh.w #%d\n", DEFAULT_PRECISION);
                 } else {
-                    fprintf(code_file, "\tpsh.w #%d\t;---", 0);
-		            emit_2(MOVE, reg(AX), integer_lit(0));
-                    fprintf(code_file, "\t\t\t\t\t\t;---");
-		            emit_1(PUSH, reg(AX));
+                    fprintf(code_file, "\tpsh.w #%d\n", 0);
 		        }
 	        }
 
 	        if (actual_parm_tp == integer_typep) {
-                fprintf(code_file, "\tjsr _iwrite\t;---");
-		        emit_1(CALL, name_lit(WRITE_INTEGER));
-                fprintf(code_file, "\tadj #%d\t;---", 4);
-		        emit_2(ADD, reg(SP), integer_lit(4));
+                fprintf(code_file, "\tjsr _iwrite\n");
+                fprintf(code_file, "\tadj #%d\n", 4);
             } else if (actual_parm_tp == real_typep) {
-                fprintf(code_file, "\tjsr _fwrite\t;---");
-		        emit_1(CALL, name_lit(WRITE_REAL));
-                fprintf(code_file, "\tadj #%d\t;---", 8);
-		        emit_2(ADD, reg(SP), integer_lit(8));
+                fprintf(code_file, "\tjsr _fwrite\n");
+                fprintf(code_file, "\tadj #%d\n", 8);
             } else if (actual_parm_tp == boolean_typep) {
-                fprintf(code_file, "\tjsr _bwrite\t;---");
-		        emit_1(CALL, name_lit(WRITE_BOOLEAN));
-                fprintf(code_file, "\tadj #%d\t;---", 4);
-		        emit_2(ADD, reg(SP), integer_lit(4));
+                fprintf(code_file, "\tjsr _bwrite\n");
+                fprintf(code_file, "\tadj #%d\n", 4);
             } else if (actual_parm_tp == char_typep) {
-                fprintf(code_file, "\tjsr _cwrite\t;---");
-		        emit_1(CALL, name_lit(WRITE_CHAR));
-                fprintf(code_file, "\tadj #%d\t;---", 4);
-		        emit_2(ADD, reg(SP), integer_lit(4));
+                fprintf(code_file, "\tjsr _cwrite\n");
+                fprintf(code_file, "\tadj #%d\n", 4);
             } else  /* string */  {
 		        /*
 		        --  Push the string length onto the stack.
 		        */
-                fprintf(code_file, "\tpsh.w #%d\t;---", actual_parm_tp->info.array.elmt_count);
-		        emit_2(MOVE, reg(AX), integer_lit(actual_parm_tp->info.array.elmt_count));
-                fprintf(code_file, "\t\t\t\t\t\t;---");
-		        emit_1(PUSH, reg(AX));
-                fprintf(code_file, "\tjsr _swrite\t;---");
-		        emit_1(CALL, name_lit(WRITE_STRING));
-                fprintf(code_file, "\tadj #%d\t;---", 6);
-		        emit_2(ADD, reg(SP), integer_lit(6));
+                fprintf(code_file, "\tpsh.w #%d\n", actual_parm_tp->info.array.elmt_count);
+                fprintf(code_file, "\tjsr _swrite\n");
+                fprintf(code_file, "\tadj #%d\n", 6);
 	        }
 
 	        /*
@@ -371,8 +333,7 @@ void write_writeln(SYMTAB_NODE_PTR rtn_idp)
     }
 
     if (rtn_idp->defn.info.routine.key == WRITELN) {
-        fprintf(code_file, "\tjsr _writeln\t;---");
-	    emit_1(CALL, name_lit(WRITE_LINE));
+        fprintf(code_file, "\tjsr _writeln\n");
     }
 }
 
@@ -389,11 +350,10 @@ TYPE_STRUCT_PTR eof_eoln(SYMTAB_NODE_PTR rtn_idp)
     }
 
     if(rtn_idp->defn.info.routine.key == (EOFF)) {
-        fprintf(code_file, "\tjsr _eof\t;---");
+        fprintf(code_file, "\tjsr _eof\n");
     } else {
-        fprintf(code_file, "\tjsr _eol\t;---");
+        fprintf(code_file, "\tjsr _eol\n");
     }
-    emit_1(CALL, name_lit(rtn_idp->defn.info.routine.key == (EOFF) ? STD_END_OF_FILE : STD_END_OF_LINE));
     
     return(boolean_typep);
 }
@@ -427,39 +387,37 @@ TYPE_STRUCT_PTR abs_sqr(SYMTAB_NODE_PTR rtn_idp)
 
     switch (rtn_idp->defn.info.routine.key) {
 	    case ABS :  if (parm_tp == integer_typep) {
+		                /*
 		                int nonnegative_labelx = new_label_index();
 
-                        fprintf(code_file, "\tcmp.w #%d\t;---", 0);
-		                emit_2(COMPARE, reg(AX), integer_lit(0));
-                        fprintf(code_file, "\tbge %s_%03d\t;---", STMT_LABEL_PREFIX, nonnegative_labelx);
-		                emit_1(JUMP_GE, label(STMT_LABEL_PREFIX, nonnegative_labelx));
-                        fprintf(code_file, "\teor.w #-1\t;---");
-		                emit_1(NEGATE, reg(AX));
-                        fprintf(code_file, "\tinc.w a\t;complete negation\n");
+                        fprintf(code_file, "\tcmp.w #%d\n", 0);
+                        fprintf(code_file, "\tbge %s_%03d\n", STMT_LABEL_PREFIX, nonnegative_labelx);
+                        fprintf(code_file, "\teor.w #-1\n");
+                        fprintf(code_file, "\tinc.w a\n");
 		                emit_label(STMT_LABEL_PREFIX, nonnegative_labelx);
-                    } else {
+		                */
+						emit_push_operand(parm_tp);
+						fprintf(code_file, "\tjsr _iabs\n");
+						fprintf(code_file, "\tadj #%d\n", 2);
+					} else {
 		                emit_push_operand(parm_tp);
-                        fprintf(code_file, "\tjsr _fabs\t;---");
-		                emit_1(CALL, name_lit(STD_ABS));
-                        fprintf(code_file, "\tadj #%d\t;---", 4);
-		                emit_2(ADD, reg(SP), integer_lit(4));
+                        fprintf(code_file, "\tjsr _fabs\n");
+                        fprintf(code_file, "\tadj #%d\n", 4);
 	                }
 	                break;
 
 	    case SQR :  if (parm_tp == integer_typep) {
-	    				fprintf(code_file, "\tpha.w\t;---");
-		                emit_2(MOVE, reg(DX), reg(AX));
-		                fprintf(code_file, "\tpha.w\t;---\n");
-		                fprintf(code_file, "\tjsr _imul\t;---");
-		                emit_1(MULTIPLY, reg(DX));
-		                fprintf(code_file, "\tadj #%d\t;---\n", 4);
+	    				//fprintf(code_file, "\tpha.w\n");
+		                //fprintf(code_file, "\tpha.w\n");
+            			emit_push_operand(parm_tp);
+            			emit_push_operand(parm_tp);
+            			fprintf(code_file, "\tjsr _imul\n");
+		                fprintf(code_file, "\tadj #%d\n", 4);
                     } else {
 		                emit_push_operand(parm_tp);
 		                emit_push_operand(parm_tp);
-		                fprintf(code_file, "\tjsr _fmul\t;---");
-		                emit_1(CALL, name_lit(FLOAT_MULTIPLY));
-		                fprintf(code_file, "\tadj #%d\t;---", 8);
-		                emit_2(ADD, reg(SP), integer_lit(8));
+		                fprintf(code_file, "\tjsr _fmul\n");
+		                fprintf(code_file, "\tadj #%d\n", 8);
 	                }
 	                break;
 	    default :   return(NULL);
@@ -478,7 +436,6 @@ TYPE_STRUCT_PTR abs_sqr(SYMTAB_NODE_PTR rtn_idp)
 TYPE_STRUCT_PTR arctan_cos_exp_ln_sin_sqrt(SYMTAB_NODE_PTR rtn_idp)
 {
     TYPE_STRUCT_PTR parm_tp;            /* actual parameter type */
-    char            *std_func_name;     /* name of standard func */
 
     if (token == LPAREN) {
 	    get_token();
@@ -494,39 +451,29 @@ TYPE_STRUCT_PTR arctan_cos_exp_ln_sin_sqrt(SYMTAB_NODE_PTR rtn_idp)
     }
 
     if (parm_tp == integer_typep) {
-	    fprintf(code_file, "\tpha.w\t;---");
-	    emit_1(PUSH, reg(AX));
-	    fprintf(code_file, "\tjsr _fconv\t;---");
-	    emit_1(CALL, name_lit(FLOAT_CONVERT));
-	    fprintf(code_file, "\tadj #%d\t;---", 2 );
-	    emit_2(ADD, reg(SP), integer_lit(2));
+	    //fprintf(code_file, "\tpha.w\n");
+    	emit_push_operand(parm_tp);
+	    fprintf(code_file, "\tjsr _fconv\n");
+	    fprintf(code_file, "\tadj #%d\n", 2 );
     }
 
     emit_push_operand(real_typep);
     switch (rtn_idp->defn.info.routine.key) {
-	    case ARCTAN :   std_func_name = STD_ARCTAN;
-	    				fprintf(code_file, "\tjsr _fatan\t;---");
+	    case ARCTAN :   fprintf(code_file, "\tjsr _fatan\n");
 	    				break;
-	    case COS    :   std_func_name = STD_COS;
-						fprintf(code_file, "\tjsr _fcos\t;---");
+	    case COS    :   fprintf(code_file, "\tjsr _fcos\n");
 						break;
-	    case EXP    :   std_func_name = STD_EXP;
-						fprintf(code_file, "\tjsr _fexp\t;---");
+	    case EXP    :   fprintf(code_file, "\tjsr _fexp\n");
 						break;
-	    case LN     :   std_func_name = STD_LN;
-						fprintf(code_file, "\tjsr _fln\t;---");
+	    case LN     :   fprintf(code_file, "\tjsr _fln\n");
 						break;
-	    case SIN    :   std_func_name = STD_SIN;
-						fprintf(code_file, "\tjsr _fsin\t;---");
+	    case SIN    :   fprintf(code_file, "\tjsr _fsin\n");
 						break;
-	    case SQRT   :   std_func_name = STD_SQRT;
-						fprintf(code_file, "\tjsr _fsqrt\t;---");
+	    case SQRT   :   fprintf(code_file, "\tjsr _fsqrt\n");
 						break;
 	    default     :   return(NULL);
     }
-    emit_1(CALL, name_lit(std_func_name));
-    fprintf(code_file, "\tadj #%d\t;---", 4);
-    emit_2(ADD, reg(SP), integer_lit(4));
+    fprintf(code_file, "\tadj #%d\n", 4);
 
     return(real_typep);
 }
@@ -559,11 +506,10 @@ TYPE_STRUCT_PTR pred_succ(SYMTAB_NODE_PTR rtn_idp)
     }
 
     if(rtn_idp->defn.info.routine.key == (PRED)) {
-    	fprintf(code_file, "\tdec.w\t;---");
+    	fprintf(code_file, "\tdec.w a\n");
     } else {
-    	fprintf(code_file, "\tinc.w\t'---");
+    	fprintf(code_file, "\tinc.w a\n");
     }
-    emit_1((rtn_idp->defn.info.routine.key == (PRED) ? DECREMENT : INCREMENT), reg(AX));
 
     return(result_tp);
 }
@@ -613,8 +559,7 @@ TYPE_STRUCT_PTR odd(void)
         error(WRONG_NUMBER_OF_PARMS);
     }
 
-    fprintf(code_file, "\tand.w #%d\t;---", 1);
-    emit_2(AND_BITS, reg(AX), integer_lit(1));
+    fprintf(code_file, "\tand.w #%d\n", 1);
     return(boolean_typep);
 }
 
@@ -665,13 +610,11 @@ TYPE_STRUCT_PTR round_trunc(SYMTAB_NODE_PTR rtn_idp)
 
     emit_push_operand(parm_tp);
     if(rtn_idp->defn.info.routine.key == (ROUND)) {
-        fprintf(code_file, "\tjsr _fround\t;---");
+        fprintf(code_file, "\tjsr _fround\n");
     } else {
-        fprintf(code_file, "\tjsr _ftrunc\t;---");
+        fprintf(code_file, "\tjsr _ftrunc\n");
     }
-    emit_1(CALL, name_lit(rtn_idp->defn.info.routine.key == (ROUND) ? STD_ROUND : STD_TRUNC));
-    fprintf(code_file, "\tadj #%d\t;---", 4);
-    emit_2(ADD, reg(SP), integer_lit(4));
+    fprintf(code_file, "\tadj #%d\n", 4);
 
     return(integer_typep);
 }

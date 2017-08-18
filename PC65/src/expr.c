@@ -53,8 +53,6 @@ extern SYMTAB_NODE_PTR  float_literal_list;
 extern SYMTAB_NODE_PTR  string_literal_list;
 
 extern int              label_index;
-extern char             asm_buffer[];
-extern char             *asm_bufferp;
 extern FILE             *code_file;
 
 /*--------------------------------------------------------------*/
@@ -74,25 +72,9 @@ void check_rel_op_types(TYPE_STRUCT_PTR, TYPE_STRUCT_PTR);
 BOOLEAN is_assign_type_compatible(TYPE_STRUCT_PTR, TYPE_STRUCT_PTR);
 TYPE_STRUCT_PTR base_type(TYPE_STRUCT_PTR);
 
-extern void label(char *, int);
-extern void word_label(char *, int);
-extern void high_dword_label(char *, int);
-extern void reg(REGISTER);
-extern void _operator(INSTRUCTION);
-extern void byte(SYMTAB_NODE_PTR);
-extern void byte_indirect(REGISTER);
-extern void word(SYMTAB_NODE_PTR);
-extern void high_dword(SYMTAB_NODE_PTR);
-extern void word_indirect(REGISTER);
-extern void high_dword_indirect(REGISTER);
-extern void tagged_name(SYMTAB_NODE_PTR);
-extern void name_lit(char *);
-extern void integer_lit(int);
-extern void char_lit(char);
 extern void emit_load_value(SYMTAB_NODE_PTR, TYPE_STRUCT_PTR);
 extern void emit_push_operand(TYPE_STRUCT_PTR);
 extern void emit_push_address(SYMTAB_NODE_PTR);
-extern void emit_push_return_value_address(SYMTAB_NODE_PTR);
 extern void emit_promote_to_real(TYPE_STRUCT_PTR, TYPE_STRUCT_PTR);
 extern void get_token(void);
 extern void error(ERROR_CODE);
@@ -143,7 +125,6 @@ TYPE_STRUCT_PTR expression(void)
     TOKEN_CODE      op;                 /* an operator token */
     TYPE_STRUCT_PTR result_tp, tp2;
     int             jump_label_index;   /* jump target label index */
-    INSTRUCTION     jump_opcode;        /* opcode for cond. jump */
 
     result_tp = simple_expression();    /* first simple expr */
 
@@ -172,55 +153,42 @@ TYPE_STRUCT_PTR expression(void)
 	    if (   integer_operands(result_tp, tp2)
             || (result_tp       == char_typep)
             || (result_tp->form == ENUM_FORM)  ) {
-            fprintf(code_file, "\txma.w 0,S\t;---");
-	        emit_1(POP, reg(DX));
-            fprintf(code_file, "\tcmp.w 0,S\t;---");
-	        emit_2(COMPARE, reg(DX), reg(AX));
-            fprintf(code_file, "\tadj #%d\t;pop ops/params\n", 2);
-            fprintf(code_file, "\tphp\t;push PSW\n");
-            fprintf(code_file, "\tlda #%d\t;---", 1);
-        	emit_2(MOVE, reg(AX), integer_lit(1));  /* default: load 1 */
-            fprintf(code_file, "\tplp\t;pull PSW\n");
+            fprintf(code_file, "\txma.w 1,S\n");
+            fprintf(code_file, "\tcmp.w 1,S\n");
+            fprintf(code_file, "\tadj #%d\n", 2);
+            fprintf(code_file, "\tphp\n");
+            fprintf(code_file, "\tlda #%d\n", 1);
+            fprintf(code_file, "\tplp\n");
             
             /*
             --  Order of the operands is opposite of that required for op.
             --  Therefore, the condition, op, must be changed for M65C02A.
             */
 
-            switch (op) {
-	            case LT:    jump_opcode = JUMP_LT;  break;  // BGT
-	            case LE:    jump_opcode = JUMP_LE;  break;  // BGE 
-	            case EQUAL: jump_opcode = JUMP_EQ;  break;  // BEQ
-	            case NE:    jump_opcode = JUMP_NE;  break;  // BNE
-	            case GE:    jump_opcode = JUMP_GE;  break;  // BLE
-	            case GT:    jump_opcode = JUMP_GT;  break;  // BLT
-	        }
-
             jump_label_index = new_label_index();
 	        
             switch(op) {
 	            case LT:    // BLT
-                    fprintf(code_file, "\tblt %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tblt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case LE:    // BLE 
-                    fprintf(code_file, "\tble %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tble %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case EQUAL: // BEQ
-                    fprintf(code_file, "\tbeq %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tbeq %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case NE:    // BNE
-                    fprintf(code_file, "\tbne %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tbne %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case GE:    // BGE
-                    fprintf(code_file, "\tbge %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tbge %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case GT:    // BGT
-                    fprintf(code_file, "\tbgt %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tbgt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
+	            default : break;
             }
-            emit_1(jump_opcode, label(STMT_LABEL_PREFIX, jump_label_index));
-            fprintf(code_file, "\tlda #0\t;---");
-	        emit_2(SUBTRACT, reg(AX), reg(AX));     /* load 0 if false */
+            fprintf(code_file, "\tlda #0\n");
 
             emit_label(STMT_LABEL_PREFIX, jump_label_index);
 
@@ -235,51 +203,37 @@ TYPE_STRUCT_PTR expression(void)
 
 	        emit_push_operand(tp2);
 	        emit_promote_to_real(result_tp, tp2);
-            fprintf(code_file, "\tjsr _fcmp\t;---");
-	        emit_1(CALL, name_lit(FLOAT_COMPARE));
-            fprintf(code_file, "\tadj #%d\t;---", 8);
-	        emit_2(ADD, reg(SP), integer_lit(8));
-            fprintf(code_file, "\tcmp.w #%d\t;---", 0);
-	        emit_2(COMPARE, reg(AX), integer_lit(0));
-            fprintf(code_file, "\tphp\t;push PSW\n");
-            fprintf(code_file, "\tlda #%d\t;---", 1);
-        	emit_2(MOVE, reg(AX), integer_lit(1));  /* default: load 1 */
-            fprintf(code_file, "\tplp\t;pull PSW\n");
+            fprintf(code_file, "\tjsr _fcmp\n");
+            fprintf(code_file, "\tadj #%d\n", 8);
+            fprintf(code_file, "\tcmp.w #%d\n", 0);
+            fprintf(code_file, "\tphp\n");
+            fprintf(code_file, "\tlda #%d\n", 1);
+            fprintf(code_file, "\tplp\n");
             
-            switch (op) {
-	            case LT:    jump_opcode = JUMP_LT;  break;  // BLT
-	            case LE:    jump_opcode = JUMP_LE;  break;  // BLE 
-	            case EQUAL: jump_opcode = JUMP_EQ;  break;  // BEQ
-	            case NE:    jump_opcode = JUMP_NE;  break;  // BNE
-	            case GE:    jump_opcode = JUMP_GE;  break;  // BGE
-	            case GT:    jump_opcode = JUMP_GT;  break;  // BGT
-	        }
-
             jump_label_index = new_label_index();
 	        
             switch(op) {
 	            case LT:    // BLT
-                    fprintf(code_file, "\tblt %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tblt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case LE:    // BLE 
-                    fprintf(code_file, "\tble %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tble %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case EQUAL: // BEQ
-                    fprintf(code_file, "\tbeq %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tbeq %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case NE:    // BNE
-                    fprintf(code_file, "\tbne %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tbne %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case GE:    // BGE
-                    fprintf(code_file, "\tbge %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tbge %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case GT:    // BGT
-                    fprintf(code_file, "\tbgt %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tbgt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
+	            default : break;
             }
-            emit_1(jump_opcode, label(STMT_LABEL_PREFIX, jump_label_index));
-            fprintf(code_file, "\tlda #0\t;---");
-	        emit_2(SUBTRACT, reg(AX), reg(AX));     /* load 0 if false */
+            fprintf(code_file, "\tlda #0\n");
 
             emit_label(STMT_LABEL_PREFIX, jump_label_index);
 
@@ -291,60 +245,37 @@ TYPE_STRUCT_PTR expression(void)
 	        --  (operand 2).
 	        */
 
-            fprintf(code_file, "\t\t\t\t\t\t;---");
-	        emit(CLEAR_DIRECTION);
-            fprintf(code_file, "\tpsh.w #%d\t;---", result_tp->info.array.elmt_count);
-	        emit_2(MOVE, reg(CX), integer_lit(result_tp->info.array.elmt_count));
-            fprintf(code_file, "\t\t\t\t\t\t;---");
-	        emit_1(POP,  reg(DI));
-            fprintf(code_file, "\t\t\t\t\t\t;---");
-	        emit_1(POP,  reg(SI));
-            fprintf(code_file, "\t\t\t\t\t\t;---");
-	        emit_2(MOVE, reg(AX), reg(DS));
-            fprintf(code_file, "\t\t\t\t\t\t;---");
-	        emit_2(MOVE, reg(ES), reg(AX));
-            fprintf(code_file, "\tjsr _cmpsb\t;---");
-	        emit(COMPARE_STRINGS);
-	        fprintf(code_file, "\tadj #%+d\t; remove parameters\n", 6);
-            fprintf(code_file, "\tphp\t;---");
-        	emit_2(MOVE, reg(AX), integer_lit(1));  /* default: load 1 */
-            fprintf(code_file, "\tlda #%d\t;load integer literal\n", 1);
-            fprintf(code_file, "\tplp\t;pull PSW\n");
+            fprintf(code_file, "\tpsh.w #%d\n", result_tp->info.array.elmt_count);
+            fprintf(code_file, "\tjsr _cmpsb\n");
+	        fprintf(code_file, "\tadj #%+d\n", 6);
+            fprintf(code_file, "\tphp\n");
+            fprintf(code_file, "\tlda #%d\n", 1);
+            fprintf(code_file, "\tplp\n");
             
-            switch (op) {
-	            case LT:    jump_opcode = JUMP_LT;  break;  // BLT
-	            case LE:    jump_opcode = JUMP_LE;  break;  // BLE 
-	            case EQUAL: jump_opcode = JUMP_EQ;  break;  // BEQ
-	            case NE:    jump_opcode = JUMP_NE;  break;  // BNE
-	            case GE:    jump_opcode = JUMP_GE;  break;  // BGE
-	            case GT:    jump_opcode = JUMP_GT;  break;  // BGT
-	        }
-
             jump_label_index = new_label_index();
 	        
             switch(op) {
 	            case LT:    // BLT
-                    fprintf(code_file, "\tblt %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tblt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case LE:    // BLE 
-                    fprintf(code_file, "\tble %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tble %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case EQUAL: // BEQ
-                    fprintf(code_file, "\tbeq %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tbeq %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case NE:    // BNE
-                    fprintf(code_file, "\tbne %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tbne %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case GE:    // BGE
-                    fprintf(code_file, "\tbge %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tbge %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case GT:    // BGT
-                    fprintf(code_file, "\tbgt %s_%03d\t;---", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tbgt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
+	            default : break;
             }
-            emit_1(jump_opcode, label(STMT_LABEL_PREFIX, jump_label_index));
-            fprintf(code_file, "\tlda #0\t;---");
-	        emit_2(SUBTRACT, reg(AX), reg(AX));     /* load 0 if false */
+            fprintf(code_file, "\tlda #0\n");
 
             emit_label(STMT_LABEL_PREFIX, jump_label_index);
 
@@ -393,20 +324,14 @@ TYPE_STRUCT_PTR simple_expression(void)
     if (saw_unary_op) {
 	    if (base_type(result_tp) == integer_typep) {
             if (unary_op == MINUS) {
-                fprintf(code_file, "\teor.w #-1\t;---");
-                emit_1(NEGATE, reg(AX));
-                fprintf(code_file, "\tinc.w a\t;complete negation\n");
+                fprintf(code_file, "\teor.w #-1\n");
+                fprintf(code_file, "\tinc.w a\n");
             }
         } else if (result_tp == real_typep) {
 	        if (unary_op == MINUS) {
-                fprintf(code_file, "\t\t\t\t\t\t;---");
-		        emit_push_operand(result_tp);
-                fprintf(code_file, "\tswp\t;---");
-		        emit_1(CALL, name_lit(FLOAT_NEGATE));
-                fprintf(code_file, "\teor.w #-32768\t;complement sign bit\n");
-                fprintf(code_file, "\tswp\t;restore to NOS\n");
-                fprintf(code_file, "\t\t\t\t\t\t;---");
-		        emit_2(ADD, reg(SP), integer_lit(4));
+                fprintf(code_file, "\tswp\n");
+                fprintf(code_file, "\teor.w #-32768\n");
+                fprintf(code_file, "\tswp\n");
 	        }
         } else
             error(INCOMPATIBLE_TYPES);
@@ -427,29 +352,21 @@ TYPE_STRUCT_PTR simple_expression(void)
 
 	    switch (op) {
 	        case PLUS:
-	        case MINUS: {
+	        case MINUS:
 		        /*
 		        --  integer <op> integer => integer
 		        --  AX = AX +|- DX
 		        */
 		        if (integer_operands(result_tp, tp2)) {
                     if (op == PLUS) {
-                        fprintf(code_file, "\t\t\t\t\t\t;---");
-		                emit_1(POP, reg(DX));                   // pop TOS
-                        fprintf(code_file, "\tclc\t;---");
-                        emit_2(ADD, reg(AX), reg(DX))           // add ax,TOS
-                        fprintf(code_file, "\tadc.w 0,S\t;add operands\n");
-                        fprintf(code_file, "\tadj #%d\t;pop ops/params\n", 2);
+                        fprintf(code_file, "\tclc\n");
+                        fprintf(code_file, "\tadc.w 1,S\n");
+                        fprintf(code_file, "\tadj #%d\n", 2);
                     } else {
-                        fprintf(code_file, "\t\t\t\t\t\t;---");
-		                emit_1(POP, reg(DX));                   // pop TOS
-                        fprintf(code_file, "\txma.w 0,S\t;---");
-			            emit_2(SUBTRACT, reg(DX), reg(AX));     // sub TOS,ax
-                        fprintf(code_file, "\tsec\t;prepare to subtract\n");
-                        fprintf(code_file, "\tsbc.w 0,S\t;subtract operands\n");
-                        fprintf(code_file, "\tadj #%d\t;pop ops/params\n", 2);
-                        fprintf(code_file, "\t\t\t\t\t\t;---");
-			            emit_2(MOVE, reg(AX), reg(DX));
+                        fprintf(code_file, "\txma.w 1,S\n");
+                        fprintf(code_file, "\tsec\n");
+                        fprintf(code_file, "\tsbc.w 1,S\n");
+                        fprintf(code_file, "\tadj #%d\n", 2);
 		            }
 		            result_tp = integer_typep;
                 } else if (real_operands(result_tp, tp2)) {
@@ -461,44 +378,34 @@ TYPE_STRUCT_PTR simple_expression(void)
 		            */
 		            emit_push_operand(tp2);
 		            emit_promote_to_real(result_tp, tp2);
-
-	                /*
-                    emit_1(CALL, name_lit(op == PLUS ? FLOAT_ADD : FLOAT_SUBTRACT));
-                    */
                     if (op == PLUS) {
-                        fprintf(code_file, "\tjsr _fadd\t;---");
-                        emit_1(CALL, name_lit(FLOAT_ADD));
+                        fprintf(code_file, "\tjsr _fadd\n");
                     } else {
-                        fprintf(code_file, "\tjsr _fsub\t;---");
-                        emit_1(CALL, name_lit(FLOAT_SUBTRACT));
+                        fprintf(code_file, "\tjsr _fsub\n");
                     }
-                    fprintf(code_file, "\tadj #%d\t;---", 8);
-		            emit_2(ADD, reg(SP), integer_lit(8));
+                    fprintf(code_file, "\tadj #%d\n", 8);
 		            result_tp = real_typep;
                 } else {
 		            error(INCOMPATIBLE_TYPES);
 		            result_tp = &dummy_type;
 		        }
 		        break;
-	        }
 
-	        case OR: {
+	        case OR:
 		        /*
 		        --  boolean OR boolean => boolean
 		        --  AX = AX OR DX
 		        */
 		        if (boolean_operands(result_tp, tp2)) {
-                    fprintf(code_file, "\t\t\t\t\t\t;---");
-		            emit_1(POP, reg(DX));
-                    fprintf(code_file, "\tora.w 0,S\t;---");
-		            emit_2(OR_BITS, reg(AX), reg(DX));
-                    fprintf(code_file, "\tadj #%d\t;pop ops/params\n", 2);
+                   fprintf(code_file, "\tora.w 1,S\n");
+                   fprintf(code_file, "\tadj #%d\n", 2);
                 } else
                     error(INCOMPATIBLE_TYPES);
 
 		        result_tp = boolean_typep;
 		        break;
-	        }
+
+	        default : break;
 	    }
     }
 
@@ -536,17 +443,16 @@ TYPE_STRUCT_PTR term(void)
 	    tp2 = base_type(factor());      /* subsequent factor */
 
 	    switch (op) {
-	        case STAR: {
+	        case STAR :
 		        /*
 		        --  Both operands are integer.
 		        --  AX = AX*DX
 		        */
 		        if (integer_operands(result_tp, tp2)) {
-                    fprintf(code_file, "\tpha.w\t;---");
-		            emit_1(POP, reg(DX));
-                    fprintf(code_file, "\tjsr _imul\t;---");
-		            emit_1(MULTIPLY, reg(DX));
-                    fprintf(code_file, "\tadj #%d\t;pop ops/params\n", 4);
+                    //fprintf(code_file, "\tpha.w\n");
+		        	emit_push_operand(tp2);
+                    fprintf(code_file, "\tjsr _imul\n");
+                    fprintf(code_file, "\tadj #%d\n", 4);
 		            result_tp = integer_typep;
                 } else if (real_operands(result_tp, tp2)) {
 		            /*
@@ -558,10 +464,8 @@ TYPE_STRUCT_PTR term(void)
 		            emit_push_operand(tp2);
 		            emit_promote_to_real(result_tp, tp2);
 
-                    fprintf(code_file, "\tjsr _fmul\t;---");
-		            emit_1(CALL, name_lit(FLOAT_MULTIPLY));
-                    fprintf(code_file, "\tadj #%d\t;---", 8);
-		            emit_2(ADD, reg(SP), integer_lit(8));
+                    fprintf(code_file, "\tjsr _fmul\n");
+                    fprintf(code_file, "\tadj #%d\n", 8);
 
 		            result_tp = real_typep;
                 } else {
@@ -569,9 +473,8 @@ TYPE_STRUCT_PTR term(void)
 		            result_tp = &dummy_type;
 		        }
 		        break;
-	        }
 
-	        case SLASH: {
+	        case SLASH :
 		            /*
 		            --  Both operands are real, or both are integer, or
 		            --  one is real and the other is integer.  Convert
@@ -583,62 +486,49 @@ TYPE_STRUCT_PTR term(void)
 		                emit_push_operand(tp2);
 		                emit_promote_to_real(result_tp, tp2);
 
-                        fprintf(code_file, "\tjsr _fdiv\t;---");
-		                emit_1(CALL, name_lit(FLOAT_DIVIDE));
-                        fprintf(code_file, "\tadj #%d\t;---", 8);
-		                emit_2(ADD, reg(SP), integer_lit(8));
+                        fprintf(code_file, "\tjsr _fdiv\n");
+                        fprintf(code_file, "\tadj #%d\n", 8);
                     } else
                         error(INCOMPATIBLE_TYPES);
 
 		            result_tp = real_typep;
 		            break;
-	            }
 
-	        case DIV:
-	        case MOD: {
+	        case DIV :
+	        case MOD :
 		        /*
 		        --  integer <op> integer => integer
 		        --  DX:AX = DX:AX IDIV CX
 		        */
 		        if (integer_operands(result_tp, tp2)) {
-                    fprintf(code_file, "\tpha.w\t;---");
-		            emit_2(MOVE, reg(CX), reg(AX));
-                    fprintf(code_file, "\t\t\t\t\t\t;---");
-		            emit_1(POP, reg(AX));
-                    fprintf(code_file, "\t\t\t\t\t\t;---");
-		            //emit_2(SUBTRACT, reg(DX), reg(DX));   // mam, 16J13, Changed to correct error in setting up DX:AX for 16-bit signed division
-                    emit(SIGN_EXTEND);                      // mam, 16J13, Added CWD instruction to correctly set up DX:AX for signed division
-                    fprintf(code_file, "\tjsr _idiv\t;---");
-		            emit_1(DIVIDE, reg(CX));
-                    fprintf(code_file, "\tadj #%d\t;pop ops/params\n", 4);
+                    //fprintf(code_file, "\tpha.w\n");
+		        	emit_push_operand(tp2);
+                    fprintf(code_file, "\tjsr _idiv\n");
+                    fprintf(code_file, "\tadj #%d\n", 4);
                     if (op == MOD) {
-                        fprintf(code_file, "\tswp\t;---");
-                        emit_2(MOVE, reg(AX), reg(DX));
+                        fprintf(code_file, "\tswp\n");
                     }
                 } else
                     error(INCOMPATIBLE_TYPES);
 
 		        result_tp = integer_typep;
 		        break;
-	        }
 
-	        case AND: {
+	        case AND :
 		        /*
 		        --  boolean AND boolean => boolean
 		        --  AX = AX AND DX
 		        */
 		        if (boolean_operands(result_tp, tp2)) {
-                    fprintf(code_file, "\t\t\t\t\t\t;---");
-		            emit_1(POP, reg(DX));
-                    fprintf(code_file, "\tand.w 0,S\t;---");
-		            emit_2(AND_BITS, reg(AX), reg(DX));
-                    fprintf(code_file, "\tadj #%d\t;pop ops/params\n", 2);
+                    fprintf(code_file, "\tand.w 1,S\n");
+                    fprintf(code_file, "\tadj #%d\n", 2);
                 } else
                     error(INCOMPATIBLE_TYPES);
 
 		        result_tp = boolean_typep;
 		        break;
-	        }
+
+	        default : break;
 	    }
     }
 
@@ -697,11 +587,10 @@ TYPE_STRUCT_PTR factor(void)
 		        */
                 if(    (literal.value.integer >= 0  )
                     && (literal.value.integer <= 255)) {
-                    fprintf(code_file, "\tlda #%d\t;---", literal.value.integer);
+                    fprintf(code_file, "\tlda #%d\n", literal.value.integer);
                 } else {
-                    fprintf(code_file, "\tlda.w #%d\t;---", literal.value.integer);
+                    fprintf(code_file, "\tlda.w #%d\n", literal.value.integer);
                 }
-		        emit_2(MOVE, reg(AX), integer_lit(literal.value.integer));
 		        tp = integer_typep;
             } else {  /* literal.type == REAL_LIT */
 		        /*
@@ -721,8 +610,7 @@ TYPE_STRUCT_PTR factor(void)
 		        --  AH = 0
 		        --  AL = value
 		        */
-                fprintf(code_file, "\tlda #%d\t;---", literal.value.string[0]);
-		        emit_2(MOVE, reg(AX), char_lit(literal.value.string[0]));
+                fprintf(code_file, "\tlda #%d\n", literal.value.string[0]);
 		        tp = char_typep;
             } else {
 		        /*
@@ -740,8 +628,7 @@ TYPE_STRUCT_PTR factor(void)
 	        */
 	        get_token();
 	        tp = factor();
-            fprintf(code_file, "\teor #%d\t;---", 1);
-	        emit_2(XOR_BITS, reg(AX), integer_lit(1));
+            fprintf(code_file, "\teor #%d\n", 1);
             break;
         }
 
@@ -787,11 +674,9 @@ TYPE_STRUCT_PTR float_literal(char string[], float value)
     --  DX:AX = value
     */
 
-    fprintf(code_file, "\tlda.w %s_%03d+2\t;---", FLOAT_LABEL_PREFIX, np->label_index);
-    emit_2(MOVE, reg(DX), high_dword_label(FLOAT_LABEL_PREFIX, np->label_index));
-    fprintf(code_file, "\tswp\t;---");
-    emit_2(MOVE, reg(AX), word_label(FLOAT_LABEL_PREFIX, np->label_index));
-    fprintf(code_file, "\tlda.w %s_%03d\t;load lo word\n", FLOAT_LABEL_PREFIX, np->label_index);
+    fprintf(code_file, "\tlda.w %s_%03d+2\n", FLOAT_LABEL_PREFIX, np->label_index);
+    fprintf(code_file, "\tswp\n");
+    fprintf(code_file, "\tlda.w %s_%03d\n", FLOAT_LABEL_PREFIX, np->label_index);
     return(real_typep);
 }
 
@@ -825,10 +710,7 @@ TYPE_STRUCT_PTR string_literal(char string[], int length)
     --  AX = address of string
     */
 
-    fprintf(code_file, "\tpsh.w #%s_%03d\t;---", STRING_LABEL_PREFIX, np->label_index);
-    emit_2(LOAD_ADDRESS, reg(AX), word_label(STRING_LABEL_PREFIX, np->label_index));
-    fprintf(code_file, "\t\t\t\t\t\t;---");
-    emit_1(PUSH, reg(AX));
+    fprintf(code_file, "\tpsh.w #%s_%03d\n", STRING_LABEL_PREFIX, np->label_index);
     
     return(tp);
 }
@@ -849,17 +731,15 @@ TYPE_STRUCT_PTR constant_identifier(SYMTAB_NODE_PTR idp)
 	    */
         if(    (idp->defn.info.constant.value.integer >= 0  )
             && (idp->defn.info.constant.value.integer <= 255)) {
-            fprintf(code_file, "\tlda #%d\t;---", idp->defn.info.constant.value.integer);
+            fprintf(code_file, "\tlda #%d\n", idp->defn.info.constant.value.integer);
         } else {
-            fprintf(code_file, "\tlda.w #%d\t;---", idp->defn.info.constant.value.integer);
+            fprintf(code_file, "\tlda.w #%d\n", idp->defn.info.constant.value.integer);
         }
-	    emit_2(MOVE, reg(AX), integer_lit(idp->defn.info.constant.value.integer));
     } else if (tp == char_typep) {
 	    /*
 	    --  AX = value
 	    */
-        fprintf(code_file, "\tlda #'%c'\t;---", idp->defn.info.constant.value.character);
-	    emit_2(MOVE, reg(AX), char_lit(idp->defn.info.constant.value.character));
+        fprintf(code_file, "\tlda #'%c'\n", idp->defn.info.constant.value.character);
     } else if (tp == real_typep) {
 	    /*
 	    --  Create a literal and then call float_literal.
@@ -955,26 +835,18 @@ TYPE_STRUCT_PTR variable(SYMTAB_NODE_PTR var_idp,   /* variable id */
             && (tp->form != ARRAY_FORM )
             && (tp->form != RECORD_FORM)) {
 	        
-            fprintf(code_file, "\t\t\t\t\t\t;---");
-            emit_1(POP, reg(BX));                               
             if (tp == char_typep) {
-                fprintf(code_file, "\t\t\t\t\t\t;---");
-		        emit_2(SUBTRACT, reg(AX), reg(AX));             
-                fprintf(code_file, "\tlda (0,S)\t;---");
-		        emit_2(MOVE, reg(AL), byte_indirect(BX));       
-                fprintf(code_file, "\tadj #%d\t;pop ops/params\n", 2);
+                fprintf(code_file, "\tlda (1,S)\n");
+                fprintf(code_file, "\tadj #%d\n", 2);
             } else if (tp == real_typep) {
-                fprintf(code_file, "\tldy #2\t;---");
-		        emit_2(MOVE, reg(DX), high_dword_indirect(BX));
-                fprintf(code_file, "\tlda.w (0,S),Y\t;load hi word\n");
-                fprintf(code_file, "\tswp\t;---");
-		        emit_2(MOVE, reg(AX), word_indirect(BX));
-                fprintf(code_file, "\tlda.w (0,S)\t;load lo word\n");
-                fprintf(code_file, "\tadj #%d\t;pop ops/params\n", 2);
+                fprintf(code_file, "\tldy #2\n");
+                fprintf(code_file, "\tlda.w (1,S),Y\n");
+                fprintf(code_file, "\tswp\n");
+                fprintf(code_file, "\tlda.w (1,S)\n");
+                fprintf(code_file, "\tadj #%d\n", 2);
             } else 
-                fprintf(code_file, "\tlda.w (0,S)\t;---");
-                emit_2(MOVE, reg(AX), word_indirect(BX));
-                fprintf(code_file, "\tadj #%d\t;pop ops/params\n", 2);
+                fprintf(code_file, "\tlda.w (1,S)\n");
+                fprintf(code_file, "\tadj #%d\n", 2);
 	    }
     } else if (use == TARGET_USE) {
 	    /*
@@ -1063,41 +935,50 @@ TYPE_STRUCT_PTR array_subscript_list(TYPE_STRUCT_PTR tp)
 
             if (min_index != 0) {
                 if (min_index == 1) {
-                    fprintf(code_file, "\tdec.w a\t;---");
-                    emit_2(SUBTRACT, reg(AX), integer_lit(min_index));
+                    fprintf(code_file, "\tdec.w a\n");
                 } else {                    
-                    fprintf(code_file, "\tsec\t;---");
-                    emit_2(SUBTRACT, reg(AX), integer_lit(min_index));
-                    fprintf(code_file, "\tsbc.w #%d\t;---", min_index);
+                    fprintf(code_file, "\tsec\n");
+                    fprintf(code_file, "\tsbc.w #%d\n", min_index);
                 }
             }
 
 	        if (elmt_size > 1) {
-                fprintf(code_file, "\t\t\t\t\t\t;---");
-		        emit_2(MOVE, reg(DX), integer_lit(elmt_size));
-                fprintf(code_file, "\t\t\t\t\t\t;---");
-		        emit_1(MULTIPLY, reg(DX));
                 switch(elmt_size) {
-                    case 32: fprintf(code_file, "\tasl.w a\t;arithmetic shift\n");
-                    case 16: fprintf(code_file, "\tasl.w a\t;arithmetic shift\n");
-                    case 8 : fprintf(code_file, "\tasl.w a\t;arithmetic shift\n");
-                    case 4 : fprintf(code_file, "\tasl.w a\t;arithmetic shift\n");
-                    case 2 : fprintf(code_file, "\tasl.w a\t;arithmetic shift\n");
+                    case 32: fprintf(code_file, "\tasl.w a\n");
+                    		 fprintf(code_file, "\tasl.w a\n");
+                    		 fprintf(code_file, "\tasl.w a\n");
+                    		 fprintf(code_file, "\tasl.w a\n");
+                    		 fprintf(code_file, "\tasl.w a\n");
+                    		 break;
+
+                    case 16: fprintf(code_file, "\tasl.w a\n");
+                             fprintf(code_file, "\tasl.w a\n");
+                             fprintf(code_file, "\tasl.w a\n");
+                             fprintf(code_file, "\tasl.w a\n");
                              break;
-                    default: fprintf(code_file, "\tpha.w\t;push index\n");
-                             fprintf(code_file, "\tpsh.w #%d\t;push element size\n", elmt_size);
-                             fprintf(code_file, "\tjsr _imul\t;compute offset\n");
-                             fprintf(code_file, "\tadj #%d\t;pop ops/params\n", 4);
+
+                    case 8 : fprintf(code_file, "\tasl.w a\n");
+                             fprintf(code_file, "\tasl.w a\n");
+                             fprintf(code_file, "\tasl.w a\n");
+                             break;
+
+                    case 4 : fprintf(code_file, "\tasl.w a\n");
+                             fprintf(code_file, "\tasl.w a\n");
+                             break;
+
+                    case 2 : fprintf(code_file, "\tasl.w a\n");
+                             break;
+
+                    default: fprintf(code_file, "\tpha.w\n");
+                             fprintf(code_file, "\tpsh.w #%d\n", elmt_size);
+                             fprintf(code_file, "\tjsr _imul\n");
+                             fprintf(code_file, "\tadj #%d\n", 4);
                              break;
                 }
 	        }
-            fprintf(code_file, "\t\t\t\t\t\t;---");
-	        emit_1(POP,  reg(DX));
-            fprintf(code_file, "\tclc\t;---");
-	        emit_2(ADD,  reg(DX), reg(AX));
-            fprintf(code_file, "\tadc.w 0,S\t;add index offset to array base\n");
-            fprintf(code_file, "\tsta.w 0,S\t;store address of array element ---");
-	        emit_1(PUSH, reg(DX));
+            fprintf(code_file, "\tclc\n");
+            fprintf(code_file, "\tadc.w 1,S\n");
+            fprintf(code_file, "\tsta.w 1,S\n");
 
 	        tp = elmt_tp;
         } else {
@@ -1134,13 +1015,10 @@ TYPE_STRUCT_PTR record_field(TYPE_STRUCT_PTR tp)
 	    */
 
 	    if (field_idp != NULL) {
-            fprintf(code_file, "\tpla.w\t;---");
-	        emit_1(POP,  reg(AX));
-            fprintf(code_file, "\tclc\t;---");
-	        emit_2(ADD,  reg(AX), tagged_name(field_idp));
-            fprintf(code_file, "\tadc.w #%s_%03d\t;compute field offset\n", field_idp->name, field_idp->label_index);
-            fprintf(code_file, "\tpha.w\t;---");
-	        emit_1(PUSH, reg(AX));
+            fprintf(code_file, "\tpla.w\n");
+            fprintf(code_file, "\tclc\n");
+            fprintf(code_file, "\tadc.w #%s_%03d\n", field_idp->name, field_idp->label_index);
+            fprintf(code_file, "\tpha.w\n");
 	        return(field_idp->typep);
         } else {
 	        error(INVALID_FIELD);
