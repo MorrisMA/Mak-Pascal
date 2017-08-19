@@ -31,9 +31,9 @@ _pc65_main	.sub
 	asl.w a
 	clc
 	adc.w 0,S
-	tai
+	sta.w 0,S
 	lda #0
-	sta.w (1,S)
+	sta.w (0,S)
 	adj #2
 ;   13:     
 ;   14:     FOR i := 2 TO max DO
@@ -52,9 +52,9 @@ L_009
 	asl.w a
 	clc
 	adc.w 0,S
-	tai
+	sta.w 0,S
 	lda #1
-	sta.w (1,S)
+	sta.w (0,S)
 	adj #2
 	inc.w i_003
 	jmp L_008
@@ -77,13 +77,13 @@ L_011
 	pha.w
 	lda #1
 	clc
-	adc.w 1,S
+	adc.w 0,S
 	adj #2
 	pha.w
 	lda #1
-	xma.w 1,S
+	xma.w 0,S
 	sec
-	sbc.w 1,S
+	sbc.w 0,S
 	adj #2
 	pha.w
 	lda #2
@@ -93,7 +93,7 @@ L_011
 	pha.w
 	lda #1
 	clc
-	adc.w 1,S
+	adc.w 0,S
 	adj #2
 	sta.w prime_006
 ;   21:         WHILE NOT sieve[prime] DO
@@ -104,8 +104,8 @@ L_013
 	asl.w a
 	clc
 	adc.w 0,S
-	tai
-	lda.w (1,S)
+	sta.w 0,S
+	lda.w (0,S)
 	adj #2
 	eor #1
 	cmp.w #1
@@ -117,7 +117,7 @@ L_014
 	pha.w
 	lda #1
 	clc
-	adc.w 1,S
+	adc.w 0,S
 	adj #2
 	sta.w prime_006
 	jmp L_013
@@ -137,8 +137,8 @@ L_016
 	lda.w factor_007
 	pha.w
 	lda.w #1000
-	xma.w 1,S
-	cmp.w 1,S
+	xma.w 0,S
+	cmp.w 0,S
 	adj #2
 	php
 	lda #1
@@ -157,16 +157,16 @@ L_017
 	asl.w a
 	clc
 	adc.w 0,S
-	tai
+	sta.w 0,S
 	lda #0
-	sta.w (1,S)
+	sta.w (0,S)
 	adj #2
 ;   28:             factor := factor + prime;
 	lda.w factor_007
 	pha.w
 	lda.w prime_006
 	clc
-	adc.w 1,S
+	adc.w 0,S
 	adj #2
 	sta.w factor_007
 ;   29:         END
@@ -176,8 +176,8 @@ L_018
 	lda.w prime_006
 	pha.w
 	lda.w limit_005
-	xma.w 1,S
-	cmp.w 1,S
+	xma.w 0,S
+	cmp.w 0,S
 	adj #2
 	php
 	lda #1
@@ -219,7 +219,7 @@ L_025
 	pha.w
 	lda.w j_004
 	clc
-	adc.w 1,S
+	adc.w 0,S
 	adj #2
 	sta.w prime_006
 ;   39:             IF sieve[prime] THEN
@@ -229,8 +229,8 @@ L_025
 	asl.w a
 	clc
 	adc.w 0,S
-	tai
-	lda.w (1,S)
+	sta.w 0,S
+	lda.w (0,S)
 	adj #2
 	cmp.w #1
 	beq L_027
@@ -266,15 +266,15 @@ L_026
 	lda #20
 ;   46:     UNTIL i > max
 	clc
-	adc.w 1,S
+	adc.w 0,S
 	adj #2
 	sta.w i_003
 	lda.w i_003
 	pha.w
 ;   47: END.
 	lda.w #1000
-	xma.w 1,S
-	cmp.w 1,S
+	xma.w 0,S
+	cmp.w 0,S
 	adj #2
 	php
 	lda #1

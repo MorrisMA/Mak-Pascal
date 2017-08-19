@@ -167,19 +167,19 @@ void read_readln(SYMTAB_NODE_PTR rtn_idp)
 		            error(INCOMPATIBLE_TYPES);
 		        } else if (actual_parm_tp == integer_typep) {
                     fprintf(code_file, "\tjsr _iread\n");
-                    fprintf(code_file, "\tsta.w (1,S)\n");
+                    fprintf(code_file, "\tsta.w (0,S)\n");
                     fprintf(code_file, "\tadj #%d\n", 2);
                 } else if (actual_parm_tp == real_typep) {
                     fprintf(code_file, "\tjsr _fread\n");
                     fprintf(code_file, "\tswp\n");
                     fprintf(code_file, "\tldy #2\n");
-                    fprintf(code_file, "\tsta.w (1,S),Y\t; *********** Check Addressing Mode\n");
+                    fprintf(code_file, "\tsta.w (0,S),Y\t; *********** Check Addressing Mode\n");
                     fprintf(code_file, "\tswp\n");
-                    fprintf(code_file, "\tsta.w (1,S)\n");
+                    fprintf(code_file, "\tsta.w (0,S)\n");
                     fprintf(code_file, "\tadj #%d\n", 2);
                 } else if (actual_parm_tp == char_typep) {
                     fprintf(code_file, "\tjsr _cread\n");
-                    fprintf(code_file, "\tsta (1,S)\n");
+                    fprintf(code_file, "\tsta (0,S)\n");
                     fprintf(code_file, "\tadj #%d\n", 2);
 		        }
             } else {

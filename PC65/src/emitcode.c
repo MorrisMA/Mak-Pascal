@@ -457,8 +457,10 @@ void emit_push_address(SYMTAB_NODE_PTR var_idp)
 	    int lev = var_level;
 
         fprintf(code_file, "\tswp.x\n");
+        //
 	    do {
-            fprintf(code_file, "\tlda.xw %s,B\n", STATIC_LINK);
+            fprintf(code_file, "\tlda.w %s,B\n", STATIC_LINK);
+            fprintf(code_file, "\ttax\n");
 	    } while (++lev < level);
         //
         // emit_2(varparm_flag ? MOVE : LOAD_ADDRESS, reg(AX), word(var_idp));
@@ -470,11 +472,11 @@ void emit_push_address(SYMTAB_NODE_PTR var_idp)
         	//
         	// Calculate address of local variable as an offset from BP
         	//
-            fprintf(code_file, "\ttxa.w\n");
             fprintf(code_file, "\tclc\n");
             fprintf(code_file, "\tadc.w #%s_%03d\n", var_idp->name, var_idp->label_index);
             fprintf(code_file, "\tpha.w\n");
         }
+        //
         fprintf(code_file, "\tswp.x\n");
     }
 }
@@ -495,16 +497,18 @@ void emit_push_return_value_address(SYMTAB_NODE_PTR var_idp)
 	    //  Find the appropriate stack frame.
 	    //
         fprintf(code_file, "\tswp.x\n");
+        //
 	    do {
-            fprintf(code_file, "\tlda.xw %s,B\n", STATIC_LINK);
+            fprintf(code_file, "\tlda.w %s,B\n", STATIC_LINK);
+            fprintf(code_file, "\ttax.w\n");
 	    } while (++lev < level);
     	//
     	// Calculate address of local variable as an offset from BP
     	//
-        fprintf(code_file, "\ttxa.w\n");
         fprintf(code_file, "\tclc\n");
         fprintf(code_file, "\tadc.w #%s\n", RETURN_VALUE);
         fprintf(code_file, "\tpha.w\n");
+        //
         fprintf(code_file, "\tswp.x\n");
     } else {
     	//

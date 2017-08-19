@@ -449,7 +449,6 @@ TYPE_STRUCT_PTR term(void)
 		        --  AX = AX*DX
 		        */
 		        if (integer_operands(result_tp, tp2)) {
-                    //fprintf(code_file, "\tpha.w\n");
 		        	emit_push_operand(tp2);
                     fprintf(code_file, "\tjsr _imul\n");
                     fprintf(code_file, "\tadj #%d\n", 4);
@@ -501,7 +500,6 @@ TYPE_STRUCT_PTR term(void)
 		        --  DX:AX = DX:AX IDIV CX
 		        */
 		        if (integer_operands(result_tp, tp2)) {
-                    //fprintf(code_file, "\tpha.w\n");
 		        	emit_push_operand(tp2);
                     fprintf(code_file, "\tjsr _idiv\n");
                     fprintf(code_file, "\tadj #%d\n", 4);
@@ -944,19 +942,6 @@ TYPE_STRUCT_PTR array_subscript_list(TYPE_STRUCT_PTR tp)
 
 	        if (elmt_size > 1) {
                 switch(elmt_size) {
-                    case 32: fprintf(code_file, "\tasl.w a\n");
-                    		 fprintf(code_file, "\tasl.w a\n");
-                    		 fprintf(code_file, "\tasl.w a\n");
-                    		 fprintf(code_file, "\tasl.w a\n");
-                    		 fprintf(code_file, "\tasl.w a\n");
-                    		 break;
-
-                    case 16: fprintf(code_file, "\tasl.w a\n");
-                             fprintf(code_file, "\tasl.w a\n");
-                             fprintf(code_file, "\tasl.w a\n");
-                             fprintf(code_file, "\tasl.w a\n");
-                             break;
-
                     case 8 : fprintf(code_file, "\tasl.w a\n");
                              fprintf(code_file, "\tasl.w a\n");
                              fprintf(code_file, "\tasl.w a\n");
