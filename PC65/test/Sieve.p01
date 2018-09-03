@@ -1,202 +1,35 @@
-phx.w_imp	
-tsx.w_imp	
-lda.w_imm16	1000
-pha.w_imp	
-lda_imm	2
-pha.w_imp	
-jsr_abs	_idiv
-adj_imm	4
-sta.w_abs	limit_005
-psh.w_imm16	sieve_002
-lda_imm	1
-dec.w_A	
-asl.w_A	
-clc_imp	
-adc.w_sp	0
-sta.w_sp	0
-lda_imm	0
-sta.w_spI	0
-adj_imm	2
-lda_imm	2
-sta.w_abs	i_003
-lda.w_imm16	1000
-cmp.w_abs	i_003
-bge_rel	L_009
-jmp_abs	L_010
-psh.w_imm16	sieve_002
-lda.w_abs	i_003
-dec.w_A	
-asl.w_A	
-clc_imp	
-adc.w_sp	0
-sta.w_sp	0
-lda_imm	1
-sta.w_spI	0
-adj_imm	2
-inc.w_abs	i_003
-jmp_abs	L_008
-dec.w_abs	i_003
-lda_imm	1
-sta.w_abs	prime_006
-lda.w_abs	prime_006
-pha.w_imp	
-lda_imm	1
-clc_imp	
-adc.w_sp	0
-adj_imm	2
-sta.w_abs	prime_006
-psh.w_imm16	sieve_002
-lda.w_abs	prime_006
-dec.w_A	
-asl.w_A	
-clc_imp	
-adc.w_sp	0
-sta.w_sp	0
-lda.w_spI	0
-adj_imm	2
-eor_imm	1
-cmp.w_imm16	1
-beq_rel	L_014
-jmp_abs	L_015
-lda.w_abs	prime_006
-pha.w_imp	
-lda_imm	1
-clc_imp	
-adc.w_sp	0
-adj_imm	2
-sta.w_abs	prime_006
-jmp_abs	L_013
-lda_imm	2
-pha.w_imp	
-lda.w_abs	prime_006
-pha.w_imp	
-jsr_abs	_imul
-adj_imm	4
-sta.w_abs	factor_007
-lda.w_abs	factor_007
-pha.w_imp	
-lda.w_imm16	1000
-xma.w_sp	0
-cmp.w_sp	0
-adj_imm	2
-php_imp	
-lda_imm	1
-plp_imp	
-ble_rel	L_019
-lda_imm	0
-cmp.w_imm16	1
-beq_rel	L_017
-jmp_abs	L_018
-psh.w_imm16	sieve_002
-lda.w_abs	factor_007
-dec.w_A	
-asl.w_A	
-clc_imp	
-adc.w_sp	0
-sta.w_sp	0
-lda_imm	0
-sta.w_spI	0
-adj_imm	2
-lda.w_abs	factor_007
-pha.w_imp	
-lda.w_abs	prime_006
-clc_imp	
-adc.w_sp	0
-adj_imm	2
-sta.w_abs	factor_007
-jmp_abs	L_016
-lda.w_abs	prime_006
-pha.w_imp	
-lda.w_abs	limit_005
-xma.w_sp	0
-cmp.w_sp	0
-adj_imm	2
-php_imp	
-lda_imm	1
-plp_imp	
-bgt_rel	L_020
-lda_imm	0
-cmp.w_imm16	1
-beq_rel	L_012
-jmp_abs	L_011
-psh.w_imm16	S_021
-psh.w_imm16	0
-psh.w_imm16	21
-jsr_abs	_swrite
-adj_imm	6
-jsr_abs	_writeln
-jsr_abs	_writeln
-lda_imm	1
-sta.w_abs	i_003
-lda_imm	0
-sta.w_abs	j_004
-lda_imm	19
-cmp.w_abs	j_004
-bge_rel	L_025
-jmp_abs	L_026
-lda.w_abs	i_003
-pha.w_imp	
-lda.w_abs	j_004
-clc_imp	
-adc.w_sp	0
-adj_imm	2
-sta.w_abs	prime_006
-psh.w_imm16	sieve_002
-lda.w_abs	prime_006
-dec.w_A	
-asl.w_A	
-clc_imp	
-adc.w_sp	0
-sta.w_sp	0
-lda.w_spI	0
-adj_imm	2
-cmp.w_imm16	1
-beq_rel	L_027
-jmp_abs	L_028
-lda.w_abs	prime_006
-pha.w_imp	
-lda_imm	3
-pha.w_imp	
-jsr_abs	_iwrite
-adj_imm	4
-jmp_abs	L_029
-psh.w_imm16	S_030
-psh.w_imm16	0
-psh.w_imm16	3
-jsr_abs	_swrite
-adj_imm	6
-inc.w_abs	j_004
-jmp_abs	L_024
-dec.w_abs	j_004
-jsr_abs	_writeln
-lda.w_abs	i_003
-pha.w_imp	
-lda_imm	20
-clc_imp	
-adc.w_sp	0
-adj_imm	2
-sta.w_abs	i_003
-lda.w_abs	i_003
-pha.w_imp	
-lda.w_imm16	1000
-xma.w_sp	0
-cmp.w_sp	0
-adj_imm	2
-php_imp	
-lda_imm	1
-plp_imp	
-bgt_rel	L_031
-lda_imm	0
-cmp.w_imm16	1
-beq_rel	L_023
-jmp_abs	L_022
-plx.w_imp	
-rts_imp	
-.DB	2000
-.DB	2
-.DB	2
-.DB	2
-.DB	2
-.DB	2
-.DS	"   "
-.DS	"Sieve of Eratosthenes"
+adc.w_zpS      10
+adj_imm        13
+asl.w_A         5
+beq_rel         5
+bge_rel         2
+bgt_rel         2
+ble_rel         1
+clc_imp        10
+cmp.w_abs       2
+cmp.w_imm       5
+cmp.w_zpS       3
+dec.w_A         5
+dec.w_abs       2
+eor_imm         1
+inc.w_abs       2
+jmp_abs        13
+jsr_abs         8
+lda_imm        21
+lda.w_abs      17
+lda.w_imm       4
+lda.w_ipp       2
+lds.w_imm       1
+pha.w_imp      14
+php_imp         3
+phx.w_imp       1
+pli_imp         5
+plp_imp         3
+plx.w_imp       1
+psh.w_imm      11
+rts_imp         1
+sta.w_abs      11
+sta.w_ipp       3
+sta.w_zpS       5
+tsx.w_imp       2
+xma.w_zpS       3

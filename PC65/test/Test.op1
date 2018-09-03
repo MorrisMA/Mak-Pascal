@@ -29,8 +29,9 @@ _pc65_main	.sub
 	asl.w a
 	clc
 	adc.w 0,S
-	tai
+	pha.w
 	lda #0
+	pli
 	sta.w (0,I++)
 ;   13:     
 ;   14:     FOR i := 2 TO max DO
@@ -49,8 +50,9 @@ L_009
 	asl.w a
 	clc
 	adc.w 0,S
-	tai
+	pha.w
 	lda #1
+	pli
 	sta.w (0,I++)
     inc.w i_003
 	jmp L_008
@@ -94,7 +96,8 @@ L_013
 	asl.w a
 	clc
 	adc.w 0,S
-	tai
+	pha.w
+	pli
 	lda.w (0,I++)
 	eor #1
 	cmp.w #1
@@ -140,8 +143,9 @@ L_017
 	asl.w a
 	clc
 	adc.w 0,S
-	tai
+	pha.w
 	lda #0
+	pli
 	sta.w (0,I++)
 ;   28:             factor := factor + prime;
 	psh.w factor_007
@@ -205,7 +209,8 @@ L_025
 	asl.w a
 	clc
 	adc.w 0,S
-	tai
+	pha.w
+	pli
 	lda.w (0,I++)
 	cmp.w #1
 	beq L_027

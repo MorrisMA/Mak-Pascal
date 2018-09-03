@@ -18,20 +18,22 @@ BEGIN {
 	jump["jle"] = 4
 }
 
+($2 ~ /^[\.]/ ) { next }
 ($1 !~ /^[\._/]{1}/) && ($1 !~ /_[0-9]{3}$/) {
     #count[$1] += 1 }
 	if(NF < 2) count[$1 "_imp"] += 1
 	else if($2 ~ /^[aA]$/) count[$1 "_A"] += 1
 	else if($2 ~ /^[xX]$/) count[$1 "_X"] += 1
 	else if($2 ~ /^[yY]$/) count[$1 "_Y"] += 1
-	else if(($2 ~ /^[#]/) && ($1 ~ /[wW]$/)) count[$1 "_imm16"] += 1
+#	else if(($2 ~ /^[#]/) && ($1 ~ /[wW]$/)) count[$1 "_imm"] += 1
 	else if($2 ~ /^[#]/)          count[$1 "_imm"]   += 1
-	else if($2 ~ /,[sS]$/)        count[$1 "_sp"]    += 1
-	else if($2 ~ /,[sS])$/)       count[$1 "_spI"]   += 1
-	else if($2 ~ /,[sS]),[yY]$/)  count[$1 "_spIY"]  += 1
-	else if($2 ~ /,[bB]$/)        count[$1 "_bp"]    += 1
-	else if($2 ~ /,[bB])$/)       count[$1 "_bpI"]   += 1
-	else if($2 ~ /,[bB]),[yY]$/)  count[$1 "_bpIY"]  += 1
+	else if($2 ~ /,[sS]$/)        count[$1 "_zpS"]   += 1
+	else if($2 ~ /,[sS])$/)       count[$1 "_zpSI"]  += 1
+	else if($2 ~ /,[sS]),[yY]$/)  count[$1 "_zpSIY"] += 1
+	else if($2 ~ /,[xX]$/)        count[$1 "_zpX"]   += 1
+	else if($2 ~ /,[xX])$/)       count[$1 "_zpXI"]  += 1
+	else if($2 ~ /,[iI][+]{2}$/)  count[$1 "_ipp"]   += 1
+	else if($2 ~ /,[iI])[+]{2}$/) count[$1 "_ippI"]  += 1
 	else if($1 in branch)         count[$1 "_rel"]   += 1
 	else if($1 in jump)           count[$1 "_rel16"] += 1
 	else if($1 == "jmp")          count[$1 "_abs"]   += 1

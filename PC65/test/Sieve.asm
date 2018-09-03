@@ -1,9 +1,13 @@
 ;    1: PROGRAM eratosthenes(output);
 	.stk	1024
-	.cod
-STATIC_LINK			.equ	+4
-RETURN_VALUE		.equ	-4
-HIGH_RETURN_VALUE	.equ	-2
+	.cod	512
+STATIC_LINK			.equ	+5
+RETURN_VALUE		.equ	-3
+HIGH_RETURN_VALUE	.equ	-1
+_start
+	tsx.w		; Preserve original stack pointer
+	lds.w	#16383	; Initialize program stack pointer
+	jmp	_pc65_main
 ;    2: 
 ;    3: CONST
 ;    4:     max = 1000;
@@ -33,8 +37,8 @@ _pc65_main	.sub
 	adc.w 1,S
 	sta.w 1,S
 	lda #0
-	sta.w (1,S)
-	adj #2
+	pli
+	sta.w 0,I++
 ;   13: 
 ;   14:     FOR i := 2 TO max DO
 	lda #2
@@ -54,8 +58,8 @@ L_009
 	adc.w 1,S
 	sta.w 1,S
 	lda #1
-	sta.w (1,S)
-	adj #2
+	pli
+	sta.w 0,I++
 	inc.w i_003
 	jmp L_008
 L_010
@@ -84,8 +88,8 @@ L_013
 	clc
 	adc.w 1,S
 	sta.w 1,S
-	lda.w (1,S)
-	adj #2
+	pli
+	lda.w 0,I++
 	eor #1
 	cmp.w #1
 	beq L_014
@@ -138,8 +142,8 @@ L_017
 	adc.w 1,S
 	sta.w 1,S
 	lda #0
-	sta.w (1,S)
-	adj #2
+	pli
+	sta.w 0,I++
 ;   28:             factor := factor + prime;
 	lda.w factor_007
 	pha.w
@@ -209,8 +213,8 @@ L_025
 	clc
 	adc.w 1,S
 	sta.w 1,S
-	lda.w (1,S)
-	adj #2
+	pli
+	lda.w 0,I++
 	cmp.w #1
 	beq L_027
 	jmp  L_028
@@ -219,7 +223,7 @@ L_027
 	lda.w prime_006
 	pha.w
 	lda #3
-	pha.w	;---	push	ax
+	pha.w
 	jsr _iwrite
 	adj #4
 ;   41:             ELSE

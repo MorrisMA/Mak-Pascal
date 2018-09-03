@@ -635,8 +635,8 @@ SYMTAB_NODE_PTR formal_parm_list(int *countp, int *total_sizep)
         parm_idp->defn.info.data.offset = parm_offset;
         parm_offset += (parm_idp->defn.key == VALPARM_DEFN) ? parm_idp->typep->size
                                                             : sizeof(short);
-        if (parm_offset & 1)
-            ++parm_offset;   /* round up to even */
+        if (!(parm_offset & 1))
+            ++parm_offset;   /* round up to odd, offset from base/stack is 1 */
     }
 
     reverse_list(&parm_listp);
@@ -735,7 +735,7 @@ TYPE_STRUCT_PTR declared_routine_call(SYMTAB_NODE_PTR rtn_idp,
         --  Calling another routine at the same level:
         --  Push pointer to stack frame of common parent.
         */
-        fprintf(code_file, "\tlda.w %s,B\n", STATIC_LINK);
+        fprintf(code_file, "\tlda.w %s,X\n", STATIC_LINK);
         fprintf(code_file, "\tpha.w\n");
     } else  /* new_level < old_level */  {
         /*
@@ -746,7 +746,7 @@ TYPE_STRUCT_PTR declared_routine_call(SYMTAB_NODE_PTR rtn_idp,
 
         fprintf(code_file, "\tdup.x\n");
         for (lev = old_level; lev >= new_level; --lev) {
-            fprintf(code_file, "\tlda.xw %s,B\n", STATIC_LINK);
+            fprintf(code_file, "\tlda.xw %s,X\n", STATIC_LINK);
         }
         fprintf(code_file, "\tphx.w\n");
         fprintf(code_file, "\trot.x\n");

@@ -672,7 +672,7 @@ TYPE_STRUCT_PTR float_literal(char string[], float value)
     --  DX:AX = value
     */
 
-    fprintf(code_file, "\tlda.w %s_%03d+2\n", FLOAT_LABEL_PREFIX, np->label_index);
+    fprintf(code_file, "\tlda.w %s_%03d+2\t;float_literal\n", FLOAT_LABEL_PREFIX, np->label_index);
     fprintf(code_file, "\tswp\n");
     fprintf(code_file, "\tlda.w %s_%03d\n", FLOAT_LABEL_PREFIX, np->label_index);
     return(real_typep);
@@ -834,17 +834,28 @@ TYPE_STRUCT_PTR variable(SYMTAB_NODE_PTR var_idp,   /* variable id */
             && (tp->form != RECORD_FORM)) {
 	        
             if (tp == char_typep) {
-                fprintf(code_file, "\tlda (1,S)\n");
-                fprintf(code_file, "\tadj #%d\n", 2);
+                //fprintf(code_file, "\tlda (1,S)\n");
+                //fprintf(code_file, "\tadj #%d\n", 2);
+                fprintf(code_file, "\tpli\n");
+                fprintf(code_file, "\tlda 0,I++\n");
             } else if (tp == real_typep) {
-                fprintf(code_file, "\tldy #2\n");
-                fprintf(code_file, "\tlda.w (1,S),Y\n");
+                //fprintf(code_file, "\tldy #2\n");
+                //fprintf(code_file, "\tlda.w (1,S),Y\n");
+                //fprintf(code_file, "\tswp\n");
+                //fprintf(code_file, "\tlda.w (1,S)\n");
+                //fprintf(code_file, "\tadj #%d\n", 2);
+                fprintf(code_file, "\tpli\n");
+                fprintf(code_file, "\tlda.w 0,I++\n");
+                fprintf(code_file, "\ttai\n");
+                fprintf(code_file, "\tlda.w 0,I++\n");
                 fprintf(code_file, "\tswp\n");
-                fprintf(code_file, "\tlda.w (1,S)\n");
-                fprintf(code_file, "\tadj #%d\n", 2);
+                fprintf(code_file, "\tlda.w 0,I++\n");
+                fprintf(code_file, "\tswp\n");
             } else 
-                fprintf(code_file, "\tlda.w (1,S)\n");
-                fprintf(code_file, "\tadj #%d\n", 2);
+                //fprintf(code_file, "\tlda.w (1,S)\n");
+                //fprintf(code_file, "\tadj #%d\n", 2);
+                fprintf(code_file, "\tpli\n");
+                fprintf(code_file, "\tlda.w 0,I++\n");
 	    }
     } else if (use == TARGET_USE) {
 	    /*

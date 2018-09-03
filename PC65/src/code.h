@@ -75,16 +75,19 @@
 /*  Stack frame                                                 */
 /*--------------------------------------------------------------*/
 
-#define PROC_LOCALS_STACK_FRAME_OFFSET   0
-#define FUNC_LOCALS_STACK_FRAME_OFFSET  -4
-#define PARAMETERS_STACK_FRAME_OFFSET   +6
+#define PGM_BASE			512					/* 0x200		*/
+#define TOP_RAM			   16383				/* 16384 - 1   	*/
+
+#define PROC_LOCALS_STACK_FRAME_OFFSET   1			/*  0 + 1   */
+#define FUNC_LOCALS_STACK_FRAME_OFFSET  -3			/* -4 + 1   */
+#define PARAMETERS_STACK_FRAME_OFFSET   +7			/* +6 + 1   */
 
 #define STATIC_LINK         "STATIC_LINK"         /* EQU <bp+4> */
-#define STATIC_LINK_OFF     4
+#define STATIC_LINK_OFF     +5					  /* +4 + 1     */
 #define RETURN_VALUE        "RETURN_VALUE"        /* EQU <bp-4> */
-#define RETURN_VALUE_OFF    -4
+#define RETURN_VALUE_OFF    -3					  /* -4 + 1     */
 #define HIGH_RETURN_VALUE   "HIGH_RETURN_VALUE"   /* EQU <bp-2> */
-#define HIGH_RTN_VALUE_OFF  -2
+#define HIGH_RTN_VALUE_OFF  -1					  /* -2 + 1     */
 
 /*--------------------------------------------------------------*/
 /*  Registers and instruction op codes                          */

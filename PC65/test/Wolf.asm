@@ -1,12 +1,13 @@
 ;    1: PROGRAM WolfIsland (input, output);
-	.STACK  1024	;Set stack size
-
-	.CODE	;place in CODE segment
-
-STATIC_LINK			.EQ	+4	;--- base-relative STATIC_LINK			EQU	<WORD PTR [bp+4]>
-RETURN_VALUE		.EQ	-4	;--- base-relativeRETURN_VALUE		EQU	<WORD PTR [bp-4]>
-HIGH_RETURN_VALUE	.EQ	-2	;--- base-relative HIGH_RETURN_VALUE	EQU	<WORD PTR [bp-2]>
-
+	.stk	1024
+	.cod	512
+STATIC_LINK			.equ	+5
+RETURN_VALUE		.equ	-3
+HIGH_RETURN_VALUE	.equ	-1
+_start
+	tsx.w		; Preserve original stack pointer
+	lds.w	#16383	; Initialize program stack pointer
+	jmp	_pc65_main
 ;    2: 
 ;    3: {   Wolf Island is a simulation of a 9 x 9 island of wolves and rabbits.
 ;    4:     The wolves eat rabbits, and the rabbits eat grass.  Their initial
@@ -118,550 +119,433 @@ HIGH_RETURN_VALUE	.EQ	-2	;--- base-relative HIGH_RETURN_VALUE	EQU	<WORD PTR [bp-
 ;  110:     row, col : index;
 ;  111: 
 ;  112:     BEGIN
-
-i_014	.EQ	-2	;base-relative	---i_014	EQU	<[bp-2]>
-row_015	.EQ	-4	;base-relative	---row_015	EQU	<[bp-4]>
-col_016	.EQ	-6	;base-relative	---col_016	EQU	<[bp-6]>
-
-initialize_013	.PROC
-
-	phx.w	;---	push	bp
-	tsx.w	;---	mov		bp,sp
-	adj #-6	;---	sub		sp,6
+i_014	.equ	-1
+row_015	.equ	-3
+col_016	.equ	-5
+initialize_013	.sub
+	phx.w
+	tsx.w
+	adj #-6
 ;  113: 
 ;  114:     {Initialize the island and wolf food matrices.}
 ;  115:     FOR i := 0 TO max DO BEGIN
-	lda #0	;---	mov		ax,0
-	sta.w i_014,B	;---	mov		WORD PTR i_014,ax
+	lda #0
+	sta.w i_014,X
 L_017
-	lda #10	;---	mov		ax,10
-	cmp.w i_014,B	;---	cmp		WORD PTR i_014,ax
-	bge L_018	;---	jle		L_018
-	jmp L_019	;---	jmp		L_019
+	lda #10
+	cmp.w i_014,X
+	bge L_018
+	jmp L_019
 L_018
 ;  116:         island[0,   i] := border;
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda #0	;---	mov		ax,0
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w i_014,B	;---	mov		ax,WORD PTR i_014
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #5	;---	mov		ax,5
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #island_002
+	lda #0
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w i_014,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #5
+	pli
+	sta.w 0,I++
 ;  117:         island[max, i] := border;
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda #10	;---	mov		ax,10
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w i_014,B	;---	mov		ax,WORD PTR i_014
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #5	;---	mov		ax,5
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #island_002
+	lda #10
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w i_014,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #5
+	pli
+	sta.w 0,I++
 ;  118:         island[i, 0]   := border;
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w i_014,B	;---	mov		ax,WORD PTR i_014
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #0	;---	mov		ax,0
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #5	;---	mov		ax,5
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #island_002
+	lda.w i_014,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #0
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #5
+	pli
+	sta.w 0,I++
 ;  119:         island[i, max] := border;
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w i_014,B	;---	mov		ax,WORD PTR i_014
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #10	;---	mov		ax,10
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #5	;---	mov		ax,5
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #island_002
+	lda.w i_014,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #10
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #5
+	pli
+	sta.w 0,I++
 ;  120:     END;
-	inc.w i_014,B	;---	inc		WORD PTR i_014
-	jmp L_017	;---	jmp		L_017
+	inc.w i_014,X
+	jmp L_017
 L_019
-	dec.w i_014,B	;---	dec		WORD PTR i_014
+	dec.w i_014,X
 ;  121:     FOR row := 1 TO size DO BEGIN
-	lda #1	;---	mov		ax,1
-	sta.w row_015,B	;---	mov		WORD PTR row_015,ax
+	lda #1
+	sta.w row_015,X
 L_020
-	lda #9	;---	mov		ax,9
-	cmp.w row_015,B	;---	cmp		WORD PTR row_015,ax
-	bge L_021	;---	jle		L_021
-	jmp L_022	;---	jmp		L_022
+	lda #9
+	cmp.w row_015,X
+	bge L_021
+	jmp L_022
 L_021
 ;  122:         FOR col := 1 TO size DO BEGIN
-	lda #1	;---	mov		ax,1
-	sta.w col_016,B	;---	mov		WORD PTR col_016,ax
+	lda #1
+	sta.w col_016,X
 L_023
-	lda #9	;---	mov		ax,9
-	cmp.w col_016,B	;---	cmp		WORD PTR col_016,ax
-	bge L_024	;---	jle		L_024
-	jmp L_025	;---	jmp		L_025
+	lda #9
+	cmp.w col_016,X
+	bge L_024
+	jmp L_025
 L_024
 ;  123:         island[row, col]    := empty;
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w row_015,B	;---	mov		ax,WORD PTR row_015
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w col_016,B	;---	mov		ax,WORD PTR col_016
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #4	;---	mov		ax,4
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #island_002
+	lda.w row_015,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w col_016,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #4
+	pli
+	sta.w 0,I++
 ;  124:         foodunits[row, col] := 0;
-	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
-	lda.w row_015,B	;---	mov		ax,WORD PTR row_015
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,18
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #18	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w col_016,B	;---	mov		ax,WORD PTR col_016
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #0	;---	mov		ax,0
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #foodunits_003
+	lda.w row_015,X
+	dec.w a
+	pha.w
+	psh.w #18
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w col_016,X
+	dec.w a
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #0
+	pli
+	sta.w 0,I++
 ;  125:         END;
-	inc.w col_016,B	;---	inc		WORD PTR col_016
-	jmp L_023	;---	jmp		L_023
+	inc.w col_016,X
+	jmp L_023
 L_025
-	dec.w col_016,B	;---	dec		WORD PTR col_016
+	dec.w col_016,X
 ;  126:     END;
-	inc.w row_015,B	;---	inc		WORD PTR row_015
-	jmp L_020	;---	jmp		L_020
+	inc.w row_015,X
+	jmp L_020
 L_022
-	dec.w row_015,B	;---	dec		WORD PTR row_015
+	dec.w row_015,X
 ;  127: 
 ;  128:     {Place wolves on the island.}
 ;  129:     read(numwolves);
-	psh.w #numwolves_005	;---	lea		ax,WORD PTR numwolves_005
-	jsr _iread	;---	call	_read_integer
-					;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;pop ops/params
+	psh.w #numwolves_005
+	jsr _iread
+	pli
+	sta.w 0,I++
 ;  130:     FOR i := 1 TO numwolves DO BEGIN
-	lda #1	;---	mov		ax,1
-	sta.w i_014,B	;---	mov		WORD PTR i_014,ax
+	lda #1
+	sta.w i_014,X
 L_026
-	lda.w numwolves_005	;---	mov		ax,WORD PTR numwolves_005
-	cmp.w i_014,B	;---	cmp		WORD PTR i_014,ax
-	bge L_027	;---	jle		L_027
-	jmp L_028	;---	jmp		L_028
+	lda.w numwolves_005
+	cmp.w i_014,X
+	bge L_027
+	jmp L_028
 L_027
 ;  131:         read(row, col);
-	txa.w	;---	lea		ax,WORD PTR row_015
-	sec	;compensate for BP/SP offset
-	adc.w #row_015	compute effective address
-	pha.w	;---	push	ax
-	jsr _iread	;---	call	_read_integer
-					;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;pop ops/params
-	txa.w	;---	lea		ax,WORD PTR col_016
-	sec	;compensate for BP/SP offset
-	adc.w #col_016	compute effective address
-	pha.w	;---	push	ax
-	jsr _iread	;---	call	_read_integer
-					;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;pop ops/params
+	txa.w
+	clc
+	adc.w #row_015
+	pha.w
+	jsr _iread
+	pli
+	sta.w 0,I++
+	txa.w
+	clc
+	adc.w #col_016
+	pha.w
+	jsr _iread
+	pli
+	sta.w 0,I++
 ;  132:         island[row, col]    := wolf;
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w row_015,B	;---	mov		ax,WORD PTR row_015
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w col_016,B	;---	mov		ax,WORD PTR col_016
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #0	;---	mov		ax,0
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #island_002
+	lda.w row_015,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w col_016,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #0
+	pli
+	sta.w 0,I++
 ;  133:         foodunits[row, col] := initfoodunits;
-	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
-	lda.w row_015,B	;---	mov		ax,WORD PTR row_015
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,18
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #18	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w col_016,B	;---	mov		ax,WORD PTR col_016
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #6	;---	mov		ax,6
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #foodunits_003
+	lda.w row_015,X
+	dec.w a
+	pha.w
+	psh.w #18
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w col_016,X
+	dec.w a
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #6
+	pli
+	sta.w 0,I++
 ;  134:     END;
-	inc.w i_014,B	;---	inc		WORD PTR i_014
-	jmp L_026	;---	jmp		L_026
+	inc.w i_014,X
+	jmp L_026
 L_028
-	dec.w i_014,B	;---	dec		WORD PTR i_014
+	dec.w i_014,X
 ;  135: 
 ;  136:     {Place rabbits on the island.}
 ;  137:     read(numrabbits);
-	psh.w #numrabbits_006	;---	lea		ax,WORD PTR numrabbits_006
-	jsr _iread	;---	call	_read_integer
-					;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;pop ops/params
+	psh.w #numrabbits_006
+	jsr _iread
+	pli
+	sta.w 0,I++
 ;  138:     FOR i := 1 TO numrabbits DO BEGIN
-	lda #1	;---	mov		ax,1
-	sta.w i_014,B	;---	mov		WORD PTR i_014,ax
+	lda #1
+	sta.w i_014,X
 L_029
-	lda.w numrabbits_006	;---	mov		ax,WORD PTR numrabbits_006
-	cmp.w i_014,B	;---	cmp		WORD PTR i_014,ax
-	bge L_030	;---	jle		L_030
-	jmp L_031	;---	jmp		L_031
+	lda.w numrabbits_006
+	cmp.w i_014,X
+	bge L_030
+	jmp L_031
 L_030
 ;  139:         read(row, col);
-	txa.w	;---	lea		ax,WORD PTR row_015
-	sec	;compensate for BP/SP offset
-	adc.w #row_015	compute effective address
-	pha.w	;---	push	ax
-	jsr _iread	;---	call	_read_integer
-					;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;pop ops/params
-	txa.w	;---	lea		ax,WORD PTR col_016
-	sec	;compensate for BP/SP offset
-	adc.w #col_016	compute effective address
-	pha.w	;---	push	ax
-	jsr _iread	;---	call	_read_integer
-					;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;pop ops/params
+	txa.w
+	clc
+	adc.w #row_015
+	pha.w
+	jsr _iread
+	pli
+	sta.w 0,I++
+	txa.w
+	clc
+	adc.w #col_016
+	pha.w
+	jsr _iread
+	pli
+	sta.w 0,I++
 ;  140:         island[row, col] := rabbit;
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w row_015,B	;---	mov		ax,WORD PTR row_015
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w col_016,B	;---	mov		ax,WORD PTR col_016
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #1	;---	mov		ax,1
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #island_002
+	lda.w row_015,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w col_016,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #1
+	pli
+	sta.w 0,I++
 ;  141:     END;
-	inc.w i_014,B	;---	inc		WORD PTR i_014
-	jmp L_029	;---	jmp		L_029
+	inc.w i_014,X
+	jmp L_029
 L_031
-	dec.w i_014,B	;---	dec		WORD PTR i_014
+	dec.w i_014,X
 ;  142: 
 ;  143:     {Read print times.}
 ;  144:     read(numprinttimes);
-	psh.w #numprinttimes_007	;---	lea		ax,WORD PTR numprinttimes_007
-	jsr _iread	;---	call	_read_integer
-					;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;pop ops/params
+	psh.w #numprinttimes_007
+	jsr _iread
+	pli
+	sta.w 0,I++
 ;  145:     FOR i := 1 TO numprinttimes DO BEGIN
-	lda #1	;---	mov		ax,1
-	sta.w i_014,B	;---	mov		WORD PTR i_014,ax
+	lda #1
+	sta.w i_014,X
 L_032
-	lda.w numprinttimes_007	;---	mov		ax,WORD PTR numprinttimes_007
-	cmp.w i_014,B	;---	cmp		WORD PTR i_014,ax
-	bge L_033	;---	jle		L_033
-	jmp L_034	;---	jmp		L_034
+	lda.w numprinttimes_007
+	cmp.w i_014,X
+	bge L_033
+	jmp L_034
 L_033
 ;  146:         read(printtimes[i]);
-	psh.w #printtimes_004	;---	lea		ax,WORD PTR printtimes_004
-	lda.w i_014,B	;---	mov		ax,WORD PTR i_014
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	jsr _iread	;---	call	_read_integer
-					;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;pop ops/params
+	psh.w #printtimes_004
+	lda.w i_014,X
+	dec.w a
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	jsr _iread
+	pli
+	sta.w 0,I++
 ;  147:     END;
-	inc.w i_014,B	;---	inc		WORD PTR i_014
-	jmp L_032	;---	jmp		L_032
+	inc.w i_014,X
+	jmp L_032
 L_034
-	dec.w i_014,B	;---	dec		WORD PTR i_014
+	dec.w i_014,X
 ;  148: 
 ;  149:     {Initialize the row and column offsets for moves.}
 ;  150:     rowoffset[0] :=  0; coloffset[0] :=  0; {stay put}
-	psh.w #rowoffset_011	;---	lea		ax,WORD PTR rowoffset_011
-	lda #0	;---	mov		ax,0
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #0	;---	mov		ax,0
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
-	psh.w #coloffset_012	;---	lea		ax,WORD PTR coloffset_012
-	lda #0	;---	mov		ax,0
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #0	;---	mov		ax,0
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #rowoffset_011
+	lda #0
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #0
+	pli
+	sta.w 0,I++
+	psh.w #coloffset_012
+	lda #0
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #0
+	pli
+	sta.w 0,I++
 ;  151:     rowoffset[1] := -1; coloffset[1] :=  0; {up}
-	psh.w #rowoffset_011	;---	lea		ax,WORD PTR rowoffset_011
-	lda #1	;---	mov		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #1	;---	mov		ax,1
-	eor.w #-1	;---	neg		ax
-	inc.w a	;complete negation
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
-	psh.w #coloffset_012	;---	lea		ax,WORD PTR coloffset_012
-	lda #1	;---	mov		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #0	;---	mov		ax,0
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #rowoffset_011
+	lda #1
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #1
+	eor.w #-1
+	inc.w a
+	pli
+	sta.w 0,I++
+	psh.w #coloffset_012
+	lda #1
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #0
+	pli
+	sta.w 0,I++
 ;  152:     rowoffset[2] :=  0; coloffset[2] := -1; {left}
-	psh.w #rowoffset_011	;---	lea		ax,WORD PTR rowoffset_011
-	lda #2	;---	mov		ax,2
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #0	;---	mov		ax,0
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
-	psh.w #coloffset_012	;---	lea		ax,WORD PTR coloffset_012
-	lda #2	;---	mov		ax,2
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #1	;---	mov		ax,1
-	eor.w #-1	;---	neg		ax
-	inc.w a	;complete negation
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #rowoffset_011
+	lda #2
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #0
+	pli
+	sta.w 0,I++
+	psh.w #coloffset_012
+	lda #2
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #1
+	eor.w #-1
+	inc.w a
+	pli
+	sta.w 0,I++
 ;  153:     rowoffset[3] :=  0; coloffset[3] := +1; {right}
-	psh.w #rowoffset_011	;---	lea		ax,WORD PTR rowoffset_011
-	lda #3	;---	mov		ax,3
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #0	;---	mov		ax,0
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
-	psh.w #coloffset_012	;---	lea		ax,WORD PTR coloffset_012
-	lda #3	;---	mov		ax,3
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #1	;---	mov		ax,1
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #rowoffset_011
+	lda #3
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #0
+	pli
+	sta.w 0,I++
+	psh.w #coloffset_012
+	lda #3
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #1
+	pli
+	sta.w 0,I++
 ;  154:     rowoffset[4] := +1; coloffset[4] :=  0; {down}
-	psh.w #rowoffset_011	;---	lea		ax,WORD PTR rowoffset_011
-	lda #4	;---	mov		ax,4
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #1	;---	mov		ax,1
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
-	psh.w #coloffset_012	;---	lea		ax,WORD PTR coloffset_012
-	lda #4	;---	mov		ax,4
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #0	;---	mov		ax,0
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #rowoffset_011
+	lda #4
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #1
+	pli
+	sta.w 0,I++
+	psh.w #coloffset_012
+	lda #4
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #0
+	pli
+	sta.w 0,I++
 ;  155:     END {Initialize};
-	txs.w	;---	mov		sp,bp
-	plx.w	;---	pop		bp
-	rts	;---	ret		2
-	.ENDP	initialize_013
+	txs.w
+	plx.w
+	rts
+	.end	initialize_013
 ;  156: 
 ;  157: 
 ;  158: FUNCTION random (limit : posint) : posint;
@@ -674,57 +558,49 @@ L_034
 ;  165:     divisor    = 1024;
 ;  166: 
 ;  167:     BEGIN
-
-limit_036	.EQ	+6	;base-relative	---limit_036	EQU	<[bp+6]>
-
-random_035	.PROC
-
-	phx.w	;---	push	bp
-	tsx.w	;---	mov		bp,sp
-	adj #-4	;---	sub		sp,4
+limit_036	.equ	+7
+random_035	.sub
+	phx.w
+	tsx.w
+	adj #-4
 ;  168:     seed   := (seed*multiplier + increment) MOD divisor;
-	lda.w seed_010	;---	mov		ax,WORD PTR seed_010
-	pha.w	;---	push	ax
-	lda #21	;---	mov		ax,21
-	pha.w	;---	pop		dx
-	jsr _imul	;---	imul	dx
-	adj #4	;pop ops/params
-	pha.w	;---	push	ax
-	lda #77	;---	mov		ax,77
-						;---	pop		dx
-	clc	;---	add		ax,dx
-	adc.w 0,S	;add operands
-	adj #2	;pop ops/params
-	pha.w	;---	push	ax
-	lda.w #1024	;---	mov		ax,1024
-	pha.w	;---	mov		cx,ax
-						;---	pop		ax
-						;---	cwd	
-	jsr _idiv	;---	idiv	cx
-	adj #4	;pop ops/params
-	swp	;---	mov		ax,dx
-	sta.w seed_010	;---	mov		WORD PTR seed_010,ax
+	lda.w seed_010
+	pha.w
+	lda #21
+	pha.w
+	jsr _imul
+	adj #4
+	pha.w
+	lda #77
+	clc
+	adc.w 1,S
+	adj #2
+	pha.w
+	lda.w #1024
+	pha.w
+	jsr _idiv
+	adj #4
+	swp
+	sta.w seed_010
 ;  169:     random := (seed*limit) DIV divisor;
-	lda.w seed_010	;---	mov		ax,WORD PTR seed_010
-	pha.w	;---	push	ax
-	lda.w limit_036,B	;---	mov		ax,WORD PTR limit_036
-	pha.w	;---	pop		dx
-	jsr _imul	;---	imul	dx
-	adj #4	;pop ops/params
-	pha.w	;---	push	ax
-	lda.w #1024	;---	mov		ax,1024
-	pha.w	;---	mov		cx,ax
-						;---	pop		ax
-						;---	cwd	
-	jsr _idiv	;---	idiv	cx
-	adj #4	;pop ops/params
-	sta.w RETURN_VALUE,B	;---	mov		RETURN_VALUE,ax
+	lda.w seed_010
+	pha.w
+	lda.w limit_036,X
+	pha.w
+	jsr _imul
+	adj #4
+	pha.w
+	lda.w #1024
+	pha.w
+	jsr _idiv
+	adj #4
+	sta.w RETURN_VALUE,X
 ;  170:     END {random};
-	lda.w RETURN_VALUE,B	;---	mov		ax,RETURN_VALUE
-	txs.w	;---	mov		sp,bp
-	plx.w	;---	pop		bp
-	rts	;---	ret		4
-	.ENDP	random_035
+	lda.w RETURN_VALUE,X
+	txs.w
+	plx.w
+	rts
+	.end	random_035
 ;  171: 
 ;  172: 
 ;  173: PROCEDURE NewLocation (creature : contents;
@@ -741,324 +617,273 @@ random_035	.PROC
 ;  184:     done : boolean;
 ;  185: 
 ;  186:     BEGIN
-
-creature_038	.EQ	+14	;base-relative	---creature_038	EQU	<[bp+14]>
-oldrow_039	.EQ	+12	;base-relative	---oldrow_039	EQU	<[bp+12]>
-oldcol_040	.EQ	+10	;base-relative	---oldcol_040	EQU	<[bp+10]>
-newrow_041	.EQ	+8	;base-relative	---newrow_041	EQU	<[bp+8]>
-newcol_042	.EQ	+6	;base-relative	---newcol_042	EQU	<[bp+6]>
-adj_043	.EQ	-2	;base-relative	---adj_043	EQU	<[bp-2]>
-what_044	.EQ	-4	;base-relative	---what_044	EQU	<[bp-4]>
-done_045	.EQ	-6	;base-relative	---done_045	EQU	<[bp-6]>
-
-newlocation_037	.PROC
-
-	phx.w	;---	push	bp
-	tsx.w	;---	mov		bp,sp
-	adj #-6	;---	sub		sp,6
+creature_038	.equ	+15
+oldrow_039	.equ	+13
+oldcol_040	.equ	+11
+newrow_041	.equ	+9
+newcol_042	.equ	+7
+adj_043	.equ	-1
+what_044	.equ	-3
+done_045	.equ	-5
+newlocation_037	.sub
+	phx.w
+	tsx.w
+	adj #-6
 ;  187:     done := false;
-	lda #0	;---	mov		ax,0
-	sta.w done_045,B	;---	mov		WORD PTR done_045,ax
+	lda #0
+	sta.w done_045,X
 ;  188: 
 ;  189:     {A wolf first tries to eat a rabbit.
 ;  190:      Check adjacent locations.}
 ;  191:     IF creature = wolf THEN BEGIN
-	lda.w creature_038,B	;---	mov		ax,WORD PTR creature_038
-	pha.w	;---	push	ax
-	lda #0	;---	mov		ax,0
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_048	;---	je		L_048
-	lda #0	;---	sub		ax,ax
+	lda.w creature_038,X
+	pha.w
+	lda #0
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_048
+	lda #0
 L_048
-	cmp.w #1	;---	cmp		ax,1
-	beq L_046	;---	je		L_046
-	jmp  L_047	;---	jmp		L_047
+	cmp.w #1
+	beq L_046
+	jmp  L_047
 L_046
 ;  192:         adj := 0;
-	lda #0	;---	mov		ax,0
-	sta.w adj_043,B	;---	mov		WORD PTR adj_043,ax
+	lda #0
+	sta.w adj_043,X
 ;  193:         REPEAT
 L_049
 ;  194:         adj := adj + 1;
-	lda.w adj_043,B	;---	mov		ax,WORD PTR adj_043
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-						;---	pop		dx
-	clc	;---	add		ax,dx
-	adc.w 0,S	;add operands
-	adj #2	;pop ops/params
-	sta.w adj_043,B	;---	mov		WORD PTR adj_043,ax
+	lda.w adj_043,X
+	pha.w
+	lda #1
+	clc
+	adc.w 1,S
+	adj #2
+	sta.w adj_043,X
 ;  195:         newrow := oldrow + rowoffset[adj];
-	lda.w newrow_041,B	;---	mov		ax,WORD PTR newrow_041
-	pha.w	;---	push	ax
-	lda.w oldrow_039,B	;---	mov		ax,WORD PTR oldrow_039
-	pha.w	;---	push	ax
-	psh.w #rowoffset_011	;---	lea		ax,WORD PTR rowoffset_011
-	lda.w adj_043,B	;---	mov		ax,WORD PTR adj_043
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		ax,dx
-	adc.w 0,S	;add operands
-	adj #2	;pop ops/params
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	lda.w newrow_041,X
+	pha.w
+	lda.w oldrow_039,X
+	pha.w
+	psh.w #rowoffset_011
+	lda.w adj_043,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	clc
+	adc.w 1,S
+	adj #2
+	pli
+	sta.w 0,I++
 ;  196:         newcol := oldcol + coloffset[adj];
-	lda.w newcol_042,B	;---	mov		ax,WORD PTR newcol_042
-	pha.w	;---	push	ax
-	lda.w oldcol_040,B	;---	mov		ax,WORD PTR oldcol_040
-	pha.w	;---	push	ax
-	psh.w #coloffset_012	;---	lea		ax,WORD PTR coloffset_012
-	lda.w adj_043,B	;---	mov		ax,WORD PTR adj_043
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		ax,dx
-	adc.w 0,S	;add operands
-	adj #2	;pop ops/params
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	lda.w newcol_042,X
+	pha.w
+	lda.w oldcol_040,X
+	pha.w
+	psh.w #coloffset_012
+	lda.w adj_043,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	clc
+	adc.w 1,S
+	adj #2
+	pli
+	sta.w 0,I++
 ;  197:         what   := island[newrow, newcol];
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-							;---	mov		bx,WORD PTR newrow_041
-	lda.w (newrow_041,B)	;---	mov		ax,WORD PTR [bx]
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-							;---	mov		bx,WORD PTR newcol_042
-	lda.w (newcol_042,B)	;---	mov		ax,WORD PTR [bx]
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-	sta.w what_044,B	;---	mov		WORD PTR what_044,ax
+	psh.w #island_002
+	lda.w (newrow_041,X)
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w (newcol_042,X)
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	sta.w what_044,X
 ;  198:         done   := what = rabbit;
-	lda.w what_044,B	;---	mov		ax,WORD PTR what_044
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_051	;---	je		L_051
-	lda #0	;---	sub		ax,ax
+	lda.w what_044,X
+	pha.w
+	lda #1
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_051
+	lda #0
 L_051
-	sta.w done_045,B	;---	mov		WORD PTR done_045,ax
+	sta.w done_045,X
 ;  199:         UNTIL done OR (adj = 4);
-	lda.w done_045,B	;---	mov		ax,WORD PTR done_045
-	pha.w	;---	push	ax
-	lda.w adj_043,B	;---	mov		ax,WORD PTR adj_043
-	pha.w	;---	push	ax
-	lda #4	;---	mov		ax,4
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_052	;---	je		L_052
-	lda #0	;---	sub		ax,ax
+	lda.w done_045,X
+	pha.w
+	lda.w adj_043,X
+	pha.w
+	lda #4
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_052
+	lda #0
 L_052
-						;---	pop		dx
-	ora.w 0,S	;---	or		ax,dx
-	adj #2	;pop ops/params
-	cmp.w #1	;---	cmp		ax,1
-	beq L_050	;---	je		L_050
-	jmp L_049	;---	jmp		L_049
+	ora.w 1,S
+	adj #2
+	cmp.w #1
+	beq L_050
+	jmp L_049
 L_050
 ;  200:     END;
 L_047
 ;  201: 
 ;  202:     {Move randomly into an adjacent location or stay put.}
 ;  203:     IF NOT done THEN BEGIN
-	lda.w done_045,B	;---	mov		ax,WORD PTR done_045
-	eor #1	;---	xor		ax,1
-	cmp.w #1	;---	cmp		ax,1
-	beq L_053	;---	je		L_053
-	jmp  L_054	;---	jmp		L_054
+	lda.w done_045,X
+	eor #1
+	cmp.w #1
+	beq L_053
+	jmp  L_054
 L_053
 ;  204:         REPEAT
 L_055
 ;  205:         adj := random(5);
-	lda #5	;---	mov		ax,5
-	pha.w	;---	push	ax
-	lda.w STATIC_LINK,B	;---	push	STATIC_LINK
-	pha.w	;push acc
-	jsr random_035	;---	call	random_035
-	adj #4	;pop ops/params
-	sta.w adj_043,B	;---	mov		WORD PTR adj_043,ax
+	lda #5
+	pha.w
+	lda.w STATIC_LINK,X
+	pha.w
+	jsr random_035
+	adj #4
+	sta.w adj_043,X
 ;  206:         newrow := oldrow + rowoffset[adj];
-	lda.w newrow_041,B	;---	mov		ax,WORD PTR newrow_041
-	pha.w	;---	push	ax
-	lda.w oldrow_039,B	;---	mov		ax,WORD PTR oldrow_039
-	pha.w	;---	push	ax
-	psh.w #rowoffset_011	;---	lea		ax,WORD PTR rowoffset_011
-	lda.w adj_043,B	;---	mov		ax,WORD PTR adj_043
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		ax,dx
-	adc.w 0,S	;add operands
-	adj #2	;pop ops/params
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	lda.w newrow_041,X
+	pha.w
+	lda.w oldrow_039,X
+	pha.w
+	psh.w #rowoffset_011
+	lda.w adj_043,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	clc
+	adc.w 1,S
+	adj #2
+	pli
+	sta.w 0,I++
 ;  207:         newcol := oldcol + coloffset[adj];
-	lda.w newcol_042,B	;---	mov		ax,WORD PTR newcol_042
-	pha.w	;---	push	ax
-	lda.w oldcol_040,B	;---	mov		ax,WORD PTR oldcol_040
-	pha.w	;---	push	ax
-	psh.w #coloffset_012	;---	lea		ax,WORD PTR coloffset_012
-	lda.w adj_043,B	;---	mov		ax,WORD PTR adj_043
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		ax,dx
-	adc.w 0,S	;add operands
-	adj #2	;pop ops/params
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	lda.w newcol_042,X
+	pha.w
+	lda.w oldcol_040,X
+	pha.w
+	psh.w #coloffset_012
+	lda.w adj_043,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	clc
+	adc.w 1,S
+	adj #2
+	pli
+	sta.w 0,I++
 ;  208:         what   := island[newrow, newcol];
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-							;---	mov		bx,WORD PTR newrow_041
-	lda.w (newrow_041,B)	;---	mov		ax,WORD PTR [bx]
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-							;---	mov		bx,WORD PTR newcol_042
-	lda.w (newcol_042,B)	;---	mov		ax,WORD PTR [bx]
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-	sta.w what_044,B	;---	mov		WORD PTR what_044,ax
+	psh.w #island_002
+	lda.w (newrow_041,X)
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w (newcol_042,X)
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	sta.w what_044,X
 ;  209:         UNTIL    (what = empty)
-	lda.w what_044,B	;---	mov		ax,WORD PTR what_044
-	pha.w	;---	push	ax
-	lda #4	;---	mov		ax,4
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_057	;---	je		L_057
-	lda #0	;---	sub		ax,ax
+	lda.w what_044,X
+	pha.w
+	lda #4
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_057
+	lda #0
 L_057
 ;  210:           OR ((newrow = oldrow) AND (newcol = oldcol));
-	pha.w	;---	push	ax
-							;---	mov		bx,WORD PTR newrow_041
-	lda.w (newrow_041,B)	;---	mov		ax,WORD PTR [bx]
-	pha.w	;---	push	ax
-	lda.w oldrow_039,B	;---	mov		ax,WORD PTR oldrow_039
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_058	;---	je		L_058
-	lda #0	;---	sub		ax,ax
+	pha.w
+	lda.w (newrow_041,X)
+	pha.w
+	lda.w oldrow_039,X
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_058
+	lda #0
 L_058
-	pha.w	;---	push	ax
-							;---	mov		bx,WORD PTR newcol_042
-	lda.w (newcol_042,B)	;---	mov		ax,WORD PTR [bx]
-	pha.w	;---	push	ax
-	lda.w oldcol_040,B	;---	mov		ax,WORD PTR oldcol_040
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_059	;---	je		L_059
-	lda #0	;---	sub		ax,ax
+	pha.w
+	lda.w (newcol_042,X)
+	pha.w
+	lda.w oldcol_040,X
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_059
+	lda #0
 L_059
-						;---	pop		dx
-	anl.w 0,S	;---	and		ax,dx
-	adj #2	;pop ops/params
-						;---	pop		dx
-	ora.w 0,S	;---	or		ax,dx
-	adj #2	;pop ops/params
-	cmp.w #1	;---	cmp		ax,1
-	beq L_056	;---	je		L_056
-	jmp L_055	;---	jmp		L_055
+	and.w 1,S
+	adj #2
+	ora.w 1,S
+	adj #2
+	cmp.w #1
+	beq L_056
+	jmp L_055
 L_056
 ;  211:     END;
 L_054
 ;  212:     END {NewLocation};
-	txs.w	;---	mov		sp,bp
-	plx.w	;---	pop		bp
-	rts	;---	ret		12
-	.ENDP	newlocation_037
+	txs.w
+	plx.w
+	rts
+	.end	newlocation_037
 ;  213: 
 ;  214: 
 ;  215: PROCEDURE ProcessWolf (oldrow, oldcol : index);
@@ -1070,857 +895,681 @@ L_054
 ;  221:     moved : boolean;            {true iff wolf moved}
 ;  222: 
 ;  223:     BEGIN
-
-oldrow_061	.EQ	+8	;base-relative	---oldrow_061	EQU	<[bp+8]>
-oldcol_062	.EQ	+6	;base-relative	---oldcol_062	EQU	<[bp+6]>
-newrow_063	.EQ	-2	;base-relative	---newrow_063	EQU	<[bp-2]>
-newcol_064	.EQ	-4	;base-relative	---newcol_064	EQU	<[bp-4]>
-moved_065	.EQ	-6	;base-relative	---moved_065	EQU	<[bp-6]>
-
-processwolf_060	.PROC
-
-	phx.w	;---	push	bp
-	tsx.w	;---	mov		bp,sp
-	adj #-6	;---	sub		sp,6
+oldrow_061	.equ	+9
+oldcol_062	.equ	+7
+newrow_063	.equ	-1
+newcol_064	.equ	-3
+moved_065	.equ	-5
+processwolf_060	.sub
+	phx.w
+	tsx.w
+	adj #-6
 ;  224: 
 ;  225:     {Lose a food unit.}
 ;  226:     foodunits[oldrow, oldcol] := foodunits[oldrow, oldcol] - 1;
-	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
-	lda.w oldrow_061,B	;---	mov		ax,WORD PTR oldrow_061
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,18
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #18	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w oldcol_062,B	;---	mov		ax,WORD PTR oldcol_062
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
-	lda.w oldrow_061,B	;---	mov		ax,WORD PTR oldrow_061
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,18
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #18	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w oldcol_062,B	;---	mov		ax,WORD PTR oldcol_062
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-						;---	pop		dx
-	xma.w 0,S	;---	sub		dx,ax
-	sec	;prepare to subtract
-	sbc.w 0,S	;subtract operands
-	adj #2	;pop ops/params
-						;---	mov		ax,dx
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #foodunits_003
+	lda.w oldrow_061,X
+	dec.w a
+	pha.w
+	psh.w #18
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w oldcol_062,X
+	dec.w a
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	psh.w #foodunits_003
+	lda.w oldrow_061,X
+	dec.w a
+	pha.w
+	psh.w #18
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w oldcol_062,X
+	dec.w a
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	pha.w
+	lda #1
+	xma.w 1,S
+	sec
+	sbc.w 1,S
+	adj #2
+	pli
+	sta.w 0,I++
 ;  227: 
 ;  228:     IF foodunits[oldrow, oldcol] = 0 THEN BEGIN
-	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
-	lda.w oldrow_061,B	;---	mov		ax,WORD PTR oldrow_061
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,18
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #18	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w oldcol_062,B	;---	mov		ax,WORD PTR oldcol_062
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-	pha.w	;---	push	ax
-	lda #0	;---	mov		ax,0
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_068	;---	je		L_068
-	lda #0	;---	sub		ax,ax
+	psh.w #foodunits_003
+	lda.w oldrow_061,X
+	dec.w a
+	pha.w
+	psh.w #18
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w oldcol_062,X
+	dec.w a
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	pha.w
+	lda #0
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_068
+	lda #0
 L_068
-	cmp.w #1	;---	cmp		ax,1
-	beq L_066	;---	je		L_066
-	jmp  L_067	;---	jmp		L_067
+	cmp.w #1
+	beq L_066
+	jmp  L_067
 L_066
 ;  229: 
 ;  230:         {Die of starvation.}
 ;  231:         island[oldrow, oldcol] := empty;
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w oldrow_061,B	;---	mov		ax,WORD PTR oldrow_061
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w oldcol_062,B	;---	mov		ax,WORD PTR oldcol_062
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #4	;---	mov		ax,4
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #island_002
+	lda.w oldrow_061,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w oldcol_062,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #4
+	pli
+	sta.w 0,I++
 ;  232:         numwolves := numwolves - 1;
-	lda.w numwolves_005	;---	mov		ax,WORD PTR numwolves_005
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-						;---	pop		dx
-	xma.w 0,S	;---	sub		dx,ax
-	sec	;prepare to subtract
-	sbc.w 0,S	;subtract operands
-	adj #2	;pop ops/params
-						;---	mov		ax,dx
-	sta.w numwolves_005	;---	mov		WORD PTR numwolves_005,ax
+	lda.w numwolves_005
+	pha.w
+	lda #1
+	xma.w 1,S
+	sec
+	sbc.w 1,S
+	adj #2
+	sta.w numwolves_005
 ;  233:         writeln('t =', t:4, ' : Wolf died at ',
-	psh.w #S_069	;---	lea		ax,WORD PTR S_069
-						;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	psh.w #3	;---	mov		ax,3
-						;---	push	ax
-	jsr _swrite	;---	call	_write_string
-	adj #6	;---	add		sp,6
-	lda.w t_008	;---	mov		ax,WORD PTR t_008
-	pha.w	;---	push	ax
-	lda #4	;---	mov		ax,4
-	pha.w	;---	push	ax
-	jsr _iwrite	;---	call	_write_integer
-	adj #4	;---	add		sp,4
-	psh.w #S_070	;---	lea		ax,WORD PTR S_070
-						;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	psh.w #16	;---	mov		ax,16
-						;---	push	ax
-	jsr _swrite	;---	call	_write_string
-	adj #6	;---	add		sp,6
+	psh.w #S_069
+	psh.w #0
+	psh.w #3
+	jsr _swrite
+	adj #6
+	lda.w t_008
+	pha.w
+	lda #4
+	pha.w
+	jsr _iwrite
+	adj #4
+	psh.w #S_070
+	psh.w #0
+	psh.w #16
+	jsr _swrite
+	adj #6
 ;  234:             '[', oldrow:1, ', ', oldcol:1, ']');
-	lda #91	;---	mov		ax,'['
-	pha.w	;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	jsr _cwrite	;---	call	_write_char
-	adj #4	;---	add		sp,4
-	lda.w oldrow_061,B	;---	mov		ax,WORD PTR oldrow_061
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-	pha.w	;---	push	ax
-	jsr _iwrite	;---	call	_write_integer
-	adj #4	;---	add		sp,4
-	psh.w #S_071	;---	lea		ax,WORD PTR S_071
-						;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	psh.w #2	;---	mov		ax,2
-						;---	push	ax
-	jsr _swrite	;---	call	_write_string
-	adj #6	;---	add		sp,6
-	lda.w oldcol_062,B	;---	mov		ax,WORD PTR oldcol_062
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-	pha.w	;---	push	ax
-	jsr _iwrite	;---	call	_write_integer
-	adj #4	;---	add		sp,4
-	lda #93	;---	mov		ax,']'
-	pha.w	;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	jsr _cwrite	;---	call	_write_char
-	adj #4	;---	add		sp,4
-	jsr _writeln	;---	call	_write_line
+	lda #91
+	pha.w
+	psh.w #0
+	jsr _cwrite
+	adj #4
+	lda.w oldrow_061,X
+	pha.w
+	lda #1
+	pha.w
+	jsr _iwrite
+	adj #4
+	psh.w #S_071
+	psh.w #0
+	psh.w #2
+	jsr _swrite
+	adj #6
+	lda.w oldcol_062,X
+	pha.w
+	lda #1
+	pha.w
+	jsr _iwrite
+	adj #4
+	lda #93
+	pha.w
+	psh.w #0
+	jsr _cwrite
+	adj #4
+	jsr _writeln
 ;  235:     END
 ;  236:     ELSE BEGIN
-	jmp L_072	;---	jmp		L_072
+	jmp L_072
 L_067
 ;  237: 
 ;  238:         {Move to adjacent location, or stay put.}
 ;  239:         NewLocation(wolf, oldrow, oldcol, newrow, newcol);
-	lda #0	;---	mov		ax,0
-	pha.w	;---	push	ax
-	lda.w oldrow_061,B	;---	mov		ax,WORD PTR oldrow_061
-	pha.w	;---	push	ax
-	lda.w oldcol_062,B	;---	mov		ax,WORD PTR oldcol_062
-	pha.w	;---	push	ax
-	txa.w	;---	lea		ax,WORD PTR newrow_063
-	sec	;compensate for BP/SP offset
-	adc.w #newrow_063	compute effective address
-	pha.w	;---	push	ax
-	txa.w	;---	lea		ax,WORD PTR newcol_064
-	sec	;compensate for BP/SP offset
-	adc.w #newcol_064	compute effective address
-	pha.w	;---	push	ax
-	lda.w STATIC_LINK,B	;---	push	STATIC_LINK
-	pha.w	;push acc
-	jsr newlocation_037	;---	call	newlocation_037
-	adj #12	;pop ops/params
+	lda #0
+	pha.w
+	lda.w oldrow_061,X
+	pha.w
+	lda.w oldcol_062,X
+	pha.w
+	txa.w
+	clc
+	adc.w #newrow_063
+	pha.w
+	txa.w
+	clc
+	adc.w #newcol_064
+	pha.w
+	lda.w STATIC_LINK,X
+	pha.w
+	jsr newlocation_037
+	adj #12
 ;  240:         moved := (newrow <> oldrow) OR (newcol <> oldcol);
-	lda.w newrow_063,B	;---	mov		ax,WORD PTR newrow_063
-	pha.w	;---	push	ax
-	lda.w oldrow_061,B	;---	mov		ax,WORD PTR oldrow_061
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	bne L_073	;---	jne		L_073
-	lda #0	;---	sub		ax,ax
+	lda.w newrow_063,X
+	pha.w
+	lda.w oldrow_061,X
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	bne L_073
+	lda #0
 L_073
-	pha.w	;---	push	ax
-	lda.w newcol_064,B	;---	mov		ax,WORD PTR newcol_064
-	pha.w	;---	push	ax
-	lda.w oldcol_062,B	;---	mov		ax,WORD PTR oldcol_062
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	bne L_074	;---	jne		L_074
-	lda #0	;---	sub		ax,ax
+	pha.w
+	lda.w newcol_064,X
+	pha.w
+	lda.w oldcol_062,X
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	bne L_074
+	lda #0
 L_074
-						;---	pop		dx
-	ora.w 0,S	;---	or		ax,dx
-	adj #2	;pop ops/params
-	sta.w moved_065,B	;---	mov		WORD PTR moved_065,ax
+	ora.w 1,S
+	adj #2
+	sta.w moved_065,X
 ;  241: 
 ;  242:         IF moved THEN BEGIN
-	lda.w moved_065,B	;---	mov		ax,WORD PTR moved_065
-	cmp.w #1	;---	cmp		ax,1
-	beq L_075	;---	je		L_075
-	jmp  L_076	;---	jmp		L_076
+	lda.w moved_065,X
+	cmp.w #1
+	beq L_075
+	jmp  L_076
 L_075
 ;  243: 
 ;  244:         {If there's a rabbit there, eat it.}
 ;  245:         IF island[newrow, newcol] = rabbit THEN BEGIN
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w newrow_063,B	;---	mov		ax,WORD PTR newrow_063
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w newcol_064,B	;---	mov		ax,WORD PTR newcol_064
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_079	;---	je		L_079
-	lda #0	;---	sub		ax,ax
+	psh.w #island_002
+	lda.w newrow_063,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w newcol_064,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	pha.w
+	lda #1
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_079
+	lda #0
 L_079
-	cmp.w #1	;---	cmp		ax,1
-	beq L_077	;---	je		L_077
-	jmp  L_078	;---	jmp		L_078
+	cmp.w #1
+	beq L_077
+	jmp  L_078
 L_077
 ;  246:             foodunits[oldrow, oldcol] :=
-	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
-	lda.w oldrow_061,B	;---	mov		ax,WORD PTR oldrow_061
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,18
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #18	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w oldcol_062,B	;---	mov		ax,WORD PTR oldcol_062
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
+	psh.w #foodunits_003
+	lda.w oldrow_061,X
+	dec.w a
+	pha.w
+	psh.w #18
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w oldcol_062,X
+	dec.w a
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
 ;  247:             foodunits[oldrow, oldcol] + rabbitfoodunits;
-	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
-	lda.w oldrow_061,B	;---	mov		ax,WORD PTR oldrow_061
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,18
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #18	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w oldcol_062,B	;---	mov		ax,WORD PTR oldcol_062
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-	pha.w	;---	push	ax
-	lda #6	;---	mov		ax,6
-						;---	pop		dx
-	clc	;---	add		ax,dx
-	adc.w 0,S	;add operands
-	adj #2	;pop ops/params
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #foodunits_003
+	lda.w oldrow_061,X
+	dec.w a
+	pha.w
+	psh.w #18
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w oldcol_062,X
+	dec.w a
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	pha.w
+	lda #6
+	clc
+	adc.w 1,S
+	adj #2
+	pli
+	sta.w 0,I++
 ;  248:             numrabbits := numrabbits - 1;
-	lda.w numrabbits_006	;---	mov		ax,WORD PTR numrabbits_006
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-						;---	pop		dx
-	xma.w 0,S	;---	sub		dx,ax
-	sec	;prepare to subtract
-	sbc.w 0,S	;subtract operands
-	adj #2	;pop ops/params
-						;---	mov		ax,dx
-	sta.w numrabbits_006	;---	mov		WORD PTR numrabbits_006,ax
+	lda.w numrabbits_006
+	pha.w
+	lda #1
+	xma.w 1,S
+	sec
+	sbc.w 1,S
+	adj #2
+	sta.w numrabbits_006
 ;  249:             writeln('t =', t:4, ' : Rabbit eaten at ',
-	psh.w #S_069	;---	lea		ax,WORD PTR S_069
-						;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	psh.w #3	;---	mov		ax,3
-						;---	push	ax
-	jsr _swrite	;---	call	_write_string
-	adj #6	;---	add		sp,6
-	lda.w t_008	;---	mov		ax,WORD PTR t_008
-	pha.w	;---	push	ax
-	lda #4	;---	mov		ax,4
-	pha.w	;---	push	ax
-	jsr _iwrite	;---	call	_write_integer
-	adj #4	;---	add		sp,4
-	psh.w #S_080	;---	lea		ax,WORD PTR S_080
-						;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	psh.w #19	;---	mov		ax,19
-						;---	push	ax
-	jsr _swrite	;---	call	_write_string
-	adj #6	;---	add		sp,6
+	psh.w #S_069
+	psh.w #0
+	psh.w #3
+	jsr _swrite
+	adj #6
+	lda.w t_008
+	pha.w
+	lda #4
+	pha.w
+	jsr _iwrite
+	adj #4
+	psh.w #S_080
+	psh.w #0
+	psh.w #19
+	jsr _swrite
+	adj #6
 ;  250:                 '[', newrow:1, ', ', newcol:1, ']');
-	lda #91	;---	mov		ax,'['
-	pha.w	;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	jsr _cwrite	;---	call	_write_char
-	adj #4	;---	add		sp,4
-	lda.w newrow_063,B	;---	mov		ax,WORD PTR newrow_063
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-	pha.w	;---	push	ax
-	jsr _iwrite	;---	call	_write_integer
-	adj #4	;---	add		sp,4
-	psh.w #S_071	;---	lea		ax,WORD PTR S_071
-						;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	psh.w #2	;---	mov		ax,2
-						;---	push	ax
-	jsr _swrite	;---	call	_write_string
-	adj #6	;---	add		sp,6
-	lda.w newcol_064,B	;---	mov		ax,WORD PTR newcol_064
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-	pha.w	;---	push	ax
-	jsr _iwrite	;---	call	_write_integer
-	adj #4	;---	add		sp,4
-	lda #93	;---	mov		ax,']'
-	pha.w	;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	jsr _cwrite	;---	call	_write_char
-	adj #4	;---	add		sp,4
-	jsr _writeln	;---	call	_write_line
+	lda #91
+	pha.w
+	psh.w #0
+	jsr _cwrite
+	adj #4
+	lda.w newrow_063,X
+	pha.w
+	lda #1
+	pha.w
+	jsr _iwrite
+	adj #4
+	psh.w #S_071
+	psh.w #0
+	psh.w #2
+	jsr _swrite
+	adj #6
+	lda.w newcol_064,X
+	pha.w
+	lda #1
+	pha.w
+	jsr _iwrite
+	adj #4
+	lda #93
+	pha.w
+	psh.w #0
+	jsr _cwrite
+	adj #4
+	jsr _writeln
 ;  251:         END;
 L_078
 ;  252: 
 ;  253:         {Set new (or same) location.}
 ;  254:         island[newrow, newcol] := newwolf;
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w newrow_063,B	;---	mov		ax,WORD PTR newrow_063
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w newcol_064,B	;---	mov		ax,WORD PTR newcol_064
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #2	;---	mov		ax,2
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #island_002
+	lda.w newrow_063,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w newcol_064,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #2
+	pli
+	sta.w 0,I++
 ;  255:         island[oldrow, oldcol] := empty;
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w oldrow_061,B	;---	mov		ax,WORD PTR oldrow_061
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w oldcol_062,B	;---	mov		ax,WORD PTR oldcol_062
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #4	;---	mov		ax,4
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #island_002
+	lda.w oldrow_061,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w oldcol_062,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #4
+	pli
+	sta.w 0,I++
 ;  256:         foodunits[newrow, newcol] := foodunits[oldrow, oldcol];
-	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
-	lda.w newrow_063,B	;---	mov		ax,WORD PTR newrow_063
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,18
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #18	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w newcol_064,B	;---	mov		ax,WORD PTR newcol_064
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
-	lda.w oldrow_061,B	;---	mov		ax,WORD PTR oldrow_061
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,18
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #18	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w oldcol_062,B	;---	mov		ax,WORD PTR oldcol_062
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #foodunits_003
+	lda.w newrow_063,X
+	dec.w a
+	pha.w
+	psh.w #18
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w newcol_064,X
+	dec.w a
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	psh.w #foodunits_003
+	lda.w oldrow_061,X
+	dec.w a
+	pha.w
+	psh.w #18
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w oldcol_062,X
+	dec.w a
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	pli
+	sta.w 0,I++
 ;  257:         foodunits[oldrow, oldcol] := 0;
-	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
-	lda.w oldrow_061,B	;---	mov		ax,WORD PTR oldrow_061
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,18
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #18	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w oldcol_062,B	;---	mov		ax,WORD PTR oldcol_062
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #0	;---	mov		ax,0
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #foodunits_003
+	lda.w oldrow_061,X
+	dec.w a
+	pha.w
+	psh.w #18
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w oldcol_062,X
+	dec.w a
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #0
+	pli
+	sta.w 0,I++
 ;  258:         END;
 L_076
 ;  259: 
 ;  260:         {Wolf reproduction time?}
 ;  261:         IF     ((t MOD wolfreprotime) = 0)
-	lda.w t_008	;---	mov		ax,WORD PTR t_008
-	pha.w	;---	push	ax
-	lda #12	;---	mov		ax,12
-	pha.w	;---	mov		cx,ax
-						;---	pop		ax
-						;---	cwd	
-	jsr _idiv	;---	idiv	cx
-	adj #4	;pop ops/params
-	swp	;---	mov		ax,dx
-	pha.w	;---	push	ax
-	lda #0	;---	mov		ax,0
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_083	;---	je		L_083
-	lda #0	;---	sub		ax,ax
+	lda.w t_008
+	pha.w
+	lda #12
+	pha.w
+	jsr _idiv
+	adj #4
+	swp
+	pha.w
+	lda #0
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_083
+	lda #0
 L_083
 ;  262:            AND (foodunits[newrow, newcol] > 1) THEN BEGIN
-	pha.w	;---	push	ax
-	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
-	lda.w newrow_063,B	;---	mov		ax,WORD PTR newrow_063
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,18
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #18	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w newcol_064,B	;---	mov		ax,WORD PTR newcol_064
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	bgt L_084	;---	jg		L_084
-	lda #0	;---	sub		ax,ax
+	pha.w
+	psh.w #foodunits_003
+	lda.w newrow_063,X
+	dec.w a
+	pha.w
+	psh.w #18
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w newcol_064,X
+	dec.w a
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	pha.w
+	lda #1
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	bgt L_084
+	lda #0
 L_084
-						;---	pop		dx
-	anl.w 0,S	;---	and		ax,dx
-	adj #2	;pop ops/params
-	cmp.w #1	;---	cmp		ax,1
-	beq L_081	;---	je		L_081
-	jmp  L_082	;---	jmp		L_082
+	and.w 1,S
+	adj #2
+	cmp.w #1
+	beq L_081
+	jmp  L_082
 L_081
 ;  263:         foodunits[newrow, newcol] :=
-	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
-	lda.w newrow_063,B	;---	mov		ax,WORD PTR newrow_063
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,18
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #18	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w newcol_064,B	;---	mov		ax,WORD PTR newcol_064
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
+	psh.w #foodunits_003
+	lda.w newrow_063,X
+	dec.w a
+	pha.w
+	psh.w #18
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w newcol_064,X
+	dec.w a
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
 ;  264:             foodunits[newrow, newcol] DIV 2;
-	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
-	lda.w newrow_063,B	;---	mov		ax,WORD PTR newrow_063
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,18
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #18	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w newcol_064,B	;---	mov		ax,WORD PTR newcol_064
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-	pha.w	;---	push	ax
-	lda #2	;---	mov		ax,2
-	pha.w	;---	mov		cx,ax
-						;---	pop		ax
-						;---	cwd	
-	jsr _idiv	;---	idiv	cx
-	adj #4	;pop ops/params
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #foodunits_003
+	lda.w newrow_063,X
+	dec.w a
+	pha.w
+	psh.w #18
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w newcol_064,X
+	dec.w a
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	pha.w
+	lda #2
+	pha.w
+	jsr _idiv
+	adj #4
+	pli
+	sta.w 0,I++
 ;  265: 
 ;  266:         {If moved, then leave behind an offspring.}
 ;  267:         IF moved THEN BEGIN
-	lda.w moved_065,B	;---	mov		ax,WORD PTR moved_065
-	cmp.w #1	;---	cmp		ax,1
-	beq L_085	;---	je		L_085
-	jmp  L_086	;---	jmp		L_086
+	lda.w moved_065,X
+	cmp.w #1
+	beq L_085
+	jmp  L_086
 L_085
 ;  268:             island[oldrow, oldcol] := newwolf;
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w oldrow_061,B	;---	mov		ax,WORD PTR oldrow_061
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w oldcol_062,B	;---	mov		ax,WORD PTR oldcol_062
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #2	;---	mov		ax,2
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #island_002
+	lda.w oldrow_061,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w oldcol_062,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #2
+	pli
+	sta.w 0,I++
 ;  269:             foodunits[oldrow, oldcol] :=
-	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
-	lda.w oldrow_061,B	;---	mov		ax,WORD PTR oldrow_061
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,18
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #18	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w oldcol_062,B	;---	mov		ax,WORD PTR oldcol_062
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
+	psh.w #foodunits_003
+	lda.w oldrow_061,X
+	dec.w a
+	pha.w
+	psh.w #18
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w oldcol_062,X
+	dec.w a
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
 ;  270:             foodunits[newrow, newcol];
-	psh.w #foodunits_003	;---	lea		ax,WORD PTR foodunits_003
-	lda.w newrow_063,B	;---	mov		ax,WORD PTR newrow_063
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,18
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #18	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w newcol_064,B	;---	mov		ax,WORD PTR newcol_064
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #foodunits_003
+	lda.w newrow_063,X
+	dec.w a
+	pha.w
+	psh.w #18
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w newcol_064,X
+	dec.w a
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	pli
+	sta.w 0,I++
 ;  271:             numwolves := numwolves + 1;
-	lda.w numwolves_005	;---	mov		ax,WORD PTR numwolves_005
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-						;---	pop		dx
-	clc	;---	add		ax,dx
-	adc.w 0,S	;add operands
-	adj #2	;pop ops/params
-	sta.w numwolves_005	;---	mov		WORD PTR numwolves_005,ax
+	lda.w numwolves_005
+	pha.w
+	lda #1
+	clc
+	adc.w 1,S
+	adj #2
+	sta.w numwolves_005
 ;  272:             writeln('t =', t:4, ' : Wolf born at ',
-	psh.w #S_069	;---	lea		ax,WORD PTR S_069
-						;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	psh.w #3	;---	mov		ax,3
-						;---	push	ax
-	jsr _swrite	;---	call	_write_string
-	adj #6	;---	add		sp,6
-	lda.w t_008	;---	mov		ax,WORD PTR t_008
-	pha.w	;---	push	ax
-	lda #4	;---	mov		ax,4
-	pha.w	;---	push	ax
-	jsr _iwrite	;---	call	_write_integer
-	adj #4	;---	add		sp,4
-	psh.w #S_087	;---	lea		ax,WORD PTR S_087
-						;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	psh.w #16	;---	mov		ax,16
-						;---	push	ax
-	jsr _swrite	;---	call	_write_string
-	adj #6	;---	add		sp,6
+	psh.w #S_069
+	psh.w #0
+	psh.w #3
+	jsr _swrite
+	adj #6
+	lda.w t_008
+	pha.w
+	lda #4
+	pha.w
+	jsr _iwrite
+	adj #4
+	psh.w #S_087
+	psh.w #0
+	psh.w #16
+	jsr _swrite
+	adj #6
 ;  273:                 '[', oldrow:1, ', ', oldcol:1, ']');
-	lda #91	;---	mov		ax,'['
-	pha.w	;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	jsr _cwrite	;---	call	_write_char
-	adj #4	;---	add		sp,4
-	lda.w oldrow_061,B	;---	mov		ax,WORD PTR oldrow_061
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-	pha.w	;---	push	ax
-	jsr _iwrite	;---	call	_write_integer
-	adj #4	;---	add		sp,4
-	psh.w #S_071	;---	lea		ax,WORD PTR S_071
-						;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	psh.w #2	;---	mov		ax,2
-						;---	push	ax
-	jsr _swrite	;---	call	_write_string
-	adj #6	;---	add		sp,6
-	lda.w oldcol_062,B	;---	mov		ax,WORD PTR oldcol_062
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-	pha.w	;---	push	ax
-	jsr _iwrite	;---	call	_write_integer
-	adj #4	;---	add		sp,4
-	lda #93	;---	mov		ax,']'
-	pha.w	;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	jsr _cwrite	;---	call	_write_char
-	adj #4	;---	add		sp,4
-	jsr _writeln	;---	call	_write_line
+	lda #91
+	pha.w
+	psh.w #0
+	jsr _cwrite
+	adj #4
+	lda.w oldrow_061,X
+	pha.w
+	lda #1
+	pha.w
+	jsr _iwrite
+	adj #4
+	psh.w #S_071
+	psh.w #0
+	psh.w #2
+	jsr _swrite
+	adj #6
+	lda.w oldcol_062,X
+	pha.w
+	lda #1
+	pha.w
+	jsr _iwrite
+	adj #4
+	lda #93
+	pha.w
+	psh.w #0
+	jsr _cwrite
+	adj #4
+	jsr _writeln
 ;  274:         END;
 L_086
 ;  275:         END;
@@ -1928,10 +1577,10 @@ L_082
 ;  276:     END;
 L_072
 ;  277:     END {ProcessWolf};
-	txs.w	;---	mov		sp,bp
-	plx.w	;---	pop		bp
-	rts	;---	ret		6
-	.ENDP	processwolf_060
+	txs.w
+	plx.w
+	rts
+	.end	processwolf_060
 ;  278: 
 ;  279: 
 ;  280: PROCEDURE ProcessRabbit (oldrow, oldcol : index);
@@ -1943,262 +1592,223 @@ L_072
 ;  286:     moved : boolean;            {true iff rabbit moved}
 ;  287: 
 ;  288:     BEGIN
-
-oldrow_089	.EQ	+8	;base-relative	---oldrow_089	EQU	<[bp+8]>
-oldcol_090	.EQ	+6	;base-relative	---oldcol_090	EQU	<[bp+6]>
-newrow_091	.EQ	-2	;base-relative	---newrow_091	EQU	<[bp-2]>
-newcol_092	.EQ	-4	;base-relative	---newcol_092	EQU	<[bp-4]>
-moved_093	.EQ	-6	;base-relative	---moved_093	EQU	<[bp-6]>
-
-processrabbit_088	.PROC
-
-	phx.w	;---	push	bp
-	tsx.w	;---	mov		bp,sp
-	adj #-6	;---	sub		sp,6
+oldrow_089	.equ	+9
+oldcol_090	.equ	+7
+newrow_091	.equ	-1
+newcol_092	.equ	-3
+moved_093	.equ	-5
+processrabbit_088	.sub
+	phx.w
+	tsx.w
+	adj #-6
 ;  289: 
 ;  290:     {Move to adjacent location, or stay put.}
 ;  291:     NewLocation(rabbit, oldrow, oldcol, newrow, newcol);
-	lda #1	;---	mov		ax,1
-	pha.w	;---	push	ax
-	lda.w oldrow_089,B	;---	mov		ax,WORD PTR oldrow_089
-	pha.w	;---	push	ax
-	lda.w oldcol_090,B	;---	mov		ax,WORD PTR oldcol_090
-	pha.w	;---	push	ax
-	txa.w	;---	lea		ax,WORD PTR newrow_091
-	sec	;compensate for BP/SP offset
-	adc.w #newrow_091	compute effective address
-	pha.w	;---	push	ax
-	txa.w	;---	lea		ax,WORD PTR newcol_092
-	sec	;compensate for BP/SP offset
-	adc.w #newcol_092	compute effective address
-	pha.w	;---	push	ax
-	lda.w STATIC_LINK,B	;---	push	STATIC_LINK
-	pha.w	;push acc
-	jsr newlocation_037	;---	call	newlocation_037
-	adj #12	;pop ops/params
+	lda #1
+	pha.w
+	lda.w oldrow_089,X
+	pha.w
+	lda.w oldcol_090,X
+	pha.w
+	txa.w
+	clc
+	adc.w #newrow_091
+	pha.w
+	txa.w
+	clc
+	adc.w #newcol_092
+	pha.w
+	lda.w STATIC_LINK,X
+	pha.w
+	jsr newlocation_037
+	adj #12
 ;  292:     moved := (newrow <> oldrow) OR (newcol <> oldcol);
-	lda.w newrow_091,B	;---	mov		ax,WORD PTR newrow_091
-	pha.w	;---	push	ax
-	lda.w oldrow_089,B	;---	mov		ax,WORD PTR oldrow_089
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	bne L_094	;---	jne		L_094
-	lda #0	;---	sub		ax,ax
+	lda.w newrow_091,X
+	pha.w
+	lda.w oldrow_089,X
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	bne L_094
+	lda #0
 L_094
-	pha.w	;---	push	ax
-	lda.w newcol_092,B	;---	mov		ax,WORD PTR newcol_092
-	pha.w	;---	push	ax
-	lda.w oldcol_090,B	;---	mov		ax,WORD PTR oldcol_090
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	bne L_095	;---	jne		L_095
-	lda #0	;---	sub		ax,ax
+	pha.w
+	lda.w newcol_092,X
+	pha.w
+	lda.w oldcol_090,X
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	bne L_095
+	lda #0
 L_095
-						;---	pop		dx
-	ora.w 0,S	;---	or		ax,dx
-	adj #2	;pop ops/params
-	sta.w moved_093,B	;---	mov		WORD PTR moved_093,ax
+	ora.w 1,S
+	adj #2
+	sta.w moved_093,X
 ;  293:     IF moved THEN BEGIN
-	lda.w moved_093,B	;---	mov		ax,WORD PTR moved_093
-	cmp.w #1	;---	cmp		ax,1
-	beq L_096	;---	je		L_096
-	jmp  L_097	;---	jmp		L_097
+	lda.w moved_093,X
+	cmp.w #1
+	beq L_096
+	jmp  L_097
 L_096
 ;  294:         island[newrow, newcol] := newrabbit;
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w newrow_091,B	;---	mov		ax,WORD PTR newrow_091
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w newcol_092,B	;---	mov		ax,WORD PTR newcol_092
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #3	;---	mov		ax,3
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #island_002
+	lda.w newrow_091,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w newcol_092,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #3
+	pli
+	sta.w 0,I++
 ;  295:         island[oldrow, oldcol] := empty;
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w oldrow_089,B	;---	mov		ax,WORD PTR oldrow_089
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w oldcol_090,B	;---	mov		ax,WORD PTR oldcol_090
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #4	;---	mov		ax,4
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #island_002
+	lda.w oldrow_089,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w oldcol_090,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #4
+	pli
+	sta.w 0,I++
 ;  296:     END;
 L_097
 ;  297: 
 ;  298:     {Rabbit reproduction time?}
 ;  299:     IF (t MOD rabbitreprotime) = 0 THEN BEGIN
-	lda.w t_008	;---	mov		ax,WORD PTR t_008
-	pha.w	;---	push	ax
-	lda #5	;---	mov		ax,5
-	pha.w	;---	mov		cx,ax
-						;---	pop		ax
-						;---	cwd	
-	jsr _idiv	;---	idiv	cx
-	adj #4	;pop ops/params
-	swp	;---	mov		ax,dx
-	pha.w	;---	push	ax
-	lda #0	;---	mov		ax,0
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_100	;---	je		L_100
-	lda #0	;---	sub		ax,ax
+	lda.w t_008
+	pha.w
+	lda #5
+	pha.w
+	jsr _idiv
+	adj #4
+	swp
+	pha.w
+	lda #0
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_100
+	lda #0
 L_100
-	cmp.w #1	;---	cmp		ax,1
-	beq L_098	;---	je		L_098
-	jmp  L_099	;---	jmp		L_099
+	cmp.w #1
+	beq L_098
+	jmp  L_099
 L_098
 ;  300: 
 ;  301:         {If moved, then leave behind an offspring.}
 ;  302:         IF moved THEN BEGIN
-	lda.w moved_093,B	;---	mov		ax,WORD PTR moved_093
-	cmp.w #1	;---	cmp		ax,1
-	beq L_101	;---	je		L_101
-	jmp  L_102	;---	jmp		L_102
+	lda.w moved_093,X
+	cmp.w #1
+	beq L_101
+	jmp  L_102
 L_101
 ;  303:         island[oldrow, oldcol] := newrabbit;
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w oldrow_089,B	;---	mov		ax,WORD PTR oldrow_089
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w oldcol_090,B	;---	mov		ax,WORD PTR oldcol_090
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #3	;---	mov		ax,3
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #island_002
+	lda.w oldrow_089,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w oldcol_090,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #3
+	pli
+	sta.w 0,I++
 ;  304:         numrabbits := numrabbits + 1;
-	lda.w numrabbits_006	;---	mov		ax,WORD PTR numrabbits_006
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-						;---	pop		dx
-	clc	;---	add		ax,dx
-	adc.w 0,S	;add operands
-	adj #2	;pop ops/params
-	sta.w numrabbits_006	;---	mov		WORD PTR numrabbits_006,ax
+	lda.w numrabbits_006
+	pha.w
+	lda #1
+	clc
+	adc.w 1,S
+	adj #2
+	sta.w numrabbits_006
 ;  305:         writeln('t =', t:4, ' : Rabbit born at ',
-	psh.w #S_069	;---	lea		ax,WORD PTR S_069
-						;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	psh.w #3	;---	mov		ax,3
-						;---	push	ax
-	jsr _swrite	;---	call	_write_string
-	adj #6	;---	add		sp,6
-	lda.w t_008	;---	mov		ax,WORD PTR t_008
-	pha.w	;---	push	ax
-	lda #4	;---	mov		ax,4
-	pha.w	;---	push	ax
-	jsr _iwrite	;---	call	_write_integer
-	adj #4	;---	add		sp,4
-	psh.w #S_103	;---	lea		ax,WORD PTR S_103
-						;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	psh.w #18	;---	mov		ax,18
-						;---	push	ax
-	jsr _swrite	;---	call	_write_string
-	adj #6	;---	add		sp,6
+	psh.w #S_069
+	psh.w #0
+	psh.w #3
+	jsr _swrite
+	adj #6
+	lda.w t_008
+	pha.w
+	lda #4
+	pha.w
+	jsr _iwrite
+	adj #4
+	psh.w #S_103
+	psh.w #0
+	psh.w #18
+	jsr _swrite
+	adj #6
 ;  306:             '[', oldrow:1, ', ', oldcol:1, ']');
-	lda #91	;---	mov		ax,'['
-	pha.w	;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	jsr _cwrite	;---	call	_write_char
-	adj #4	;---	add		sp,4
-	lda.w oldrow_089,B	;---	mov		ax,WORD PTR oldrow_089
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-	pha.w	;---	push	ax
-	jsr _iwrite	;---	call	_write_integer
-	adj #4	;---	add		sp,4
-	psh.w #S_071	;---	lea		ax,WORD PTR S_071
-						;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	psh.w #2	;---	mov		ax,2
-						;---	push	ax
-	jsr _swrite	;---	call	_write_string
-	adj #6	;---	add		sp,6
-	lda.w oldcol_090,B	;---	mov		ax,WORD PTR oldcol_090
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-	pha.w	;---	push	ax
-	jsr _iwrite	;---	call	_write_integer
-	adj #4	;---	add		sp,4
-	lda #93	;---	mov		ax,']'
-	pha.w	;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	jsr _cwrite	;---	call	_write_char
-	adj #4	;---	add		sp,4
-	jsr _writeln	;---	call	_write_line
+	lda #91
+	pha.w
+	psh.w #0
+	jsr _cwrite
+	adj #4
+	lda.w oldrow_089,X
+	pha.w
+	lda #1
+	pha.w
+	jsr _iwrite
+	adj #4
+	psh.w #S_071
+	psh.w #0
+	psh.w #2
+	jsr _swrite
+	adj #6
+	lda.w oldcol_090,X
+	pha.w
+	lda #1
+	pha.w
+	jsr _iwrite
+	adj #4
+	lda #93
+	pha.w
+	psh.w #0
+	jsr _cwrite
+	adj #4
+	jsr _writeln
 ;  307:         END;
 L_102
 ;  308:     END;
 L_099
 ;  309:     END {ProcessRabbit};
-	txs.w	;---	mov		sp,bp
-	plx.w	;---	pop		bp
-	rts	;---	ret		6
-	.ENDP	processrabbit_088
+	txs.w
+	plx.w
+	rts
+	.end	processrabbit_088
 ;  310: 
 ;  311: 
 ;  312: PROCEDURE EventsOccur;
@@ -2209,181 +1819,164 @@ L_099
 ;  317:     row, col : index;
 ;  318: 
 ;  319:     BEGIN
-
-row_105	.EQ	-2	;base-relative	---row_105	EQU	<[bp-2]>
-col_106	.EQ	-4	;base-relative	---col_106	EQU	<[bp-4]>
-
-eventsoccur_104	.PROC
-
-	phx.w	;---	push	bp
-	tsx.w	;---	mov		bp,sp
-	adj #-4	;---	sub		sp,4
+row_105	.equ	-1
+col_106	.equ	-3
+eventsoccur_104	.sub
+	phx.w
+	tsx.w
+	adj #-4
 ;  320: 
 ;  321:     {Scan for wolves and process each one in turn.}
 ;  322:     FOR row := 1 TO size DO BEGIN
-	lda #1	;---	mov		ax,1
-	sta.w row_105,B	;---	mov		WORD PTR row_105,ax
+	lda #1
+	sta.w row_105,X
 L_107
-	lda #9	;---	mov		ax,9
-	cmp.w row_105,B	;---	cmp		WORD PTR row_105,ax
-	bge L_108	;---	jle		L_108
-	jmp L_109	;---	jmp		L_109
+	lda #9
+	cmp.w row_105,X
+	bge L_108
+	jmp L_109
 L_108
 ;  323:         FOR col := 1 TO size DO BEGIN
-	lda #1	;---	mov		ax,1
-	sta.w col_106,B	;---	mov		WORD PTR col_106,ax
+	lda #1
+	sta.w col_106,X
 L_110
-	lda #9	;---	mov		ax,9
-	cmp.w col_106,B	;---	cmp		WORD PTR col_106,ax
-	bge L_111	;---	jle		L_111
-	jmp L_112	;---	jmp		L_112
+	lda #9
+	cmp.w col_106,X
+	bge L_111
+	jmp L_112
 L_111
 ;  324:         IF island[row, col] = wolf THEN BEGIN
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w row_105,B	;---	mov		ax,WORD PTR row_105
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w col_106,B	;---	mov		ax,WORD PTR col_106
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-	pha.w	;---	push	ax
-	lda #0	;---	mov		ax,0
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_115	;---	je		L_115
-	lda #0	;---	sub		ax,ax
+	psh.w #island_002
+	lda.w row_105,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w col_106,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	pha.w
+	lda #0
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_115
+	lda #0
 L_115
-	cmp.w #1	;---	cmp		ax,1
-	beq L_113	;---	je		L_113
-	jmp  L_114	;---	jmp		L_114
+	cmp.w #1
+	beq L_113
+	jmp  L_114
 L_113
 ;  325:             ProcessWolf(row, col);
-	lda.w row_105,B	;---	mov		ax,WORD PTR row_105
-	pha.w	;---	push	ax
-	lda.w col_106,B	;---	mov		ax,WORD PTR col_106
-	pha.w	;---	push	ax
-	lda.w STATIC_LINK,B	;---	push	STATIC_LINK
-	pha.w	;push acc
-	jsr processwolf_060	;---	call	processwolf_060
-	adj #6	;pop ops/params
+	lda.w row_105,X
+	pha.w
+	lda.w col_106,X
+	pha.w
+	lda.w STATIC_LINK,X
+	pha.w
+	jsr processwolf_060
+	adj #6
 ;  326:         END;
 L_114
 ;  327:         END;
-	inc.w col_106,B	;---	inc		WORD PTR col_106
-	jmp L_110	;---	jmp		L_110
+	inc.w col_106,X
+	jmp L_110
 L_112
-	dec.w col_106,B	;---	dec		WORD PTR col_106
+	dec.w col_106,X
 ;  328:     END;
-	inc.w row_105,B	;---	inc		WORD PTR row_105
-	jmp L_107	;---	jmp		L_107
+	inc.w row_105,X
+	jmp L_107
 L_109
-	dec.w row_105,B	;---	dec		WORD PTR row_105
+	dec.w row_105,X
 ;  329: 
 ;  330: 
 ;  331:     {Scan for rabbits and process each one in turn.}
 ;  332:     FOR row := 1 TO size DO BEGIN
-	lda #1	;---	mov		ax,1
-	sta.w row_105,B	;---	mov		WORD PTR row_105,ax
+	lda #1
+	sta.w row_105,X
 L_116
-	lda #9	;---	mov		ax,9
-	cmp.w row_105,B	;---	cmp		WORD PTR row_105,ax
-	bge L_117	;---	jle		L_117
-	jmp L_118	;---	jmp		L_118
+	lda #9
+	cmp.w row_105,X
+	bge L_117
+	jmp L_118
 L_117
 ;  333:         FOR col := 1 TO size DO BEGIN
-	lda #1	;---	mov		ax,1
-	sta.w col_106,B	;---	mov		WORD PTR col_106,ax
+	lda #1
+	sta.w col_106,X
 L_119
-	lda #9	;---	mov		ax,9
-	cmp.w col_106,B	;---	cmp		WORD PTR col_106,ax
-	bge L_120	;---	jle		L_120
-	jmp L_121	;---	jmp		L_121
+	lda #9
+	cmp.w col_106,X
+	bge L_120
+	jmp L_121
 L_120
 ;  334:         IF island[row, col] = rabbit THEN BEGIN
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w row_105,B	;---	mov		ax,WORD PTR row_105
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w col_106,B	;---	mov		ax,WORD PTR col_106
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_124	;---	je		L_124
-	lda #0	;---	sub		ax,ax
+	psh.w #island_002
+	lda.w row_105,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w col_106,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	pha.w
+	lda #1
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_124
+	lda #0
 L_124
-	cmp.w #1	;---	cmp		ax,1
-	beq L_122	;---	je		L_122
-	jmp  L_123	;---	jmp		L_123
+	cmp.w #1
+	beq L_122
+	jmp  L_123
 L_122
 ;  335:             ProcessRabbit(row, col);
-	lda.w row_105,B	;---	mov		ax,WORD PTR row_105
-	pha.w	;---	push	ax
-	lda.w col_106,B	;---	mov		ax,WORD PTR col_106
-	pha.w	;---	push	ax
-	lda.w STATIC_LINK,B	;---	push	STATIC_LINK
-	pha.w	;push acc
-	jsr processrabbit_088	;---	call	processrabbit_088
-	adj #6	;pop ops/params
+	lda.w row_105,X
+	pha.w
+	lda.w col_106,X
+	pha.w
+	lda.w STATIC_LINK,X
+	pha.w
+	jsr processrabbit_088
+	adj #6
 ;  336:         END;
 L_123
 ;  337:         END;
-	inc.w col_106,B	;---	inc		WORD PTR col_106
-	jmp L_119	;---	jmp		L_119
+	inc.w col_106,X
+	jmp L_119
 L_121
-	dec.w col_106,B	;---	dec		WORD PTR col_106
+	dec.w col_106,X
 ;  338:     END;
-	inc.w row_105,B	;---	inc		WORD PTR row_105
-	jmp L_116	;---	jmp		L_116
+	inc.w row_105,X
+	jmp L_116
 L_118
-	dec.w row_105,B	;---	dec		WORD PTR row_105
+	dec.w row_105,X
 ;  339:     END {EventsOccur};
-	txs.w	;---	mov		sp,bp
-	plx.w	;---	pop		bp
-	rts	;---	ret		2
-	.ENDP	eventsoccur_104
+	txs.w
+	plx.w
+	rts
+	.end	eventsoccur_104
 ;  340: 
 ;  341: 
 ;  342: PROCEDURE PrintIsland;
@@ -2395,194 +1988,169 @@ L_118
 ;  348:     cnts     : contents;
 ;  349: 
 ;  350:     BEGIN
-
-row_126	.EQ	-2	;base-relative	---row_126	EQU	<[bp-2]>
-col_127	.EQ	-4	;base-relative	---col_127	EQU	<[bp-4]>
-cnts_128	.EQ	-6	;base-relative	---cnts_128	EQU	<[bp-6]>
-
-printisland_125	.PROC
-
-	phx.w	;---	push	bp
-	tsx.w	;---	mov		bp,sp
-	adj #-6	;---	sub		sp,6
+row_126	.equ	-1
+col_127	.equ	-3
+cnts_128	.equ	-5
+printisland_125	.sub
+	phx.w
+	tsx.w
+	adj #-6
 ;  351:     writeln;
-	jsr _writeln	;---	call	_write_line
+	jsr _writeln
 ;  352:     writeln('t =', t:4, ' : Wolf Island');
-	psh.w #S_069	;---	lea		ax,WORD PTR S_069
-						;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	psh.w #3	;---	mov		ax,3
-						;---	push	ax
-	jsr _swrite	;---	call	_write_string
-	adj #6	;---	add		sp,6
-	lda.w t_008	;---	mov		ax,WORD PTR t_008
-	pha.w	;---	push	ax
-	lda #4	;---	mov		ax,4
-	pha.w	;---	push	ax
-	jsr _iwrite	;---	call	_write_integer
-	adj #4	;---	add		sp,4
-	psh.w #S_129	;---	lea		ax,WORD PTR S_129
-						;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	psh.w #14	;---	mov		ax,14
-						;---	push	ax
-	jsr _swrite	;---	call	_write_string
-	adj #6	;---	add		sp,6
-	jsr _writeln	;---	call	_write_line
+	psh.w #S_069
+	psh.w #0
+	psh.w #3
+	jsr _swrite
+	adj #6
+	lda.w t_008
+	pha.w
+	lda #4
+	pha.w
+	jsr _iwrite
+	adj #4
+	psh.w #S_129
+	psh.w #0
+	psh.w #14
+	jsr _swrite
+	adj #6
+	jsr _writeln
 ;  353:     writeln;
-	jsr _writeln	;---	call	_write_line
+	jsr _writeln
 ;  354: 
 ;  355:     FOR row := 1 TO size DO BEGIN
-	lda #1	;---	mov		ax,1
-	sta.w row_126,B	;---	mov		WORD PTR row_126,ax
+	lda #1
+	sta.w row_126,X
 L_130
-	lda #9	;---	mov		ax,9
-	cmp.w row_126,B	;---	cmp		WORD PTR row_126,ax
-	bge L_131	;---	jle		L_131
-	jmp L_132	;---	jmp		L_132
+	lda #9
+	cmp.w row_126,X
+	bge L_131
+	jmp L_132
 L_131
 ;  356:         write(' ':10);
-	lda #32	;---	mov		ax,' '
-	pha.w	;---	push	ax
-	lda #10	;---	mov		ax,10
-	pha.w	;---	push	ax
-	jsr _cwrite	;---	call	_write_char
-	adj #4	;---	add		sp,4
+	lda #32
+	pha.w
+	lda #10
+	pha.w
+	jsr _cwrite
+	adj #4
 ;  357:         FOR col := 1 TO size DO BEGIN
-	lda #1	;---	mov		ax,1
-	sta.w col_127,B	;---	mov		WORD PTR col_127,ax
+	lda #1
+	sta.w col_127,X
 L_133
-	lda #9	;---	mov		ax,9
-	cmp.w col_127,B	;---	cmp		WORD PTR col_127,ax
-	bge L_134	;---	jle		L_134
-	jmp L_135	;---	jmp		L_135
+	lda #9
+	cmp.w col_127,X
+	bge L_134
+	jmp L_135
 L_134
 ;  358:         cnts := island[row, col];
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w row_126,B	;---	mov		ax,WORD PTR row_126
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w col_127,B	;---	mov		ax,WORD PTR col_127
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-	sta.w cnts_128,B	;---	mov		WORD PTR cnts_128,ax
+	psh.w #island_002
+	lda.w row_126,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w col_127,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	sta.w cnts_128,X
 ;  359:         IF      cnts = empty  THEN write('. ')
-	lda.w cnts_128,B	;---	mov		ax,WORD PTR cnts_128
-	pha.w	;---	push	ax
-	lda #4	;---	mov		ax,4
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_138	;---	je		L_138
-	lda #0	;---	sub		ax,ax
+	lda.w cnts_128,X
+	pha.w
+	lda #4
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_138
+	lda #0
 L_138
-	cmp.w #1	;---	cmp		ax,1
-	beq L_136	;---	je		L_136
-	jmp  L_137	;---	jmp		L_137
+	cmp.w #1
+	beq L_136
+	jmp  L_137
 L_136
-	psh.w #S_139	;---	lea		ax,WORD PTR S_139
-						;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	psh.w #2	;---	mov		ax,2
-						;---	push	ax
-	jsr _swrite	;---	call	_write_string
-	adj #6	;---	add		sp,6
+	psh.w #S_139
+	psh.w #0
+	psh.w #2
+	jsr _swrite
+	adj #6
 ;  360:         ELSE IF cnts = wolf   THEN write('W ')
-	jmp L_140	;---	jmp		L_140
+	jmp L_140
 L_137
-	lda.w cnts_128,B	;---	mov		ax,WORD PTR cnts_128
-	pha.w	;---	push	ax
-	lda #0	;---	mov		ax,0
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_143	;---	je		L_143
-	lda #0	;---	sub		ax,ax
+	lda.w cnts_128,X
+	pha.w
+	lda #0
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_143
+	lda #0
 L_143
-	cmp.w #1	;---	cmp		ax,1
-	beq L_141	;---	je		L_141
-	jmp  L_142	;---	jmp		L_142
+	cmp.w #1
+	beq L_141
+	jmp  L_142
 L_141
-	psh.w #S_144	;---	lea		ax,WORD PTR S_144
-						;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	psh.w #2	;---	mov		ax,2
-						;---	push	ax
-	jsr _swrite	;---	call	_write_string
-	adj #6	;---	add		sp,6
+	psh.w #S_144
+	psh.w #0
+	psh.w #2
+	jsr _swrite
+	adj #6
 ;  361:         ELSE IF cnts = rabbit THEN write('r ')
-	jmp L_145	;---	jmp		L_145
+	jmp L_145
 L_142
-	lda.w cnts_128,B	;---	mov		ax,WORD PTR cnts_128
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_148	;---	je		L_148
-	lda #0	;---	sub		ax,ax
+	lda.w cnts_128,X
+	pha.w
+	lda #1
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_148
+	lda #0
 L_148
-	cmp.w #1	;---	cmp		ax,1
-	beq L_146	;---	je		L_146
-	jmp  L_147	;---	jmp		L_147
+	cmp.w #1
+	beq L_146
+	jmp  L_147
 L_146
-	psh.w #S_149	;---	lea		ax,WORD PTR S_149
-						;---	push	ax
-	psh.w #0	;---	mov		ax,0
-						;---	push	ax
-	psh.w #2	;---	mov		ax,2
-						;---	push	ax
-	jsr _swrite	;---	call	_write_string
-	adj #6	;---	add		sp,6
+	psh.w #S_149
+	psh.w #0
+	psh.w #2
+	jsr _swrite
+	adj #6
 ;  362:         END;
 L_147
 L_145
 L_140
-	inc.w col_127,B	;---	inc		WORD PTR col_127
-	jmp L_133	;---	jmp		L_133
+	inc.w col_127,X
+	jmp L_133
 L_135
-	dec.w col_127,B	;---	dec		WORD PTR col_127
+	dec.w col_127,X
 ;  363:         writeln;
-	jsr _writeln	;---	call	_write_line
+	jsr _writeln
 ;  364:     END;
-	inc.w row_126,B	;---	inc		WORD PTR row_126
-	jmp L_130	;---	jmp		L_130
+	inc.w row_126,X
+	jmp L_130
 L_132
-	dec.w row_126,B	;---	dec		WORD PTR row_126
+	dec.w row_126,X
 ;  365:     END {PrintIsland};
-	txs.w	;---	mov		sp,bp
-	plx.w	;---	pop		bp
-	rts	;---	ret		2
-	.ENDP	printisland_125
+	txs.w
+	plx.w
+	rts
+	.end	printisland_125
 ;  366: 
 ;  367: 
 ;  368: PROCEDURE ResetIsland;
@@ -2594,368 +2162,324 @@ L_132
 ;  374:     row, col : index;
 ;  375: 
 ;  376:     BEGIN
-
-row_151	.EQ	-2	;base-relative	---row_151	EQU	<[bp-2]>
-col_152	.EQ	-4	;base-relative	---col_152	EQU	<[bp-4]>
-
-resetisland_150	.PROC
-
-	phx.w	;---	push	bp
-	tsx.w	;---	mov		bp,sp
-	adj #-4	;---	sub		sp,4
+row_151	.equ	-1
+col_152	.equ	-3
+resetisland_150	.sub
+	phx.w
+	tsx.w
+	adj #-4
 ;  377:     FOR row := 1 TO size DO BEGIN
-	lda #1	;---	mov		ax,1
-	sta.w row_151,B	;---	mov		WORD PTR row_151,ax
+	lda #1
+	sta.w row_151,X
 L_153
-	lda #9	;---	mov		ax,9
-	cmp.w row_151,B	;---	cmp		WORD PTR row_151,ax
-	bge L_154	;---	jle		L_154
-	jmp L_155	;---	jmp		L_155
+	lda #9
+	cmp.w row_151,X
+	bge L_154
+	jmp L_155
 L_154
 ;  378:         FOR col := 1 TO size DO BEGIN
-	lda #1	;---	mov		ax,1
-	sta.w col_152,B	;---	mov		WORD PTR col_152,ax
+	lda #1
+	sta.w col_152,X
 L_156
-	lda #9	;---	mov		ax,9
-	cmp.w col_152,B	;---	cmp		WORD PTR col_152,ax
-	bge L_157	;---	jle		L_157
-	jmp L_158	;---	jmp		L_158
+	lda #9
+	cmp.w col_152,X
+	bge L_157
+	jmp L_158
 L_157
 ;  379:         IF island[row, col] = newwolf THEN BEGIN
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w row_151,B	;---	mov		ax,WORD PTR row_151
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w col_152,B	;---	mov		ax,WORD PTR col_152
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-	pha.w	;---	push	ax
-	lda #2	;---	mov		ax,2
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_161	;---	je		L_161
-	lda #0	;---	sub		ax,ax
+	psh.w #island_002
+	lda.w row_151,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w col_152,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	pha.w
+	lda #2
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_161
+	lda #0
 L_161
-	cmp.w #1	;---	cmp		ax,1
-	beq L_159	;---	je		L_159
-	jmp  L_160	;---	jmp		L_160
+	cmp.w #1
+	beq L_159
+	jmp  L_160
 L_159
 ;  380:             island[row, col] := wolf;
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w row_151,B	;---	mov		ax,WORD PTR row_151
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w col_152,B	;---	mov		ax,WORD PTR col_152
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #0	;---	mov		ax,0
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #island_002
+	lda.w row_151,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w col_152,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #0
+	pli
+	sta.w 0,I++
 ;  381:         END
 ;  382:         ELSE IF island[row, col] = newrabbit THEN BEGIN
-	jmp L_162	;---	jmp		L_162
+	jmp L_162
 L_160
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w row_151,B	;---	mov		ax,WORD PTR row_151
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w col_152,B	;---	mov		ax,WORD PTR col_152
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-	pha.w	;---	push	ax
-	lda #3	;---	mov		ax,3
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_165	;---	je		L_165
-	lda #0	;---	sub		ax,ax
+	psh.w #island_002
+	lda.w row_151,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w col_152,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	pha.w
+	lda #3
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_165
+	lda #0
 L_165
-	cmp.w #1	;---	cmp		ax,1
-	beq L_163	;---	je		L_163
-	jmp  L_164	;---	jmp		L_164
+	cmp.w #1
+	beq L_163
+	jmp  L_164
 L_163
 ;  383:             island[row, col] := rabbit;
-	psh.w #island_002	;---	lea		ax,WORD PTR island_002
-	lda.w row_151,B	;---	mov		ax,WORD PTR row_151
-						;---	mov		dx,22
-						;---	imul	dx
-	pha.w	;push index
-	psh.w #22	;push element size
-	jsr _imul	;compute offset
-	adj #4	;pop ops/params
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda.w col_152,B	;---	mov		ax,WORD PTR col_152
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-	lda #1	;---	mov		ax,1
-						;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;--- pop TOS
+	psh.w #island_002
+	lda.w row_151,X
+	pha.w
+	psh.w #22
+	jsr _imul
+	adj #4
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda.w col_152,X
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	lda #1
+	pli
+	sta.w 0,I++
 ;  384:         END;
 L_164
 L_162
 ;  385:         END;
-	inc.w col_152,B	;---	inc		WORD PTR col_152
-	jmp L_156	;---	jmp		L_156
+	inc.w col_152,X
+	jmp L_156
 L_158
-	dec.w col_152,B	;---	dec		WORD PTR col_152
+	dec.w col_152,X
 ;  386:     END;
-	inc.w row_151,B	;---	inc		WORD PTR row_151
-	jmp L_153	;---	jmp		L_153
+	inc.w row_151,X
+	jmp L_153
 L_155
-	dec.w row_151,B	;---	dec		WORD PTR row_151
+	dec.w row_151,X
 ;  387:     END {ResetIsland};
-	txs.w	;---	mov		sp,bp
-	plx.w	;---	pop		bp
-	rts	;---	ret		2
-	.ENDP	resetisland_150
+	txs.w
+	plx.w
+	rts
+	.end	resetisland_150
 ;  388: 
 ;  389: 
 ;  390: BEGIN {WolfIsland}
-
-_pc65_main	.PROC
-
-	phx.w	;---	push	bp
-	tsx.w	;---	mov		bp,sp
+_pc65_main	.sub
+	phx.w
+	tsx.w
 ;  391: 
 ;  392:     Initialize;
-	phx.w	;---	push	bp
-	jsr initialize_013	;---	call	initialize_013
-	adj #2	;pop ops/params
+	phx.w
+	jsr initialize_013
+	adj #2
 ;  393: 
 ;  394:     t   := 0;
-	lda #0	;---	mov		ax,0
-	sta.w t_008	;---	mov		WORD PTR t_008,ax
+	lda #0
+	sta.w t_008
 ;  395:     xpt := 1;
-	lda #1	;---	mov		ax,1
-	sta.w xpt_009	;---	mov		WORD PTR xpt_009,ax
+	lda #1
+	sta.w xpt_009
 ;  396:     read(seed);
-	psh.w #seed_010	;---	lea		ax,WORD PTR seed_010
-	jsr _iread	;---	call	_read_integer
-					;---	pop		bx
-	sta.w (0,S)	;---	mov		WORD PTR [bx],ax
-	adj #2	;pop ops/params
+	psh.w #seed_010
+	jsr _iread
+	pli
+	sta.w 0,I++
 ;  397: 
 ;  398:     PrintIsland;
-	phx.w	;---	push	bp
-	jsr printisland_125	;---	call	printisland_125
-	adj #2	;pop ops/params
+	phx.w
+	jsr printisland_125
+	adj #2
 ;  399: 
 ;  400:     {Loop once per time period.}
 ;  401:     REPEAT
 L_166
 ;  402:     writeln;
-	jsr _writeln	;---	call	_write_line
+	jsr _writeln
 ;  403: 
 ;  404:     t := t + 1;
-	lda.w t_008	;---	mov		ax,WORD PTR t_008
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-						;---	pop		dx
-	clc	;---	add		ax,dx
-	adc.w 0,S	;add operands
-	adj #2	;pop ops/params
-	sta.w t_008	;---	mov		WORD PTR t_008,ax
+	lda.w t_008
+	pha.w
+	lda #1
+	clc
+	adc.w 1,S
+	adj #2
+	sta.w t_008
 ;  405:     EventsOccur;
-	phx.w	;---	push	bp
-	jsr eventsoccur_104	;---	call	eventsoccur_104
-	adj #2	;pop ops/params
+	phx.w
+	jsr eventsoccur_104
+	adj #2
 ;  406:     ResetIsland;
-	phx.w	;---	push	bp
-	jsr resetisland_150	;---	call	resetisland_150
-	adj #2	;pop ops/params
+	phx.w
+	jsr resetisland_150
+	adj #2
 ;  407: 
 ;  408:     {Time to print the island?}
 ;  409:     IF t = printtimes[xpt] THEN BEGIN
-	lda.w t_008	;---	mov		ax,WORD PTR t_008
-	pha.w	;---	push	ax
-	psh.w #printtimes_004	;---	lea		ax,WORD PTR printtimes_004
-	lda.w xpt_009	;---	mov		ax,WORD PTR xpt_009
-	dec.w a	;---	sub		ax,1
-						;---	mov		dx,2
-						;---	imul	dx
-	asl.w a	;arithmetic shift
-						;---	pop		dx
-	clc	;---	add		dx,ax
-	adc.w 0,S	;add index offset to array base
-	sta.w 0,S	;store address of array element ---	push	dx
-						;---	pop		bx
-	lda.w (0,S)	;---	mov		ax,WORD PTR [bx]
-	adj #2	;pop ops/params
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_170	;---	je		L_170
-	lda #0	;---	sub		ax,ax
+	lda.w t_008
+	pha.w
+	psh.w #printtimes_004
+	lda.w xpt_009
+	dec.w a
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli
+	lda.w 0,I++
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_170
+	lda #0
 L_170
-	cmp.w #1	;---	cmp		ax,1
-	beq L_168	;---	je		L_168
-	jmp  L_169	;---	jmp		L_169
+	cmp.w #1
+	beq L_168
+	jmp  L_169
 L_168
 ;  410:         PrintIsland;
-	phx.w	;---	push	bp
-	jsr printisland_125	;---	call	printisland_125
-	adj #2	;pop ops/params
+	phx.w
+	jsr printisland_125
+	adj #2
 ;  411:         xpt := xpt + 1;
-	lda.w xpt_009	;---	mov		ax,WORD PTR xpt_009
-	pha.w	;---	push	ax
-	lda #1	;---	mov		ax,1
-						;---	pop		dx
-	clc	;---	add		ax,dx
-	adc.w 0,S	;add operands
-	adj #2	;pop ops/params
-	sta.w xpt_009	;---	mov		WORD PTR xpt_009,ax
+	lda.w xpt_009
+	pha.w
+	lda #1
+	clc
+	adc.w 1,S
+	adj #2
+	sta.w xpt_009
 ;  412:     END;
 L_169
 ;  413:     UNTIL (numwolves = 0) OR (numrabbits = 0)
-	lda.w numwolves_005	;---	mov		ax,WORD PTR numwolves_005
-	pha.w	;---	push	ax
-	lda #0	;---	mov		ax,0
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_171	;---	je		L_171
-	lda #0	;---	sub		ax,ax
+	lda.w numwolves_005
+	pha.w
+	lda #0
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_171
+	lda #0
 L_171
-	pha.w	;---	push	ax
-	lda.w numrabbits_006	;---	mov		ax,WORD PTR numrabbits_006
-	pha.w	;---	push	ax
-	lda #0	;---	mov		ax,0
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	beq L_172	;---	je		L_172
-	lda #0	;---	sub		ax,ax
+	pha.w
+	lda.w numrabbits_006
+	pha.w
+	lda #0
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	beq L_172
+	lda #0
 L_172
 ;  414:       OR (xpt > numprinttimes);
-						;---	pop		dx
-	ora.w 0,S	;---	or		ax,dx
-	adj #2	;pop ops/params
-	pha.w	;---	push	ax
-	lda.w xpt_009	;---	mov		ax,WORD PTR xpt_009
-	pha.w	;---	push	ax
-	lda.w numprinttimes_007	;---	mov		ax,WORD PTR numprinttimes_007
-	xma.w 0,S	;---	pop		dx
-	cmp.w 0,S	;---	cmp		dx,ax
-	adj #2	;pop ops/params
-	php	;push PSW
-	lda #1	;---	mov		ax,1
-	plp	;pull PSW
-	bgt L_173	;---	jg		L_173
-	lda #0	;---	sub		ax,ax
+	ora.w 1,S
+	adj #2
+	pha.w
+	lda.w xpt_009
+	pha.w
+	lda.w numprinttimes_007
+	xma.w 1,S
+	cmp.w 1,S
+	adj #2
+	php
+	lda #1
+	plp
+	bgt L_173
+	lda #0
 L_173
-						;---	pop		dx
-	ora.w 0,S	;---	or		ax,dx
-	adj #2	;pop ops/params
-	cmp.w #1	;---	cmp		ax,1
-	beq L_167	;---	je		L_167
-	jmp L_166	;---	jmp		L_166
+	ora.w 1,S
+	adj #2
+	cmp.w #1
+	beq L_167
+	jmp L_166
 L_167
 ;  415: 
 ;  416:     PrintIsland;
-	phx.w	;---	push	bp
-	jsr printisland_125	;---	call	printisland_125
-	adj #2	;pop ops/params
+	phx.w
+	jsr printisland_125
+	adj #2
 ;  417: 
 ;  418: END {WolfIsland}.
+	plx.w
+	rts
+	.end	_pc65_main
 
-	plx.w	;---	pop		bp
-	rts	;---	ret	
+	.dat
 
-	.ENDP	_pc65_main
+island_002	.byt	242
+foodunits_003	.byt	162
+printtimes_004	.byt	100
+numwolves_005	.byt	2
+numrabbits_006	.byt	2
+numprinttimes_007	.byt	2
+t_008	.byt	2
+xpt_009	.byt	2
+seed_010	.byt	2
+rowoffset_011	.byt	10
+coloffset_012	.byt	10
+S_149	.str	"r "
+S_144	.str	"W "
+S_139	.str	". "
+S_129	.str	" : Wolf Island"
+S_103	.str	" : Rabbit born at "
+S_087	.str	" : Wolf born at "
+S_080	.str	" : Rabbit eaten at "
+S_071	.str	", "
+S_070	.str	" : Wolf died at "
+S_069	.str	"t ="
 
-	.DATA	;place in DATA segment
-
-island_002	.DB	242	;define array
-foodunits_003	.DB	162	;define array
-printtimes_004	.DB	100	;define array
-numwolves_005	.DB	2	;define integer
-numrabbits_006	.DB	2	;define integer
-numprinttimes_007	.DB	2	;define integer
-t_008	.DB	2	;define integer
-xpt_009	.DB	2	;define integer
-seed_010	.DB	2	;define integer
-rowoffset_011	.DB	10	;define array
-coloffset_012	.DB	10	;define array
-S_149	.DS	"r "	;string literal absolute
-S_144	.DS	"W "	;string literal absolute
-S_139	.DS	". "	;string literal absolute
-S_129	.DS	" : Wolf Island"	;string literal absolute
-S_103	.DS	" : Rabbit born at "	;string literal absolute
-S_087	.DS	" : Wolf born at "	;string literal absolute
-S_080	.DS	" : Rabbit eaten at "	;string literal absolute
-S_071	.DS	", "	;string literal absolute
-S_070	.DS	" : Wolf died at "	;string literal absolute
-S_069	.DS	"t ="	;string literal absolute
-
-	.END
+	.end

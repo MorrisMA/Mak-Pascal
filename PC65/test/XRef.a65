@@ -1,1088 +1,1109 @@
-			.STACK  1024
-			.CODE   
-word_002	..EQ  +0
-firstnumberindex_003	..EQ  +20
-lastnumberindex_004	..EQ  +22
-number_005	..EQ  +0
-nextindex_006	..EQ  +2
-ch_017	..EQ  -6
+		.stk	1024
+		.cod	512
+STATIC_LINK	.EQU	+5
+RETURN_VALUE	.EQU	-3
+HIGH_RETURN_VALUE	.EQU	-1
+		tsx.w
+		lds.w	#16383
+		jmp 	_pc65_main
+word_002	.EQU	+0
+firstnumberindex_003	.EQU	+20
+lastnumberindex_004	.EQU	+22
+number_005	.EQU	+0
+nextindex_006	.EQU	+2
+ch_017	.EQU	-5
 nextchar_016	.SUB
-			phx.w   
-			tsx.w   
-			adj     #-4
-			adj     #-2
-			jsr     _eol
-			sta.w   newline_014
-			lda.w   newline_014
-			cmp.w   #1
-			beq     L_018
-			jmp     L_019
-L_018	.     
-			jsr     _readln
-			jsr     _writeln
-			lda.w   linenumber_011
-			pha.w   
-			lda     #1
-			clc     
-			adc.w   0,S
-			adj     #2
-			sta.w   linenumber_011
-			lda.w   linenumber_011
-			pha.w   
-			lda     #5
-			pha.w   
-			jsr     _iwrite
-			adj     #4
-			psh.w   #S_020
-			psh.w   #0
-			psh.w   #3
-			jsr     _swrite
-			adj     #6
-L_019	.     
-			lda.w   newline_014
-			pha.w   
-			jsr     _eof
-			ora.w   0,S
-			adj     #2
-			cmp.w   #1
-			beq     L_021
-			jmp     L_022
-L_021	.     
-			sta     ch_017
-			jmp     L_023
-L_022	.     
-			txa.w   
-			sec     
-			pha.w   
-			jsr     _cread
-			sta     (0,S)
-			adj     #2
-			lda     ch_017,B
-			pha.w   
-			psh.w   #0
-			jsr     _cwrite
-			adj     #4
-L_023	.     
-			lda     ch_017,B
-			tay     
-			tya     
-			sta.w   RETURN_VALUE,B
-			lda.w   RETURN_VALUE,B
-			txs.w   
-			plx.w   
-			rts     
-ch_025	..EQ  +6
+		phx.w	
+		tsx.w	
+		adj 	#-4
+		adj 	#-2
+		jsr 	_eol
+		sta.w	newline_014
+		lda.w	newline_014
+		cmp.w	#1
+		beq 	L_018
+		jmp 	L_019
+L_018	.LBL
+		jsr 	_readln
+		jsr 	_writeln
+		lda.w	linenumber_011
+		pha.w	
+		lda 	#1
+		clc 	
+		adc.w	1,S
+		adj 	#2
+		sta.w	linenumber_011
+		lda.w	linenumber_011
+		pha.w	
+		lda 	#5
+		pha.w	
+		jsr 	_iwrite
+		adj 	#4
+		psh.w	#S_020
+		psh.w	#0
+		psh.w	#3
+		jsr 	_swrite
+		adj 	#6
+L_019	.LBL
+		lda.w	newline_014
+		pha.w	
+		jsr 	_eof
+		ora.w	1,S
+		adj 	#2
+		cmp.w	#1
+		beq 	L_021
+		jmp 	L_022
+L_021	.LBL
+		lda 	#'
+		sta 	ch_017
+		jmp 	L_023
+L_022	.LBL
+		txa.w	
+		clc 	
+		adc.w	#ch_017
+		pha.w	
+		jsr 	_cread
+		pli 	
+		sta 	0,I++
+		lda 	ch_017,X
+		pha.w	
+		psh.w	#0
+		jsr 	_cwrite
+		adj 	#4
+L_023	.LBL
+		lda 	ch_017,X
+		tay 	
+		tya 	
+		sta.w	RETURN_VALUE,X
+		lda.w	RETURN_VALUE,X
+		txs.w	
+		plx.w	
+		rts 	
+		.end	nextchar_016
+ch_025	.EQU	+7
 isletter_024	.SUB
-			phx.w   
-			tsx.w   
-			adj     #-4
-			lda     ch_025,B
-			pha.w   
-			lda     #97
-			xma.w   0,S
-			cmp.w   0,S
-			adj     #2
-			php     
-			lda     #1
-			plp     
-			bge     L_026
-			lda     #0
-L_026	.     
-			pha.w   
-			lda     ch_025,B
-			pha.w   
-			lda     #122
-			xma.w   0,S
-			cmp.w   0,S
-			adj     #2
-			php     
-			lda     #1
-			plp     
-			ble     L_027
-			lda     #0
-L_027	.     
-			anl.w   0,S
-			adj     #2
-			pha.w   
-			lda     ch_025,B
-			pha.w   
-			lda     #65
-			xma.w   0,S
-			cmp.w   0,S
-			adj     #2
-			php     
-			lda     #1
-			plp     
-			bge     L_028
-			lda     #0
-L_028	.     
-			pha.w   
-			lda     ch_025,B
-			pha.w   
-			lda     #90
-			xma.w   0,S
-			cmp.w   0,S
-			adj     #2
-			php     
-			lda     #1
-			plp     
-			ble     L_029
-			lda     #0
-L_029	.     
-			anl.w   0,S
-			adj     #2
-			ora.w   0,S
-			adj     #2
-			sta.w   RETURN_VALUE,B
-			lda.w   RETURN_VALUE,B
-			txs.w   
-			plx.w   
-			rts     
-buffer_031	..EQ  +6
-charcount_032	..EQ  -2
-ch_033	..EQ  -4
+		phx.w	
+		tsx.w	
+		adj 	#-4
+		lda 	ch_025,X
+		pha.w	
+		lda 	#97
+		xma.w	1,S
+		cmp.w	1,S
+		adj 	#2
+		php 	
+		lda 	#1
+		plp 	
+		bge 	L_026
+		lda 	#0
+L_026	.LBL
+		pha.w	
+		lda 	ch_025,X
+		pha.w	
+		lda 	#122
+		xma.w	1,S
+		cmp.w	1,S
+		adj 	#2
+		php 	
+		lda 	#1
+		plp 	
+		ble 	L_027
+		lda 	#0
+L_027	.LBL
+		and.w	1,S
+		adj 	#2
+		pha.w	
+		lda 	ch_025,X
+		pha.w	
+		lda 	#65
+		xma.w	1,S
+		cmp.w	1,S
+		adj 	#2
+		php 	
+		lda 	#1
+		plp 	
+		bge 	L_028
+		lda 	#0
+L_028	.LBL
+		pha.w	
+		lda 	ch_025,X
+		pha.w	
+		lda 	#90
+		xma.w	1,S
+		cmp.w	1,S
+		adj 	#2
+		php 	
+		lda 	#1
+		plp 	
+		ble 	L_029
+		lda 	#0
+L_029	.LBL
+		and.w	1,S
+		adj 	#2
+		ora.w	1,S
+		adj 	#2
+		sta.w	RETURN_VALUE,X
+		lda.w	RETURN_VALUE,X
+		txs.w	
+		plx.w	
+		rts 	
+		.end	isletter_024
+buffer_031	.EQU	+7
+charcount_032	.EQU	-1
+ch_033	.EQU	-3
 readword_030	.SUB
-			phx.w   
-			tsx.w   
-			adj     #-4
-			lda     #0
-			sta.w   gotword_015
-			jsr     _eof
-			eor     #1
-			cmp.w   #1
-			beq     L_034
-			jmp     L_035
-L_034	.     
-L_036	.     
-			lda.w   STATIC_LINK,B
-			pha.w   
-			jsr     nextchar_016
-			adj     #2
-			sta     ch_033
-			jsr     _eof
-			pha.w   
-			lda     ch_033,B
-			pha.w   
-			lda.w   STATIC_LINK,B
-			pha.w   
-			jsr     isletter_024
-			adj     #4
-			ora.w   0,S
-			adj     #2
-			cmp.w   #1
-			beq     L_037
-			jmp     L_036
-L_037	.     
-L_035	.     
-			jsr     _eof
-			eor     #1
-			cmp.w   #1
-			beq     L_038
-			jmp     L_039
-L_038	.     
-			lda     #0
-			sta.w   charcount_032,B
-L_040	.     
-			lda     ch_033,B
-			pha.w   
-			lda.w   STATIC_LINK,B
-			pha.w   
-			jsr     isletter_024
-			adj     #4
-			cmp.w   #1
-			beq     L_041
-			jmp     L_042
-L_041	.     
-			lda.w   charcount_032,B
-			pha.w   
-			lda     #20
-			xma.w   0,S
-			cmp.w   0,S
-			adj     #2
-			php     
-			lda     #1
-			plp     
-			blt     L_045
-			lda     #0
-L_045	.     
-			cmp.w   #1
-			beq     L_043
-			jmp     L_044
-L_043	.     
-			lda     ch_033,B
-			pha.w   
-			lda     #65
-			xma.w   0,S
-			cmp.w   0,S
-			adj     #2
-			php     
-			lda     #1
-			plp     
-			bge     L_048
-			lda     #0
-L_048	.     
-			pha.w   
-			lda     ch_033,B
-			pha.w   
-			lda     #90
-			xma.w   0,S
-			cmp.w   0,S
-			adj     #2
-			php     
-			lda     #1
-			plp     
-			ble     L_049
-			lda     #0
-L_049	.     
-			anl.w   0,S
-			adj     #2
-			cmp.w   #1
-			beq     L_046
-			jmp     L_047
-L_046	.     
-			lda     ch_033,B
-			pha.w   
-			lda     #97
-			pha.w   
-			lda     #65
-			xma.w   0,S
-			sec     
-			sbc.w   0,S
-			adj     #2
-			clc     
-			adc.w   0,S
-			adj     #2
-			sta     ch_033
-L_047	.     
-			lda.w   charcount_032,B
-			pha.w   
-			lda     #1
-			clc     
-			adc.w   0,S
-			adj     #2
-			sta.w   charcount_032,B
-			lda.w   buffer_031,B
-			pha.w   
-			lda.w   charcount_032,B
-			dec.w   a
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			lda     ch_033,B
-			sta     (0,S)
-			adj     #2
-L_044	.     
-			lda.w   STATIC_LINK,B
-			pha.w   
-			jsr     nextchar_016
-			adj     #2
-			sta     ch_033
-			jmp     L_040
-L_042	.     
-			lda.w   charcount_032,B
-			pha.w   
-			lda     #1
-			clc     
-			adc.w   0,S
-			adj     #2
-			sta.w   charcount_032,B
-L_050	.     
-			lda     #20
-			cmp.w   charcount_032,B
-			bge     L_051
-			jmp     L_052
-L_051	.     
-			lda.w   buffer_031,B
-			pha.w   
-			lda.w   charcount_032,B
-			dec.w   a
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			sta     (0,S)
-			adj     #2
-			inc.w   charcount_032,B
-			jmp     L_050
-L_052	.     
-			dec.w   charcount_032,B
-			lda     #1
-			sta.w   gotword_015
-L_039	.     
-			txs.w   
-			plx.w   
-			rts     
-lastnumberindex_054	..EQ  +6
+		phx.w	
+		tsx.w	
+		adj 	#-4
+		lda 	#0
+		sta.w	gotword_015
+		jsr 	_eof
+		eor 	#1
+		cmp.w	#1
+		beq 	L_034
+		jmp 	L_035
+L_034	.LBL
+L_036	.LBL
+		lda.w	STATIC_LINK,X
+		pha.w	
+		jsr 	nextchar_016
+		adj 	#2
+		sta 	ch_033
+		jsr 	_eof
+		pha.w	
+		lda 	ch_033,X
+		pha.w	
+		lda.w	STATIC_LINK,X
+		pha.w	
+		jsr 	isletter_024
+		adj 	#4
+		ora.w	1,S
+		adj 	#2
+		cmp.w	#1
+		beq 	L_037
+		jmp 	L_036
+L_037	.LBL
+L_035	.LBL
+		jsr 	_eof
+		eor 	#1
+		cmp.w	#1
+		beq 	L_038
+		jmp 	L_039
+L_038	.LBL
+		lda 	#0
+		sta.w	charcount_032,X
+L_040	.LBL
+		lda 	ch_033,X
+		pha.w	
+		lda.w	STATIC_LINK,X
+		pha.w	
+		jsr 	isletter_024
+		adj 	#4
+		cmp.w	#1
+		beq 	L_041
+		jmp 	L_042
+L_041	.LBL
+		lda.w	charcount_032,X
+		pha.w	
+		lda 	#20
+		xma.w	1,S
+		cmp.w	1,S
+		adj 	#2
+		php 	
+		lda 	#1
+		plp 	
+		blt 	L_045
+		lda 	#0
+L_045	.LBL
+		cmp.w	#1
+		beq 	L_043
+		jmp 	L_044
+L_043	.LBL
+		lda 	ch_033,X
+		pha.w	
+		lda 	#65
+		xma.w	1,S
+		cmp.w	1,S
+		adj 	#2
+		php 	
+		lda 	#1
+		plp 	
+		bge 	L_048
+		lda 	#0
+L_048	.LBL
+		pha.w	
+		lda 	ch_033,X
+		pha.w	
+		lda 	#90
+		xma.w	1,S
+		cmp.w	1,S
+		adj 	#2
+		php 	
+		lda 	#1
+		plp 	
+		ble 	L_049
+		lda 	#0
+L_049	.LBL
+		and.w	1,S
+		adj 	#2
+		cmp.w	#1
+		beq 	L_046
+		jmp 	L_047
+L_046	.LBL
+		lda 	ch_033,X
+		pha.w	
+		lda 	#97
+		pha.w	
+		lda 	#65
+		xma.w	1,S
+		sec 	
+		sbc.w	1,S
+		adj 	#2
+		clc 	
+		adc.w	1,S
+		adj 	#2
+		sta 	ch_033
+L_047	.LBL
+		lda.w	charcount_032,X
+		pha.w	
+		lda 	#1
+		clc 	
+		adc.w	1,S
+		adj 	#2
+		sta.w	charcount_032,X
+		lda.w	buffer_031,X
+		pha.w	
+		lda.w	charcount_032,X
+		dec.w	a
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		lda 	ch_033,X
+		pli 	
+		sta 	0,I++
+L_044	.LBL
+		lda.w	STATIC_LINK,X
+		pha.w	
+		jsr 	nextchar_016
+		adj 	#2
+		sta 	ch_033
+		jmp 	L_040
+L_042	.LBL
+		lda.w	charcount_032,X
+		pha.w	
+		lda 	#1
+		clc 	
+		adc.w	1,S
+		adj 	#2
+		sta.w	charcount_032,X
+L_050	.LBL
+		lda 	#20
+		cmp.w	charcount_032,X
+		bge 	L_051
+		jmp 	L_052
+L_051	.LBL
+		lda.w	buffer_031,X
+		pha.w	
+		lda.w	charcount_032,X
+		dec.w	a
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		lda 	#'
+		pli 	
+		sta 	0,I++
+		inc.w	charcount_032,X
+		jmp 	L_050
+L_052	.LBL
+		dec.w	charcount_032,X
+		lda 	#1
+		sta.w	gotword_015
+L_039	.LBL
+		txs.w	
+		plx.w	
+		rts 	
+		.end	readword_030
+lastnumberindex_054	.EQU	+7
 appendlinenumber_053	.SUB
-			phx.w   
-			tsx.w   
-			adj     #-4
-			lda.w   nextnumberindex_010
-			pha.w   
-			lda.w   #1000
-			xma.w   0,S
-			cmp.w   0,S
-			adj     #2
-			php     
-			lda     #1
-			plp     
-			blt     L_057
-			lda     #0
-L_057	.     
-			cmp.w   #1
-			beq     L_055
-			jmp     L_056
-L_055	.     
-			lda.w   lastnumberindex_054,B
-			pha.w   
-			lda     #0
-			xma.w   0,S
-			cmp.w   0,S
-			adj     #2
-			php     
-			lda     #1
-			plp     
-			bne     L_060
-			lda     #0
-L_060	.     
-			cmp.w   #1
-			beq     L_058
-			jmp     L_059
-L_058	.     
-			psh.w   #numbertable_008
-			lda.w   lastnumberindex_054,B
-			asl.w   a
-			asl.w   a
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			pla.w   
-			clc     
-			adc.w   #nextindex_006
-			pha.w   
-			lda.w   nextnumberindex_010
-			sta.w   (0,S)
-			adj     #2
-L_059	.     
-			psh.w   #numbertable_008
-			lda.w   nextnumberindex_010
-			asl.w   a
-			asl.w   a
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			pla.w   
-			clc     
-			adc.w   #number_005
-			pha.w   
-			lda.w   linenumber_011
-			sta.w   (0,S)
-			adj     #2
-			psh.w   #numbertable_008
-			lda.w   nextnumberindex_010
-			asl.w   a
-			asl.w   a
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			pla.w   
-			clc     
-			adc.w   #nextindex_006
-			pha.w   
-			lda     #0
-			sta.w   (0,S)
-			adj     #2
-			lda.w   nextnumberindex_010
-			sta.w   RETURN_VALUE,B
-			lda.w   nextnumberindex_010
-			pha.w   
-			lda     #1
-			clc     
-			adc.w   0,S
-			adj     #2
-			sta.w   nextnumberindex_010
-			jmp     L_061
-L_056	.     
-			lda     #1
-			sta.w   numbertablefull_013
-			lda     #0
-			sta.w   RETURN_VALUE,B
-L_061	.     
-			lda.w   RETURN_VALUE,B
-			txs.w   
-			plx.w   
-			rts     
-i_063	..EQ  -2
+		phx.w	
+		tsx.w	
+		adj 	#-4
+		lda.w	nextnumberindex_010
+		pha.w	
+		lda.w	#1000
+		xma.w	1,S
+		cmp.w	1,S
+		adj 	#2
+		php 	
+		lda 	#1
+		plp 	
+		blt 	L_057
+		lda 	#0
+L_057	.LBL
+		cmp.w	#1
+		beq 	L_055
+		jmp 	L_056
+L_055	.LBL
+		lda.w	lastnumberindex_054,X
+		pha.w	
+		lda 	#0
+		xma.w	1,S
+		cmp.w	1,S
+		adj 	#2
+		php 	
+		lda 	#1
+		plp 	
+		bne 	L_060
+		lda 	#0
+L_060	.LBL
+		cmp.w	#1
+		beq 	L_058
+		jmp 	L_059
+L_058	.LBL
+		psh.w	#numbertable_008
+		lda.w	lastnumberindex_054,X
+		asl.w	a
+		asl.w	a
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		pla.w	
+		clc 	
+		adc.w	#nextindex_006
+		pha.w	
+		lda.w	nextnumberindex_010
+		pli 	
+		sta.w	0,I++
+L_059	.LBL
+		psh.w	#numbertable_008
+		lda.w	nextnumberindex_010
+		asl.w	a
+		asl.w	a
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		pla.w	
+		clc 	
+		adc.w	#number_005
+		pha.w	
+		lda.w	linenumber_011
+		pli 	
+		sta.w	0,I++
+		psh.w	#numbertable_008
+		lda.w	nextnumberindex_010
+		asl.w	a
+		asl.w	a
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		pla.w	
+		clc 	
+		adc.w	#nextindex_006
+		pha.w	
+		lda 	#0
+		pli 	
+		sta.w	0,I++
+		lda.w	nextnumberindex_010
+		sta.w	RETURN_VALUE,X
+		lda.w	nextnumberindex_010
+		pha.w	
+		lda 	#1
+		clc 	
+		adc.w	1,S
+		adj 	#2
+		sta.w	nextnumberindex_010
+		jmp 	L_061
+L_056	.LBL
+		lda 	#1
+		sta.w	numbertablefull_013
+		lda 	#0
+		sta.w	RETURN_VALUE,X
+L_061	.LBL
+		lda.w	RETURN_VALUE,X
+		txs.w	
+		plx.w	
+		rts 	
+		.end	appendlinenumber_053
+i_063	.EQU	-1
 enterword_062	.SUB
-			phx.w   
-			tsx.w   
-			adj     #-2
-			lda.w   newline_014
-			cmp.w   #1
-			beq     L_064
-			jmp     L_065
-L_064	.     
-			lda.w   linenumber_011
-			pha.w   
-			lda     #1
-			xma.w   0,S
-			sec     
-			sbc.w   0,S
-			adj     #2
-			sta.w   linenumber_011
-L_065	.     
-			lda     #1
-			sta.w   i_063,B
-L_066	.     
-			psh.w   #wordtable_007
-			lda.w   i_063,B
-			dec.w   a
-			pha.w   
-			psh.w   #24
-			jsr     _imul
-			adj     #4
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			pla.w   
-			clc     
-			adc.w   #word_002
-			pha.w   
-			psh.w   #wordtable_007
-			lda.w   nextwordindex_009
-			dec.w   a
-			pha.w   
-			psh.w   #24
-			jsr     _imul
-			adj     #4
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			pla.w   
-			clc     
-			adc.w   #word_002
-			pha.w   
-			psh.w   #20
-			jsr     _cmpsb
-			adj     #+6
-			php     
-			lda     #1
-			plp     
-			bne     L_069
-			lda     #0
-L_069	.     
-			cmp.w   #1
-			beq     L_067
-			jmp     L_068
-L_067	.     
-			lda.w   i_063,B
-			pha.w   
-			lda     #1
-			clc     
-			adc.w   0,S
-			adj     #2
-			sta.w   i_063,B
-			jmp     L_066
-L_068	.     
-			lda.w   i_063,B
-			pha.w   
-			lda.w   nextwordindex_009
-			xma.w   0,S
-			cmp.w   0,S
-			adj     #2
-			php     
-			lda     #1
-			plp     
-			blt     L_072
-			lda     #0
-L_072	.     
-			cmp.w   #1
-			beq     L_070
-			jmp     L_071
-L_070	.     
-			psh.w   #wordtable_007
-			lda.w   i_063,B
-			dec.w   a
-			pha.w   
-			psh.w   #24
-			jsr     _imul
-			adj     #4
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			pla.w   
-			clc     
-			adc.w   #lastnumberindex_004
-			pha.w   
-			psh.w   #wordtable_007
-			lda.w   i_063,B
-			dec.w   a
-			pha.w   
-			psh.w   #24
-			jsr     _imul
-			adj     #4
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			pla.w   
-			clc     
-			adc.w   #lastnumberindex_004
-			pha.w   
-			lda.w   (0,S)
-			adj     #2
-			pha.w   
-			lda.w   STATIC_LINK,B
-			pha.w   
-			jsr     appendlinenumber_053
-			adj     #4
-			sta.w   (0,S)
-			adj     #2
-			jmp     L_073
-L_071	.     
-			lda.w   nextwordindex_009
-			pha.w   
-			lda.w   #500
-			xma.w   0,S
-			cmp.w   0,S
-			adj     #2
-			php     
-			lda     #1
-			plp     
-			blt     L_076
-			lda     #0
-L_076	.     
-			cmp.w   #1
-			beq     L_074
-			jmp     L_075
-L_074	.     
-			lda.w   nextwordindex_009
-			pha.w   
-			lda     #1
-			clc     
-			adc.w   0,S
-			adj     #2
-			sta.w   nextwordindex_009
-			psh.w   #wordtable_007
-			lda.w   i_063,B
-			dec.w   a
-			pha.w   
-			psh.w   #24
-			jsr     _imul
-			adj     #4
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			pla.w   
-			clc     
-			adc.w   #firstnumberindex_003
-			pha.w   
-			lda     #0
-			pha.w   
-			lda.w   STATIC_LINK,B
-			pha.w   
-			jsr     appendlinenumber_053
-			adj     #4
-			sta.w   (0,S)
-			adj     #2
-			psh.w   #wordtable_007
-			lda.w   i_063,B
-			dec.w   a
-			pha.w   
-			psh.w   #24
-			jsr     _imul
-			adj     #4
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			pla.w   
-			clc     
-			adc.w   #lastnumberindex_004
-			pha.w   
-			psh.w   #wordtable_007
-			lda.w   i_063,B
-			dec.w   a
-			pha.w   
-			psh.w   #24
-			jsr     _imul
-			adj     #4
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			pla.w   
-			clc     
-			adc.w   #firstnumberindex_003
-			pha.w   
-			lda.w   (0,S)
-			adj     #2
-			sta.w   (0,S)
-			adj     #2
-			jmp     L_077
-L_075	.     
-			lda     #1
-			sta.w   wordtablefull_012
-L_077	.     
-L_073	.     
-			lda.w   newline_014
-			cmp.w   #1
-			beq     L_078
-			jmp     L_079
-L_078	.     
-			lda.w   linenumber_011
-			pha.w   
-			lda     #1
-			clc     
-			adc.w   0,S
-			adj     #2
-			sta.w   linenumber_011
-L_079	.     
-			txs.w   
-			plx.w   
-			rts     
-i_081	..EQ  -2
-j_082	..EQ  -4
-temp_083	..EQ  -28
+		phx.w	
+		tsx.w	
+		adj 	#-2
+		lda.w	newline_014
+		cmp.w	#1
+		beq 	L_064
+		jmp 	L_065
+L_064	.LBL
+		lda.w	linenumber_011
+		pha.w	
+		lda 	#1
+		xma.w	1,S
+		sec 	
+		sbc.w	1,S
+		adj 	#2
+		sta.w	linenumber_011
+L_065	.LBL
+		lda 	#1
+		sta.w	i_063,X
+L_066	.LBL
+		psh.w	#wordtable_007
+		lda.w	i_063,X
+		dec.w	a
+		pha.w	
+		psh.w	#24
+		jsr 	_imul
+		adj 	#4
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		pla.w	
+		clc 	
+		adc.w	#word_002
+		pha.w	
+		psh.w	#wordtable_007
+		lda.w	nextwordindex_009
+		dec.w	a
+		pha.w	
+		psh.w	#24
+		jsr 	_imul
+		adj 	#4
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		pla.w	
+		clc 	
+		adc.w	#word_002
+		pha.w	
+		psh.w	#20
+		jsr 	_cmpsb
+		adj 	#+6
+		php 	
+		lda 	#1
+		plp 	
+		bne 	L_069
+		lda 	#0
+L_069	.LBL
+		cmp.w	#1
+		beq 	L_067
+		jmp 	L_068
+L_067	.LBL
+		lda.w	i_063,X
+		pha.w	
+		lda 	#1
+		clc 	
+		adc.w	1,S
+		adj 	#2
+		sta.w	i_063,X
+		jmp 	L_066
+L_068	.LBL
+		lda.w	i_063,X
+		pha.w	
+		lda.w	nextwordindex_009
+		xma.w	1,S
+		cmp.w	1,S
+		adj 	#2
+		php 	
+		lda 	#1
+		plp 	
+		blt 	L_072
+		lda 	#0
+L_072	.LBL
+		cmp.w	#1
+		beq 	L_070
+		jmp 	L_071
+L_070	.LBL
+		psh.w	#wordtable_007
+		lda.w	i_063,X
+		dec.w	a
+		pha.w	
+		psh.w	#24
+		jsr 	_imul
+		adj 	#4
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		pla.w	
+		clc 	
+		adc.w	#lastnumberindex_004
+		pha.w	
+		psh.w	#wordtable_007
+		lda.w	i_063,X
+		dec.w	a
+		pha.w	
+		psh.w	#24
+		jsr 	_imul
+		adj 	#4
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		pla.w	
+		clc 	
+		adc.w	#lastnumberindex_004
+		pha.w	
+		pli 	
+		lda.w	0,I++
+		pha.w	
+		lda.w	STATIC_LINK,X
+		pha.w	
+		jsr 	appendlinenumber_053
+		adj 	#4
+		pli 	
+		sta.w	0,I++
+		jmp 	L_073
+L_071	.LBL
+		lda.w	nextwordindex_009
+		pha.w	
+		lda.w	#500
+		xma.w	1,S
+		cmp.w	1,S
+		adj 	#2
+		php 	
+		lda 	#1
+		plp 	
+		blt 	L_076
+		lda 	#0
+L_076	.LBL
+		cmp.w	#1
+		beq 	L_074
+		jmp 	L_075
+L_074	.LBL
+		lda.w	nextwordindex_009
+		pha.w	
+		lda 	#1
+		clc 	
+		adc.w	1,S
+		adj 	#2
+		sta.w	nextwordindex_009
+		psh.w	#wordtable_007
+		lda.w	i_063,X
+		dec.w	a
+		pha.w	
+		psh.w	#24
+		jsr 	_imul
+		adj 	#4
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		pla.w	
+		clc 	
+		adc.w	#firstnumberindex_003
+		pha.w	
+		lda 	#0
+		pha.w	
+		lda.w	STATIC_LINK,X
+		pha.w	
+		jsr 	appendlinenumber_053
+		adj 	#4
+		pli 	
+		sta.w	0,I++
+		psh.w	#wordtable_007
+		lda.w	i_063,X
+		dec.w	a
+		pha.w	
+		psh.w	#24
+		jsr 	_imul
+		adj 	#4
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		pla.w	
+		clc 	
+		adc.w	#lastnumberindex_004
+		pha.w	
+		psh.w	#wordtable_007
+		lda.w	i_063,X
+		dec.w	a
+		pha.w	
+		psh.w	#24
+		jsr 	_imul
+		adj 	#4
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		pla.w	
+		clc 	
+		adc.w	#firstnumberindex_003
+		pha.w	
+		pli 	
+		lda.w	0,I++
+		pli 	
+		sta.w	0,I++
+		jmp 	L_077
+L_075	.LBL
+		lda 	#1
+		sta.w	wordtablefull_012
+L_077	.LBL
+L_073	.LBL
+		lda.w	newline_014
+		cmp.w	#1
+		beq 	L_078
+		jmp 	L_079
+L_078	.LBL
+		lda.w	linenumber_011
+		pha.w	
+		lda 	#1
+		clc 	
+		adc.w	1,S
+		adj 	#2
+		sta.w	linenumber_011
+L_079	.LBL
+		txs.w	
+		plx.w	
+		rts 	
+		.end	enterword_062
+i_081	.EQU	-1
+j_082	.EQU	-3
+temp_083	.EQU	-27
 sortwords_080	.SUB
-			phx.w   
-			tsx.w   
-			adj     #-28
-			lda     #1
-			sta.w   i_081,B
-L_084	.     
-			lda.w   nextwordindex_009
-			pha.w   
-			lda     #2
-			xma.w   0,S
-			sec     
-			sbc.w   0,S
-			adj     #2
-			cmp.w   i_081,B
-			bge     L_085
-			jmp     L_086
-L_085	.     
-			lda.w   i_081,B
-			pha.w   
-			lda     #1
-			clc     
-			adc.w   0,S
-			adj     #2
-			sta.w   j_082,B
-L_087	.     
-			lda.w   nextwordindex_009
-			pha.w   
-			lda     #1
-			xma.w   0,S
-			sec     
-			sbc.w   0,S
-			adj     #2
-			cmp.w   j_082,B
-			bge     L_088
-			jmp     L_089
-L_088	.     
-			psh.w   #wordtable_007
-			lda.w   i_081,B
-			dec.w   a
-			pha.w   
-			psh.w   #24
-			jsr     _imul
-			adj     #4
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			pla.w   
-			clc     
-			adc.w   #word_002
-			pha.w   
-			psh.w   #wordtable_007
-			lda.w   j_082,B
-			dec.w   a
-			pha.w   
-			psh.w   #24
-			jsr     _imul
-			adj     #4
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			pla.w   
-			clc     
-			adc.w   #word_002
-			pha.w   
-			psh.w   #20
-			jsr     _cmpsb
-			adj     #+6
-			php     
-			lda     #1
-			plp     
-			bgt     L_092
-			lda     #0
-L_092	.     
-			cmp.w   #1
-			beq     L_090
-			jmp     L_091
-L_090	.     
-			txa.w   
-			sec     
-			pha.w   
-			psh.w   #wordtable_007
-			lda.w   i_081,B
-			dec.w   a
-			pha.w   
-			psh.w   #24
-			jsr     _imul
-			adj     #4
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			swp.x   
-			lda     #24
-			plx.w   
-			ply.w   
-			mvb     #51
-			swp.x   
-			psh.w   #wordtable_007
-			lda.w   i_081,B
-			dec.w   a
-			pha.w   
-			psh.w   #24
-			jsr     _imul
-			adj     #4
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			psh.w   #wordtable_007
-			lda.w   j_082,B
-			dec.w   a
-			pha.w   
-			psh.w   #24
-			jsr     _imul
-			adj     #4
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			swp.x   
-			lda     #24
-			plx.w   
-			ply.w   
-			mvb     #51
-			swp.x   
-			psh.w   #wordtable_007
-			lda.w   j_082,B
-			dec.w   a
-			pha.w   
-			psh.w   #24
-			jsr     _imul
-			adj     #4
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			txa.w   
-			sec     
-			pha.w   
-			swp.x   
-			lda     #24
-			plx.w   
-			ply.w   
-			mvb     #51
-			swp.x   
-L_091	.     
-			inc.w   j_082,B
-			jmp     L_087
-L_089	.     
-			dec.w   j_082,B
-			inc.w   i_081,B
-			jmp     L_084
-L_086	.     
-			dec.w   i_081,B
-			txs.w   
-			plx.w   
-			rts     
-i_094	..EQ  +6
+		phx.w	
+		tsx.w	
+		adj 	#-28
+		lda 	#1
+		sta.w	i_081,X
+L_084	.LBL
+		lda.w	nextwordindex_009
+		pha.w	
+		lda 	#2
+		xma.w	1,S
+		sec 	
+		sbc.w	1,S
+		adj 	#2
+		cmp.w	i_081,X
+		bge 	L_085
+		jmp 	L_086
+L_085	.LBL
+		lda.w	i_081,X
+		pha.w	
+		lda 	#1
+		clc 	
+		adc.w	1,S
+		adj 	#2
+		sta.w	j_082,X
+L_087	.LBL
+		lda.w	nextwordindex_009
+		pha.w	
+		lda 	#1
+		xma.w	1,S
+		sec 	
+		sbc.w	1,S
+		adj 	#2
+		cmp.w	j_082,X
+		bge 	L_088
+		jmp 	L_089
+L_088	.LBL
+		psh.w	#wordtable_007
+		lda.w	i_081,X
+		dec.w	a
+		pha.w	
+		psh.w	#24
+		jsr 	_imul
+		adj 	#4
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		pla.w	
+		clc 	
+		adc.w	#word_002
+		pha.w	
+		psh.w	#wordtable_007
+		lda.w	j_082,X
+		dec.w	a
+		pha.w	
+		psh.w	#24
+		jsr 	_imul
+		adj 	#4
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		pla.w	
+		clc 	
+		adc.w	#word_002
+		pha.w	
+		psh.w	#20
+		jsr 	_cmpsb
+		adj 	#+6
+		php 	
+		lda 	#1
+		plp 	
+		bgt 	L_092
+		lda 	#0
+L_092	.LBL
+		cmp.w	#1
+		beq 	L_090
+		jmp 	L_091
+L_090	.LBL
+		txa.w	
+		clc 	
+		adc.w	#temp_083
+		pha.w	
+		psh.w	#wordtable_007
+		lda.w	i_081,X
+		dec.w	a
+		pha.w	
+		psh.w	#24
+		jsr 	_imul
+		adj 	#4
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		swp.x	
+		lda 	#24
+		plx.w	
+		ply.w	
+		mvb 	#51
+		swp.x	
+		psh.w	#wordtable_007
+		lda.w	i_081,X
+		dec.w	a
+		pha.w	
+		psh.w	#24
+		jsr 	_imul
+		adj 	#4
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		psh.w	#wordtable_007
+		lda.w	j_082,X
+		dec.w	a
+		pha.w	
+		psh.w	#24
+		jsr 	_imul
+		adj 	#4
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		swp.x	
+		lda 	#24
+		plx.w	
+		ply.w	
+		mvb 	#51
+		swp.x	
+		psh.w	#wordtable_007
+		lda.w	j_082,X
+		dec.w	a
+		pha.w	
+		psh.w	#24
+		jsr 	_imul
+		adj 	#4
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		txa.w	
+		clc 	
+		adc.w	#temp_083
+		pha.w	
+		swp.x	
+		lda 	#24
+		plx.w	
+		ply.w	
+		mvb 	#51
+		swp.x	
+L_091	.LBL
+		inc.w	j_082,X
+		jmp 	L_087
+L_089	.LBL
+		dec.w	j_082,X
+		inc.w	i_081,X
+		jmp 	L_084
+L_086	.LBL
+		dec.w	i_081,X
+		txs.w	
+		plx.w	
+		rts 	
+		.end	sortwords_080
+i_094	.EQU	+7
 printnumbers_093	.SUB
-			phx.w   
-			tsx.w   
-L_095	.     
-			psh.w   #numbertable_008
-			lda.w   i_094,B
-			asl.w   a
-			asl.w   a
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			pla.w   
-			clc     
-			adc.w   #number_005
-			pha.w   
-			lda.w   (0,S)
-			adj     #2
-			pha.w   
-			lda     #4
-			pha.w   
-			jsr     _iwrite
-			adj     #4
-			psh.w   #numbertable_008
-			lda.w   i_094,B
-			asl.w   a
-			asl.w   a
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			pla.w   
-			clc     
-			adc.w   #nextindex_006
-			pha.w   
-			lda.w   (0,S)
-			adj     #2
-			sta.w   i_094,B
-			lda.w   i_094,B
-			pha.w   
-			lda     #0
-			xma.w   0,S
-			cmp.w   0,S
-			adj     #2
-			php     
-			lda     #1
-			plp     
-			beq     L_097
-			lda     #0
-L_097	.     
-			cmp.w   #1
-			beq     L_096
-			jmp     L_095
-L_096	.     
-			jsr     _writeln
-			txs.w   
-			plx.w   
-			rts     
-i_099	..EQ  -2
+		phx.w	
+		tsx.w	
+L_095	.LBL
+		psh.w	#numbertable_008
+		lda.w	i_094,X
+		asl.w	a
+		asl.w	a
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		pla.w	
+		clc 	
+		adc.w	#number_005
+		pha.w	
+		pli 	
+		lda.w	0,I++
+		pha.w	
+		lda 	#4
+		pha.w	
+		jsr 	_iwrite
+		adj 	#4
+		psh.w	#numbertable_008
+		lda.w	i_094,X
+		asl.w	a
+		asl.w	a
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		pla.w	
+		clc 	
+		adc.w	#nextindex_006
+		pha.w	
+		pli 	
+		lda.w	0,I++
+		sta.w	i_094,X
+		lda.w	i_094,X
+		pha.w	
+		lda 	#0
+		xma.w	1,S
+		cmp.w	1,S
+		adj 	#2
+		php 	
+		lda 	#1
+		plp 	
+		beq 	L_097
+		lda 	#0
+L_097	.LBL
+		cmp.w	#1
+		beq 	L_096
+		jmp 	L_095
+L_096	.LBL
+		jsr 	_writeln
+		txs.w	
+		plx.w	
+		rts 	
+		.end	printnumbers_093
+i_099	.EQU	-1
 printxref_098	.SUB
-			phx.w   
-			tsx.w   
-			adj     #-2
-			jsr     _writeln
-			jsr     _writeln
-			psh.w   #S_100
-			psh.w   #0
-			psh.w   #15
-			jsr     _swrite
-			adj     #6
-			jsr     _writeln
-			psh.w   #S_101
-			psh.w   #0
-			psh.w   #15
-			jsr     _swrite
-			adj     #6
-			jsr     _writeln
-			jsr     _writeln
-			lda.w   STATIC_LINK,B
-			pha.w   
-			jsr     sortwords_080
-			adj     #2
-			lda     #1
-			sta.w   i_099,B
-L_102	.     
-			lda.w   nextwordindex_009
-			pha.w   
-			lda     #1
-			xma.w   0,S
-			sec     
-			sbc.w   0,S
-			adj     #2
-			cmp.w   i_099,B
-			bge     L_103
-			jmp     L_104
-L_103	.     
-			psh.w   #wordtable_007
-			lda.w   i_099,B
-			dec.w   a
-			pha.w   
-			psh.w   #24
-			jsr     _imul
-			adj     #4
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			pla.w   
-			clc     
-			adc.w   #word_002
-			pha.w   
-			psh.w   #0
-			psh.w   #20
-			jsr     _swrite
-			adj     #6
-			psh.w   #wordtable_007
-			lda.w   i_099,B
-			dec.w   a
-			pha.w   
-			psh.w   #24
-			jsr     _imul
-			adj     #4
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			pla.w   
-			clc     
-			adc.w   #firstnumberindex_003
-			pha.w   
-			lda.w   (0,S)
-			adj     #2
-			pha.w   
-			lda.w   STATIC_LINK,B
-			pha.w   
-			jsr     printnumbers_093
-			adj     #4
-			inc.w   i_099,B
-			jmp     L_102
-L_104	.     
-			dec.w   i_099,B
-			txs.w   
-			plx.w   
-			rts     
+		phx.w	
+		tsx.w	
+		adj 	#-2
+		jsr 	_writeln
+		jsr 	_writeln
+		psh.w	#S_100
+		psh.w	#0
+		psh.w	#15
+		jsr 	_swrite
+		adj 	#6
+		jsr 	_writeln
+		psh.w	#S_101
+		psh.w	#0
+		psh.w	#15
+		jsr 	_swrite
+		adj 	#6
+		jsr 	_writeln
+		jsr 	_writeln
+		lda.w	STATIC_LINK,X
+		pha.w	
+		jsr 	sortwords_080
+		adj 	#2
+		lda 	#1
+		sta.w	i_099,X
+L_102	.LBL
+		lda.w	nextwordindex_009
+		pha.w	
+		lda 	#1
+		xma.w	1,S
+		sec 	
+		sbc.w	1,S
+		adj 	#2
+		cmp.w	i_099,X
+		bge 	L_103
+		jmp 	L_104
+L_103	.LBL
+		psh.w	#wordtable_007
+		lda.w	i_099,X
+		dec.w	a
+		pha.w	
+		psh.w	#24
+		jsr 	_imul
+		adj 	#4
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		pla.w	
+		clc 	
+		adc.w	#word_002
+		pha.w	
+		psh.w	#0
+		psh.w	#20
+		jsr 	_swrite
+		adj 	#6
+		psh.w	#wordtable_007
+		lda.w	i_099,X
+		dec.w	a
+		pha.w	
+		psh.w	#24
+		jsr 	_imul
+		adj 	#4
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		pla.w	
+		clc 	
+		adc.w	#firstnumberindex_003
+		pha.w	
+		pli 	
+		lda.w	0,I++
+		pha.w	
+		lda.w	STATIC_LINK,X
+		pha.w	
+		jsr 	printnumbers_093
+		adj 	#4
+		inc.w	i_099,X
+		jmp 	L_102
+L_104	.LBL
+		dec.w	i_099,X
+		txs.w	
+		plx.w	
+		rts 	
+		.end	printxref_098
 _pc65_main	.SUB
-			phx.w   
-			tsx.w   
-			lda     #0
-			sta.w   wordtablefull_012
-			lda     #0
-			sta.w   numbertablefull_013
-			lda     #1
-			sta.w   nextwordindex_009
-			lda     #1
-			sta.w   nextnumberindex_010
-			lda     #1
-			sta.w   linenumber_011
-			psh.w   #S_105
-			psh.w   #0
-			psh.w   #8
-			jsr     _swrite
-			adj     #6
-L_106	.     
-			jsr     _eof
-			pha.w   
-			lda.w   wordtablefull_012
-			ora.w   0,S
-			adj     #2
-			pha.w   
-			lda.w   numbertablefull_013
-			ora.w   0,S
-			adj     #2
-			eor     #1
-			cmp.w   #1
-			beq     L_107
-			jmp     L_108
-L_107	.     
-			psh.w   #wordtable_007
-			lda.w   nextwordindex_009
-			dec.w   a
-			pha.w   
-			psh.w   #24
-			jsr     _imul
-			adj     #4
-			clc     
-			adc.w   0,S
-			sta.w   0,S
-			pla.w   
-			clc     
-			adc.w   #word_002
-			pha.w   
-			phx.w   
-			jsr     readword_030
-			adj     #4
-			lda.w   gotword_015
-			cmp.w   #1
-			beq     L_109
-			jmp     L_110
-L_109	.     
-			phx.w   
-			jsr     enterword_062
-			adj     #2
-L_110	.     
-			jmp     L_106
-L_108	.     
-			lda.w   wordtablefull_012
-			cmp.w   #1
-			beq     L_111
-			jmp     L_112
-L_111	.     
-			jsr     _writeln
-			psh.w   #S_113
-			psh.w   #0
-			psh.w   #43
-			jsr     _swrite
-			adj     #6
-			jsr     _writeln
-			jmp     L_114
-L_112	.     
-			lda.w   numbertablefull_013
-			cmp.w   #1
-			beq     L_115
-			jmp     L_116
-L_115	.     
-			jsr     _writeln
-			psh.w   #S_117
-			psh.w   #0
-			psh.w   #45
-			jsr     _swrite
-			adj     #6
-			jsr     _writeln
-			jmp     L_118
-L_116	.     
-			phx.w   
-			jsr     printxref_098
-			adj     #2
-L_118	.     
-L_114	.     
-			jsr     _writeln
-			lda.w   nextwordindex_009
-			pha.w   
-			lda     #1
-			xma.w   0,S
-			sec     
-			sbc.w   0,S
-			adj     #2
-			pha.w   
-			lda     #5
-			pha.w   
-			jsr     _iwrite
-			adj     #4
-			psh.w   #S_119
-			psh.w   #0
-			psh.w   #14
-			jsr     _swrite
-			adj     #6
-			jsr     _writeln
-			lda.w   nextnumberindex_010
-			pha.w   
-			lda     #1
-			xma.w   0,S
-			sec     
-			sbc.w   0,S
-			adj     #2
-			pha.w   
-			lda     #5
-			pha.w   
-			jsr     _iwrite
-			adj     #4
-			psh.w   #S_120
-			psh.w   #0
-			psh.w   #21
-			jsr     _swrite
-			adj     #6
-			jsr     _writeln
-			plx.w   
-			rts     
-			.DATA   
-wordtable_007	..DB  12000
-numbertable_008	..DB  4004
-nextwordindex_009	..DB  2
-nextnumberindex_010	..DB  2
-linenumber_011	..DB  2
-wordtablefull_012	..DB  2
-numbertablefull_013	..DB  2
-newline_014	..DB  2
-gotword_015	..DB  2
-S_120	..DS  " line number entries."
-S_119	..DS  " word entries."
-S_117	..DS  "*** The number table is not large enough. ***"
-S_113	..DS  "*** The word table is not large enough. ***"
-S_105	..DS  "    1 : "
-S_101	..DS  "---------------"
-S_100	..DS  "Cross-reference"
-S_020	..DS  " : "
+		phx.w	
+		tsx.w	
+		lda 	#0
+		sta.w	wordtablefull_012
+		lda 	#0
+		sta.w	numbertablefull_013
+		lda 	#1
+		sta.w	nextwordindex_009
+		lda 	#1
+		sta.w	nextnumberindex_010
+		lda 	#1
+		sta.w	linenumber_011
+		psh.w	#S_105
+		psh.w	#0
+		psh.w	#8
+		jsr 	_swrite
+		adj 	#6
+L_106	.LBL
+		jsr 	_eof
+		pha.w	
+		lda.w	wordtablefull_012
+		ora.w	1,S
+		adj 	#2
+		pha.w	
+		lda.w	numbertablefull_013
+		ora.w	1,S
+		adj 	#2
+		eor 	#1
+		cmp.w	#1
+		beq 	L_107
+		jmp 	L_108
+L_107	.LBL
+		psh.w	#wordtable_007
+		lda.w	nextwordindex_009
+		dec.w	a
+		pha.w	
+		psh.w	#24
+		jsr 	_imul
+		adj 	#4
+		clc 	
+		adc.w	1,S
+		sta.w	1,S
+		pla.w	
+		clc 	
+		adc.w	#word_002
+		pha.w	
+		phx.w	
+		jsr 	readword_030
+		adj 	#4
+		lda.w	gotword_015
+		cmp.w	#1
+		beq 	L_109
+		jmp 	L_110
+L_109	.LBL
+		phx.w	
+		jsr 	enterword_062
+		adj 	#2
+L_110	.LBL
+		jmp 	L_106
+L_108	.LBL
+		lda.w	wordtablefull_012
+		cmp.w	#1
+		beq 	L_111
+		jmp 	L_112
+L_111	.LBL
+		jsr 	_writeln
+		psh.w	#S_113
+		psh.w	#0
+		psh.w	#43
+		jsr 	_swrite
+		adj 	#6
+		jsr 	_writeln
+		jmp 	L_114
+L_112	.LBL
+		lda.w	numbertablefull_013
+		cmp.w	#1
+		beq 	L_115
+		jmp 	L_116
+L_115	.LBL
+		jsr 	_writeln
+		psh.w	#S_117
+		psh.w	#0
+		psh.w	#45
+		jsr 	_swrite
+		adj 	#6
+		jsr 	_writeln
+		jmp 	L_118
+L_116	.LBL
+		phx.w	
+		jsr 	printxref_098
+		adj 	#2
+L_118	.LBL
+L_114	.LBL
+		jsr 	_writeln
+		lda.w	nextwordindex_009
+		pha.w	
+		lda 	#1
+		xma.w	1,S
+		sec 	
+		sbc.w	1,S
+		adj 	#2
+		pha.w	
+		lda 	#5
+		pha.w	
+		jsr 	_iwrite
+		adj 	#4
+		psh.w	#S_119
+		psh.w	#0
+		psh.w	#14
+		jsr 	_swrite
+		adj 	#6
+		jsr 	_writeln
+		lda.w	nextnumberindex_010
+		pha.w	
+		lda 	#1
+		xma.w	1,S
+		sec 	
+		sbc.w	1,S
+		adj 	#2
+		pha.w	
+		lda 	#5
+		pha.w	
+		jsr 	_iwrite
+		adj 	#4
+		psh.w	#S_120
+		psh.w	#0
+		psh.w	#21
+		jsr 	_swrite
+		adj 	#6
+		jsr 	_writeln
+		plx.w	
+		rts 	
+		.end	_pc65_main
+		.dat	
+wordtable_007	.BYT	12000
+numbertable_008	.BYT	4004
+nextwordindex_009	.BYT	2
+nextnumberindex_010	.BYT	2
+linenumber_011	.BYT	2
+wordtablefull_012	.BYT	2
+numbertablefull_013	.BYT	2
+newline_014	.BYT	2
+gotword_015	.BYT	2
+S_120	.STR " line number entries."
+S_119	.STR " word entries."
+S_117	.STR "*** The number table is not large enough. ***"
+S_113	.STR "*** The word table is not large enough. ***"
+S_105	.STR "    1 : "
+S_101	.STR "---------------"
+S_100	.STR "Cross-reference"
+S_020	.STR " : "
+		.end	

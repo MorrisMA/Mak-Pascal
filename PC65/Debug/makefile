@@ -35,10 +35,9 @@ PC65: $(OBJS) $(USER_OBJS)
 
 # Other Targets
 clean:
-	-$(RM) $(OBJS)$(C_DEPS)$(EXECUTABLES) PC65
+	-$(RM) $(EXECUTABLES)$(OBJS)$(C_DEPS) PC65
 	-@echo ' '
 
 .PHONY: all clean dependents
-.SECONDARY:
 
 -include ../makefile.targets

@@ -177,17 +177,21 @@ void assignment_statement(SYMTAB_NODE_PTR var_idp)
     --  Emit code to do the assignment.
     */
 
+    //fprintf(code_file, "\t;assignment_statement\n");
+
     if (var_tp == char_typep) {
 	    /*
 	    --  char := char
 	    */
 	    if (stacked_flag) {
-            fprintf(code_file, "\tsta (1,S)\n");
-            fprintf(code_file, "\tadj #%d\n", 2);
+            //fprintf(code_file, "\tsta (1,S)\n");
+            //fprintf(code_file, "\tadj #%d\n", 2);
+            fprintf(code_file, "\tpli\n");
+            fprintf(code_file, "\tsta 0,I++\n");
         } else if (var_idp->defn.key == FUNC_DEFN) {
             fprintf(code_file, "\ttay\n");
             fprintf(code_file, "\ttya\n");
-            fprintf(code_file, "\tsta.w %s,B\n", RETURN_VALUE);
+            fprintf(code_file, "\tsta.w %s,X\n", RETURN_VALUE);
         } else {
             fprintf(code_file, "\tsta %s_%03d\n", var_idp->name, var_idp->label_index);
         }
@@ -207,22 +211,24 @@ void assignment_statement(SYMTAB_NODE_PTR var_idp)
 	    --  ... real
 	    */
 	    if (stacked_flag) {
+            //fprintf(code_file, "\tswp\n");
+            //fprintf(code_file, "\tldy #2\n");
+            //fprintf(code_file, "\tsta.w (1,S),Y\t;******* Check Addressing Mode\n");
+            //fprintf(code_file, "\tswp\n");
+            //fprintf(code_file, "\tsta.w (1,S)\n");
+            //fprintf(code_file, "\tadj #%d\n", 2);
+            fprintf(code_file, "\tpli\n");
+            fprintf(code_file, "\tsta.w 0,I++\n");
             fprintf(code_file, "\tswp\n");
-            fprintf(code_file, "\tldy #2\n");
-            fprintf(code_file, "\tsta.w (1,S),Y\t;******* Check Addressing Mode\n");
-            fprintf(code_file, "\tswp\n");
-            fprintf(code_file, "\tsta.w (1,S)\n");
-            fprintf(code_file, "\tadj #%d\n", 2);
+            fprintf(code_file, "\tsta.w 0,I++\n");
         } else if (var_idp->defn.key == FUNC_DEFN) {
+            fprintf(code_file, "\tsta.w %s,X\n", RETURN_VALUE);
             fprintf(code_file, "\tswp\n");
-            fprintf(code_file, "\tsta.w %s,B\n", HIGH_RETURN_VALUE);
-            fprintf(code_file, "\tswp\n");
-            fprintf(code_file, "\tsta.w %s,B\n", RETURN_VALUE);
+            fprintf(code_file, "\tsta.w %s,X\t;assignment_statement\n", HIGH_RETURN_VALUE);
         } else {
+            fprintf(code_file, "\tsta.w %s_%03d\n", var_idp->name, var_idp->label_index);;
             fprintf(code_file, "\tswp\n");
-            fprintf(code_file, "\tsta.w %s_%03d+2\n", var_idp->name, var_idp->label_index);;
-            fprintf(code_file, "\tswp\n");
-            fprintf(code_file, "\tsta.w %s_%03d\n", var_idp->name, var_idp->label_index);
+            fprintf(code_file, "\tsta.w %s_%03d+2\t;assgnment_statement\n", var_idp->name, var_idp->label_index);
 	    }
     } else if ((var_tp->form == ARRAY_FORM) ||
 	           (var_tp->form == RECORD_FORM)  ) {
@@ -248,15 +254,17 @@ void assignment_statement(SYMTAB_NODE_PTR var_idp)
 	    --  enum    := enum
 	    */
 	    if (stacked_flag) {
-            fprintf(code_file, "\tsta.w (1,S)\n");
-            fprintf(code_file, "\tadj #%d\n", 2);
+            //fprintf(code_file, "\tsta.w (1,S)\n");
+            //fprintf(code_file, "\tadj #%d\n", 2);
+            fprintf(code_file, "\tpli\n");
+            fprintf(code_file, "\tsta.w 0,I++\n");
         } else if (var_idp->defn.key == FUNC_DEFN) {
-            fprintf(code_file, "\tsta.w %s,B\n", RETURN_VALUE);
+            fprintf(code_file, "\tsta.w %s,X\n", RETURN_VALUE);
         } else {
         	if(var_idp->level == 1) {
 				fprintf(code_file, "\tsta.w %s_%03d\n", var_idp->name, var_idp->label_index);
         	} else {
-                fprintf(code_file, "\tsta.w %s_%03d,B\n", var_idp->name, var_idp->label_index);
+                fprintf(code_file, "\tsta.w %s_%03d,X\n", var_idp->name, var_idp->label_index);
         	}
         }
     }
@@ -433,13 +441,13 @@ void for_statement(void)
         if(for_idp->level == 1) {
             fprintf(code_file, "\tsta %s_%03d\n", for_idp->name, for_idp->label_index);
         } else {
-            fprintf(code_file, "\tsta %s_%03d,B\n", for_idp->name, for_idp->label_index);
+            fprintf(code_file, "\tsta %s_%03d,X\n", for_idp->name, for_idp->label_index);
         }
     } else {
         if(for_idp->level == 1) {
             fprintf(code_file, "\tsta.w %s_%03d\n", for_idp->name, for_idp->label_index);
         } else {
-            fprintf(code_file, "\tsta.w %s_%03d,B\n", for_idp->name, for_idp->label_index);
+            fprintf(code_file, "\tsta.w %s_%03d,X\n", for_idp->name, for_idp->label_index);
         }
     }
 
@@ -460,13 +468,13 @@ void for_statement(void)
         if(for_idp->level == 1) {
             fprintf(code_file, "\tcmp %s_%03d\n", for_idp->name, for_idp->label_index);
         } else {
-            fprintf(code_file, "\tcmp %s_%03d,B\n", for_idp->name, for_idp->label_index);
+            fprintf(code_file, "\tcmp %s_%03d,X\n", for_idp->name, for_idp->label_index);
         }
     } else {
         if(for_idp->level == 1) {
             fprintf(code_file, "\tcmp.w %s_%03d\n", for_idp->name, for_idp->label_index);
         } else {
-            fprintf(code_file, "\tcmp.w %s_%03d,B\n", for_idp->name, for_idp->label_index);
+            fprintf(code_file, "\tcmp.w %s_%03d,X\n", for_idp->name, for_idp->label_index);
         }
     }
 
@@ -488,13 +496,13 @@ void for_statement(void)
             if(for_idp->level == 1) {
                 fprintf(code_file, "\tinc %s_%03d\n", for_idp->name, for_idp->label_index);
             } else {
-                fprintf(code_file, "\tinc %s_%03d,B\n", for_idp->name, for_idp->label_index);
+                fprintf(code_file, "\tinc %s_%03d,X\n", for_idp->name, for_idp->label_index);
             }
         } else {
             if(for_idp->level == 1) {
                 fprintf(code_file, "\tinc.w %s_%03d\n", for_idp->name, for_idp->label_index);
             } else {
-                fprintf(code_file, "\tinc.w %s_%03d,B\n", for_idp->name, for_idp->label_index);
+                fprintf(code_file, "\tinc.w %s_%03d,X\n", for_idp->name, for_idp->label_index);
             }
         }
     } else {
@@ -502,13 +510,13 @@ void for_statement(void)
             if(for_idp->level == 1) {
                 fprintf(code_file, "\tdec %s_%03d\n", for_idp->name, for_idp->label_index);
             } else {
-                fprintf(code_file, "\tdec %s_%03d,B\n", for_idp->name, for_idp->label_index);
+                fprintf(code_file, "\tdec %s_%03d,X\n", for_idp->name, for_idp->label_index);
             }
         } else {
             if(for_idp->level == 1) {
                 fprintf(code_file, "\tdec.w %s_%03d\n", for_idp->name, for_idp->label_index);
             } else {
-                fprintf(code_file, "\tdec.w %s_%03d,B\n", for_idp->name, for_idp->label_index);
+                fprintf(code_file, "\tdec.w %s_%03d,X\n", for_idp->name, for_idp->label_index);
             }
         }
     }
@@ -522,13 +530,13 @@ void for_statement(void)
             if(for_idp->level == 1) {
                 fprintf(code_file, "\tdec %s_%03d\n", for_idp->name, for_idp->label_index);
             } else {
-                fprintf(code_file, "\tdec %s_%03d,B\n", for_idp->name, for_idp->label_index);
+                fprintf(code_file, "\tdec %s_%03d,X\n", for_idp->name, for_idp->label_index);
             }
         } else {
             if(for_idp->level == 1) {
                 fprintf(code_file, "\tdec.w %s_%03d\n", for_idp->name, for_idp->label_index);
             } else {
-                fprintf(code_file, "\tdec.w %s_%03d,B\n", for_idp->name, for_idp->label_index);
+                fprintf(code_file, "\tdec.w %s_%03d,X\n", for_idp->name, for_idp->label_index);
             }
         }
     } else {
@@ -536,13 +544,13 @@ void for_statement(void)
             if(for_idp->level == 1) {
                 fprintf(code_file, "\tinc %s_%03d\n", for_idp->name, for_idp->label_index);
             } else {
-                fprintf(code_file, "\tinc %s_%03d,B\n", for_idp->name, for_idp->label_index);
+                fprintf(code_file, "\tinc %s_%03d,X\n", for_idp->name, for_idp->label_index);
             }
         } else {
             if(for_idp->level == 1) {
                 fprintf(code_file, "\tinc.w %s_%03d\n", for_idp->name, for_idp->label_index);
             } else {
-                fprintf(code_file, "\tinc.w %s_%03d,B\n", for_idp->name, for_idp->label_index);
+                fprintf(code_file, "\tinc.w %s_%03d,X\n", for_idp->name, for_idp->label_index);
             }
         }
     }
