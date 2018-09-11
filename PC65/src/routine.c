@@ -821,9 +821,9 @@ void actual_parm_list(SYMTAB_NODE_PTR rtn_idp, BOOLEAN parm_check_flag)
                         fprintf(code_file, "\tjsr _fconv\n");
                         fprintf(code_file, "\tadj #%d\n", 2);
                     }
-                    fprintf(code_file, "\tswp\n");  // ATOS = high word
+                    fprintf(code_file, "\tswp\ta\n");  // ATOS = high word
                     fprintf(code_file, "\tpha.w\n");
-                    fprintf(code_file, "\tswp\n");  // ATOS = low word
+                    fprintf(code_file, "\tswp\ta\n");  // ATOS = low word
                     fprintf(code_file, "\tpha.w\n");
                 } else if (   (actual_parm_tp->form == ARRAY_FORM)
                            || (actual_parm_tp->form == RECORD_FORM)) {

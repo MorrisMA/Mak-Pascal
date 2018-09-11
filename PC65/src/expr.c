@@ -329,9 +329,9 @@ TYPE_STRUCT_PTR simple_expression(void)
             }
         } else if (result_tp == real_typep) {
 	        if (unary_op == MINUS) {
-                fprintf(code_file, "\tswp\n");
+                fprintf(code_file, "\tswp\ta\n");
                 fprintf(code_file, "\teor.w #-32768\n");
-                fprintf(code_file, "\tswp\n");
+                fprintf(code_file, "\tswp\ta\n");
 	        }
         } else
             error(INCOMPATIBLE_TYPES);
@@ -504,7 +504,7 @@ TYPE_STRUCT_PTR term(void)
                     fprintf(code_file, "\tjsr _idiv\n");
                     fprintf(code_file, "\tadj #%d\n", 4);
                     if (op == MOD) {
-                        fprintf(code_file, "\tswp\n");
+                        fprintf(code_file, "\tswp\ta\n");
                     }
                 } else
                     error(INCOMPATIBLE_TYPES);
@@ -673,7 +673,7 @@ TYPE_STRUCT_PTR float_literal(char string[], float value)
     */
 
     fprintf(code_file, "\tlda.w %s_%03d+2\t;float_literal\n", FLOAT_LABEL_PREFIX, np->label_index);
-    fprintf(code_file, "\tswp\n");
+    fprintf(code_file, "\tswp\ta\n");
     fprintf(code_file, "\tlda.w %s_%03d\n", FLOAT_LABEL_PREFIX, np->label_index);
     return(real_typep);
 }
@@ -841,21 +841,22 @@ TYPE_STRUCT_PTR variable(SYMTAB_NODE_PTR var_idp,   /* variable id */
             } else if (tp == real_typep) {
                 //fprintf(code_file, "\tldy #2\n");
                 //fprintf(code_file, "\tlda.w (1,S),Y\n");
-                //fprintf(code_file, "\tswp\n");
+                //fprintf(code_file, "\tswp\ta\n");
                 //fprintf(code_file, "\tlda.w (1,S)\n");
                 //fprintf(code_file, "\tadj #%d\n", 2);
                 fprintf(code_file, "\tpli\n");
                 fprintf(code_file, "\tlda.w 0,I++\n");
                 fprintf(code_file, "\ttai\n");
                 fprintf(code_file, "\tlda.w 0,I++\n");
-                fprintf(code_file, "\tswp\n");
+                fprintf(code_file, "\tswp\ta\n");
                 fprintf(code_file, "\tlda.w 0,I++\n");
-                fprintf(code_file, "\tswp\n");
-            } else 
+                fprintf(code_file, "\tswp\ta\n");
+            } else {
                 //fprintf(code_file, "\tlda.w (1,S)\n");
                 //fprintf(code_file, "\tadj #%d\n", 2);
                 fprintf(code_file, "\tpli\n");
                 fprintf(code_file, "\tlda.w 0,I++\n");
+            }
 	    }
     } else if (use == TARGET_USE) {
 	    /*
