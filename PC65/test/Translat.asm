@@ -435,7 +435,7 @@ dopart_007	.sub
 	pha.w
 	jsr _idiv
 	adj #4
-	swp
+	swp a
 	sta.w tenspart_010,X
 ;  104: 
 ;  105:             {Translate the hundreds digit.}
@@ -529,7 +529,7 @@ L_108
 	pha.w
 	jsr _idiv
 	adj #4
-	swp
+	swp a
 	sta.w onesdigit_012,X
 ;  118: 
 ;  119:                 IF tensdigit > 0 THEN DoTens (tensdigit);
@@ -608,7 +608,7 @@ translate_003	.sub
 	pha.w
 	jsr _idiv
 	adj #4
-	swp
+	swp a
 	sta.w partafter_006,X
 ;  129: 
 ;  130:         IF partbefore > 0 THEN BEGIN

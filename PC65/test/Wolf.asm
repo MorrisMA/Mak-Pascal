@@ -580,7 +580,7 @@ random_035	.sub
 	pha.w
 	jsr _idiv
 	adj #4
-	swp	a
+	swp a
 	sta.w seed_010
 ;  169:     random := (seed*limit) DIV divisor;
 	lda.w seed_010
@@ -1360,7 +1360,7 @@ L_076
 	pha.w
 	jsr _idiv
 	adj #4
-	swp	a
+	swp a
 	pha.w
 	lda #0
 	xma.w 1,S
@@ -1704,7 +1704,7 @@ L_097
 	pha.w
 	jsr _idiv
 	adj #4
-	swp	a
+	swp a
 	pha.w
 	lda #0
 	xma.w 1,S

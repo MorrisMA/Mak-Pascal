@@ -25,7 +25,7 @@ psh.w_imm     100
 rts_imp         6
 sta.w_ipp       1
 sta.w_zpX       6
-swp_imp         3
+swp_A           3
 tsx.w_imp       7
 txs.w_imp       5
 xma.w_zpS      11

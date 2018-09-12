@@ -821,9 +821,9 @@ void actual_parm_list(SYMTAB_NODE_PTR rtn_idp, BOOLEAN parm_check_flag)
                         fprintf(code_file, "\tjsr _fconv\n");
                         fprintf(code_file, "\tadj #%d\n", 2);
                     }
-                    fprintf(code_file, "\tswp\ta\n");  // ATOS = high word
+                    fprintf(code_file, "\tswp a\n");  // ATOS = high word
                     fprintf(code_file, "\tpha.w\n");
-                    fprintf(code_file, "\tswp\ta\n");  // ATOS = low word
+                    fprintf(code_file, "\tswp a\n");  // ATOS = low word
                     fprintf(code_file, "\tpha.w\n");
                 } else if (   (actual_parm_tp->form == ARRAY_FORM)
                            || (actual_parm_tp->form == RECORD_FORM)) {
@@ -848,7 +848,7 @@ void actual_parm_list(SYMTAB_NODE_PTR rtn_idp, BOOLEAN parm_check_flag)
                     }
                     fprintf(code_file, "\tdup.x\n");
                     fprintf(code_file, "\tplx.w\n");
-                    fprintf(code_file, "\tmvb #51\n");
+                    fprintf(code_file, "\tmov #15\n");
                     fprintf(code_file, "\trot.x\n");
                 } else {
                     fprintf(code_file, "\tpha.w\n");

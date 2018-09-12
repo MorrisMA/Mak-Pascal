@@ -746,12 +746,12 @@ L_090	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		swp.x	
+		swp 	x
 		lda 	#24
 		plx.w	
 		ply.w	
 		mvb 	#51
-		swp.x	
+		swp 	x
 		psh.w	#wordtable_007
 		lda.w	i_081,X
 		dec.w	a
@@ -772,12 +772,12 @@ L_090	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		swp.x	
+		swp 	x
 		lda 	#24
 		plx.w	
 		ply.w	
 		mvb 	#51
-		swp.x	
+		swp 	x
 		psh.w	#wordtable_007
 		lda.w	j_082,X
 		dec.w	a
@@ -792,12 +792,12 @@ L_090	.LBL
 		clc 	
 		adc.w	#temp_083
 		pha.w	
-		swp.x	
+		swp 	x
 		lda 	#24
 		plx.w	
 		ply.w	
 		mvb 	#51
-		swp.x	
+		swp 	x
 L_091	.LBL
 		inc.w	j_082,X
 		jmp 	L_087

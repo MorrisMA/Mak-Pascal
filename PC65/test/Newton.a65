@@ -20,22 +20,22 @@ L_005	.LBL
 		jsr 	_fread
 		pli 	
 		sta.w	0,I++
-		swp 	
+		swp 	a
 		sta.w	0,I++
 		lda.w	number_002+2
-		swp 	
+		swp 	a
 		lda.w	number_002
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		lda 	#0
 		pha.w	
 		jsr 	_fconv
 		adj 	#2
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		jsr 	_fcmp
 		adj 	#8
@@ -51,11 +51,11 @@ L_010	.LBL
 		jmp 	L_009
 L_008	.LBL
 		lda.w	number_002+2
-		swp 	
+		swp 	a
 		lda.w	number_002
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		lda 	#12
 		pha.w	
@@ -64,11 +64,11 @@ L_008	.LBL
 		jsr 	_fwrite
 		adj 	#8
 		lda.w	F_011+2
-		swp 	
+		swp 	a
 		lda.w	F_011
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		lda 	#12
 		pha.w	
@@ -80,19 +80,19 @@ L_008	.LBL
 		jmp 	L_012
 L_009	.LBL
 		lda.w	number_002+2
-		swp 	
+		swp 	a
 		lda.w	number_002
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		lda 	#0
 		pha.w	
 		jsr 	_fconv
 		adj 	#2
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		jsr 	_fcmp
 		adj 	#8
@@ -116,23 +116,23 @@ L_013	.LBL
 		jmp 	L_017
 L_014	.LBL
 		lda.w	number_002+2
-		swp 	
+		swp 	a
 		lda.w	number_002
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		jsr 	_fsqrt
 		adj 	#4
 		sta.w	sqroot_004
-		swp 	
+		swp 	a
 		sta.w	sqroot_004+2
 		lda.w	number_002+2
-		swp 	
+		swp 	a
 		lda.w	number_002
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		lda 	#12
 		pha.w	
@@ -141,11 +141,11 @@ L_014	.LBL
 		jsr 	_fwrite
 		adj 	#8
 		lda.w	sqroot_004+2
-		swp 	
+		swp 	a
 		lda.w	sqroot_004
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		lda 	#12
 		pha.w	
@@ -160,61 +160,61 @@ L_014	.LBL
 		jsr 	_fconv
 		adj 	#2
 		sta.w	root_003
-		swp 	
+		swp 	a
 		sta.w	root_003+2
 L_018	.LBL
 		lda.w	number_002+2
-		swp 	
+		swp 	a
 		lda.w	number_002
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		lda.w	root_003+2
-		swp 	
+		swp 	a
 		lda.w	root_003
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		jsr 	_fdiv
 		adj 	#8
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		lda.w	root_003+2
-		swp 	
+		swp 	a
 		lda.w	root_003
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		jsr 	_fadd
 		adj 	#8
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		lda 	#2
 		pha.w	
 		jsr 	_fconv
 		adj 	#2
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		jsr 	_fdiv
 		adj 	#8
 		sta.w	root_003
-		swp 	
+		swp 	a
 		sta.w	root_003+2
 		lda.w	root_003+2
-		swp 	
+		swp 	a
 		lda.w	root_003
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		lda 	#24
 		pha.w	
@@ -225,69 +225,69 @@ L_018	.LBL
 		lda 	#100
 		pha.w	
 		lda.w	root_003+2
-		swp 	
+		swp 	a
 		lda.w	root_003
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		lda.w	sqroot_004+2
-		swp 	
+		swp 	a
 		lda.w	sqroot_004
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		jsr 	_fsub
 		adj 	#8
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		jsr 	_fabs
 		adj 	#4
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		pla.w	
-		swp 	
+		swp 	a
 		pla.w	
 		ply.w	
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		phy.w	
 		jsr 	_fconv
 		adj 	#2
 		ply.w	
-		swp.y	
+		swp 	y
 		ply.w	
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		phy.w	
-		swp.y	
+		swp 	y
 		phy.w	
 		jsr 	_fmul
 		adj 	#8
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		lda.w	sqroot_004+2
-		swp 	
+		swp 	a
 		lda.w	sqroot_004
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		jsr 	_fdiv
 		adj 	#8
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		lda 	#12
 		pha.w	
@@ -302,61 +302,61 @@ L_018	.LBL
 		adj 	#4
 		jsr 	_writeln
 		lda.w	number_002+2
-		swp 	
+		swp 	a
 		lda.w	number_002
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		lda.w	root_003+2
-		swp 	
+		swp 	a
 		lda.w	root_003
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		jsr 	_fmul
 		adj 	#8
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		jsr 	_fdiv
 		adj 	#8
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		lda 	#1
 		pha.w	
 		jsr 	_fconv
 		adj 	#2
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		jsr 	_fsub
 		adj 	#8
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		jsr 	_fabs
 		adj 	#4
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		lda.w	F_020+2
-		swp 	
+		swp 	a
 		lda.w	F_020
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		jsr 	_fcmp
 		adj 	#8
@@ -374,19 +374,19 @@ L_019	.LBL
 L_017	.LBL
 L_012	.LBL
 		lda.w	number_002+2
-		swp 	
+		swp 	a
 		lda.w	number_002
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		lda 	#0
 		pha.w	
 		jsr 	_fconv
 		adj 	#2
-		swp 	
+		swp 	a
 		pha.w	
-		swp 	
+		swp 	a
 		pha.w	
 		jsr 	_fcmp
 		adj 	#8

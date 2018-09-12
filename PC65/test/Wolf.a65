@@ -411,7 +411,7 @@ random_035	.SUB
 		pha.w	
 		jsr 	_idiv
 		adj 	#4
-		swp 	
+		swp 	a
 		sta.w	seed_010
 		lda.w	seed_010
 		pha.w	
@@ -1098,7 +1098,7 @@ L_076	.LBL
 		pha.w	
 		jsr 	_idiv
 		adj 	#4
-		swp 	
+		swp 	a
 		pha.w	
 		lda 	#0
 		xma.w	1,S
@@ -1404,7 +1404,7 @@ L_097	.LBL
 		pha.w	
 		jsr 	_idiv
 		adj 	#4
-		swp 	
+		swp 	a
 		pha.w	
 		lda 	#0
 		xma.w	1,S

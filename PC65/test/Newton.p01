@@ -20,6 +20,6 @@ psh.w_imm       8
 rts_imp         1
 sta.w_abs       6
 sta.w_ipp       2
-swp_imp        94
-swp.y_imp       2
+swp_A          94
+swp_Y           2
 tsx.w_imp       2

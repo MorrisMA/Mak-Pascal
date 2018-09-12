@@ -211,23 +211,23 @@ void assignment_statement(SYMTAB_NODE_PTR var_idp)
 	    --  ... real
 	    */
 	    if (stacked_flag) {
-            //fprintf(code_file, "\tswp\ta\n");
+            //fprintf(code_file, "\tswp a\n");
             //fprintf(code_file, "\tldy #2\n");
             //fprintf(code_file, "\tsta.w (1,S),Y\t;******* Check Addressing Mode\n");
-            //fprintf(code_file, "\tswp\ta\n");
+            //fprintf(code_file, "\tswp a\n");
             //fprintf(code_file, "\tsta.w (1,S)\n");
             //fprintf(code_file, "\tadj #%d\n", 2);
             fprintf(code_file, "\tpli\n");
             fprintf(code_file, "\tsta.w 0,I++\n");
-            fprintf(code_file, "\tswp\ta\n");
+            fprintf(code_file, "\tswp a\n");
             fprintf(code_file, "\tsta.w 0,I++\n");
         } else if (var_idp->defn.key == FUNC_DEFN) {
             fprintf(code_file, "\tsta.w %s,X\n", RETURN_VALUE);
-            fprintf(code_file, "\tswp\ta\n");
+            fprintf(code_file, "\tswp a\n");
             fprintf(code_file, "\tsta.w %s,X\t;assignment_statement\n", HIGH_RETURN_VALUE);
         } else {
             fprintf(code_file, "\tsta.w %s_%03d\n", var_idp->name, var_idp->label_index);;
-            fprintf(code_file, "\tswp\ta\n");
+            fprintf(code_file, "\tswp a\n");
             fprintf(code_file, "\tsta.w %s_%03d+2\t;assgnment_statement\n", var_idp->name, var_idp->label_index);
 	    }
     } else if ((var_tp->form == ARRAY_FORM) ||
@@ -237,7 +237,7 @@ void assignment_statement(SYMTAB_NODE_PTR var_idp)
 	    --  record := record
 	    */
 
-        fprintf(code_file, "\tswp\tx\n");
+        fprintf(code_file, "\tswp x\n");
         if(    (var_tp->size >= 0  )
             && (var_tp->size <= 255)) {
             fprintf(code_file, "\tlda #%d\n", var_tp->size);
@@ -246,8 +246,8 @@ void assignment_statement(SYMTAB_NODE_PTR var_idp)
         }
         fprintf(code_file, "\tplx.w\n");
         fprintf(code_file, "\tply.w\n");
-        fprintf(code_file, "\tmvb #51\n-");
-        fprintf(code_file, "\tswp\tx\n");
+        fprintf(code_file, "\tmov #15\n");
+        fprintf(code_file, "\tswp x\n");
     } else {
 	    /*
 	    --  integer := integer
@@ -740,7 +740,8 @@ TYPE_STRUCT_PTR case_label(void)
         } else if (idp->typep == char_typep) {
 	        if (saw_sign)
                 error(INVALID_CONSTANT);
-            fprintf(code_file, "\tcmp #'%c'\n", idp->defn.info.constant.value.character);
+            //fprintf(code_file, "\tcmp #'%c'\n", idp->defn.info.constant.value.character);
+            fprintf(code_file, "\tcmp #%d\n", idp->defn.info.constant.value.integer);
 	        return(char_typep);
         } else if (idp->typep->form == ENUM_FORM) {
 	        if (saw_sign)
@@ -758,7 +759,8 @@ TYPE_STRUCT_PTR case_label(void)
             error(INVALID_CONSTANT);
 
 	    if (strlen(literal.value.string) == 1) {
-            fprintf(code_file, "\tcmp #'%c'\n", literal.value.string[0]);
+            //fprintf(code_file, "\tcmp #'%c'\n", literal.value.string[0]);
+            fprintf(code_file, "\tcmp #%d\n", (int) literal.value.string[0]);
 	        return(char_typep);
         } else {
 	        error(INVALID_CONSTANT);

@@ -46,7 +46,7 @@ sta.w_abs      15
 sta.w_ipp       6
 sta.w_zpS      23
 sta.w_zpX      13
-swp.x_imp       6
+swp_X           6
 tay_imp         1
 tsx.w_imp      10
 txa.w_imp       3

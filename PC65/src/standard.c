@@ -173,15 +173,15 @@ void read_readln(SYMTAB_NODE_PTR rtn_idp)
                     fprintf(code_file, "\tsta.w 0,I++\n");
                 } else if (actual_parm_tp == real_typep) {
                     fprintf(code_file, "\tjsr _fread\n");
-                    //fprintf(code_file, "\tswp\ta\n");
+                    //fprintf(code_file, "\tswp a\n");
                     //fprintf(code_file, "\tldy #2\n");
                     //fprintf(code_file, "\tsta.w (1,S),Y\t; *********** Check Addressing Mode\n");
-                    //fprintf(code_file, "\tswp\ta\n");
+                    //fprintf(code_file, "\tswp a\n");
                     //fprintf(code_file, "\tsta.w (1,S)\n");
                     //fprintf(code_file, "\tadj #%d\n", 2);
                     fprintf(code_file, "\tpli\n");
                     fprintf(code_file, "\tsta.w 0,I++\n");
-                    fprintf(code_file, "\tswp\ta\n");
+                    fprintf(code_file, "\tswp a\n");
                     fprintf(code_file, "\tsta.w 0,I++\n");
                 } else if (actual_parm_tp == char_typep) {
                     fprintf(code_file, "\tjsr _cread\n");

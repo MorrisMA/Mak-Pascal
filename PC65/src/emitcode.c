@@ -70,21 +70,21 @@ void emit_program_prologue()
 {
 	int stk_size = 1024;
 
-	fprintf(code_file, "\t.stk\t%d\n", stk_size);
-    fprintf(code_file, "\t.cod\t%d\n", PGM_BASE);
+	fprintf(code_file, "\t.stk %d\n", stk_size);
+    fprintf(code_file, "\t.cod %d\n", PGM_BASE);
     //
     //  Equates for stack frame components.
     //
-    fprintf(code_file, "%s\t\t\t.equ\t%+d\n", STATIC_LINK, STATIC_LINK_OFF);
-    fprintf(code_file, "%s\t\t.equ\t%+d\n", RETURN_VALUE, RETURN_VALUE_OFF);
-    fprintf(code_file, "%s\t.equ\t%+d\n", HIGH_RETURN_VALUE, HIGH_RTN_VALUE_OFF);
+    fprintf(code_file, "%s\t\t\t.equ %+d\n", STATIC_LINK, STATIC_LINK_OFF);
+    fprintf(code_file, "%s\t\t.equ %+d\n", RETURN_VALUE, RETURN_VALUE_OFF);
+    fprintf(code_file, "%s\t.equ %+d\n", HIGH_RETURN_VALUE, HIGH_RTN_VALUE_OFF);
     //
     //	Initialize stack and jump to main
     //
     fprintf(code_file, "_start\n");
     fprintf(code_file, "\ttsx.w\t\t; Preserve original stack pointer\n");
-    fprintf(code_file, "\tlds.w\t#%d\t; Initialize program stack pointer\n", TOP_RAM);
-    fprintf(code_file, "\tjmp\t_pc65_main\n");
+    fprintf(code_file, "\tlds.w #%d\t; Initialize program stack pointer\n", TOP_RAM);
+    fprintf(code_file, "\tjmp _pc65_main\n");
 }
 
 //////////////////////////////////////////////////////////////////
@@ -109,15 +109,15 @@ void emit_program_epilogue(SYMTAB_NODE_PTR prog_idp)
     for (np = prog_idp->defn.info.routine.locals; np != NULL; np = np->next) {
 	    fprintf(code_file, "%s_%03d\t", np->name, np->label_index);
 	    if (np->typep == char_typep)
-	        fprintf(code_file, ".byt\t1\n");
+	        fprintf(code_file, ".byt1\n");
 	    else if (np->typep == real_typep)
-	        fprintf(code_file, ".byt\t4\n");
+	        fprintf(code_file, ".byt 4\n");
 	    else if (np->typep->form == ARRAY_FORM)
-	        fprintf(code_file, ".byt\t%d\n", np->typep->size);
+	        fprintf(code_file, ".byt %d\n", np->typep->size);
 	    else if (np->typep->form == RECORD_FORM)
-	        fprintf(code_file, ".byt\t%d\n", np->typep->size);
+	        fprintf(code_file, ".byt %d\n", np->typep->size);
 	    else
-	        fprintf(code_file, ".byt\t2\n");
+	        fprintf(code_file, ".byt 2\n");
     }
 
     //
@@ -135,7 +135,7 @@ void emit_program_epilogue(SYMTAB_NODE_PTR prog_idp)
     //
 
     for (np = string_literal_list; np != NULL; np = np->next) {
-	    fprintf(code_file, "%s_%03d\t.str\t\"", STRING_LABEL_PREFIX, np->label_index);
+	    fprintf(code_file, "%s_%03d\t.str \"", STRING_LABEL_PREFIX, np->label_index);
 
 		length = strlen(np->name) - 2;
 		for (i = 1; i <= length; ++i) {
@@ -169,7 +169,7 @@ void emit_main_epilogue()
 {
     fprintf(code_file, "\tplx.w\n");
     fprintf(code_file, "\trts\n");
-    fprintf(code_file, "\t.end\t_pc65_main\n");
+    fprintf(code_file, "\t.end _pc65_main\n");
 }
 
 //////////////////////////////////////////////////////////////////
@@ -220,7 +220,7 @@ void emit_routine_epilogue(SYMTAB_NODE_PTR rtn_idp)
     if (rtn_idp->defn.key == FUNC_DEFN) {
         if (rtn_idp->typep == real_typep) {
             fprintf(code_file, "\tlda.w %s,X\t;emit_routine_epilogue\n", HIGH_RETURN_VALUE);
-	        fprintf(code_file, "\tswp\ta\n");
+	        fprintf(code_file, "\tswp a\n");
         }
         fprintf(code_file, "\tlda.w %s,X\n", RETURN_VALUE);
     }
@@ -237,7 +237,7 @@ void emit_routine_epilogue(SYMTAB_NODE_PTR rtn_idp)
 
     fprintf(code_file, "\trts\n");
 
-    fprintf(code_file, "\t.end\t%s_%03d\n", rtn_idp->name, rtn_idp->label_index);
+    fprintf(code_file, "\t.end %s_%03d\n", rtn_idp->name, rtn_idp->label_index);
 }
 
 		//******************************//
@@ -285,7 +285,7 @@ void emit_declarations(SYMTAB_NODE_PTR rtn_idp)
 
 void emit_numeric_equate(SYMTAB_NODE_PTR idp)
 {
-    fprintf(code_file, "%s_%03d\t.equ\t%+d\n",
+    fprintf(code_file, "%s_%03d\t.equ %+d\n",
 	  	               idp->name,
                        idp->label_index,
 	  	               idp->defn.info.data.offset);
@@ -308,17 +308,17 @@ void emit_text_equate(SYMTAB_NODE_PTR idp)
     int  offset      = idp->defn.info.data.offset;
 
     if (idp->typep == char_typep) {
-        fprintf(code_file, "%s_%03d\t.equ\t%+d\n",
+        fprintf(code_file, "%s_%03d\t.equ %+d\n",
 		                   name,
                            label_index,
                            offset);
     } else if (idp->typep == real_typep) {
-	    fprintf(code_file, "%s_%03d\t.equ\t%+d\n",
+	    fprintf(code_file, "%s_%03d\t.equ %+d\n",
 		                   name,
                            label_index,
                            offset);
     } else {
-	    fprintf(code_file, "%s_%03d\t.equ\t%+d\n",
+	    fprintf(code_file, "%s_%03d\t.equ %+d\n",
 		                   name,
                            label_index,
                            offset);
@@ -351,7 +351,7 @@ void emit_load_value(SYMTAB_NODE_PTR var_idp, TYPE_STRUCT_PTR var_tp)
         } else if (var_tp == real_typep) {
             //fprintf(code_file, "\tldy #2\n");
             //fprintf(code_file, "\tlda.w (%s_%03d,X),Y\t; ***** Check Addressing Mode\n", var_idp->name, var_idp->label_index);
-            //fprintf(code_file, "\tswp\ta\n");
+            //fprintf(code_file, "\tswp a\n");
             //fprintf(code_file, "\tlda.w (%s_%03d,X)\n", var_idp->name, var_idp->label_index);
             fprintf(code_file, "\ttxa.w\n");
             fprintf(code_file, "\tclc\n");
@@ -360,9 +360,9 @@ void emit_load_value(SYMTAB_NODE_PTR var_idp, TYPE_STRUCT_PTR var_tp)
             fprintf(code_file, "\tlda.w 0,I++\n");
             fprintf(code_file, "\ttai\n");
             fprintf(code_file, "\tlda.w 0,I++\n");
-            fprintf(code_file, "\tswp\ta\n");
+            fprintf(code_file, "\tswp a\n");
             fprintf(code_file, "\tlda.w 0,I++\n");
-            fprintf(code_file, "\tswp\ta\n");
+            fprintf(code_file, "\tswp a\n");
         } else {
             fprintf(code_file, "\tlda.w (%s_%03d,X)\n", var_idp->name, var_idp->label_index);
         }
@@ -375,7 +375,7 @@ void emit_load_value(SYMTAB_NODE_PTR var_idp, TYPE_STRUCT_PTR var_tp)
             fprintf(code_file, "\tlda %s_%03d\n", var_idp->name, var_idp->label_index);
         } else if (var_tp == real_typep) {
             fprintf(code_file, "\tlda.w %s_%03d+2\t;emit_load_value\n", var_idp->name, var_idp->label_index);
-            fprintf(code_file, "\tswp\ta\n");
+            fprintf(code_file, "\tswp a\n");
             fprintf(code_file, "\tlda.w %s_%03d\n", var_idp->name, var_idp->label_index);
         } else {
             fprintf(code_file, "\tlda.w %s_%03d\n", var_idp->name, var_idp->label_index);
@@ -389,7 +389,7 @@ void emit_load_value(SYMTAB_NODE_PTR var_idp, TYPE_STRUCT_PTR var_tp)
             fprintf(code_file, "\tlda %s_%03d,X\n", var_idp->name, var_idp->label_index);
         } else if (var_tp == real_typep) {
             fprintf(code_file, "\tlda.w %s_%03d+2,X\t;emit_load_value\n", var_idp->name, var_idp->label_index);
-            fprintf(code_file, "\tswp\ta\n");
+            fprintf(code_file, "\tswp a\n");
             fprintf(code_file, "\tlda.w %s_%03d,X\n", var_idp->name, var_idp->label_index);
         } else {
             fprintf(code_file, "\tlda.w %s_%03d,X\n", var_idp->name, var_idp->label_index);
@@ -402,7 +402,7 @@ void emit_load_value(SYMTAB_NODE_PTR var_idp, TYPE_STRUCT_PTR var_tp)
 	    //
 	    int lev = var_level;
 
-        fprintf(code_file, "\tswp\tx\n");
+        fprintf(code_file, "\tswp x\n");
 	    do {
             fprintf(code_file, "\tlda.xw %s,X\n", STATIC_LINK);
 	    } while (++lev < level);
@@ -411,12 +411,12 @@ void emit_load_value(SYMTAB_NODE_PTR var_idp, TYPE_STRUCT_PTR var_tp)
             fprintf(code_file, "\tlda %s_%03d,X\n", var_idp->name, var_idp->label_index);
         } else if (var_tp == real_typep) {
             fprintf(code_file, "\tlda.w %s_%03d+2,X\t;emit_load_value\n", var_idp->name, var_idp->label_index);
-            fprintf(code_file, "\tswp\ta\n");
+            fprintf(code_file, "\tswp a\n");
             fprintf(code_file, "\tlda.w %s_%03d,X\n", var_idp->name, var_idp->label_index);
         } else {
             fprintf(code_file, "\tlda.w %s_%03d,X\n", var_idp->name, var_idp->label_index);
         }
-        fprintf(code_file, "\tswp\tx\n");
+        fprintf(code_file, "\tswp x\n");
     }
 }
 
@@ -431,9 +431,9 @@ void emit_push_operand(TYPE_STRUCT_PTR tp)
         return;
 
     if (tp == real_typep) {
-        fprintf(code_file, "\tswp\ta\n");
+        fprintf(code_file, "\tswp a\n");
         fprintf(code_file, "\tpha.w\n");
-        fprintf(code_file, "\tswp\ta\n");
+        fprintf(code_file, "\tswp a\n");
         fprintf(code_file, "\tpha.w\n");
     } else {
         fprintf(code_file, "\tpha.w\n");
@@ -475,7 +475,7 @@ void emit_push_address(SYMTAB_NODE_PTR var_idp)
     } else {  // var_level < level //
 	    int lev = var_level;
 
-        fprintf(code_file, "\tswp\tx\n");
+        fprintf(code_file, "\tswp x\n");
         //
 	    do {
             fprintf(code_file, "\tlda.w %s,X\n", STATIC_LINK);
@@ -496,7 +496,7 @@ void emit_push_address(SYMTAB_NODE_PTR var_idp)
             fprintf(code_file, "\tpha.w\n");
         }
         //
-        fprintf(code_file, "\tswp\tx\n");
+        fprintf(code_file, "\tswp x\n");
     }
 }
 
@@ -515,7 +515,7 @@ void emit_push_return_value_address(SYMTAB_NODE_PTR var_idp)
 	    //
 	    //  Find the appropriate stack frame.
 	    //
-        fprintf(code_file, "\tswp\tx\n");
+        fprintf(code_file, "\tswp x\n");
         //
 	    do {
             fprintf(code_file, "\tlda.w %s,X\n", STATIC_LINK);
@@ -528,7 +528,7 @@ void emit_push_return_value_address(SYMTAB_NODE_PTR var_idp)
         fprintf(code_file, "\tadc.w #%s\n", RETURN_VALUE);
         fprintf(code_file, "\tpha.w\n");
         //
-        fprintf(code_file, "\tswp\tx\n");
+        fprintf(code_file, "\tswp x\n");
     } else {
     	//
     	// Calculate address of local variable as an offset from BP
@@ -562,9 +562,9 @@ void emit_promote_to_real(TYPE_STRUCT_PTR tp1, TYPE_STRUCT_PTR tp2)
         //
         // Push real parameter #2
         //
-        fprintf(code_file, "\tswp\ta\n");
+        fprintf(code_file, "\tswp a\n");
         fprintf(code_file, "\tpha.w\n");
-        fprintf(code_file, "\tswp\ta\n");
+        fprintf(code_file, "\tswp a\n");
         fprintf(code_file, "\tpha.w\n");
     }
 
@@ -573,7 +573,7 @@ void emit_promote_to_real(TYPE_STRUCT_PTR tp1, TYPE_STRUCT_PTR tp2)
     	// Pull real parameter #2 and hold in ATOS (hi) and ANOS (lo)
         //
     	fprintf(code_file, "\tpla.w\n");
-        fprintf(code_file, "\tswp\ta\n");
+        fprintf(code_file, "\tswp a\n");
         fprintf(code_file, "\tpla.w\n");
         //
         // Pull integer parameter #1 and hold in YTOS
@@ -583,7 +583,7 @@ void emit_promote_to_real(TYPE_STRUCT_PTR tp1, TYPE_STRUCT_PTR tp2)
         // Push real parameter #2 back onto the stack temporarily
         //
         fprintf(code_file, "\tpha.w\n");
-        fprintf(code_file, "\tswp\ta\n");
+        fprintf(code_file, "\tswp a\n");
         fprintf(code_file, "\tpha.w\n");
         //
         // Push real parameter #1 onto stack and promote to real
@@ -595,18 +595,18 @@ void emit_promote_to_real(TYPE_STRUCT_PTR tp1, TYPE_STRUCT_PTR tp2)
         // Pull real parameter #2 from stack into YTOS (hi) and YNOS (lo)
         //
         fprintf(code_file, "\tply.w\n");
-        fprintf(code_file, "\tswp\ty\n");
+        fprintf(code_file, "\tswp y\n");
         fprintf(code_file, "\tply.w\n");
         //
         // Push promoted real parameter #1 onto stack
         //
-        fprintf(code_file, "\tswp\ta\n");
+        fprintf(code_file, "\tswp a\n");
         fprintf(code_file, "\tpha.w\n");
-        fprintf(code_file, "\tswp\ta\n");
+        fprintf(code_file, "\tswp a\n");
         fprintf(code_file, "\tpha.w\n");
         //
         fprintf(code_file, "\tphy.w\n");
-        fprintf(code_file, "\tswp\ty\n");
+        fprintf(code_file, "\tswp y\n");
         fprintf(code_file, "\tphy.w\n");
     }
 }

@@ -331,7 +331,7 @@ dopart_007	.SUB
 		pha.w	
 		jsr 	_idiv
 		adj 	#4
-		swp 	
+		swp 	a
 		sta.w	tenspart_010,X
 		lda.w	hundredsdigit_009,X
 		pha.w	
@@ -411,7 +411,7 @@ L_108	.LBL
 		pha.w	
 		jsr 	_idiv
 		adj 	#4
-		swp 	
+		swp 	a
 		sta.w	onesdigit_012,X
 		lda.w	tensdigit_011,X
 		pha.w	
@@ -479,7 +479,7 @@ translate_003	.SUB
 		pha.w	
 		jsr 	_idiv
 		adj 	#4
-		swp 	
+		swp 	a
 		sta.w	partafter_006,X
 		lda.w	partbefore_005,X
 		pha.w	

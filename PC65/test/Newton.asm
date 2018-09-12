@@ -34,24 +34,24 @@ L_005
 	jsr _fread
 	pli
 	sta.w 0,I++
-	swp
+	swp a
 	sta.w 0,I++
 ;   14: 
 ;   15:     IF number = 0 THEN BEGIN
 	lda.w number_002+2	;emit_load_value
-	swp
+	swp a
 	lda.w number_002
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	lda #0
 	pha.w
 	jsr _fconv
 	adj #2
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	jsr _fcmp
 	adj #8
@@ -68,11 +68,11 @@ L_010
 L_008
 ;   16:         writeln(number:12:6, 0.0:12:6);
 	lda.w number_002+2	;emit_load_value
-	swp
+	swp a
 	lda.w number_002
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	lda #12
 	pha.w
@@ -81,11 +81,11 @@ L_008
 	jsr _fwrite
 	adj #8
 	lda.w F_011+2	;float_literal
-	swp
+	swp a
 	lda.w F_011
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	lda #12
 	pha.w
@@ -99,19 +99,19 @@ L_008
 	jmp L_012
 L_009
 	lda.w number_002+2	;emit_load_value
-	swp
+	swp a
 	lda.w number_002
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	lda #0
 	pha.w
 	jsr _fconv
 	adj #2
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	jsr _fcmp
 	adj #8
@@ -139,24 +139,24 @@ L_013
 L_014
 ;   22:         sqroot := sqrt(number);
 	lda.w number_002+2	;emit_load_value
-	swp
+	swp a
 	lda.w number_002
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	jsr _fsqrt
 	adj #4
 	sta.w sqroot_004
-	swp
+	swp a
 	sta.w sqroot_004+2	;assgnment_statement
 ;   23:         writeln(number:12:6, sqroot:12:6);
 	lda.w number_002+2	;emit_load_value
-	swp
+	swp a
 	lda.w number_002
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	lda #12
 	pha.w
@@ -165,11 +165,11 @@ L_014
 	jsr _fwrite
 	adj #8
 	lda.w sqroot_004+2	;emit_load_value
-	swp
+	swp a
 	lda.w sqroot_004
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	lda #12
 	pha.w
@@ -187,64 +187,64 @@ L_014
 	jsr _fconv
 	adj #2
 	sta.w root_003
-	swp
+	swp a
 	sta.w root_003+2	;assgnment_statement
 ;   27:         REPEAT
 L_018
 ;   28:         root := (number/root + root)/2;
 	lda.w number_002+2	;emit_load_value
-	swp
+	swp a
 	lda.w number_002
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	lda.w root_003+2	;emit_load_value
-	swp
+	swp a
 	lda.w root_003
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	jsr _fdiv
 	adj #8
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	lda.w root_003+2	;emit_load_value
-	swp
+	swp a
 	lda.w root_003
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	jsr _fadd
 	adj #8
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	lda #2
 	pha.w
 	jsr _fconv
 	adj #2
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	jsr _fdiv
 	adj #8
 	sta.w root_003
-	swp
+	swp a
 	sta.w root_003+2	;assgnment_statement
 ;   29:         writeln(root:24:6,
 	lda.w root_003+2	;emit_load_value
-	swp
+	swp a
 	lda.w root_003
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	lda #24
 	pha.w
@@ -256,69 +256,69 @@ L_018
 	lda #100
 	pha.w
 	lda.w root_003+2	;emit_load_value
-	swp
+	swp a
 	lda.w root_003
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	lda.w sqroot_004+2	;emit_load_value
-	swp
+	swp a
 	lda.w sqroot_004
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	jsr _fsub
 	adj #8
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	jsr _fabs
 	adj #4
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	pla.w
-	swp
+	swp a
 	pla.w
 	ply.w
 	pha.w
-	swp
+	swp a
 	pha.w
 	phy.w
 	jsr _fconv
 	adj #2
 	ply.w
-	swp.y
+	swp y
 	ply.w
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	phy.w
-	swp.y
+	swp y
 	phy.w
 	jsr _fmul
 	adj #8
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	lda.w sqroot_004+2	;emit_load_value
-	swp
+	swp a
 	lda.w sqroot_004
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	jsr _fdiv
 	adj #8
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	lda #12
 	pha.w
@@ -335,61 +335,61 @@ L_018
 ;   32:         UNTIL abs(number/sqr(root) - 1) < epsilon;
 	jsr _writeln
 	lda.w number_002+2	;emit_load_value
-	swp
+	swp a
 	lda.w number_002
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	lda.w root_003+2	;emit_load_value
-	swp
+	swp a
 	lda.w root_003
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	jsr _fmul
 	adj #8
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	jsr _fdiv
 	adj #8
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	lda #1
 	pha.w
 	jsr _fconv
 	adj #2
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	jsr _fsub
 	adj #8
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	jsr _fabs
 	adj #4
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	lda.w F_020+2	;float_literal
-	swp
+	swp a
 	lda.w F_020
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	jsr _fcmp
 	adj #8
@@ -409,20 +409,20 @@ L_019
 L_017
 L_012
 	lda.w number_002+2	;emit_load_value
-	swp
+	swp a
 	lda.w number_002
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	lda #0
 ;   35: END.
 	pha.w
 	jsr _fconv
 	adj #2
-	swp
+	swp a
 	pha.w
-	swp
+	swp a
 	pha.w
 	jsr _fcmp
 	adj #8

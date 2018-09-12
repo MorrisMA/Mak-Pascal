@@ -1,13 +1,13 @@
 ;    1: PROGRAM xref (input, output);
-	.stk	1024
-	.cod	512
-STATIC_LINK			.equ	+5
-RETURN_VALUE		.equ	-3
-HIGH_RETURN_VALUE	.equ	-1
+	.stk 1024
+	.cod 512
+STATIC_LINK			.equ +5
+RETURN_VALUE		.equ -3
+HIGH_RETURN_VALUE	.equ -1
 _start
 	tsx.w		; Preserve original stack pointer
-	lds.w	#16383	; Initialize program stack pointer
-	jmp	_pc65_main
+	lds.w #16383	; Initialize program stack pointer
+	jmp _pc65_main
 ;    2: 
 ;    3:     {Generate a cross-reference listing from a text file.}
 ;    4: 
@@ -27,21 +27,21 @@ _start
 ;   18: 
 ;   19:     wordentrytype    = RECORD  {entry in word table}
 ;   20:                word : wordtype; {word string}
-word_002	.equ	+0
+word_002	.equ +0
 ;   21:                firstnumberindex,    {head and tail of    }
 ;   22:                lastnumberindex      {  linked number list}
 ;   23:                    : numbertableindex;
-firstnumberindex_003	.equ	+20
-lastnumberindex_004	.equ	+22
+firstnumberindex_003	.equ +20
+lastnumberindex_004	.equ +22
 ;   24:                END;
 ;   25: 
 ;   26:     numberentrytype  = RECORD  {entry in number table}
 ;   27:                number                   {line number}
 ;   28:                    : linenumbertype;
-number_005	.equ	+0
+number_005	.equ +0
 ;   29:                nextindex                {index of next   }
 ;   30:                    : numbertableindex;  {  in linked list}
-nextindex_006	.equ	+2
+nextindex_006	.equ +2
 ;   31:                END;
 ;   32: 
 ;   33:     wordtabletype    = ARRAY [wordtableindex]   OF wordentrytype;
@@ -69,7 +69,7 @@ nextindex_006	.equ	+2
 ;   55:     ch : char;
 ;   56: 
 ;   57:     BEGIN
-ch_017	.equ	-5
+ch_017	.equ -5
 nextchar_016	.sub
 	phx.w
 	tsx.w
@@ -121,7 +121,7 @@ L_019
 	jmp  L_022
 L_021
 ;   66:         ch := blank;
-	lda #' '
+	lda #32
 	sta ch_017
 ;   67:     END
 ;   68:     ELSE BEGIN
@@ -153,7 +153,7 @@ L_023
 	txs.w
 	plx.w
 	rts
-	.end	nextchar_016
+	.end nextchar_016
 ;   74: 
 ;   75: 
 ;   76: FUNCTION isletter (ch : char) : boolean;
@@ -161,7 +161,7 @@ L_023
 ;   78:     {Return true if the character is a letter, false otherwise.}
 ;   79: 
 ;   80:     BEGIN
-ch_025	.equ	+7
+ch_025	.equ +7
 isletter_024	.sub
 	phx.w
 	tsx.w
@@ -231,7 +231,7 @@ L_029
 	txs.w
 	plx.w
 	rts
-	.end	isletter_024
+	.end isletter_024
 ;   84: 
 ;   85: 
 ;   86: PROCEDURE readword (VAR buffer : wordtype);
@@ -246,9 +246,9 @@ L_029
 ;   95:     ch : char;
 ;   96: 
 ;   97:     BEGIN
-buffer_031	.equ	+7
-charcount_032	.equ	-1
-ch_033	.equ	-3
+buffer_031	.equ +7
+charcount_032	.equ -1
+ch_033	.equ -3
 readword_030	.sub
 	phx.w
 	tsx.w
@@ -436,7 +436,7 @@ L_051
 	clc
 	adc.w 1,S
 	sta.w 1,S
-	lda #' '
+	lda #32
 	pli
 	sta 0,I++
 ;  127:         END;
@@ -454,7 +454,7 @@ L_039
 	txs.w
 	plx.w
 	rts
-	.end	readword_030
+	.end readword_030
 ;  132: 
 ;  133: 
 ;  134: FUNCTION appendlinenumber(lastnumberindex : numbertableindex)
@@ -465,7 +465,7 @@ L_039
 ;  139:      number; else, it is the index of the last number in the list.}
 ;  140: 
 ;  141:     BEGIN
-lastnumberindex_054	.equ	+7
+lastnumberindex_054	.equ +7
 appendlinenumber_053	.sub
 	phx.w
 	tsx.w
@@ -579,7 +579,7 @@ L_061
 	txs.w
 	plx.w
 	rts
-	.end	appendlinenumber_053
+	.end appendlinenumber_053
 ;  156: 
 ;  157: 
 ;  158: PROCEDURE enterword;
@@ -591,7 +591,7 @@ L_061
 ;  164:     i : wordtableindex;
 ;  165: 
 ;  166:     BEGIN
-i_063	.equ	-1
+i_063	.equ -1
 enterword_062	.sub
 	phx.w
 	tsx.w
@@ -848,7 +848,7 @@ L_079
 	txs.w
 	plx.w
 	rts
-	.end	enterword_062
+	.end enterword_062
 ;  198: 
 ;  199: 
 ;  200: PROCEDURE sortwords;
@@ -860,9 +860,9 @@ L_079
 ;  206:     temp : wordentrytype;
 ;  207: 
 ;  208:     BEGIN
-i_081	.equ	-1
-j_082	.equ	-3
-temp_083	.equ	-27
+i_081	.equ -1
+j_082	.equ -3
+temp_083	.equ -27
 sortwords_080	.sub
 	phx.w
 	tsx.w
@@ -959,12 +959,12 @@ L_090
 	clc
 	adc.w 1,S
 	sta.w 1,S
-	swp.x
+	swp x
 	lda #24
 	plx.w
 	ply.w
-	mvb #51
--	swp.x
+	mov #15
+	swp x
 ;  213:             wordtable[i] := wordtable[j];
 	psh.w #wordtable_007
 	lda.w i_081,X
@@ -986,12 +986,12 @@ L_090
 	clc
 	adc.w 1,S
 	sta.w 1,S
-	swp.x
+	swp x
 	lda #24
 	plx.w
 	ply.w
-	mvb #51
--	swp.x
+	mov #15
+	swp x
 ;  214:             wordtable[j] := temp;
 	psh.w #wordtable_007
 	lda.w j_082,X
@@ -1007,12 +1007,12 @@ L_090
 	clc
 	adc.w #temp_083
 	pha.w
-	swp.x
+	swp x
 	lda #24
 	plx.w
 	ply.w
-	mvb #51
--	swp.x
+	mov #15
+	swp x
 ;  215:         END;
 L_091
 ;  216:         END;
@@ -1029,7 +1029,7 @@ L_086
 	txs.w
 	plx.w
 	rts
-	.end	sortwords_080
+	.end sortwords_080
 ;  219: 
 ;  220: 
 ;  221: PROCEDURE printnumbers (i : numbertableindex);
@@ -1037,7 +1037,7 @@ L_086
 ;  223:     {Print a word's linked list of line numbers.}
 ;  224: 
 ;  225:     BEGIN
-i_094	.equ	+7
+i_094	.equ +7
 printnumbers_093	.sub
 	phx.w
 	tsx.w
@@ -1100,7 +1100,7 @@ L_096
 	txs.w
 	plx.w
 	rts
-	.end	printnumbers_093
+	.end printnumbers_093
 ;  232: 
 ;  233: 
 ;  234: PROCEDURE printxref;
@@ -1111,7 +1111,7 @@ L_096
 ;  239:     i : wordtableindex;
 ;  240: 
 ;  241:     BEGIN
-i_099	.equ	-1
+i_099	.equ -1
 printxref_098	.sub
 	phx.w
 	tsx.w
@@ -1206,7 +1206,7 @@ L_104
 	txs.w
 	plx.w
 	rts
-	.end	printxref_098
+	.end printxref_098
 ;  253: 
 ;  254: 
 ;  255: BEGIN {xref}
@@ -1375,26 +1375,26 @@ L_114
 ;  287: 
 	plx.w
 	rts
-	.end	_pc65_main
+	.end _pc65_main
 
 	.dat
 
-wordtable_007	.byt	12000
-numbertable_008	.byt	4004
-nextwordindex_009	.byt	2
-nextnumberindex_010	.byt	2
-linenumber_011	.byt	2
-wordtablefull_012	.byt	2
-numbertablefull_013	.byt	2
-newline_014	.byt	2
-gotword_015	.byt	2
-S_120	.str	" line number entries."
-S_119	.str	" word entries."
-S_117	.str	"*** The number table is not large enough. ***"
-S_113	.str	"*** The word table is not large enough. ***"
-S_105	.str	"    1 : "
-S_101	.str	"---------------"
-S_100	.str	"Cross-reference"
-S_020	.str	" : "
+wordtable_007	.byt 12000
+numbertable_008	.byt 4004
+nextwordindex_009	.byt 2
+nextnumberindex_010	.byt 2
+linenumber_011	.byt 2
+wordtablefull_012	.byt 2
+numbertablefull_013	.byt 2
+newline_014	.byt 2
+gotword_015	.byt 2
+S_120	.str " line number entries."
+S_119	.str " word entries."
+S_117	.str "*** The number table is not large enough. ***"
+S_113	.str "*** The word table is not large enough. ***"
+S_105	.str "    1 : "
+S_101	.str "---------------"
+S_100	.str "Cross-reference"
+S_020	.str " : "
 
 	.end
