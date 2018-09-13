@@ -744,12 +744,12 @@ TYPE_STRUCT_PTR declared_routine_call(SYMTAB_NODE_PTR rtn_idp,
         */
         int lev;
 
-        fprintf(code_file, "\tdup.x\n");
+        fprintf(code_file, "\tdup x\n");
         for (lev = old_level; lev >= new_level; --lev) {
             fprintf(code_file, "\tlda.xw %s,X\n", STATIC_LINK);
         }
         fprintf(code_file, "\tphx.w\n");
-        fprintf(code_file, "\trot.x\n");
+        fprintf(code_file, "\trot x\n");
     }
 
     fprintf(code_file, "\tjsr %s_%03d\n", rtn_idp->name, rtn_idp->label_index);
@@ -846,10 +846,10 @@ void actual_parm_list(SYMTAB_NODE_PTR rtn_idp, BOOLEAN parm_check_flag)
                     } else {
                         fprintf(code_file, "\tlda.w #%d\n", size);
                     }
-                    fprintf(code_file, "\tdup.x\n");
+                    fprintf(code_file, "\tdup x\n");
                     fprintf(code_file, "\tplx.w\n");
                     fprintf(code_file, "\tmov #15\n");
-                    fprintf(code_file, "\trot.x\n");
+                    fprintf(code_file, "\trot x\n");
                 } else {
                     fprintf(code_file, "\tpha.w\n");
                 }

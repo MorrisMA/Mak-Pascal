@@ -1,13 +1,13 @@
 ;    1: PROGRAM newton (input, output);
-	.stk	1024
-	.cod	512
-STATIC_LINK			.equ	+5
-RETURN_VALUE		.equ	-3
-HIGH_RETURN_VALUE	.equ	-1
+	.stk 1024
+	.cod 512
+STATIC_LINK			.equ +5
+RETURN_VALUE		.equ -3
+HIGH_RETURN_VALUE	.equ -1
 _start
 	tsx.w		; Preserve original stack pointer
-	lds.w	#16383	; Initialize program stack pointer
-	jmp	_pc65_main
+	lds.w #16383	; Initialize program stack pointer
+	jmp _pc65_main
 ;    2: 
 ;    3: CONST
 ;    4:     epsilon = 1e-6;
@@ -439,16 +439,16 @@ L_022
 L_006
 	plx.w
 	rts
-	.end	_pc65_main
+	.end _pc65_main
 
 	.dat
 
-number_002	.byt	4
-root_003	.byt	4
-sqroot_004	.byt	4
+number_002	.byt 4
+root_003	.byt 4
+sqroot_004	.byt 4
 F_020	.flt	1.000000e-06
 F_011	.flt	0.000000e+00
-S_016	.str	"*** ERROR:  number < 0"
-S_007	.str	"Enter new number (0 to quit): "
+S_016	.str "*** ERROR:  number < 0"
+S_007	.str "Enter new number (0 to quit): "
 
 	.end
