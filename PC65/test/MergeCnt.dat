@@ -32,7 +32,7 @@ lda.w_zpX     192
 lda.w_zpXI      6
 lda_zpX        12
 lds.w_imm       5
-mvb_imm         3
+mov_imm         3
 ora.w_zpS      11
 pha.w_imp     402
 php_imp        58

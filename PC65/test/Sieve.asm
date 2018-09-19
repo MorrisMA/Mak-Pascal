@@ -1,13 +1,13 @@
 ;    1: PROGRAM eratosthenes(output);
-	.stk	1024
-	.cod	512
-STATIC_LINK			.equ	+5
-RETURN_VALUE		.equ	-3
-HIGH_RETURN_VALUE	.equ	-1
+	.stk 1024
+	.cod 512
+STATIC_LINK .equ +5
+RETURN_VALUE .equ -3
+HIGH_RETURN_VALUE .equ -1
 _start
 	tsx.w		; Preserve original stack pointer
-	lds.w	#16383	; Initialize program stack pointer
-	jmp	_pc65_main
+	lds.w #16383	; Initialize program stack pointer
+	jmp _pc65_main
 ;    2: 
 ;    3: CONST
 ;    4:     max = 1000;
@@ -217,7 +217,7 @@ L_025
 	lda.w 0,I++
 	cmp.w #1
 	beq L_027
-	jmp  L_028
+	jmp L_028
 L_027
 ;   40:                 write(prime:3)
 	lda.w prime_006
@@ -271,17 +271,17 @@ L_031
 L_023
 	plx.w
 	rts
-	.end	_pc65_main
+	.end _pc65_main
 
 	.dat
 
-sieve_002	.byt	2000
-i_003	.byt	2
-j_004	.byt	2
-limit_005	.byt	2
-prime_006	.byt	2
-factor_007	.byt	2
-S_030	.str	"   "
-S_021	.str	"Sieve of Eratosthenes"
+sieve_002 .byt 2000
+i_003 .byt 2
+j_004 .byt 2
+limit_005 .byt 2
+prime_006 .byt 2
+factor_007 .byt 2
+S_030 .str "   "
+S_021 .str "Sieve of Eratosthenes"
 
 	.end

@@ -75,9 +75,9 @@ void emit_program_prologue()
     //
     //  Equates for stack frame components.
     //
-    fprintf(code_file, "%s\t\t\t.equ %+d\n", STATIC_LINK, STATIC_LINK_OFF);
-    fprintf(code_file, "%s\t\t.equ %+d\n", RETURN_VALUE, RETURN_VALUE_OFF);
-    fprintf(code_file, "%s\t.equ %+d\n", HIGH_RETURN_VALUE, HIGH_RTN_VALUE_OFF);
+    fprintf(code_file, "%s .equ %+d\n", STATIC_LINK, STATIC_LINK_OFF);
+    fprintf(code_file, "%s .equ %+d\n", RETURN_VALUE, RETURN_VALUE_OFF);
+    fprintf(code_file, "%s .equ %+d\n", HIGH_RETURN_VALUE, HIGH_RTN_VALUE_OFF);
     //
     //	Initialize stack and jump to main
     //
@@ -107,9 +107,9 @@ void emit_program_epilogue(SYMTAB_NODE_PTR prog_idp)
     //
 
     for (np = prog_idp->defn.info.routine.locals; np != NULL; np = np->next) {
-	    fprintf(code_file, "%s_%03d\t", np->name, np->label_index);
+	    fprintf(code_file, "%s_%03d ", np->name, np->label_index);
 	    if (np->typep == char_typep)
-	        fprintf(code_file, ".byt1\n");
+	        fprintf(code_file, ".byt 1\n");
 	    else if (np->typep == real_typep)
 	        fprintf(code_file, ".byt 4\n");
 	    else if (np->typep->form == ARRAY_FORM)
@@ -125,7 +125,7 @@ void emit_program_epilogue(SYMTAB_NODE_PTR prog_idp)
     //
 
     for (np = float_literal_list; np != NULL; np = np->next)
-	    fprintf(code_file, "%s_%03d\t.flt\t%e\n",
+	    fprintf(code_file, "%s_%03d .flt %e\n",
                            FLOAT_LABEL_PREFIX,
 			               np->label_index,
 			               np->defn.info.constant.value.real);
@@ -135,7 +135,7 @@ void emit_program_epilogue(SYMTAB_NODE_PTR prog_idp)
     //
 
     for (np = string_literal_list; np != NULL; np = np->next) {
-	    fprintf(code_file, "%s_%03d\t.str \"", STRING_LABEL_PREFIX, np->label_index);
+	    fprintf(code_file, "%s_%03d .str \"", STRING_LABEL_PREFIX, np->label_index);
 
 		length = strlen(np->name) - 2;
 		for (i = 1; i <= length; ++i) {
@@ -308,17 +308,17 @@ void emit_text_equate(SYMTAB_NODE_PTR idp)
     int  offset      = idp->defn.info.data.offset;
 
     if (idp->typep == char_typep) {
-        fprintf(code_file, "%s_%03d\t.equ %+d\n",
+        fprintf(code_file, "%s_%03d .equ %+d\n",
 		                   name,
                            label_index,
                            offset);
     } else if (idp->typep == real_typep) {
-	    fprintf(code_file, "%s_%03d\t.equ %+d\n",
+	    fprintf(code_file, "%s_%03d .equ %+d\n",
 		                   name,
                            label_index,
                            offset);
     } else {
-	    fprintf(code_file, "%s_%03d\t.equ %+d\n",
+	    fprintf(code_file, "%s_%03d .equ %+d\n",
 		                   name,
                            label_index,
                            offset);

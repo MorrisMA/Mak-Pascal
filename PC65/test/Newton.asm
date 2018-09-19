@@ -1,9 +1,9 @@
 ;    1: PROGRAM newton (input, output);
 	.stk 1024
 	.cod 512
-STATIC_LINK			.equ +5
-RETURN_VALUE		.equ -3
-HIGH_RETURN_VALUE	.equ -1
+STATIC_LINK .equ +5
+RETURN_VALUE .equ -3
+HIGH_RETURN_VALUE .equ -1
 _start
 	tsx.w		; Preserve original stack pointer
 	lds.w #16383	; Initialize program stack pointer
@@ -64,7 +64,7 @@ L_005
 L_010
 	cmp.w #1
 	beq L_008
-	jmp  L_009
+	jmp L_009
 L_008
 ;   16:         writeln(number:12:6, 0.0:12:6);
 	lda.w number_002+2	;emit_load_value
@@ -124,7 +124,7 @@ L_009
 L_015
 	cmp.w #1
 	beq L_013
-	jmp  L_014
+	jmp L_014
 L_013
 ;   19:         writeln('*** ERROR:  number < 0');
 	psh.w #S_016
@@ -443,12 +443,12 @@ L_006
 
 	.dat
 
-number_002	.byt 4
-root_003	.byt 4
-sqroot_004	.byt 4
-F_020	.flt	1.000000e-06
-F_011	.flt	0.000000e+00
-S_016	.str "*** ERROR:  number < 0"
-S_007	.str "Enter new number (0 to quit): "
+number_002 .byt 4
+root_003 .byt 4
+sqroot_004 .byt 4
+F_020 .flt 1.000000e-06
+F_011 .flt 0.000000e+00
+S_016 .str "*** ERROR:  number < 0"
+S_007 .str "Enter new number (0 to quit): "
 
 	.end

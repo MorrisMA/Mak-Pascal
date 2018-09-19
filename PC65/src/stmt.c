@@ -368,7 +368,7 @@ void if_statement(void)
 
     fprintf(code_file, "\tcmp.w #%d\n", 1);
     fprintf(code_file, "\tbeq %s_%03d\n", STMT_LABEL_PREFIX, true_labelx);
-    fprintf(code_file, "\tjmp %2s_%03d\n", STMT_LABEL_PREFIX, false_labelx);
+    fprintf(code_file, "\tjmp %s_%03d\n", STMT_LABEL_PREFIX, false_labelx);
 
     emit_label(STMT_LABEL_PREFIX, true_labelx);
 

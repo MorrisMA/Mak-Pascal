@@ -1,13 +1,13 @@
 ;    1: PROGRAM NumberTranslator (input, output);
-	.stk	1024
-	.cod	512
-STATIC_LINK			.equ	+5
-RETURN_VALUE		.equ	-3
-HIGH_RETURN_VALUE	.equ	-1
+	.stk 1024
+	.cod 512
+STATIC_LINK .equ +5
+RETURN_VALUE .equ -3
+HIGH_RETURN_VALUE .equ -1
 _start
 	tsx.w		; Preserve original stack pointer
-	lds.w	#16383	; Initialize program stack pointer
-	jmp	_pc65_main
+	lds.w #16383	; Initialize program stack pointer
+	jmp _pc65_main
 ;    2: 
 ;    3: {   Translate a list of integers from numeric form into
 ;    4:     words.  The integers must not be negative nor be
@@ -34,9 +34,9 @@ _start
 ;   25: 
 ;   26: 
 ;   27:         PROCEDURE DoPart (part : integer);
-n_004	.equ	+7
-partbefore_005	.equ	-1
-partafter_006	.equ	-3
+n_004 .equ +7
+partbefore_005 .equ -1
+partafter_006 .equ -3
 ;   28: 
 ;   29:         {Translate a part of a number into words,
 ;   30:          where 1 <= part <= 999.}
@@ -50,17 +50,17 @@ partafter_006	.equ	-3
 ;   38: 
 ;   39: 
 ;   40:             PROCEDURE DoOnes (digit : integer);
-part_008	.equ	+7
-hundredsdigit_009	.equ	-1
-tenspart_010	.equ	-3
-tensdigit_011	.equ	-5
-onesdigit_012	.equ	-7
+part_008 .equ +7
+hundredsdigit_009 .equ -1
+tenspart_010 .equ -3
+tensdigit_011 .equ -5
+onesdigit_012 .equ -7
 ;   41: 
 ;   42:             {Translate a single ones digit into a word,
 ;   43:              where 1 <= digit <= 9.}
 ;   44: 
 ;   45:             BEGIN
-digit_014	.equ	+7
+digit_014 .equ +7
 doones_013	.sub
 	phx.w
 	tsx.w
@@ -171,7 +171,7 @@ L_015
 	txs.w
 	plx.w
 	rts
-	.end	doones_013
+	.end doones_013
 ;   58: 
 ;   59: 
 ;   60:             PROCEDURE DoTeens (teens : integer);
@@ -180,7 +180,7 @@ L_015
 ;   63:              where 10 <= teens <= 19.}
 ;   64: 
 ;   65:             BEGIN
-teens_044	.equ	+7
+teens_044 .equ +7
 doteens_043	.sub
 	phx.w
 	tsx.w
@@ -302,7 +302,7 @@ L_045
 	txs.w
 	plx.w
 	rts
-	.end	doteens_043
+	.end doteens_043
 ;   79: 
 ;   80: 
 ;   81:             PROCEDURE DoTens (digit : integer);
@@ -311,7 +311,7 @@ L_045
 ;   84:                  where 2 <= digit <= 9.}
 ;   85: 
 ;   86:             BEGIN
-digit_077	.equ	+7
+digit_077 .equ +7
 dotens_076	.sub
 	phx.w
 	tsx.w
@@ -411,7 +411,7 @@ L_078
 	txs.w
 	plx.w
 	rts
-	.end	dotens_076
+	.end dotens_076
 ;   98: 
 ;   99:         BEGIN {DoPart}
 dopart_007	.sub
@@ -454,7 +454,7 @@ dopart_007	.sub
 L_105
 	cmp.w #1
 	beq L_103
-	jmp  L_104
+	jmp L_104
 L_103
 ;  107:                 DoOnes (hundredsdigit);
 	lda.w hundredsdigit_009,X
@@ -502,7 +502,7 @@ L_110
 	adj #2
 	cmp.w #1
 	beq L_107
-	jmp  L_108
+	jmp L_108
 L_107
 ;  113:                 DoTeens (tenspart);
 	lda.w tenspart_010,X
@@ -547,7 +547,7 @@ L_108
 L_114
 	cmp.w #1
 	beq L_112
-	jmp  L_113
+	jmp L_113
 L_112
 	lda.w tensdigit_011,X
 	pha.w
@@ -570,7 +570,7 @@ L_113
 L_117
 	cmp.w #1
 	beq L_115
-	jmp  L_116
+	jmp L_116
 L_115
 	lda.w onesdigit_012,X
 	pha.w
@@ -584,7 +584,7 @@ L_111
 	txs.w
 	plx.w
 	rts
-	.end	dopart_007
+	.end dopart_007
 ;  123: 
 ;  124:     BEGIN {Translate}
 translate_003	.sub
@@ -626,7 +626,7 @@ translate_003	.sub
 L_120
 	cmp.w #1
 	beq L_118
-	jmp  L_119
+	jmp L_119
 L_118
 ;  131:             DoPart (partbefore);
 	lda.w partbefore_005,X
@@ -658,7 +658,7 @@ L_119
 L_124
 	cmp.w #1
 	beq L_122
-	jmp  L_123
+	jmp L_123
 L_122
 	lda.w partafter_006,X
 	pha.w
@@ -670,7 +670,7 @@ L_123
 	txs.w
 	plx.w
 	rts
-	.end	translate_003
+	.end translate_003
 ;  137: 
 ;  138: 
 ;  139: BEGIN {NumberTranslator}
@@ -714,7 +714,7 @@ L_125
 L_130
 	cmp.w #1
 	beq L_128
-	jmp  L_129
+	jmp L_129
 L_128
 ;  147:             write (' ***** Error -- number < 0');
 	psh.w #S_131
@@ -740,7 +740,7 @@ L_129
 L_135
 	cmp.w #1
 	beq L_133
-	jmp  L_134
+	jmp L_134
 L_133
 ;  150:             write (' ***** Error -- number > ', maxnumber:1);
 	psh.w #S_136
@@ -772,7 +772,7 @@ L_134
 L_140
 	cmp.w #1
 	beq L_138
-	jmp  L_139
+	jmp L_139
 L_138
 ;  153:             write (' zero');
 	psh.w #S_141
@@ -817,43 +817,43 @@ L_126
 ;  161: END {NumberTranslator}.
 	plx.w
 	rts
-	.end	_pc65_main
+	.end _pc65_main
 
 	.dat
 
-number_002	.byt	2
-S_141	.str	" zero"
-S_136	.str	" ***** Error -- number > "
-S_131	.str	" ***** Error -- number < 0"
-S_127	.str	" :"
-S_121	.str	" thousand"
-S_106	.str	" hundred"
-S_102	.str	" ninety"
-S_099	.str	" eighty"
-S_096	.str	" seventy"
-S_093	.str	" sixty"
-S_090	.str	" fifty"
-S_087	.str	" forty"
-S_084	.str	" thirty"
-S_081	.str	" twenty"
-S_075	.str	" nineteen"
-S_072	.str	" eighteen"
-S_069	.str	" seventeen"
-S_066	.str	" sixteen"
-S_063	.str	" fifteen"
-S_060	.str	" fourteen"
-S_057	.str	" thirteen"
-S_054	.str	" twelve"
-S_051	.str	" eleven"
-S_048	.str	" ten"
-S_042	.str	" nine"
-S_039	.str	" eight"
-S_036	.str	" seven"
-S_033	.str	" six"
-S_030	.str	" five"
-S_027	.str	" four"
-S_024	.str	" three"
-S_021	.str	" two"
-S_018	.str	" one"
+number_002 .byt 2
+S_141 .str " zero"
+S_136 .str " ***** Error -- number > "
+S_131 .str " ***** Error -- number < 0"
+S_127 .str " :"
+S_121 .str " thousand"
+S_106 .str " hundred"
+S_102 .str " ninety"
+S_099 .str " eighty"
+S_096 .str " seventy"
+S_093 .str " sixty"
+S_090 .str " fifty"
+S_087 .str " forty"
+S_084 .str " thirty"
+S_081 .str " twenty"
+S_075 .str " nineteen"
+S_072 .str " eighteen"
+S_069 .str " seventeen"
+S_066 .str " sixteen"
+S_063 .str " fifteen"
+S_060 .str " fourteen"
+S_057 .str " thirteen"
+S_054 .str " twelve"
+S_051 .str " eleven"
+S_048 .str " ten"
+S_042 .str " nine"
+S_039 .str " eight"
+S_036 .str " seven"
+S_033 .str " six"
+S_030 .str " five"
+S_027 .str " four"
+S_024 .str " three"
+S_021 .str " two"
+S_018 .str " one"
 
 	.end

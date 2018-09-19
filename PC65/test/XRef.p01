@@ -26,7 +26,7 @@ lda.w_ipp       5
 lda.w_zpX      40
 lda_zpX        12
 lds.w_imm       1
-mvb_imm         3
+mov_imm         3
 ora.w_zpS       5
 pha.w_imp      96
 php_imp        14

@@ -54,7 +54,7 @@ L_019	.LBL
 		beq 	L_021
 		jmp 	L_022
 L_021	.LBL
-		lda 	#'
+		lda 	#32
 		sta 	ch_017
 		jmp 	L_023
 L_022	.LBL
@@ -309,7 +309,7 @@ L_051	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		lda 	#'
+		lda 	#32
 		pli 	
 		sta 	0,I++
 		inc.w	charcount_032,X
@@ -750,7 +750,7 @@ L_090	.LBL
 		lda 	#24
 		plx.w	
 		ply.w	
-		mvb 	#51
+		mov 	#15
 		swp 	x
 		psh.w	#wordtable_007
 		lda.w	i_081,X
@@ -776,7 +776,7 @@ L_090	.LBL
 		lda 	#24
 		plx.w	
 		ply.w	
-		mvb 	#51
+		mov 	#15
 		swp 	x
 		psh.w	#wordtable_007
 		lda.w	j_082,X
@@ -796,7 +796,7 @@ L_090	.LBL
 		lda 	#24
 		plx.w	
 		ply.w	
-		mvb 	#51
+		mov 	#15
 		swp 	x
 L_091	.LBL
 		inc.w	j_082,X

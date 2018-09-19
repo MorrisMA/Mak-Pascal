@@ -1,13 +1,13 @@
 ;    1: PROGRAM WolfIsland (input, output);
-	.stk	1024
-	.cod	512
-STATIC_LINK			.equ	+5
-RETURN_VALUE		.equ	-3
-HIGH_RETURN_VALUE	.equ	-1
+	.stk 1024
+	.cod 512
+STATIC_LINK .equ +5
+RETURN_VALUE .equ -3
+HIGH_RETURN_VALUE .equ -1
 _start
 	tsx.w		; Preserve original stack pointer
-	lds.w	#16383	; Initialize program stack pointer
-	jmp	_pc65_main
+	lds.w #16383	; Initialize program stack pointer
+	jmp _pc65_main
 ;    2: 
 ;    3: {   Wolf Island is a simulation of a 9 x 9 island of wolves and rabbits.
 ;    4:     The wolves eat rabbits, and the rabbits eat grass.  Their initial
@@ -119,9 +119,9 @@ _start
 ;  110:     row, col : index;
 ;  111: 
 ;  112:     BEGIN
-i_014	.equ	-1
-row_015	.equ	-3
-col_016	.equ	-5
+i_014 .equ -1
+row_015 .equ -3
+col_016 .equ -5
 initialize_013	.sub
 	phx.w
 	tsx.w
@@ -545,7 +545,7 @@ L_034
 	txs.w
 	plx.w
 	rts
-	.end	initialize_013
+	.end initialize_013
 ;  156: 
 ;  157: 
 ;  158: FUNCTION random (limit : posint) : posint;
@@ -558,7 +558,7 @@ L_034
 ;  165:     divisor    = 1024;
 ;  166: 
 ;  167:     BEGIN
-limit_036	.equ	+7
+limit_036 .equ +7
 random_035	.sub
 	phx.w
 	tsx.w
@@ -600,7 +600,7 @@ random_035	.sub
 	txs.w
 	plx.w
 	rts
-	.end	random_035
+	.end random_035
 ;  171: 
 ;  172: 
 ;  173: PROCEDURE NewLocation (creature : contents;
@@ -617,14 +617,14 @@ random_035	.sub
 ;  184:     done : boolean;
 ;  185: 
 ;  186:     BEGIN
-creature_038	.equ	+15
-oldrow_039	.equ	+13
-oldcol_040	.equ	+11
-newrow_041	.equ	+9
-newcol_042	.equ	+7
-adj_043	.equ	-1
-what_044	.equ	-3
-done_045	.equ	-5
+creature_038 .equ +15
+oldrow_039 .equ +13
+oldcol_040 .equ +11
+newrow_041 .equ +9
+newcol_042 .equ +7
+adj_043 .equ -1
+what_044 .equ -3
+done_045 .equ -5
 newlocation_037	.sub
 	phx.w
 	tsx.w
@@ -650,7 +650,7 @@ newlocation_037	.sub
 L_048
 	cmp.w #1
 	beq L_046
-	jmp  L_047
+	jmp L_047
 L_046
 ;  192:         adj := 0;
 	lda #0
@@ -763,7 +763,7 @@ L_047
 	eor #1
 	cmp.w #1
 	beq L_053
-	jmp  L_054
+	jmp L_054
 L_053
 ;  204:         REPEAT
 L_055
@@ -883,7 +883,7 @@ L_054
 	txs.w
 	plx.w
 	rts
-	.end	newlocation_037
+	.end newlocation_037
 ;  213: 
 ;  214: 
 ;  215: PROCEDURE ProcessWolf (oldrow, oldcol : index);
@@ -895,11 +895,11 @@ L_054
 ;  221:     moved : boolean;            {true iff wolf moved}
 ;  222: 
 ;  223:     BEGIN
-oldrow_061	.equ	+9
-oldcol_062	.equ	+7
-newrow_063	.equ	-1
-newcol_064	.equ	-3
-moved_065	.equ	-5
+oldrow_061 .equ +9
+oldcol_062 .equ +7
+newrow_063 .equ -1
+newcol_064 .equ -3
+moved_065 .equ -5
 processwolf_060	.sub
 	phx.w
 	tsx.w
@@ -982,7 +982,7 @@ processwolf_060	.sub
 L_068
 	cmp.w #1
 	beq L_066
-	jmp  L_067
+	jmp L_067
 L_066
 ;  229: 
 ;  230:         {Die of starvation.}
@@ -1118,7 +1118,7 @@ L_074
 	lda.w moved_065,X
 	cmp.w #1
 	beq L_075
-	jmp  L_076
+	jmp L_076
 L_075
 ;  243: 
 ;  244:         {If there's a rabbit there, eat it.}
@@ -1152,7 +1152,7 @@ L_075
 L_079
 	cmp.w #1
 	beq L_077
-	jmp  L_078
+	jmp L_078
 L_077
 ;  246:             foodunits[oldrow, oldcol] :=
 	psh.w #foodunits_003
@@ -1407,7 +1407,7 @@ L_084
 	adj #2
 	cmp.w #1
 	beq L_081
-	jmp  L_082
+	jmp L_082
 L_081
 ;  263:         foodunits[newrow, newcol] :=
 	psh.w #foodunits_003
@@ -1458,7 +1458,7 @@ L_081
 	lda.w moved_065,X
 	cmp.w #1
 	beq L_085
-	jmp  L_086
+	jmp L_086
 L_085
 ;  268:             island[oldrow, oldcol] := newwolf;
 	psh.w #island_002
@@ -1580,7 +1580,7 @@ L_072
 	txs.w
 	plx.w
 	rts
-	.end	processwolf_060
+	.end processwolf_060
 ;  278: 
 ;  279: 
 ;  280: PROCEDURE ProcessRabbit (oldrow, oldcol : index);
@@ -1592,11 +1592,11 @@ L_072
 ;  286:     moved : boolean;            {true iff rabbit moved}
 ;  287: 
 ;  288:     BEGIN
-oldrow_089	.equ	+9
-oldcol_090	.equ	+7
-newrow_091	.equ	-1
-newcol_092	.equ	-3
-moved_093	.equ	-5
+oldrow_089 .equ +9
+oldcol_090 .equ +7
+newrow_091 .equ -1
+newcol_092 .equ -3
+moved_093 .equ -5
 processrabbit_088	.sub
 	phx.w
 	tsx.w
@@ -1655,7 +1655,7 @@ L_095
 	lda.w moved_093,X
 	cmp.w #1
 	beq L_096
-	jmp  L_097
+	jmp L_097
 L_096
 ;  294:         island[newrow, newcol] := newrabbit;
 	psh.w #island_002
@@ -1718,7 +1718,7 @@ L_097
 L_100
 	cmp.w #1
 	beq L_098
-	jmp  L_099
+	jmp L_099
 L_098
 ;  300: 
 ;  301:         {If moved, then leave behind an offspring.}
@@ -1726,7 +1726,7 @@ L_098
 	lda.w moved_093,X
 	cmp.w #1
 	beq L_101
-	jmp  L_102
+	jmp L_102
 L_101
 ;  303:         island[oldrow, oldcol] := newrabbit;
 	psh.w #island_002
@@ -1808,7 +1808,7 @@ L_099
 	txs.w
 	plx.w
 	rts
-	.end	processrabbit_088
+	.end processrabbit_088
 ;  310: 
 ;  311: 
 ;  312: PROCEDURE EventsOccur;
@@ -1819,8 +1819,8 @@ L_099
 ;  317:     row, col : index;
 ;  318: 
 ;  319:     BEGIN
-row_105	.equ	-1
-col_106	.equ	-3
+row_105 .equ -1
+col_106 .equ -3
 eventsoccur_104	.sub
 	phx.w
 	tsx.w
@@ -1875,7 +1875,7 @@ L_111
 L_115
 	cmp.w #1
 	beq L_113
-	jmp  L_114
+	jmp L_114
 L_113
 ;  325:             ProcessWolf(row, col);
 	lda.w row_105,X
@@ -1949,7 +1949,7 @@ L_120
 L_124
 	cmp.w #1
 	beq L_122
-	jmp  L_123
+	jmp L_123
 L_122
 ;  335:             ProcessRabbit(row, col);
 	lda.w row_105,X
@@ -1976,7 +1976,7 @@ L_118
 	txs.w
 	plx.w
 	rts
-	.end	eventsoccur_104
+	.end eventsoccur_104
 ;  340: 
 ;  341: 
 ;  342: PROCEDURE PrintIsland;
@@ -1988,9 +1988,9 @@ L_118
 ;  348:     cnts     : contents;
 ;  349: 
 ;  350:     BEGIN
-row_126	.equ	-1
-col_127	.equ	-3
-cnts_128	.equ	-5
+row_126 .equ -1
+col_127 .equ -3
+cnts_128 .equ -5
 printisland_125	.sub
 	phx.w
 	tsx.w
@@ -2076,7 +2076,7 @@ L_134
 L_138
 	cmp.w #1
 	beq L_136
-	jmp  L_137
+	jmp L_137
 L_136
 	psh.w #S_139
 	psh.w #0
@@ -2100,7 +2100,7 @@ L_137
 L_143
 	cmp.w #1
 	beq L_141
-	jmp  L_142
+	jmp L_142
 L_141
 	psh.w #S_144
 	psh.w #0
@@ -2124,7 +2124,7 @@ L_142
 L_148
 	cmp.w #1
 	beq L_146
-	jmp  L_147
+	jmp L_147
 L_146
 	psh.w #S_149
 	psh.w #0
@@ -2150,7 +2150,7 @@ L_132
 	txs.w
 	plx.w
 	rts
-	.end	printisland_125
+	.end printisland_125
 ;  366: 
 ;  367: 
 ;  368: PROCEDURE ResetIsland;
@@ -2162,8 +2162,8 @@ L_132
 ;  374:     row, col : index;
 ;  375: 
 ;  376:     BEGIN
-row_151	.equ	-1
-col_152	.equ	-3
+row_151 .equ -1
+col_152 .equ -3
 resetisland_150	.sub
 	phx.w
 	tsx.w
@@ -2216,7 +2216,7 @@ L_157
 L_161
 	cmp.w #1
 	beq L_159
-	jmp  L_160
+	jmp L_160
 L_159
 ;  380:             island[row, col] := wolf;
 	psh.w #island_002
@@ -2269,7 +2269,7 @@ L_160
 L_165
 	cmp.w #1
 	beq L_163
-	jmp  L_164
+	jmp L_164
 L_163
 ;  383:             island[row, col] := rabbit;
 	psh.w #island_002
@@ -2306,7 +2306,7 @@ L_155
 	txs.w
 	plx.w
 	rts
-	.end	resetisland_150
+	.end resetisland_150
 ;  388: 
 ;  389: 
 ;  390: BEGIN {WolfIsland}
@@ -2383,7 +2383,7 @@ L_166
 L_170
 	cmp.w #1
 	beq L_168
-	jmp  L_169
+	jmp L_169
 L_168
 ;  410:         PrintIsland;
 	phx.w
@@ -2456,30 +2456,30 @@ L_167
 ;  418: END {WolfIsland}.
 	plx.w
 	rts
-	.end	_pc65_main
+	.end _pc65_main
 
 	.dat
 
-island_002	.byt	242
-foodunits_003	.byt	162
-printtimes_004	.byt	100
-numwolves_005	.byt	2
-numrabbits_006	.byt	2
-numprinttimes_007	.byt	2
-t_008	.byt	2
-xpt_009	.byt	2
-seed_010	.byt	2
-rowoffset_011	.byt	10
-coloffset_012	.byt	10
-S_149	.str	"r "
-S_144	.str	"W "
-S_139	.str	". "
-S_129	.str	" : Wolf Island"
-S_103	.str	" : Rabbit born at "
-S_087	.str	" : Wolf born at "
-S_080	.str	" : Rabbit eaten at "
-S_071	.str	", "
-S_070	.str	" : Wolf died at "
-S_069	.str	"t ="
+island_002 .byt 242
+foodunits_003 .byt 162
+printtimes_004 .byt 100
+numwolves_005 .byt 2
+numrabbits_006 .byt 2
+numprinttimes_007 .byt 2
+t_008 .byt 2
+xpt_009 .byt 2
+seed_010 .byt 2
+rowoffset_011 .byt 10
+coloffset_012 .byt 10
+S_149 .str "r "
+S_144 .str "W "
+S_139 .str ". "
+S_129 .str " : Wolf Island"
+S_103 .str " : Rabbit born at "
+S_087 .str " : Wolf born at "
+S_080 .str " : Rabbit eaten at "
+S_071 .str ", "
+S_070 .str " : Wolf died at "
+S_069 .str "t ="
 
 	.end

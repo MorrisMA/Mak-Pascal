@@ -1,9 +1,9 @@
 ;    1: PROGRAM xref (input, output);
 	.stk 1024
 	.cod 512
-STATIC_LINK			.equ +5
-RETURN_VALUE		.equ -3
-HIGH_RETURN_VALUE	.equ -1
+STATIC_LINK .equ +5
+RETURN_VALUE .equ -3
+HIGH_RETURN_VALUE .equ -1
 _start
 	tsx.w		; Preserve original stack pointer
 	lds.w #16383	; Initialize program stack pointer
@@ -69,7 +69,7 @@ nextindex_006	.equ +2
 ;   55:     ch : char;
 ;   56: 
 ;   57:     BEGIN
-ch_017	.equ -5
+ch_017 .equ -5
 nextchar_016	.sub
 	phx.w
 	tsx.w
@@ -82,7 +82,7 @@ nextchar_016	.sub
 	lda.w newline_014
 	cmp.w #1
 	beq L_018
-	jmp  L_019
+	jmp L_019
 L_018
 ;   60:         readln;
 	jsr _readln
@@ -118,7 +118,7 @@ L_019
 	adj #2
 	cmp.w #1
 	beq L_021
-	jmp  L_022
+	jmp L_022
 L_021
 ;   66:         ch := blank;
 	lda #32
@@ -161,7 +161,7 @@ L_023
 ;   78:     {Return true if the character is a letter, false otherwise.}
 ;   79: 
 ;   80:     BEGIN
-ch_025	.equ +7
+ch_025 .equ +7
 isletter_024	.sub
 	phx.w
 	tsx.w
@@ -246,9 +246,9 @@ L_029
 ;   95:     ch : char;
 ;   96: 
 ;   97:     BEGIN
-buffer_031	.equ +7
-charcount_032	.equ -1
-ch_033	.equ -3
+buffer_031 .equ +7
+charcount_032 .equ -1
+ch_033 .equ -3
 readword_030	.sub
 	phx.w
 	tsx.w
@@ -263,7 +263,7 @@ readword_030	.sub
 	eor #1
 	cmp.w #1
 	beq L_034
-	jmp  L_035
+	jmp L_035
 L_034
 ;  102:         REPEAT
 L_036
@@ -297,7 +297,7 @@ L_035
 	eor #1
 	cmp.w #1
 	beq L_038
-	jmp  L_039
+	jmp L_039
 L_038
 ;  109:         charcount := 0;
 	lda #0
@@ -332,7 +332,7 @@ L_041
 L_045
 	cmp.w #1
 	beq L_043
-	jmp  L_044
+	jmp L_044
 L_043
 ;  115:             IF (ch >= 'A') AND (ch <= 'Z') THEN BEGIN
 	lda ch_033,X
@@ -364,7 +364,7 @@ L_049
 	adj #2
 	cmp.w #1
 	beq L_046
-	jmp  L_047
+	jmp L_047
 L_046
 ;  116:             ch := chr(ord(ch) + (ord('a') - ord('A')));
 	lda ch_033,X
@@ -465,7 +465,7 @@ L_039
 ;  139:      number; else, it is the index of the last number in the list.}
 ;  140: 
 ;  141:     BEGIN
-lastnumberindex_054	.equ +7
+lastnumberindex_054 .equ +7
 appendlinenumber_053	.sub
 	phx.w
 	tsx.w
@@ -485,7 +485,7 @@ appendlinenumber_053	.sub
 L_057
 	cmp.w #1
 	beq L_055
-	jmp  L_056
+	jmp L_056
 L_055
 ;  143:         IF lastnumberindex <> 0 THEN BEGIN
 	lda.w lastnumberindex_054,X
@@ -502,7 +502,7 @@ L_055
 L_060
 	cmp.w #1
 	beq L_058
-	jmp  L_059
+	jmp L_059
 L_058
 ;  144:             numbertable[lastnumberindex].nextindex := nextnumberindex;
 	psh.w #numbertable_008
@@ -591,7 +591,7 @@ L_061
 ;  164:     i : wordtableindex;
 ;  165: 
 ;  166:     BEGIN
-i_063	.equ -1
+i_063 .equ -1
 enterword_062	.sub
 	phx.w
 	tsx.w
@@ -603,7 +603,7 @@ enterword_062	.sub
 	lda.w newline_014
 	cmp.w #1
 	beq L_064
-	jmp  L_065
+	jmp L_065
 L_064
 	lda.w linenumber_011
 	pha.w
@@ -691,7 +691,7 @@ L_068
 L_072
 	cmp.w #1
 	beq L_070
-	jmp  L_071
+	jmp L_071
 L_070
 ;  181:         wordtable[i].lastnumberindex :=
 	psh.w #wordtable_007
@@ -752,7 +752,7 @@ L_071
 L_076
 	cmp.w #1
 	beq L_074
-	jmp  L_075
+	jmp L_075
 L_074
 ;  187:         nextwordindex := nextwordindex + 1;
 	lda.w nextwordindex_009
@@ -834,7 +834,7 @@ L_073
 	lda.w newline_014
 	cmp.w #1
 	beq L_078
-	jmp  L_079
+	jmp L_079
 L_078
 	lda.w linenumber_011
 	pha.w
@@ -860,9 +860,9 @@ L_079
 ;  206:     temp : wordentrytype;
 ;  207: 
 ;  208:     BEGIN
-i_081	.equ -1
-j_082	.equ -3
-temp_083	.equ -27
+i_081 .equ -1
+j_082 .equ -3
+temp_083 .equ -27
 sortwords_080	.sub
 	phx.w
 	tsx.w
@@ -942,7 +942,7 @@ L_088
 L_092
 	cmp.w #1
 	beq L_090
-	jmp  L_091
+	jmp L_091
 L_090
 ;  212:             temp := wordtable[i];
 	txa.w
@@ -1037,7 +1037,7 @@ L_086
 ;  223:     {Print a word's linked list of line numbers.}
 ;  224: 
 ;  225:     BEGIN
-i_094	.equ +7
+i_094 .equ +7
 printnumbers_093	.sub
 	phx.w
 	tsx.w
@@ -1111,7 +1111,7 @@ L_096
 ;  239:     i : wordtableindex;
 ;  240: 
 ;  241:     BEGIN
-i_099	.equ -1
+i_099 .equ -1
 printxref_098	.sub
 	phx.w
 	tsx.w
@@ -1274,7 +1274,7 @@ L_107
 	lda.w gotword_015
 	cmp.w #1
 	beq L_109
-	jmp  L_110
+	jmp L_110
 L_109
 	phx.w
 	jsr enterword_062
@@ -1289,7 +1289,7 @@ L_108
 	lda.w wordtablefull_012
 	cmp.w #1
 	beq L_111
-	jmp  L_112
+	jmp L_112
 L_111
 ;  271:         writeln;
 	jsr _writeln
@@ -1307,7 +1307,7 @@ L_112
 	lda.w numbertablefull_013
 	cmp.w #1
 	beq L_115
-	jmp  L_116
+	jmp L_116
 L_115
 ;  275:         writeln;
 	jsr _writeln
@@ -1379,22 +1379,22 @@ L_114
 
 	.dat
 
-wordtable_007	.byt 12000
-numbertable_008	.byt 4004
-nextwordindex_009	.byt 2
-nextnumberindex_010	.byt 2
-linenumber_011	.byt 2
-wordtablefull_012	.byt 2
-numbertablefull_013	.byt 2
-newline_014	.byt 2
-gotword_015	.byt 2
-S_120	.str " line number entries."
-S_119	.str " word entries."
-S_117	.str "*** The number table is not large enough. ***"
-S_113	.str "*** The word table is not large enough. ***"
-S_105	.str "    1 : "
-S_101	.str "---------------"
-S_100	.str "Cross-reference"
-S_020	.str " : "
+wordtable_007 .byt 12000
+numbertable_008 .byt 4004
+nextwordindex_009 .byt 2
+nextnumberindex_010 .byt 2
+linenumber_011 .byt 2
+wordtablefull_012 .byt 2
+numbertablefull_013 .byt 2
+newline_014 .byt 2
+gotword_015 .byt 2
+S_120 .str " line number entries."
+S_119 .str " word entries."
+S_117 .str "*** The number table is not large enough. ***"
+S_113 .str "*** The word table is not large enough. ***"
+S_105 .str "    1 : "
+S_101 .str "---------------"
+S_100 .str "Cross-reference"
+S_020 .str " : "
 
 	.end
