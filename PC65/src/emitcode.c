@@ -125,11 +125,12 @@ void emit_program_epilogue(SYMTAB_NODE_PTR prog_idp)
                            FLOAT_LABEL_PREFIX,
 			               np->label_index,
 			               np->defn.info.constant.value.real);
+
     //
     //  Emit declarations for the program's global variables.
     //
 
-    fprintf(code_file, "_bss_start\n");
+    fprintf(code_file, "_bss_start .wrd 1\n");
     for (np = prog_idp->defn.info.routine.locals; np != NULL; np = np->next) {
 	    fprintf(code_file, "%s_%03d ", np->name, np->label_index);
 	    if (np->typep == char_typep)
@@ -143,7 +144,7 @@ void emit_program_epilogue(SYMTAB_NODE_PTR prog_idp)
 	    else
 	        fprintf(code_file, ".wrd 1\n");
     }
-    fprintf(code_file, "_bss_end\n");
+    fprintf(code_file, "_bss_end .wrd 1\n");
 
     fprintf(code_file, "\n");
     fprintf(code_file, "\t.end\n");

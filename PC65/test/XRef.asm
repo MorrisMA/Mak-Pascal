@@ -1387,7 +1387,7 @@ S_105 .str "    1 : "
 S_101 .str "---------------"
 S_100 .str "Cross-reference"
 S_020 .str " : "
-_bss_start
+_bss_start .wrd 1
 wordtable_007 .byt 12000
 numbertable_008 .byt 4004
 nextwordindex_009 .wrd 1
@@ -1397,6 +1397,6 @@ wordtablefull_012 .wrd 1
 numbertablefull_013 .wrd 1
 newline_014 .wrd 1
 gotword_015 .wrd 1
-_bss_end
+_bss_end .wrd 1
 
 	.end

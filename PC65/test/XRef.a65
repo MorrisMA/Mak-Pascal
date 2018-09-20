@@ -1097,8 +1097,10 @@ S_105	.STR "    1 : "
 S_101	.STR "---------------"
 S_100	.STR "Cross-reference"
 S_020	.STR " : "
+		.wrd	1
 wordtable_007	.BYT	12000
 numbertable_008	.BYT	4004
+		.wrd	1
 		.wrd	1
 		.wrd	1
 		.wrd	1

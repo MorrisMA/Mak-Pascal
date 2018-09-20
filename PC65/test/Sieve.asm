@@ -277,13 +277,13 @@ L_023
 
 S_030 .str "   "
 S_021 .str "Sieve of Eratosthenes"
-_bss_start
+_bss_start .wrd 1
 sieve_002 .byt 2000
 i_003 .wrd 1
 j_004 .wrd 1
 limit_005 .wrd 1
 prime_006 .wrd 1
 factor_007 .wrd 1
-_bss_end
+_bss_end .wrd 1
 
 	.end

@@ -227,7 +227,9 @@ L_023	.LBL
 		.dat	
 S_030	.STR "   "
 S_021	.STR "Sieve of Eratosthenes"
+		.wrd	1
 sieve_002	.BYT	2000
+		.wrd	1
 		.wrd	1
 		.wrd	1
 		.wrd	1

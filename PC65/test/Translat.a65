@@ -691,4 +691,6 @@ S_024	.STR " three"
 S_021	.STR " two"
 S_018	.STR " one"
 		.wrd	1
+		.wrd	1
+		.wrd	1
 		.end	

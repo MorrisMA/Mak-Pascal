@@ -854,8 +854,8 @@ S_027 .str " four"
 S_024 .str " three"
 S_021 .str " two"
 S_018 .str " one"
-_bss_start
+_bss_start .wrd 1
 number_002 .wrd 1
-_bss_end
+_bss_end .wrd 1
 
 	.end

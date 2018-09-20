@@ -2470,7 +2470,7 @@ S_080 .str " : Rabbit eaten at "
 S_071 .str ", "
 S_070 .str " : Wolf died at "
 S_069 .str "t ="
-_bss_start
+_bss_start .wrd 1
 island_002 .byt 242
 foodunits_003 .byt 162
 printtimes_004 .byt 100
@@ -2482,6 +2482,6 @@ xpt_009 .wrd 1
 seed_010 .wrd 1
 rowoffset_011 .byt 10
 coloffset_012 .byt 10
-_bss_end
+_bss_end .wrd 1
 
 	.end
