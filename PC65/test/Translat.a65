@@ -657,7 +657,6 @@ L_126	.LBL
 		rts 	
 		.end	_pc65_main
 		.dat	
-number_002	.BYT	2
 S_141	.STR " zero"
 S_136	.STR " ***** Error -- number > "
 S_131	.STR " ***** Error -- number < 0"
@@ -691,4 +690,5 @@ S_027	.STR " four"
 S_024	.STR " three"
 S_021	.STR " two"
 S_018	.STR " one"
+		.wrd	1
 		.end	

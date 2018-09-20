@@ -275,13 +275,15 @@ L_023
 
 	.dat
 
-sieve_002 .byt 2000
-i_003 .byt 2
-j_004 .byt 2
-limit_005 .byt 2
-prime_006 .byt 2
-factor_007 .byt 2
 S_030 .str "   "
 S_021 .str "Sieve of Eratosthenes"
+_bss_start
+sieve_002 .byt 2000
+i_003 .wrd 1
+j_004 .wrd 1
+limit_005 .wrd 1
+prime_006 .wrd 1
+factor_007 .wrd 1
+_bss_end
 
 	.end

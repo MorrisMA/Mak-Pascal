@@ -2039,17 +2039,6 @@ L_167	.LBL
 		rts 	
 		.end	_pc65_main
 		.dat	
-island_002	.BYT	242
-foodunits_003	.BYT	162
-printtimes_004	.BYT	100
-numwolves_005	.BYT	2
-numrabbits_006	.BYT	2
-numprinttimes_007	.BYT	2
-t_008	.BYT	2
-xpt_009	.BYT	2
-seed_010	.BYT	2
-rowoffset_011	.BYT	10
-coloffset_012	.BYT	10
 S_149	.STR "r "
 S_144	.STR "W "
 S_139	.STR ". "
@@ -2060,4 +2049,15 @@ S_080	.STR " : Rabbit eaten at "
 S_071	.STR ", "
 S_070	.STR " : Wolf died at "
 S_069	.STR "t ="
+island_002	.BYT	242
+foodunits_003	.BYT	162
+printtimes_004	.BYT	100
+		.wrd	1
+		.wrd	1
+		.wrd	1
+		.wrd	1
+		.wrd	1
+		.wrd	1
+rowoffset_011	.BYT	10
+coloffset_012	.BYT	10
 		.end	

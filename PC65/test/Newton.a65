@@ -405,11 +405,11 @@ L_006	.LBL
 		rts 	
 		.end	_pc65_main
 		.dat	
-number_002	.BYT	4
-root_003	.BYT	4
-sqroot_004	.BYT	4
-F_020	.FLT	1.000000e-06
-F_011	.FLT	0.000000e+00
 S_016	.STR "*** ERROR:  number < 0"
 S_007	.STR "Enter new number (0 to quit): "
+F_020	.FLT	1.000000e-06
+F_011	.FLT	0.000000e+00
+number_002	.FLT	1
+root_003	.FLT	1
+sqroot_004	.FLT	1
 		.end	

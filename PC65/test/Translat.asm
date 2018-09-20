@@ -821,7 +821,6 @@ L_126
 
 	.dat
 
-number_002 .byt 2
 S_141 .str " zero"
 S_136 .str " ***** Error -- number > "
 S_131 .str " ***** Error -- number < 0"
@@ -855,5 +854,8 @@ S_027 .str " four"
 S_024 .str " three"
 S_021 .str " two"
 S_018 .str " one"
+_bss_start
+number_002 .wrd 1
+_bss_end
 
 	.end

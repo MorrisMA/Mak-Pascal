@@ -1379,15 +1379,6 @@ L_114
 
 	.dat
 
-wordtable_007 .byt 12000
-numbertable_008 .byt 4004
-nextwordindex_009 .byt 2
-nextnumberindex_010 .byt 2
-linenumber_011 .byt 2
-wordtablefull_012 .byt 2
-numbertablefull_013 .byt 2
-newline_014 .byt 2
-gotword_015 .byt 2
 S_120 .str " line number entries."
 S_119 .str " word entries."
 S_117 .str "*** The number table is not large enough. ***"
@@ -1396,5 +1387,16 @@ S_105 .str "    1 : "
 S_101 .str "---------------"
 S_100 .str "Cross-reference"
 S_020 .str " : "
+_bss_start
+wordtable_007 .byt 12000
+numbertable_008 .byt 4004
+nextwordindex_009 .wrd 1
+nextnumberindex_010 .wrd 1
+linenumber_011 .wrd 1
+wordtablefull_012 .wrd 1
+numbertablefull_013 .wrd 1
+newline_014 .wrd 1
+gotword_015 .wrd 1
+_bss_end
 
 	.end

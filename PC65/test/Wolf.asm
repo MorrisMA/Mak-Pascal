@@ -2460,17 +2460,6 @@ L_167
 
 	.dat
 
-island_002 .byt 242
-foodunits_003 .byt 162
-printtimes_004 .byt 100
-numwolves_005 .byt 2
-numrabbits_006 .byt 2
-numprinttimes_007 .byt 2
-t_008 .byt 2
-xpt_009 .byt 2
-seed_010 .byt 2
-rowoffset_011 .byt 10
-coloffset_012 .byt 10
 S_149 .str "r "
 S_144 .str "W "
 S_139 .str ". "
@@ -2481,5 +2470,18 @@ S_080 .str " : Rabbit eaten at "
 S_071 .str ", "
 S_070 .str " : Wolf died at "
 S_069 .str "t ="
+_bss_start
+island_002 .byt 242
+foodunits_003 .byt 162
+printtimes_004 .byt 100
+numwolves_005 .wrd 1
+numrabbits_006 .wrd 1
+numprinttimes_007 .wrd 1
+t_008 .wrd 1
+xpt_009 .wrd 1
+seed_010 .wrd 1
+rowoffset_011 .byt 10
+coloffset_012 .byt 10
+_bss_end
 
 	.end

@@ -225,12 +225,12 @@ L_023	.LBL
 		rts 	
 		.end	_pc65_main
 		.dat	
-sieve_002	.BYT	2000
-i_003	.BYT	2
-j_004	.BYT	2
-limit_005	.BYT	2
-prime_006	.BYT	2
-factor_007	.BYT	2
 S_030	.STR "   "
 S_021	.STR "Sieve of Eratosthenes"
+sieve_002	.BYT	2000
+		.wrd	1
+		.wrd	1
+		.wrd	1
+		.wrd	1
+		.wrd	1
 		.end	

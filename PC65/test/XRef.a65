@@ -1089,15 +1089,6 @@ L_114	.LBL
 		rts 	
 		.end	_pc65_main
 		.dat	
-wordtable_007	.BYT	12000
-numbertable_008	.BYT	4004
-nextwordindex_009	.BYT	2
-nextnumberindex_010	.BYT	2
-linenumber_011	.BYT	2
-wordtablefull_012	.BYT	2
-numbertablefull_013	.BYT	2
-newline_014	.BYT	2
-gotword_015	.BYT	2
 S_120	.STR " line number entries."
 S_119	.STR " word entries."
 S_117	.STR "*** The number table is not large enough. ***"
@@ -1106,4 +1097,13 @@ S_105	.STR "    1 : "
 S_101	.STR "---------------"
 S_100	.STR "Cross-reference"
 S_020	.STR " : "
+wordtable_007	.BYT	12000
+numbertable_008	.BYT	4004
+		.wrd	1
+		.wrd	1
+		.wrd	1
+		.wrd	1
+		.wrd	1
+		.wrd	1
+		.wrd	1
 		.end	

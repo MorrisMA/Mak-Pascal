@@ -103,34 +103,6 @@ void emit_program_epilogue(SYMTAB_NODE_PTR prog_idp)
     fprintf(code_file, "\n");
 
     //
-    //  Emit declarations for the program's global variables.
-    //
-
-    for (np = prog_idp->defn.info.routine.locals; np != NULL; np = np->next) {
-	    fprintf(code_file, "%s_%03d ", np->name, np->label_index);
-	    if (np->typep == char_typep)
-	        fprintf(code_file, ".byt 1\n");
-	    else if (np->typep == real_typep)
-	        fprintf(code_file, ".byt 4\n");
-	    else if (np->typep->form == ARRAY_FORM)
-	        fprintf(code_file, ".byt %d\n", np->typep->size);
-	    else if (np->typep->form == RECORD_FORM)
-	        fprintf(code_file, ".byt %d\n", np->typep->size);
-	    else
-	        fprintf(code_file, ".byt 2\n");
-    }
-
-    //
-    //  Emit declarations for the program's floating point literals.
-    //
-
-    for (np = float_literal_list; np != NULL; np = np->next)
-	    fprintf(code_file, "%s_%03d .flt %e\n",
-                           FLOAT_LABEL_PREFIX,
-			               np->label_index,
-			               np->defn.info.constant.value.real);
-
-    //
     //  Emit declarations for the program's string literals.
     //
 
@@ -143,6 +115,35 @@ void emit_program_epilogue(SYMTAB_NODE_PTR prog_idp)
 		}
 	    fprintf(code_file, "\"\n");
     }
+
+    //
+    //  Emit declarations for the program's floating point literals.
+    //
+
+    for (np = float_literal_list; np != NULL; np = np->next)
+	    fprintf(code_file, "%s_%03d .flt %e\n",
+                           FLOAT_LABEL_PREFIX,
+			               np->label_index,
+			               np->defn.info.constant.value.real);
+    //
+    //  Emit declarations for the program's global variables.
+    //
+
+    fprintf(code_file, "_bss_start\n");
+    for (np = prog_idp->defn.info.routine.locals; np != NULL; np = np->next) {
+	    fprintf(code_file, "%s_%03d ", np->name, np->label_index);
+	    if (np->typep == char_typep)
+	        fprintf(code_file, ".byt 1\n");
+	    else if (np->typep == real_typep)
+	        fprintf(code_file, ".flt 1\n");
+	    else if (np->typep->form == ARRAY_FORM)
+	        fprintf(code_file, ".byt %d\n", np->typep->size);
+	    else if (np->typep->form == RECORD_FORM)
+	        fprintf(code_file, ".byt %d\n", np->typep->size);
+	    else
+	        fprintf(code_file, ".wrd 1\n");
+    }
+    fprintf(code_file, "_bss_end\n");
 
     fprintf(code_file, "\n");
     fprintf(code_file, "\t.end\n");
