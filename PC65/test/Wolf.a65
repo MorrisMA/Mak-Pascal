@@ -4,7 +4,14 @@ STATIC_LINK	.EQU	+5
 RETURN_VALUE	.EQU	-3
 HIGH_RETURN_VALUE	.EQU	-1
 		tsx.w
-		lds.w	#16383
+		lds.w	#_stk_top
+		stz 	_bss_start
+		ldx.w	#_bss_start
+		ldy.w	#_bss_start+1
+		lda.w	#_stk_top
+		sec 	
+		sbc.w	#_bss_start
+		mov 	#15
 		jmp 	_pc65_main
 i_014	.EQU	-1
 row_015	.EQU	-3
@@ -2049,7 +2056,7 @@ S_080	.STR " : Rabbit eaten at "
 S_071	.STR ", "
 S_070	.STR " : Wolf died at "
 S_069	.STR "t ="
-		.wrd	1
+_bss_start	.BYT	1
 island_002	.BYT	242
 foodunits_003	.BYT	162
 printtimes_004	.BYT	100
@@ -2061,5 +2068,7 @@ printtimes_004	.BYT	100
 		.wrd	1
 rowoffset_011	.BYT	10
 coloffset_012	.BYT	10
-		.wrd	1
+_bss_end	.BYT	1
+_stk	.BYT	1023
+_stk_top	.BYT	1
 		.end	

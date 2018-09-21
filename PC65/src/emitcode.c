@@ -42,6 +42,8 @@ extern int level;
 
 extern FILE     *code_file;
 
+static int stk_size = 1024;
+
 //////////////////////////////////////////////////////////////////
 //  Globals                                                     //
 //////////////////////////////////////////////////////////////////
@@ -68,8 +70,6 @@ void emit_text_equate(SYMTAB_NODE_PTR);
 void emit_program_prologue()
 
 {
-	int stk_size = 1024;
-
 	fprintf(code_file, "\t.stk %d\n", stk_size);
     fprintf(code_file, "\t.cod %d\n", PGM_BASE);
     //
@@ -83,7 +83,20 @@ void emit_program_prologue()
     //
     fprintf(code_file, "_start\n");
     fprintf(code_file, "\ttsx.w\t\t; Preserve original stack pointer\n");
-    fprintf(code_file, "\tlds.w #%d\t; Initialize program stack pointer\n", TOP_RAM);
+    fprintf(code_file, "\tlds.w #_stk_top\t; Initialize program stack pointer\n");
+    //
+    //	Clear Memory (global variables, heap, and stack)
+    //
+    fprintf(code_file, "\tstz _bss_start\n");
+    fprintf(code_file, "\tldx.w #_bss_start\n");
+    fprintf(code_file, "\tldy.w #_bss_start+1\n");
+    fprintf(code_file, "\tlda.w #_stk_top\n");
+    fprintf(code_file, "\tsec\n");
+    fprintf(code_file, "\tsbc.w #_bss_start\n");
+    fprintf(code_file, "\tmov #15\n");
+    //
+    //	Jump to main routine: _pc65_main
+    //
     fprintf(code_file, "\tjmp _pc65_main\n");
 }
 
@@ -130,7 +143,7 @@ void emit_program_epilogue(SYMTAB_NODE_PTR prog_idp)
     //  Emit declarations for the program's global variables.
     //
 
-    fprintf(code_file, "_bss_start .wrd 1\n");
+    fprintf(code_file, "_bss_start .byt 1\n");
     for (np = prog_idp->defn.info.routine.locals; np != NULL; np = np->next) {
 	    fprintf(code_file, "%s_%03d ", np->name, np->label_index);
 	    if (np->typep == char_typep)
@@ -144,9 +157,12 @@ void emit_program_epilogue(SYMTAB_NODE_PTR prog_idp)
 	    else
 	        fprintf(code_file, ".wrd 1\n");
     }
-    fprintf(code_file, "_bss_end .wrd 1\n");
+    fprintf(code_file, "_bss_end .byt 1\n");
 
-    fprintf(code_file, "\n");
+    fprintf(code_file, "_stk .byt %d\n", stk_size-1);
+    fprintf(code_file, "_stk_top .byt 1\n");
+
+	fprintf(code_file, "\n");
     fprintf(code_file, "\t.end\n");
 }
 
@@ -157,7 +173,7 @@ void emit_program_epilogue(SYMTAB_NODE_PTR prog_idp)
 
 void emit_main_prologue()
 {
-    fprintf(code_file, "_pc65_main\t.sub\n");
+    fprintf(code_file, "_pc65_main .sub\n");
     fprintf(code_file, "\tphx.w\n");
     fprintf(code_file, "\ttsx.w\n");
 }
@@ -181,7 +197,7 @@ void emit_main_epilogue()
 
 void emit_routine_prologue(SYMTAB_NODE_PTR rtn_idp)
 {
-    fprintf(code_file, "%s_%03d\t.sub\n", rtn_idp->name, rtn_idp->label_index);
+    fprintf(code_file, "%s_%03d .sub\n", rtn_idp->name, rtn_idp->label_index);
 
     // dynamic link //
     

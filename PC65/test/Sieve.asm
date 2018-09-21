@@ -6,7 +6,14 @@ RETURN_VALUE .equ -3
 HIGH_RETURN_VALUE .equ -1
 _start
 	tsx.w		; Preserve original stack pointer
-	lds.w #16383	; Initialize program stack pointer
+	lds.w #_stk_top	; Initialize program stack pointer
+	stz _bss_start
+	ldx.w #_bss_start
+	ldy.w #_bss_start+1
+	lda.w #_stk_top
+	sec
+	sbc.w #_bss_start
+	mov #15
 	jmp _pc65_main
 ;    2: 
 ;    3: CONST
@@ -17,7 +24,7 @@ _start
 ;    8:     i, j, limit, prime, factor : INTEGER;
 ;    9: 
 ;   10: BEGIN
-_pc65_main	.sub
+_pc65_main .sub
 	phx.w
 	tsx.w
 ;   11:     limit := max DIV 2;
@@ -277,13 +284,15 @@ L_023
 
 S_030 .str "   "
 S_021 .str "Sieve of Eratosthenes"
-_bss_start .wrd 1
+_bss_start .byt 1
 sieve_002 .byt 2000
 i_003 .wrd 1
 j_004 .wrd 1
 limit_005 .wrd 1
 prime_006 .wrd 1
 factor_007 .wrd 1
-_bss_end .wrd 1
+_bss_end .byt 1
+_stk .byt 1023
+_stk_top .byt 1
 
 	.end

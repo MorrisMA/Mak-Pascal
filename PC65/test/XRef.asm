@@ -6,7 +6,14 @@ RETURN_VALUE .equ -3
 HIGH_RETURN_VALUE .equ -1
 _start
 	tsx.w		; Preserve original stack pointer
-	lds.w #16383	; Initialize program stack pointer
+	lds.w #_stk_top	; Initialize program stack pointer
+	stz _bss_start
+	ldx.w #_bss_start
+	ldy.w #_bss_start+1
+	lda.w #_stk_top
+	sec
+	sbc.w #_bss_start
+	mov #15
 	jmp _pc65_main
 ;    2: 
 ;    3:     {Generate a cross-reference listing from a text file.}
@@ -70,7 +77,7 @@ nextindex_006	.equ +2
 ;   56: 
 ;   57:     BEGIN
 ch_017 .equ -5
-nextchar_016	.sub
+nextchar_016 .sub
 	phx.w
 	tsx.w
 	adj #-4
@@ -162,7 +169,7 @@ L_023
 ;   79: 
 ;   80:     BEGIN
 ch_025 .equ +7
-isletter_024	.sub
+isletter_024 .sub
 	phx.w
 	tsx.w
 	adj #-4
@@ -249,7 +256,7 @@ L_029
 buffer_031 .equ +7
 charcount_032 .equ -1
 ch_033 .equ -3
-readword_030	.sub
+readword_030 .sub
 	phx.w
 	tsx.w
 	adj #-4
@@ -466,7 +473,7 @@ L_039
 ;  140: 
 ;  141:     BEGIN
 lastnumberindex_054 .equ +7
-appendlinenumber_053	.sub
+appendlinenumber_053 .sub
 	phx.w
 	tsx.w
 	adj #-4
@@ -592,7 +599,7 @@ L_061
 ;  165: 
 ;  166:     BEGIN
 i_063 .equ -1
-enterword_062	.sub
+enterword_062 .sub
 	phx.w
 	tsx.w
 	adj #-2
@@ -863,7 +870,7 @@ L_079
 i_081 .equ -1
 j_082 .equ -3
 temp_083 .equ -27
-sortwords_080	.sub
+sortwords_080 .sub
 	phx.w
 	tsx.w
 	adj #-28
@@ -1038,7 +1045,7 @@ L_086
 ;  224: 
 ;  225:     BEGIN
 i_094 .equ +7
-printnumbers_093	.sub
+printnumbers_093 .sub
 	phx.w
 	tsx.w
 ;  226:     REPEAT
@@ -1112,7 +1119,7 @@ L_096
 ;  240: 
 ;  241:     BEGIN
 i_099 .equ -1
-printxref_098	.sub
+printxref_098 .sub
 	phx.w
 	tsx.w
 	adj #-2
@@ -1210,7 +1217,7 @@ L_104
 ;  253: 
 ;  254: 
 ;  255: BEGIN {xref}
-_pc65_main	.sub
+_pc65_main .sub
 	phx.w
 	tsx.w
 ;  256:     wordtablefull   := false;
@@ -1387,7 +1394,7 @@ S_105 .str "    1 : "
 S_101 .str "---------------"
 S_100 .str "Cross-reference"
 S_020 .str " : "
-_bss_start .wrd 1
+_bss_start .byt 1
 wordtable_007 .byt 12000
 numbertable_008 .byt 4004
 nextwordindex_009 .wrd 1
@@ -1397,6 +1404,8 @@ wordtablefull_012 .wrd 1
 numbertablefull_013 .wrd 1
 newline_014 .wrd 1
 gotword_015 .wrd 1
-_bss_end .wrd 1
+_bss_end .byt 1
+_stk .byt 1023
+_stk_top .byt 1
 
 	.end

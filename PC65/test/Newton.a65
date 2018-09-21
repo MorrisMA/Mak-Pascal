@@ -4,7 +4,14 @@ STATIC_LINK	.EQU	+5
 RETURN_VALUE	.EQU	-3
 HIGH_RETURN_VALUE	.EQU	-1
 		tsx.w
-		lds.w	#16383
+		lds.w	#_stk_top
+		stz 	_bss_start
+		ldx.w	#_bss_start
+		ldy.w	#_bss_start+1
+		lda.w	#_stk_top
+		sec 	
+		sbc.w	#_bss_start
+		mov 	#15
 		jmp 	_pc65_main
 _pc65_main	.SUB
 		phx.w	
@@ -409,9 +416,11 @@ S_016	.STR "*** ERROR:  number < 0"
 S_007	.STR "Enter new number (0 to quit): "
 F_020	.FLT	1.000000e-06
 F_011	.FLT	0.000000e+00
-		.wrd	1
+_bss_start	.BYT	1
 number_002	.FLT	1
 root_003	.FLT	1
 sqroot_004	.FLT	1
-		.wrd	1
+_bss_end	.BYT	1
+_stk	.BYT	1023
+_stk_top	.BYT	1
 		.end	

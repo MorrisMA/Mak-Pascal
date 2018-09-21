@@ -4,7 +4,14 @@ STATIC_LINK	.EQU	+5
 RETURN_VALUE	.EQU	-3
 HIGH_RETURN_VALUE	.EQU	-1
 		tsx.w
-		lds.w	#16383
+		lds.w	#_stk_top
+		stz 	_bss_start
+		ldx.w	#_bss_start
+		ldy.w	#_bss_start+1
+		lda.w	#_stk_top
+		sec 	
+		sbc.w	#_bss_start
+		mov 	#15
 		jmp 	_pc65_main
 word_002	.EQU	+0
 firstnumberindex_003	.EQU	+20
@@ -1097,7 +1104,7 @@ S_105	.STR "    1 : "
 S_101	.STR "---------------"
 S_100	.STR "Cross-reference"
 S_020	.STR " : "
-		.wrd	1
+_bss_start	.BYT	1
 wordtable_007	.BYT	12000
 numbertable_008	.BYT	4004
 		.wrd	1
@@ -1107,5 +1114,7 @@ numbertable_008	.BYT	4004
 		.wrd	1
 		.wrd	1
 		.wrd	1
-		.wrd	1
+_bss_end	.BYT	1
+_stk	.BYT	1023
+_stk_top	.BYT	1
 		.end	

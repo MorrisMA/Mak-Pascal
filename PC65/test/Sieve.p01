@@ -17,9 +17,12 @@ jmp_abs        13
 jsr_abs         8
 lda_imm        21
 lda.w_abs      17
-lda.w_imm       4
+lda.w_imm       5
 lda.w_ipp       2
 lds.w_imm       1
+ldx.w_imm       1
+ldy.w_imm       1
+mov_imm         1
 pha.w_imp      14
 php_imp         3
 phx.w_imp       1
@@ -28,8 +31,11 @@ plp_imp         3
 plx.w_imp       1
 psh.w_imm      11
 rts_imp         1
+sbc.w_imm       1
+sec_imp         1
 sta.w_abs      11
 sta.w_ipp       3
 sta.w_zpS       5
+stz__bss_start    1
 tsx.w_imp       2
 xma.w_zpS       3

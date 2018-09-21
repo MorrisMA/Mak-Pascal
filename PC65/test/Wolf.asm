@@ -6,7 +6,14 @@ RETURN_VALUE .equ -3
 HIGH_RETURN_VALUE .equ -1
 _start
 	tsx.w		; Preserve original stack pointer
-	lds.w #16383	; Initialize program stack pointer
+	lds.w #_stk_top	; Initialize program stack pointer
+	stz _bss_start
+	ldx.w #_bss_start
+	ldy.w #_bss_start+1
+	lda.w #_stk_top
+	sec
+	sbc.w #_bss_start
+	mov #15
 	jmp _pc65_main
 ;    2: 
 ;    3: {   Wolf Island is a simulation of a 9 x 9 island of wolves and rabbits.
@@ -122,7 +129,7 @@ _start
 i_014 .equ -1
 row_015 .equ -3
 col_016 .equ -5
-initialize_013	.sub
+initialize_013 .sub
 	phx.w
 	tsx.w
 	adj #-6
@@ -559,7 +566,7 @@ L_034
 ;  166: 
 ;  167:     BEGIN
 limit_036 .equ +7
-random_035	.sub
+random_035 .sub
 	phx.w
 	tsx.w
 	adj #-4
@@ -625,7 +632,7 @@ newcol_042 .equ +7
 adj_043 .equ -1
 what_044 .equ -3
 done_045 .equ -5
-newlocation_037	.sub
+newlocation_037 .sub
 	phx.w
 	tsx.w
 	adj #-6
@@ -900,7 +907,7 @@ oldcol_062 .equ +7
 newrow_063 .equ -1
 newcol_064 .equ -3
 moved_065 .equ -5
-processwolf_060	.sub
+processwolf_060 .sub
 	phx.w
 	tsx.w
 	adj #-6
@@ -1597,7 +1604,7 @@ oldcol_090 .equ +7
 newrow_091 .equ -1
 newcol_092 .equ -3
 moved_093 .equ -5
-processrabbit_088	.sub
+processrabbit_088 .sub
 	phx.w
 	tsx.w
 	adj #-6
@@ -1821,7 +1828,7 @@ L_099
 ;  319:     BEGIN
 row_105 .equ -1
 col_106 .equ -3
-eventsoccur_104	.sub
+eventsoccur_104 .sub
 	phx.w
 	tsx.w
 	adj #-4
@@ -1991,7 +1998,7 @@ L_118
 row_126 .equ -1
 col_127 .equ -3
 cnts_128 .equ -5
-printisland_125	.sub
+printisland_125 .sub
 	phx.w
 	tsx.w
 	adj #-6
@@ -2164,7 +2171,7 @@ L_132
 ;  376:     BEGIN
 row_151 .equ -1
 col_152 .equ -3
-resetisland_150	.sub
+resetisland_150 .sub
 	phx.w
 	tsx.w
 	adj #-4
@@ -2310,7 +2317,7 @@ L_155
 ;  388: 
 ;  389: 
 ;  390: BEGIN {WolfIsland}
-_pc65_main	.sub
+_pc65_main .sub
 	phx.w
 	tsx.w
 ;  391: 
@@ -2470,7 +2477,7 @@ S_080 .str " : Rabbit eaten at "
 S_071 .str ", "
 S_070 .str " : Wolf died at "
 S_069 .str "t ="
-_bss_start .wrd 1
+_bss_start .byt 1
 island_002 .byt 242
 foodunits_003 .byt 162
 printtimes_004 .byt 100
@@ -2482,6 +2489,8 @@ xpt_009 .wrd 1
 seed_010 .wrd 1
 rowoffset_011 .byt 10
 coloffset_012 .byt 10
-_bss_end .wrd 1
+_bss_end .byt 1
+_stk .byt 1023
+_stk_top .byt 1
 
 	.end

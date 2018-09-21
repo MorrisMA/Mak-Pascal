@@ -6,7 +6,14 @@ RETURN_VALUE .equ -3
 HIGH_RETURN_VALUE .equ -1
 _start
 	tsx.w		; Preserve original stack pointer
-	lds.w #16383	; Initialize program stack pointer
+	lds.w #_stk_top	; Initialize program stack pointer
+	stz _bss_start
+	ldx.w #_bss_start
+	ldy.w #_bss_start+1
+	lda.w #_stk_top
+	sec
+	sbc.w #_bss_start
+	mov #15
 	jmp _pc65_main
 ;    2: 
 ;    3: {   Translate a list of integers from numeric form into
@@ -61,7 +68,7 @@ onesdigit_012 .equ -7
 ;   44: 
 ;   45:             BEGIN
 digit_014 .equ +7
-doones_013	.sub
+doones_013 .sub
 	phx.w
 	tsx.w
 ;   46:                 CASE digit OF
@@ -181,7 +188,7 @@ L_015
 ;   64: 
 ;   65:             BEGIN
 teens_044 .equ +7
-doteens_043	.sub
+doteens_043 .sub
 	phx.w
 	tsx.w
 ;   66:                 CASE teens OF
@@ -312,7 +319,7 @@ L_045
 ;   85: 
 ;   86:             BEGIN
 digit_077 .equ +7
-dotens_076	.sub
+dotens_076 .sub
 	phx.w
 	tsx.w
 ;   87:                 CASE digit OF
@@ -414,7 +421,7 @@ L_078
 	.end dotens_076
 ;   98: 
 ;   99:         BEGIN {DoPart}
-dopart_007	.sub
+dopart_007 .sub
 	phx.w
 	tsx.w
 	adj #-8
@@ -587,7 +594,7 @@ L_111
 	.end dopart_007
 ;  123: 
 ;  124:     BEGIN {Translate}
-translate_003	.sub
+translate_003 .sub
 	phx.w
 	tsx.w
 	adj #-4
@@ -674,7 +681,7 @@ L_123
 ;  137: 
 ;  138: 
 ;  139: BEGIN {NumberTranslator}
-_pc65_main	.sub
+_pc65_main .sub
 	phx.w
 	tsx.w
 ;  140: 
@@ -854,8 +861,10 @@ S_027 .str " four"
 S_024 .str " three"
 S_021 .str " two"
 S_018 .str " one"
-_bss_start .wrd 1
+_bss_start .byt 1
 number_002 .wrd 1
-_bss_end .wrd 1
+_bss_end .byt 1
+_stk .byt 1023
+_stk_top .byt 1
 
 	.end

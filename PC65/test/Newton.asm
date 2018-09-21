@@ -6,7 +6,14 @@ RETURN_VALUE .equ -3
 HIGH_RETURN_VALUE .equ -1
 _start
 	tsx.w		; Preserve original stack pointer
-	lds.w #16383	; Initialize program stack pointer
+	lds.w #_stk_top	; Initialize program stack pointer
+	stz _bss_start
+	ldx.w #_bss_start
+	ldy.w #_bss_start+1
+	lda.w #_stk_top
+	sec
+	sbc.w #_bss_start
+	mov #15
 	jmp _pc65_main
 ;    2: 
 ;    3: CONST
@@ -16,7 +23,7 @@ _start
 ;    7:     number, root, sqroot : real;
 ;    8: 
 ;    9: BEGIN
-_pc65_main	.sub
+_pc65_main .sub
 	phx.w
 	tsx.w
 ;   10:     REPEAT
@@ -447,10 +454,12 @@ S_016 .str "*** ERROR:  number < 0"
 S_007 .str "Enter new number (0 to quit): "
 F_020 .flt 1.000000e-06
 F_011 .flt 0.000000e+00
-_bss_start .wrd 1
+_bss_start .byt 1
 number_002 .flt 1
 root_003 .flt 1
 sqroot_004 .flt 1
-_bss_end .wrd 1
+_bss_end .byt 1
+_stk .byt 1023
+_stk_top .byt 1
 
 	.end
