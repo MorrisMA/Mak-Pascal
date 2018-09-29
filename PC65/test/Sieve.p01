@@ -26,7 +26,7 @@ mov_imm         1
 pha.w_imp      14
 php_imp         3
 phx.w_imp       1
-pli_imp         5
+pli.s_imp       5
 plp_imp         3
 plx.w_imp       1
 psh.w_imm      11

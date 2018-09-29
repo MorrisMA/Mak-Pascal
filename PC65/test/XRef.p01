@@ -34,7 +34,7 @@ pha.w_imp      96
 php_imp        14
 phx.w_imp      12
 pla.w_imp      17
-pli_imp        14
+pli.s_imp      14
 plp_imp        14
 plx.w_imp      12
 ply.w_imp       3

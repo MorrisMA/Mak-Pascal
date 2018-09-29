@@ -25,7 +25,7 @@ L_005	.LBL
 		adj 	#6
 		psh.w	#number_002
 		jsr 	_fread
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		swp 	a
 		sta.w	0,I++

@@ -837,7 +837,7 @@ TYPE_STRUCT_PTR variable(SYMTAB_NODE_PTR var_idp,   /* variable id */
             if (tp == char_typep) {
                 //fprintf(code_file, "\tlda (1,S)\n");
                 //fprintf(code_file, "\tadj #%d\n", 2);
-                fprintf(code_file, "\tpli\n");
+                fprintf(code_file, "\tpli.s\n");
                 fprintf(code_file, "\tlda 0,I++\n");
             } else if (tp == real_typep) {
                 //fprintf(code_file, "\tldy #2\n");
@@ -845,7 +845,7 @@ TYPE_STRUCT_PTR variable(SYMTAB_NODE_PTR var_idp,   /* variable id */
                 //fprintf(code_file, "\tswp a\n");
                 //fprintf(code_file, "\tlda.w (1,S)\n");
                 //fprintf(code_file, "\tadj #%d\n", 2);
-                fprintf(code_file, "\tpli\n");
+                fprintf(code_file, "\tpli.s\n");
                 fprintf(code_file, "\tlda.w 0,I++\n");
                 fprintf(code_file, "\ttai\n");
                 fprintf(code_file, "\tlda.w 0,I++\n");
@@ -855,7 +855,7 @@ TYPE_STRUCT_PTR variable(SYMTAB_NODE_PTR var_idp,   /* variable id */
             } else {
                 //fprintf(code_file, "\tlda.w (1,S)\n");
                 //fprintf(code_file, "\tadj #%d\n", 2);
-                fprintf(code_file, "\tpli\n");
+                fprintf(code_file, "\tpli.s\n");
                 fprintf(code_file, "\tlda.w 0,I++\n");
             }
 	    }

@@ -547,7 +547,7 @@ _pc65_main	.SUB
 L_125	.LBL
 		psh.w	#number_002
 		jsr 	_iread
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		lda.w	number_002
 		pha.w	

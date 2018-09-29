@@ -43,7 +43,7 @@ L_018	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#5
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#island_002
 		lda 	#10
@@ -60,7 +60,7 @@ L_018	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#5
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#island_002
 		lda.w	i_014,X
@@ -77,7 +77,7 @@ L_018	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#5
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#island_002
 		lda.w	i_014,X
@@ -94,7 +94,7 @@ L_018	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#5
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		inc.w	i_014,X
 		jmp 	L_017
@@ -131,7 +131,7 @@ L_024	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#4
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#foodunits_003
 		lda.w	row_015,X
@@ -150,7 +150,7 @@ L_024	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#0
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		inc.w	col_016,X
 		jmp 	L_023
@@ -162,7 +162,7 @@ L_022	.LBL
 		dec.w	row_015,X
 		psh.w	#numwolves_005
 		jsr 	_iread
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		lda 	#1
 		sta.w	i_014,X
@@ -177,14 +177,14 @@ L_027	.LBL
 		adc.w	#row_015
 		pha.w	
 		jsr 	_iread
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		txa.w	
 		clc 	
 		adc.w	#col_016
 		pha.w	
 		jsr 	_iread
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#island_002
 		lda.w	row_015,X
@@ -201,7 +201,7 @@ L_027	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#0
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#foodunits_003
 		lda.w	row_015,X
@@ -220,7 +220,7 @@ L_027	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#6
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		inc.w	i_014,X
 		jmp 	L_026
@@ -228,7 +228,7 @@ L_028	.LBL
 		dec.w	i_014,X
 		psh.w	#numrabbits_006
 		jsr 	_iread
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		lda 	#1
 		sta.w	i_014,X
@@ -243,14 +243,14 @@ L_030	.LBL
 		adc.w	#row_015
 		pha.w	
 		jsr 	_iread
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		txa.w	
 		clc 	
 		adc.w	#col_016
 		pha.w	
 		jsr 	_iread
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#island_002
 		lda.w	row_015,X
@@ -267,7 +267,7 @@ L_030	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#1
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		inc.w	i_014,X
 		jmp 	L_029
@@ -275,7 +275,7 @@ L_031	.LBL
 		dec.w	i_014,X
 		psh.w	#numprinttimes_007
 		jsr 	_iread
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		lda 	#1
 		sta.w	i_014,X
@@ -293,7 +293,7 @@ L_033	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		jsr 	_iread
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		inc.w	i_014,X
 		jmp 	L_032
@@ -306,7 +306,7 @@ L_034	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#0
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#coloffset_012
 		lda 	#0
@@ -315,7 +315,7 @@ L_034	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#0
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#rowoffset_011
 		lda 	#1
@@ -326,7 +326,7 @@ L_034	.LBL
 		lda 	#1
 		eor.w	#-1
 		inc.w	a
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#coloffset_012
 		lda 	#1
@@ -335,7 +335,7 @@ L_034	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#0
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#rowoffset_011
 		lda 	#2
@@ -344,7 +344,7 @@ L_034	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#0
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#coloffset_012
 		lda 	#2
@@ -355,7 +355,7 @@ L_034	.LBL
 		lda 	#1
 		eor.w	#-1
 		inc.w	a
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#rowoffset_011
 		lda 	#3
@@ -364,7 +364,7 @@ L_034	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#0
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#coloffset_012
 		lda 	#3
@@ -373,7 +373,7 @@ L_034	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#1
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#rowoffset_011
 		lda 	#4
@@ -382,7 +382,7 @@ L_034	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#1
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#coloffset_012
 		lda 	#4
@@ -391,7 +391,7 @@ L_034	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#0
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		txs.w	
 		plx.w	
@@ -487,12 +487,12 @@ L_049	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		clc 	
 		adc.w	1,S
 		adj 	#2
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		lda.w	newcol_042,X
 		pha.w	
@@ -504,12 +504,12 @@ L_049	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		clc 	
 		adc.w	1,S
 		adj 	#2
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#island_002
 		lda.w	(newrow_041,X)
@@ -525,7 +525,7 @@ L_049	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		sta.w	what_044,X
 		lda.w	what_044,X
@@ -586,12 +586,12 @@ L_055	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		clc 	
 		adc.w	1,S
 		adj 	#2
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		lda.w	newcol_042,X
 		pha.w	
@@ -603,12 +603,12 @@ L_055	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		clc 	
 		adc.w	1,S
 		adj 	#2
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#island_002
 		lda.w	(newrow_041,X)
@@ -624,7 +624,7 @@ L_055	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		sta.w	what_044,X
 		lda.w	what_044,X
@@ -719,7 +719,7 @@ processwolf_060	.SUB
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		pha.w	
 		lda 	#1
@@ -727,7 +727,7 @@ processwolf_060	.SUB
 		sec 	
 		sbc.w	1,S
 		adj 	#2
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#foodunits_003
 		lda.w	oldrow_061,X
@@ -745,7 +745,7 @@ processwolf_060	.SUB
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		pha.w	
 		lda 	#0
@@ -777,7 +777,7 @@ L_066	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#4
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		lda.w	numwolves_005
 		pha.w	
@@ -898,7 +898,7 @@ L_075	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		pha.w	
 		lda 	#1
@@ -947,14 +947,14 @@ L_077	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		pha.w	
 		lda 	#6
 		clc 	
 		adc.w	1,S
 		adj 	#2
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		lda.w	numrabbits_006
 		pha.w	
@@ -1024,7 +1024,7 @@ L_078	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#2
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#island_002
 		lda.w	oldrow_061,X
@@ -1041,7 +1041,7 @@ L_078	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#4
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#foodunits_003
 		lda.w	newrow_063,X
@@ -1075,9 +1075,9 @@ L_078	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#foodunits_003
 		lda.w	oldrow_061,X
@@ -1096,7 +1096,7 @@ L_078	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#0
-		pli 	
+		pli.s	
 		sta.w	0,I++
 L_076	.LBL
 		lda.w	t_008
@@ -1134,7 +1134,7 @@ L_083	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		pha.w	
 		lda 	#1
@@ -1185,14 +1185,14 @@ L_081	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		pha.w	
 		lda 	#2
 		pha.w	
 		jsr 	_idiv
 		adj 	#4
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		lda.w	moved_065,X
 		cmp.w	#1
@@ -1214,7 +1214,7 @@ L_085	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#2
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#foodunits_003
 		lda.w	oldrow_061,X
@@ -1248,9 +1248,9 @@ L_085	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		lda.w	numwolves_005
 		pha.w	
@@ -1385,7 +1385,7 @@ L_096	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#3
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#island_002
 		lda.w	oldrow_089,X
@@ -1402,7 +1402,7 @@ L_096	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#4
-		pli 	
+		pli.s	
 		sta.w	0,I++
 L_097	.LBL
 		lda.w	t_008
@@ -1447,7 +1447,7 @@ L_101	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#3
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		lda.w	numrabbits_006
 		pha.w	
@@ -1542,7 +1542,7 @@ L_111	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		pha.w	
 		lda 	#0
@@ -1606,7 +1606,7 @@ L_120	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		pha.w	
 		lda 	#1
@@ -1706,7 +1706,7 @@ L_134	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		sta.w	cnts_128,X
 		lda.w	cnts_128,X
@@ -1828,7 +1828,7 @@ L_157	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		pha.w	
 		lda 	#2
@@ -1860,7 +1860,7 @@ L_159	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#0
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		jmp 	L_162
 L_160	.LBL
@@ -1878,7 +1878,7 @@ L_160	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		pha.w	
 		lda 	#3
@@ -1910,7 +1910,7 @@ L_163	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#1
-		pli 	
+		pli.s	
 		sta.w	0,I++
 L_164	.LBL
 L_162	.LBL
@@ -1938,7 +1938,7 @@ _pc65_main	.SUB
 		sta.w	xpt_009
 		psh.w	#seed_010
 		jsr 	_iread
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		phx.w	
 		jsr 	printisland_125
@@ -1967,7 +1967,7 @@ L_166	.LBL
 		clc 	
 		adc.w	1,S
 		sta.w	1,S
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		xma.w	1,S
 		cmp.w	1,S

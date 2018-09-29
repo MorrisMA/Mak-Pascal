@@ -70,7 +70,7 @@ L_022	.LBL
 		adc.w	#ch_017
 		pha.w	
 		jsr 	_cread
-		pli 	
+		pli.s	
 		sta 	0,I++
 		lda 	ch_017,X
 		pha.w	
@@ -286,7 +286,7 @@ L_047	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	ch_033,X
-		pli 	
+		pli.s	
 		sta 	0,I++
 L_044	.LBL
 		lda.w	STATIC_LINK,X
@@ -317,7 +317,7 @@ L_051	.LBL
 		adc.w	1,S
 		sta.w	1,S
 		lda 	#32
-		pli 	
+		pli.s	
 		sta 	0,I++
 		inc.w	charcount_032,X
 		jmp 	L_050
@@ -379,7 +379,7 @@ L_058	.LBL
 		adc.w	#nextindex_006
 		pha.w	
 		lda.w	nextnumberindex_010
-		pli 	
+		pli.s	
 		sta.w	0,I++
 L_059	.LBL
 		psh.w	#numbertable_008
@@ -394,7 +394,7 @@ L_059	.LBL
 		adc.w	#number_005
 		pha.w	
 		lda.w	linenumber_011
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#numbertable_008
 		lda.w	nextnumberindex_010
@@ -408,7 +408,7 @@ L_059	.LBL
 		adc.w	#nextindex_006
 		pha.w	
 		lda 	#0
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		lda.w	nextnumberindex_010
 		sta.w	RETURN_VALUE,X
@@ -547,14 +547,14 @@ L_070	.LBL
 		clc 	
 		adc.w	#lastnumberindex_004
 		pha.w	
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		pha.w	
 		lda.w	STATIC_LINK,X
 		pha.w	
 		jsr 	appendlinenumber_053
 		adj 	#4
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		jmp 	L_073
 L_071	.LBL
@@ -601,7 +601,7 @@ L_074	.LBL
 		pha.w	
 		jsr 	appendlinenumber_053
 		adj 	#4
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		psh.w	#wordtable_007
 		lda.w	i_063,X
@@ -631,9 +631,9 @@ L_074	.LBL
 		clc 	
 		adc.w	#firstnumberindex_003
 		pha.w	
-		pli 	
+		pli.s	
 		lda.w	0,I++
-		pli 	
+		pli.s	
 		sta.w	0,I++
 		jmp 	L_077
 L_075	.LBL
@@ -834,7 +834,7 @@ L_095	.LBL
 		clc 	
 		adc.w	#number_005
 		pha.w	
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		pha.w	
 		lda 	#4
@@ -852,7 +852,7 @@ L_095	.LBL
 		clc 	
 		adc.w	#nextindex_006
 		pha.w	
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		sta.w	i_094,X
 		lda.w	i_094,X
@@ -946,7 +946,7 @@ L_103	.LBL
 		clc 	
 		adc.w	#firstnumberindex_003
 		pha.w	
-		pli 	
+		pli.s	
 		lda.w	0,I++
 		pha.w	
 		lda.w	STATIC_LINK,X

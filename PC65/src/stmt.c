@@ -186,7 +186,7 @@ void assignment_statement(SYMTAB_NODE_PTR var_idp)
 	    if (stacked_flag) {
             //fprintf(code_file, "\tsta (1,S)\n");
             //fprintf(code_file, "\tadj #%d\n", 2);
-            fprintf(code_file, "\tpli\n");
+            fprintf(code_file, "\tpli.s\n");
             fprintf(code_file, "\tsta 0,I++\n");
         } else if (var_idp->defn.key == FUNC_DEFN) {
             fprintf(code_file, "\ttay\n");
@@ -217,7 +217,7 @@ void assignment_statement(SYMTAB_NODE_PTR var_idp)
             //fprintf(code_file, "\tswp a\n");
             //fprintf(code_file, "\tsta.w (1,S)\n");
             //fprintf(code_file, "\tadj #%d\n", 2);
-            fprintf(code_file, "\tpli\n");
+            fprintf(code_file, "\tpli.s\n");
             fprintf(code_file, "\tsta.w 0,I++\n");
             fprintf(code_file, "\tswp a\n");
             fprintf(code_file, "\tsta.w 0,I++\n");
@@ -256,7 +256,7 @@ void assignment_statement(SYMTAB_NODE_PTR var_idp)
 	    if (stacked_flag) {
             //fprintf(code_file, "\tsta.w (1,S)\n");
             //fprintf(code_file, "\tadj #%d\n", 2);
-            fprintf(code_file, "\tpli\n");
+            fprintf(code_file, "\tpli.s\n");
             fprintf(code_file, "\tsta.w 0,I++\n");
         } else if (var_idp->defn.key == FUNC_DEFN) {
             fprintf(code_file, "\tsta.w %s,X\n", RETURN_VALUE);

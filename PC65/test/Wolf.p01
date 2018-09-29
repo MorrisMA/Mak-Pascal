@@ -33,7 +33,7 @@ ora.w_zpS       6
 pha.w_imp     165
 php_imp        26
 phx.w_imp      15
-pli_imp        67
+pli.s_imp      67
 plp_imp        26
 plx.w_imp       9
 psh.w_imm     157
