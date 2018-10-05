@@ -44,25 +44,32 @@ extern void program(void);
 
 int main(int argc, char *argv[])
 {
-    //
-    //  Open the code file.  If no code file name was given,
-    //  use the standard output file.
-    //
+	if (argc < 3) {
+		printf("Usage:\n\tPC65 <source filename> [<output filename>]\n");
+		printf("Press <Enter> to continue.");
+		getchar();
+		return -1;
+	} else {
+		//
+		//  Open the code file.  If no code file name was given,
+		//  use the standard output file.
+		//
 
-    code_file = (argc == 3) ? fopen(argv[2], "w") : stdout;
+		code_file = (argc == 3) ? fopen(argv[2], "w") : stdout;
 
-    //
-    //  Initialize the scanner.
-    //
+		//
+		//  Initialize the scanner.
+		//
 
-    init_scanner(argv[1]);
+		init_scanner(argv[1]);
 
-    //
-    //  Process a program.
-    //
+		//
+		//  Process a program.
+		//
 
-    get_token();
-    program();
+		get_token();
+		program();
 
-    return 0;
+		return 0;
+	}
 }
