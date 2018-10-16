@@ -13,7 +13,7 @@ _start
 	lda.w #_stk_top
 	sec
 	sbc.w #_bss_start
-	mov #15
+	mov #10
 	jmp _pc65_main
 ;    2: 
 ;    3: {   Translate a list of integers from numeric form into

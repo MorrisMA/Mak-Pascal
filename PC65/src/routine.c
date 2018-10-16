@@ -838,8 +838,8 @@ void actual_parm_list(SYMTAB_NODE_PTR rtn_idp, BOOLEAN parm_check_flag)
                     } else {
                         fprintf(code_file, "\tadj #%d\n", -offset);
                     }
-                    fprintf(code_file, "\tphx.sw\n");
-                    fprintf(code_file, "\tply.w\n");
+                    fprintf(code_file, "\ttsa.w\n");
+                    fprintf(code_file, "\ttay.w\n");
                     if(    (size >= 0  )
                         && (size <= 255)) {
                         fprintf(code_file, "\tlda #%d\n", size);
@@ -848,7 +848,7 @@ void actual_parm_list(SYMTAB_NODE_PTR rtn_idp, BOOLEAN parm_check_flag)
                     }
                     fprintf(code_file, "\tdup x\n");
                     fprintf(code_file, "\tplx.w\n");
-                    fprintf(code_file, "\tmov #15\n");
+                    fprintf(code_file, "\tmov #10\n");
                     fprintf(code_file, "\trot x\n");
                 } else {
                     fprintf(code_file, "\tpha.w\n");

@@ -93,7 +93,7 @@ void emit_program_prologue()
     fprintf(code_file, "\tlda.w #_stk_top\n");
     fprintf(code_file, "\tsec\n");
     fprintf(code_file, "\tsbc.w #_bss_start\n");
-    fprintf(code_file, "\tmov #15\n");
+    fprintf(code_file, "\tmov #10\n");
     //
     //	Jump to main routine: _pc65_main
     //

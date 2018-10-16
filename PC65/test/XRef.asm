@@ -13,7 +13,7 @@ _start
 	lda.w #_stk_top
 	sec
 	sbc.w #_bss_start
-	mov #15
+	mov #10
 	jmp _pc65_main
 ;    2: 
 ;    3:     {Generate a cross-reference listing from a text file.}
@@ -966,12 +966,12 @@ L_090
 	clc
 	adc.w 1,S
 	sta.w 1,S
-	swp x
+	dup x
 	lda #24
 	plx.w
 	ply.w
-	mov #15
-	swp x
+	mov #10
+	rot x
 ;  213:             wordtable[i] := wordtable[j];
 	psh.w #wordtable_007
 	lda.w i_081,X
@@ -993,12 +993,12 @@ L_090
 	clc
 	adc.w 1,S
 	sta.w 1,S
-	swp x
+	dup x
 	lda #24
 	plx.w
 	ply.w
-	mov #15
-	swp x
+	mov #10
+	rot x
 ;  214:             wordtable[j] := temp;
 	psh.w #wordtable_007
 	lda.w j_082,X
@@ -1014,12 +1014,12 @@ L_090
 	clc
 	adc.w #temp_083
 	pha.w
-	swp x
+	dup x
 	lda #24
 	plx.w
 	ply.w
-	mov #15
-	swp x
+	mov #10
+	rot x
 ;  215:         END;
 L_091
 ;  216:         END;

@@ -15,6 +15,7 @@ cmp.w_zpS      12
 cmp.w_zpX       4
 dec.w_A        18
 dec.w_zpX       4
+dup_X           3
 eor_imm         3
 inc.w_zpX       4
 jmp_abs        39
@@ -39,6 +40,7 @@ plp_imp        14
 plx.w_imp      12
 ply.w_imp       3
 psh.w_imm      66
+rot_X           3
 rts_imp         9
 sbc.w_imm       1
 sbc.w_zpS       7
@@ -50,7 +52,6 @@ sta.w_ipp       6
 sta.w_zpS      23
 sta.w_zpX      13
 stz__bss_start    1
-swp_X           6
 tay_imp         1
 tsx.w_imp      10
 txa.w_imp       3

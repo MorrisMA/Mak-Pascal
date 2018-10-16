@@ -237,7 +237,7 @@ void assignment_statement(SYMTAB_NODE_PTR var_idp)
 	    --  record := record
 	    */
 
-        fprintf(code_file, "\tswp x\n");
+        fprintf(code_file, "\tdup x\n");
         if(    (var_tp->size >= 0  )
             && (var_tp->size <= 255)) {
             fprintf(code_file, "\tlda #%d\n", var_tp->size);
@@ -246,8 +246,8 @@ void assignment_statement(SYMTAB_NODE_PTR var_idp)
         }
         fprintf(code_file, "\tplx.w\n");
         fprintf(code_file, "\tply.w\n");
-        fprintf(code_file, "\tmov #15\n");
-        fprintf(code_file, "\tswp x\n");
+        fprintf(code_file, "\tmov #10\n");
+        fprintf(code_file, "\trot x\n");
     } else {
 	    /*
 	    --  integer := integer

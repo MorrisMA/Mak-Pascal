@@ -11,7 +11,7 @@ HIGH_RETURN_VALUE	.EQU	-1
 		lda.w	#_stk_top
 		sec 	
 		sbc.w	#_bss_start
-		mov 	#15
+		mov 	#10
 		jmp 	_pc65_main
 n_004	.EQU	+7
 partbefore_005	.EQU	-1
