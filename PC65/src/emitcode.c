@@ -420,9 +420,9 @@ void emit_load_value(SYMTAB_NODE_PTR var_idp, TYPE_STRUCT_PTR var_tp)
 	    //
 	    int lev = var_level;
 
-        fprintf(code_file, "\tswp x\n");
+        fprintf(code_file, "\tdup x\n");
 	    do {
-            fprintf(code_file, "\tlda.xw %s,X\n", STATIC_LINK);
+            fprintf(code_file, "\tlda.w %s,X\n", STATIC_LINK);
 	    } while (++lev < level);
 
 	    if (var_tp == char_typep) {
@@ -434,7 +434,7 @@ void emit_load_value(SYMTAB_NODE_PTR var_idp, TYPE_STRUCT_PTR var_tp)
         } else {
             fprintf(code_file, "\tlda.w %s_%03d,X\n", var_idp->name, var_idp->label_index);
         }
-        fprintf(code_file, "\tswp x\n");
+        fprintf(code_file, "\trot x\n");
     }
 }
 
@@ -493,7 +493,7 @@ void emit_push_address(SYMTAB_NODE_PTR var_idp)
     } else {  // var_level < level //
 	    int lev = var_level;
 
-        fprintf(code_file, "\tswp x\n");
+        fprintf(code_file, "\tdup x\n");
         //
 	    do {
             fprintf(code_file, "\tlda.w %s,X\n", STATIC_LINK);
@@ -514,7 +514,7 @@ void emit_push_address(SYMTAB_NODE_PTR var_idp)
             fprintf(code_file, "\tpha.w\n");
         }
         //
-        fprintf(code_file, "\tswp x\n");
+        fprintf(code_file, "\trot x\n");
     }
 }
 
@@ -533,7 +533,7 @@ void emit_push_return_value_address(SYMTAB_NODE_PTR var_idp)
 	    //
 	    //  Find the appropriate stack frame.
 	    //
-        fprintf(code_file, "\tswp x\n");
+        fprintf(code_file, "\tdup x\n");
         //
 	    do {
             fprintf(code_file, "\tlda.w %s,X\n", STATIC_LINK);
@@ -546,7 +546,7 @@ void emit_push_return_value_address(SYMTAB_NODE_PTR var_idp)
         fprintf(code_file, "\tadc.w #%s\n", RETURN_VALUE);
         fprintf(code_file, "\tpha.w\n");
         //
-        fprintf(code_file, "\tswp x\n");
+        fprintf(code_file, "\trot x\n");
     } else {
     	//
     	// Calculate address of local variable as an offset from BP

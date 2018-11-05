@@ -746,7 +746,7 @@ TYPE_STRUCT_PTR declared_routine_call(SYMTAB_NODE_PTR rtn_idp,
 
         fprintf(code_file, "\tdup x\n");
         for (lev = old_level; lev >= new_level; --lev) {
-            fprintf(code_file, "\tlda.xw %s,X\n", STATIC_LINK);
+            fprintf(code_file, "\tlda.w %s,X\n", STATIC_LINK);
         }
         fprintf(code_file, "\tphx.w\n");
         fprintf(code_file, "\trot x\n");
