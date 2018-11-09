@@ -34,21 +34,21 @@ _start
 ;   18: 
 ;   19:     wordentrytype    = RECORD  {entry in word table}
 ;   20:                word : wordtype; {word string}
-word_002	.equ +0
+word_002 .equ +0
 ;   21:                firstnumberindex,    {head and tail of    }
 ;   22:                lastnumberindex      {  linked number list}
 ;   23:                    : numbertableindex;
-firstnumberindex_003	.equ +20
-lastnumberindex_004	.equ +22
+firstnumberindex_003 .equ +20
+lastnumberindex_004 .equ +22
 ;   24:                END;
 ;   25: 
 ;   26:     numberentrytype  = RECORD  {entry in number table}
 ;   27:                number                   {line number}
 ;   28:                    : linenumbertype;
-number_005	.equ +0
+number_005 .equ +0
 ;   29:                nextindex                {index of next   }
 ;   30:                    : numbertableindex;  {  in linked list}
-nextindex_006	.equ +2
+nextindex_006 .equ +2
 ;   31:                END;
 ;   32: 
 ;   33:     wordtabletype    = ARRAY [wordtableindex]   OF wordentrytype;

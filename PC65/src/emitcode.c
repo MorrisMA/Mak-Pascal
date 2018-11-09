@@ -303,7 +303,7 @@ void emit_declarations(SYMTAB_NODE_PTR rtn_idp)
 
 void emit_numeric_equate(SYMTAB_NODE_PTR idp)
 {
-    fprintf(code_file, "%s_%03d\t.equ %+d\n",
+    fprintf(code_file, "%s_%03d .equ %+d\n",
 	  	               idp->name,
                        idp->label_index,
 	  	               idp->defn.info.data.offset);
@@ -367,10 +367,6 @@ void emit_load_value(SYMTAB_NODE_PTR var_idp, TYPE_STRUCT_PTR var_tp)
 	    if (var_tp == char_typep) {
             fprintf(code_file, "\tlda (%s_%03d,X)\n", var_idp->name, var_idp->label_index);
         } else if (var_tp == real_typep) {
-            //fprintf(code_file, "\tldy #2\n");
-            //fprintf(code_file, "\tlda.w (%s_%03d,X),Y\t; ***** Check Addressing Mode\n", var_idp->name, var_idp->label_index);
-            //fprintf(code_file, "\tswp a\n");
-            //fprintf(code_file, "\tlda.w (%s_%03d,X)\n", var_idp->name, var_idp->label_index);
             fprintf(code_file, "\ttxa.w\n");
             fprintf(code_file, "\tclc\n");
             fprintf(code_file, "\tadc.w #%s_%03d\n", var_idp->name, var_idp->label_index);

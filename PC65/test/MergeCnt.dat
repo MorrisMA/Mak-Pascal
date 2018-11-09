@@ -58,7 +58,7 @@ sta.w_abs      41
 sta.w_ipp      59
 sta.w_zpS     122
 sta.w_zpX      44
-stz__bss_start    5
+stz_abs         5
 swp_A         100
 swp_Y           2
 tay_imp         1
