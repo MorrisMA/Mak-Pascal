@@ -454,12 +454,12 @@ S_016 .str "*** ERROR:  number < 0"
 S_007 .str "Enter new number (0 to quit): "
 F_020 .flt 1.000000e-06
 F_011 .flt 0.000000e+00
-_bss_start .byt 1
-number_002 .flt 1
-root_003 .flt 1
-sqroot_004 .flt 1
-_bss_end .byt 1
-_stk .byt 1023
-_stk_top .byt 1
+_bss_start .byt 0
+number_002 .flt 0
+root_003 .flt 0
+sqroot_004 .flt 0
+_bss_end .byt 0
+_stk .byt 0[1023]
+_stk_top .byt -1
 
 	.end

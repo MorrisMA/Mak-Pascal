@@ -143,24 +143,24 @@ void emit_program_epilogue(SYMTAB_NODE_PTR prog_idp)
     //  Emit declarations for the program's global variables.
     //
 
-    fprintf(code_file, "_bss_start .byt 1\n");
+    fprintf(code_file, "_bss_start .byt 0\n");
     for (np = prog_idp->defn.info.routine.locals; np != NULL; np = np->next) {
 	    fprintf(code_file, "%s_%03d ", np->name, np->label_index);
 	    if (np->typep == char_typep)
-	        fprintf(code_file, ".byt 1\n");
+	        fprintf(code_file, ".byt 0\n");
 	    else if (np->typep == real_typep)
-	        fprintf(code_file, ".flt 1\n");
+	        fprintf(code_file, ".flt 0\n");
 	    else if (np->typep->form == ARRAY_FORM)
-	        fprintf(code_file, ".byt %d\n", np->typep->size);
+	        fprintf(code_file, ".byt 0[%d]\n", np->typep->size);
 	    else if (np->typep->form == RECORD_FORM)
-	        fprintf(code_file, ".byt %d\n", np->typep->size);
+	        fprintf(code_file, ".byt 0[%d]\n", np->typep->size);
 	    else
-	        fprintf(code_file, ".wrd 1\n");
+	        fprintf(code_file, ".wrd 0\n");
     }
-    fprintf(code_file, "_bss_end .byt 1\n");
+    fprintf(code_file, "_bss_end .byt 0\n");
 
-    fprintf(code_file, "_stk .byt %d\n", stk_size-1);
-    fprintf(code_file, "_stk_top .byt 1\n");
+    fprintf(code_file, "_stk .byt 0[%d]\n", stk_size-1);
+    fprintf(code_file, "_stk_top .byt -1\n");
 
 	fprintf(code_file, "\n");
     fprintf(code_file, "\t.end\n");
@@ -419,6 +419,7 @@ void emit_load_value(SYMTAB_NODE_PTR var_idp, TYPE_STRUCT_PTR var_tp)
         fprintf(code_file, "\tdup x\n");
 	    do {
             fprintf(code_file, "\tlda.w %s,X\n", STATIC_LINK);
+            fprintf(code_file, "\ttax.w\n");
 	    } while (++lev < level);
 
 	    if (var_tp == char_typep) {
@@ -493,7 +494,7 @@ void emit_push_address(SYMTAB_NODE_PTR var_idp)
         //
 	    do {
             fprintf(code_file, "\tlda.w %s,X\n", STATIC_LINK);
-            fprintf(code_file, "\ttax\n");
+            fprintf(code_file, "\ttax.w\n");
 	    } while (++lev < level);
         //
         // emit_2(varparm_flag ? MOVE : LOAD_ADDRESS, reg(AX), word(var_idp));
