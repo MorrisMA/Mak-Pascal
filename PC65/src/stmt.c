@@ -184,8 +184,6 @@ void assignment_statement(SYMTAB_NODE_PTR var_idp)
 	    --  char := char
 	    */
 	    if (stacked_flag) {
-            //fprintf(code_file, "\tsta (1,S)\n");
-            //fprintf(code_file, "\tadj #%d\n", 2);
             fprintf(code_file, "\tpli.s\n");
             fprintf(code_file, "\tsta 0,I++\n");
         } else if (var_idp->defn.key == FUNC_DEFN) {
@@ -211,12 +209,6 @@ void assignment_statement(SYMTAB_NODE_PTR var_idp)
 	    --  ... real
 	    */
 	    if (stacked_flag) {
-            //fprintf(code_file, "\tswp a\n");
-            //fprintf(code_file, "\tldy #2\n");
-            //fprintf(code_file, "\tsta.w (1,S),Y\t;******* Check Addressing Mode\n");
-            //fprintf(code_file, "\tswp a\n");
-            //fprintf(code_file, "\tsta.w (1,S)\n");
-            //fprintf(code_file, "\tadj #%d\n", 2);
             fprintf(code_file, "\tpli.s\n");
             fprintf(code_file, "\tsta.w 0,I++\n");
             fprintf(code_file, "\tswp a\n");
@@ -254,8 +246,6 @@ void assignment_statement(SYMTAB_NODE_PTR var_idp)
 	    --  enum    := enum
 	    */
 	    if (stacked_flag) {
-            //fprintf(code_file, "\tsta.w (1,S)\n");
-            //fprintf(code_file, "\tadj #%d\n", 2);
             fprintf(code_file, "\tpli.s\n");
             fprintf(code_file, "\tsta.w 0,I++\n");
         } else if (var_idp->defn.key == FUNC_DEFN) {
@@ -301,8 +291,9 @@ void repeat_statement(void)
     if (expr_tp != boolean_typep)
         error(INCOMPATIBLE_TYPES);
 
-    fprintf(code_file, "\tcmp.w #%d\n", 1);
-    fprintf(code_file, "\tbeq %s_%03d\n", STMT_LABEL_PREFIX, loop_exit_labelx);
+    // fprintf(code_file, "\tcmp.w #%d\n", 1);
+    // fprintf(code_file, "\tbeq %s_%03d\n", STMT_LABEL_PREFIX, loop_exit_labelx);
+    printf(code_file, "\tbrt %s_%03d\n", STMT_LABEL_PREFIX, loop_exit_labelx);
     fprintf(code_file, "\tjmp %s_%03d\n", STMT_LABEL_PREFIX, loop_begin_labelx);
 
     emit_label(STMT_LABEL_PREFIX, loop_exit_labelx);
@@ -328,8 +319,9 @@ void while_statement(void)
     if (expr_tp != boolean_typep)
         error(INCOMPATIBLE_TYPES);
 
-    fprintf(code_file, "\tcmp.w #%d\n", 1);
-    fprintf(code_file, "\tbeq %s_%03d\n", STMT_LABEL_PREFIX, loop_stmt_labelx);
+    // fprintf(code_file, "\tcmp.w #%d\n", 1);
+    // fprintf(code_file, "\tbeq %s_%03d\n", STMT_LABEL_PREFIX, loop_stmt_labelx);
+    fprintf(code_file, "\tbrt %s_%03d\n", STMT_LABEL_PREFIX, loop_stmt_labelx);
     fprintf(code_file, "\tjmp %s_%03d\n", STMT_LABEL_PREFIX, loop_exit_labelx);
 
     emit_label(STMT_LABEL_PREFIX, loop_stmt_labelx);
@@ -366,8 +358,9 @@ void if_statement(void)
     if (expr_tp != boolean_typep)
         error(INCOMPATIBLE_TYPES);
 
-    fprintf(code_file, "\tcmp.w #%d\n", 1);
-    fprintf(code_file, "\tbeq %s_%03d\n", STMT_LABEL_PREFIX, true_labelx);
+    // fprintf(code_file, "\tcmp.w #%d\n", 1);
+    // fprintf(code_file, "\tbeq %s_%03d\n", STMT_LABEL_PREFIX, true_labelx);
+    fprintf(code_file, "\tbrt %s_%03d\n", STMT_LABEL_PREFIX, true_labelx);
     fprintf(code_file, "\tjmp %s_%03d\n", STMT_LABEL_PREFIX, false_labelx);
 
     emit_label(STMT_LABEL_PREFIX, true_labelx);
@@ -479,9 +472,11 @@ void for_statement(void)
     }
 
     if (to_flag) {
-        fprintf(code_file, "\tbge %s_%03d\n", STMT_LABEL_PREFIX, loop_stmt_labelx);
+        // fprintf(code_file, "\tbge %s_%03d\n", STMT_LABEL_PREFIX, loop_stmt_labelx);
+        fprintf(code_file, "\tge %s_%03d\n", STMT_LABEL_PREFIX, true_labelx);
     } else {
-        fprintf(code_file, "\tble %s_%03d\n", STMT_LABEL_PREFIX, loop_stmt_labelx);
+        // printf(code_file, "\tble %s_%03d\n", STMT_LABEL_PREFIX, loop_stmt_labelx);
+        fprintf(code_file, "\ttle %s_%03d\n", STMT_LABEL_PREFIX, loop_stmt_labelx);
     }
     fprintf(code_file, "\tjmp %s_%03d\n", STMT_LABEL_PREFIX, loop_exit_labelx);
 
@@ -740,7 +735,6 @@ TYPE_STRUCT_PTR case_label(void)
         } else if (idp->typep == char_typep) {
 	        if (saw_sign)
                 error(INVALID_CONSTANT);
-            //fprintf(code_file, "\tcmp #'%c'\n", idp->defn.info.constant.value.character);
             fprintf(code_file, "\tcmp #%d\n", idp->defn.info.constant.value.integer);
 	        return(char_typep);
         } else if (idp->typep->form == ENUM_FORM) {
@@ -759,7 +753,6 @@ TYPE_STRUCT_PTR case_label(void)
             error(INVALID_CONSTANT);
 
 	    if (strlen(literal.value.string) == 1) {
-            //fprintf(code_file, "\tcmp #'%c'\n", literal.value.string[0]);
             fprintf(code_file, "\tcmp #%d\n", (int) literal.value.string[0]);
 	        return(char_typep);
         } else {

@@ -153,42 +153,52 @@ TYPE_STRUCT_PTR expression(void)
 	    if (   integer_operands(result_tp, tp2)
             || (result_tp       == char_typep)
             || (result_tp->form == ENUM_FORM)  ) {
-            fprintf(code_file, "\txma.w 1,S\n");
-            fprintf(code_file, "\tcmp.w 1,S\n");
-            fprintf(code_file, "\tadj #%d\n", 2);
-            fprintf(code_file, "\tphp\n");
-            fprintf(code_file, "\tlda #%d\n", 1);
-            fprintf(code_file, "\tplp\n");
             
-            /*
-            --  Order of the operands is opposite of that required for op.
-            --  Therefore, the condition, op, must be changed for M65C02A.
-            */
-
+            // /*
+            // --  Order of the operands is opposite of that required for op.
+            // --  Therefore, the condition, op, must be changed for M65C02A.
+            // */
+            // fprintf(code_file, "\txma.w 1,S\n");
+            // fprintf(code_file, "\tcmp.w 1,S\n");
+            // fprintf(code_file, "\tadj #%d\n", 2);
+            // fprintf(code_file, "\tphp\n");
+            // fprintf(code_file, "\tlda #%d\n", 1);
+            // fprintf(code_file, "\tplp\n");
+            
+            // sbc/cmp sp,S reverses order of operands to ALU and pops stack
+            
+            fprint(code_file, "\tcmp.w 1,S\n"); 
+            
             jump_label_index = new_label_index();
 	        
             switch(op) {
 	            case LT:    // BLT
-                    fprintf(code_file, "\tblt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tblt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\ttlt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case LE:    // BLE 
-                    fprintf(code_file, "\tble %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tble %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\ttle %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case EQUAL: // BEQ
-                    fprintf(code_file, "\tbeq %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tbeq %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tteq %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case NE:    // BNE
-                    fprintf(code_file, "\tbne %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tbne %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\ttne %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case GE:    // BGE
-                    fprintf(code_file, "\tbge %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tbge %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\ttge %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case GT:    // BGT
-                    fprintf(code_file, "\tbgt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tbgt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\ttgt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            default : break;
             }
-            fprintf(code_file, "\tlda #0\n");
+            // fprintf(code_file, "\tlda #0\n");
 
             emit_label(STMT_LABEL_PREFIX, jump_label_index);
 
@@ -205,35 +215,43 @@ TYPE_STRUCT_PTR expression(void)
 	        emit_promote_to_real(result_tp, tp2);
             fprintf(code_file, "\tjsr _fcmp\n");
             fprintf(code_file, "\tadj #%d\n", 8);
-            fprintf(code_file, "\tcmp.w #%d\n", 0);
-            fprintf(code_file, "\tphp\n");
-            fprintf(code_file, "\tlda #%d\n", 1);
-            fprintf(code_file, "\tplp\n");
             
+            fprintf(code_file, "\tcmp.w #%d\n", 0);
+            
+            // fprintf(code_file, "\tphp\n");
+            // fprintf(code_file, "\tlda #%d\n", 1);
+            // fprintf(code_file, "\tplp\n");
+                        
             jump_label_index = new_label_index();
 	        
             switch(op) {
 	            case LT:    // BLT
-                    fprintf(code_file, "\tblt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tblt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\ttlt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case LE:    // BLE 
-                    fprintf(code_file, "\tble %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tble %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\ttle %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case EQUAL: // BEQ
-                    fprintf(code_file, "\tbeq %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tbeq %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tteq %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case NE:    // BNE
-                    fprintf(code_file, "\tbne %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tbne %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\ttne %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case GE:    // BGE
-                    fprintf(code_file, "\tbge %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tbge %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\ttge %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case GT:    // BGT
-                    fprintf(code_file, "\tbgt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tbgt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\ttgt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            default : break;
             }
-            fprintf(code_file, "\tlda #0\n");
+            // fprintf(code_file, "\tlda #0\n");
 
             emit_label(STMT_LABEL_PREFIX, jump_label_index);
 
@@ -248,34 +266,41 @@ TYPE_STRUCT_PTR expression(void)
             fprintf(code_file, "\tpsh.w #%d\n", result_tp->info.array.elmt_count);
             fprintf(code_file, "\tjsr _cmpsb\n");
 	        fprintf(code_file, "\tadj #%+d\n", 6);
-            fprintf(code_file, "\tphp\n");
-            fprintf(code_file, "\tlda #%d\n", 1);
-            fprintf(code_file, "\tplp\n");
+            
+            // fprintf(code_file, "\tphp\n");
+            // fprintf(code_file, "\tlda #%d\n", 1);
+            // fprintf(code_file, "\tplp\n");
             
             jump_label_index = new_label_index();
 	        
             switch(op) {
 	            case LT:    // BLT
-                    fprintf(code_file, "\tblt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tblt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\ttlt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case LE:    // BLE 
-                    fprintf(code_file, "\tble %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tble %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\ttle %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case EQUAL: // BEQ
-                    fprintf(code_file, "\tbeq %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tbeq %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\tteq %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case NE:    // BNE
-                    fprintf(code_file, "\tbne %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tbne %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\ttne %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case GE:    // BGE
-                    fprintf(code_file, "\tbge %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tbge %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\ttge %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            case GT:    // BGT
-                    fprintf(code_file, "\tbgt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    // fprintf(code_file, "\tbgt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
+                    fprintf(code_file, "\ttgt %s_%03d\n", STMT_LABEL_PREFIX, jump_label_index);
                     break;
 	            default : break;
             }
-            fprintf(code_file, "\tlda #0\n");
+            // fprintf(code_file, "\tlda #0\n");
 
             emit_label(STMT_LABEL_PREFIX, jump_label_index);
 
@@ -361,12 +386,12 @@ TYPE_STRUCT_PTR simple_expression(void)
                     if (op == PLUS) {
                         fprintf(code_file, "\tclc\n");
                         fprintf(code_file, "\tadc.w 1,S\n");
-                        fprintf(code_file, "\tadj #%d\n", 2);
+                        // fprintf(code_file, "\tadj #%d\n", 2);
                     } else {
-                        fprintf(code_file, "\txma.w 1,S\n");
+                        // fprintf(code_file, "\txma.w 1,S\n");
                         fprintf(code_file, "\tsec\n");
                         fprintf(code_file, "\tsbc.w 1,S\n");
-                        fprintf(code_file, "\tadj #%d\n", 2);
+                        // fprintf(code_file, "\tadj #%d\n", 2);
 		            }
 		            result_tp = integer_typep;
                 } else if (real_operands(result_tp, tp2)) {
@@ -398,7 +423,7 @@ TYPE_STRUCT_PTR simple_expression(void)
 		        */
 		        if (boolean_operands(result_tp, tp2)) {
                    fprintf(code_file, "\tora.w 1,S\n");
-                   fprintf(code_file, "\tadj #%d\n", 2);
+                   // printf(code_file, "\tadj #%d\n", 2);
                 } else
                     error(INCOMPATIBLE_TYPES);
 
@@ -519,7 +544,7 @@ TYPE_STRUCT_PTR term(void)
 		        */
 		        if (boolean_operands(result_tp, tp2)) {
                     fprintf(code_file, "\tand.w 1,S\n");
-                    fprintf(code_file, "\tadj #%d\n", 2);
+                    // fprintf(code_file, "\tadj #%d\n", 2);
                 } else
                     error(INCOMPATIBLE_TYPES);
 
@@ -737,7 +762,6 @@ TYPE_STRUCT_PTR constant_identifier(SYMTAB_NODE_PTR idp)
 	    /*
 	    --  AX = value
 	    */
-        //fprintf(code_file, "\tlda #'%c'\n", idp->defn.info.constant.value.character);
         fprintf(code_file, "\tlda #%d\n", idp->defn.info.constant.value.integer);
     } else if (tp == real_typep) {
 	    /*
@@ -835,16 +859,9 @@ TYPE_STRUCT_PTR variable(SYMTAB_NODE_PTR var_idp,   /* variable id */
             && (tp->form != RECORD_FORM)) {
 	        
             if (tp == char_typep) {
-                //fprintf(code_file, "\tlda (1,S)\n");
-                //fprintf(code_file, "\tadj #%d\n", 2);
-                fprintf(code_file, "\tpli.s\n");
+               fprintf(code_file, "\tpli.s\n");
                 fprintf(code_file, "\tlda 0,I++\n");
             } else if (tp == real_typep) {
-                //fprintf(code_file, "\tldy #2\n");
-                //fprintf(code_file, "\tlda.w (1,S),Y\n");
-                //fprintf(code_file, "\tswp a\n");
-                //fprintf(code_file, "\tlda.w (1,S)\n");
-                //fprintf(code_file, "\tadj #%d\n", 2);
                 fprintf(code_file, "\tpli.s\n");
                 fprintf(code_file, "\tlda.w 0,I++\n");
                 fprintf(code_file, "\ttai\n");
@@ -853,8 +870,6 @@ TYPE_STRUCT_PTR variable(SYMTAB_NODE_PTR var_idp,   /* variable id */
                 fprintf(code_file, "\tlda.w 0,I++\n");
                 fprintf(code_file, "\tswp a\n");
             } else {
-                //fprintf(code_file, "\tlda.w (1,S)\n");
-                //fprintf(code_file, "\tadj #%d\n", 2);
                 fprintf(code_file, "\tpli.s\n");
                 fprintf(code_file, "\tlda.w 0,I++\n");
             }
@@ -865,14 +880,6 @@ TYPE_STRUCT_PTR variable(SYMTAB_NODE_PTR var_idp,   /* variable id */
 	    --  unless it is a local/global scalar parameter or variable, or
         --  function return.
 	    */
-//	    if (defn_key == FUNC_DEFN)
-//	       emit_push_return_value_address(var_idp);
-//	    else if (     varparm_flag             
-//                 || (tp->form == ARRAY_FORM )
-//                 || (tp->form == RECORD_FORM)
-//                 || (   (var_idp->level > 1    )
-//                     && (var_idp->level < level)))
-//	        emit_push_address(var_idp);
 	    if (   varparm_flag             
             || (tp->form == ARRAY_FORM )
             || (tp->form == RECORD_FORM)
@@ -976,7 +983,8 @@ TYPE_STRUCT_PTR array_subscript_list(TYPE_STRUCT_PTR tp)
 	        }
             fprintf(code_file, "\tclc\n");
             fprintf(code_file, "\tadc.w 1,S\n");
-            fprintf(code_file, "\tsta.w 1,S\n");
+            // fprintf(code_file, "\tsta.w 1,S\n");
+            fprintf(code_file, "\tpha.w\n");
 
 	        tp = elmt_tp;
         } else {

@@ -167,26 +167,16 @@ void read_readln(SYMTAB_NODE_PTR rtn_idp)
 		            error(INCOMPATIBLE_TYPES);
 		        } else if (actual_parm_tp == integer_typep) {
                     fprintf(code_file, "\tjsr _iread\n");
-                    //fprintf(code_file, "\tsta.w (1,S)\n");
-                    //fprintf(code_file, "\tadj #%d\n", 2);
                     fprintf(code_file, "\tpli.s\n");
                     fprintf(code_file, "\tsta.w 0,I++\n");
                 } else if (actual_parm_tp == real_typep) {
                     fprintf(code_file, "\tjsr _fread\n");
-                    //fprintf(code_file, "\tswp a\n");
-                    //fprintf(code_file, "\tldy #2\n");
-                    //fprintf(code_file, "\tsta.w (1,S),Y\t; *********** Check Addressing Mode\n");
-                    //fprintf(code_file, "\tswp a\n");
-                    //fprintf(code_file, "\tsta.w (1,S)\n");
-                    //fprintf(code_file, "\tadj #%d\n", 2);
                     fprintf(code_file, "\tpli.s\n");
                     fprintf(code_file, "\tsta.w 0,I++\n");
                     fprintf(code_file, "\tswp a\n");
                     fprintf(code_file, "\tsta.w 0,I++\n");
                 } else if (actual_parm_tp == char_typep) {
                     fprintf(code_file, "\tjsr _cread\n");
-                    //fprintf(code_file, "\tsta (1,S)\n");
-                    //fprintf(code_file, "\tadj #%d\n", 2);
                     fprintf(code_file, "\tpli.s\n");
                     fprintf(code_file, "\tsta 0,I++\n");
 		        }
@@ -286,7 +276,6 @@ void write_writeln(SYMTAB_NODE_PTR rtn_idp)
 		            precision_tp = base_type(expression());
 
                     if (actual_parm_tp == real_typep) {
-                        //fprintf(code_file, "\tpha.w\n");
                     	emit_push_operand(integer_typep);
                     }
 
@@ -395,15 +384,6 @@ TYPE_STRUCT_PTR abs_sqr(SYMTAB_NODE_PTR rtn_idp)
 
     switch (rtn_idp->defn.info.routine.key) {
 	    case ABS :  if (parm_tp == integer_typep) {
-		                /*
-		                int nonnegative_labelx = new_label_index();
-
-                        fprintf(code_file, "\tcmp.w #%d\n", 0);
-                        fprintf(code_file, "\tbge %s_%03d\n", STMT_LABEL_PREFIX, nonnegative_labelx);
-                        fprintf(code_file, "\teor.w #-1\n");
-                        fprintf(code_file, "\tinc.w a\n");
-		                emit_label(STMT_LABEL_PREFIX, nonnegative_labelx);
-		                */
 						emit_push_operand(parm_tp);
 						fprintf(code_file, "\tjsr _iabs\n");
 						fprintf(code_file, "\tadj #%d\n", 2);
@@ -415,8 +395,6 @@ TYPE_STRUCT_PTR abs_sqr(SYMTAB_NODE_PTR rtn_idp)
 	                break;
 
 	    case SQR :  if (parm_tp == integer_typep) {
-	    				//fprintf(code_file, "\tpha.w\n");
-		                //fprintf(code_file, "\tpha.w\n");
             			emit_push_operand(parm_tp);
             			emit_push_operand(parm_tp);
             			fprintf(code_file, "\tjsr _imul\n");
@@ -459,7 +437,6 @@ TYPE_STRUCT_PTR arctan_cos_exp_ln_sin_sqrt(SYMTAB_NODE_PTR rtn_idp)
     }
 
     if (parm_tp == integer_typep) {
-	    //fprintf(code_file, "\tpha.w\n");
     	emit_push_operand(parm_tp);
 	    fprintf(code_file, "\tjsr _fconv\n");
 	    fprintf(code_file, "\tadj #%d\n", 2 );

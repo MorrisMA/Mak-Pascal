@@ -21,7 +21,7 @@ VAR
         VAR
             partbefore,     {part before the comma}
             partafter       {part after the comma}
-             : integer;
+                        : integer;
 
 
         PROCEDURE DoPart (part : integer);
@@ -34,7 +34,7 @@ VAR
             tenspart,           {tens part 0..99}
             tensdigit,          {tens digit 0..9}
             onesdigit           {ones digit 0..9}
-            : integer;
+                            : integer;
 
 
             PROCEDURE DoOnes (digit : integer);
