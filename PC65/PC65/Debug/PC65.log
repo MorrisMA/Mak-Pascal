@@ -1,0 +1,5 @@
+﻿cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  EXPR.C
+D:\MAM\Pascal\PC65\EXPR.C(695,5): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\MAM\Pascal\PC65\EXPR.C(752,6): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  PC65.vcxproj -> D:\MAM\Pascal\PC65\PC65\.\Debug\PC65.exe

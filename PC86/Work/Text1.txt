@@ -1,0 +1,20 @@
+    BOOLEAN funcval_flag = var_idp->defn.key == FUNC_DEFN;
+
+    } else if (funcval_flag) {
+	    /*
+	    --  Function Return Value
+	    */
+	    if (var_tp == char_typep) {
+	        emit_2(SUBTRACT, reg(AX), reg(AX));
+	        emit_2(MOVE, reg(AL), name_lit(RETURN_VALUE));
+            fprintf(code_file, ";---\t---\n");
+            fprintf(code_file, ";---\tlda %+d,B;\n", -4);       
+        } else if (var_tp == real_typep) {
+	        emit_2(MOVE, reg(AX), name_lit(RETURN_VALUE));
+	        emit_2(MOVE, reg(DX), high_dword_indirect(BX)); // 15L16, mam, changed AX to DX
+            fprintf(code_file, ";---\tsiz; lda %+d,B;\n", -4);        
+            fprintf(code_file, ";---\tdup; siz; lda %+d,B;\n", -2);        
+        } else {
+            emit_2(MOVE, reg(AX), word_indirect(BX));
+            fprintf(code_file, ";---\tsiz; lda %+d,B;\n", -4);
+        }

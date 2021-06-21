@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{40996268-2185-4e46-bc58-3580fedee510}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{51b4bdaa-8c54-4773-a52d-6aa2c831c3ff}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{30d271e9-55af-487d-9204-bf327399f852}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\COMPILE2.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DECL.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EMITASM.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EMITCODE.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ERROR.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EXPR.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ROUTINE.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SCANNER.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\STANDARD.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\STMT.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SYMTAB.C">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\CODE.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\COMMON.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ERROR.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\PARSER.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SCANNER.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SYMTAB.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\StdAfx.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

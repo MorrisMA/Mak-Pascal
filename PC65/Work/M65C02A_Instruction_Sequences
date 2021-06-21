@@ -1,0 +1,63 @@
+// Program/routine prolog code
+//      save current BP
+//      set new BP
+//
+// siz; phx; siz; tsx;
+
+// Allocate stack space for function return value and/or local variables
+//
+// siz; ldy #-4; adj;
+// siz; ldy #-size; adj;
+
+// Program epilog code
+//      restore stack pointer to current BP
+//      pull original BP
+//
+// siz; txs; siz; plx; rtn; 
+
+// Defined procedure/function epilogue code
+//      restores stack pointer to current BP (DYNAMIC_LINK),
+//      pulls previous BP (DYNAMIC_LINK),
+//      loads Y with size to adjust SP after return, (includes STATIC_LINK)
+//      exits proc/func 
+//
+// siz; txs; siz; plx; siz; ldy #size+2; rtn;
+
+// Code sequence for setting up register pointer and loading char, int, float
+//
+// siz; lda off,B; ind; swp; lda 0,I++;
+// siz; lda off,B; ind; swp; siz; lda 0,I++;
+// siz; lda off,B; ind; swp; siz; lda 0,I++; dup; siz; lda 0,I++;
+
+// Code sequence for loading local variable as char (8), int (16), float (32)
+//
+// lda off,B;
+// siz; lda off,B;
+// siz; lda off,B; dup; siz; lda off+2,B;
+
+// Load 16-bit and/or 32-bit function return value into A register stack
+//
+// siz; lda -4,B;
+// siz; lda -4,B; dup; siz; lda -2,B;
+
+// Save BP in XNOS
+//
+// oax; dup;
+
+// Walk the STATIC_LINK, loading XTOS with pointer to calling routines locals
+//
+// siz; lda STATIC_LINK,B; siz; tax; -- repeated for until routine levels match
+
+// Restore BP from XNOS
+//
+// oax; rot;
+
+// Push operands onto stack: int, float
+// siz; pha;
+// siz; pha; rot; siz; pha;
+
+// Push address from local variable to stack
+//
+// siz; lda off,B; siz; pha;
+
+

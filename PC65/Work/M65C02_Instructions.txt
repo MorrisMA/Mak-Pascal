@@ -1,0 +1,83 @@
+//  M65C02A Instructions Used
+char *instruction_strings[] = {
+    //  "mov\t",
+    "db\tSIZ, $AD\n\t\tdw\t",               // MOV  AX,WORD PTR direct
+    "lda\t",                                // MOV  AL,BYTE PTR direct
+
+    "db\tSIZ, $AC\n\t\tdw\t",               // MOV  DX,WORD PTR direct
+    "ldy\t",                                // MOV  DL,BYTE PTR direct
+
+    "db\tSIZ, $A9\n\t\tdw\t",               // MOV  AX,literal
+    "lda\t#",                               // MOV  AL,literal
+
+    "db\tSIZ, $8D\t; sta.W abs\n\t\tdw\t",  // MOV  WORD PTR direct,AX
+    "sta\t",                                // MOV  BYTE PTR direct,AL
+
+    "db\tSIZ\n\t\ttax\n",                   // MOV  BP,AX
+    "db\tSIZ\n\t\ttay\n",                   // MOV  DX,AX
+    "txa",
+    "txs",
+    "tya",
+    "tsx",
+
+    "db\tPSH",
+    "db\tPUL",                              // memory push/pop
+    //  "rep\tmovsb",
+    //  "lea\t",
+    //  "xchg",
+    //  "cmp\t",
+    "db\tSIZ\n\t\tcmp\t",           
+    //  "repe\tcmpsb",
+    //  "pop\t",
+    "db\tSIZ\n\t\tpla",             
+    "db\tSIZ\n\t\tplx",
+    "db\tSIZ\n\t\tply",
+    //  "push",
+    "db\tSIZ\n\t\tpha",
+    "db\tSIZ\n\t\tphx",
+    "db\tSIZ\n\t\tphy",
+    //  "and\t",
+    "db\tSIZ\n\t\tanl\t",
+    //  "or\t",
+    "db\tSIZ\n\t\tora\t",
+    //  "xor\t",
+    "db\tSIZ\n\t\teor\t",           
+    //  "neg\t",
+    "db\tSIZ, $49, $FF, $FF, SIZ, $1A\t; EOR.W #$FFFF; INC A\n",
+    //  "inc\t",
+    "db\tSIZ\n\t\tinc\tA\n",
+    "db\tSIZ\n\t\tinx\n",
+    "db\tSIZ\n\t\tiny\n",
+    //  "dec\t",
+    "db\tSIZ\n\t\tdec\tA\n",
+    "db\tSIZ\n\t\tdex\n",
+    "db\tSIZ\n\t\tdey\n",
+    //  "add\t",
+    "clc\n\t\tdb\tSIZ\n\t\tadc\t",  
+    //  "sub\t",
+    "sec\n\t\tdb\tSIZ\n\t\tsbc\t",  
+    //  "imul",
+    "imul\t",
+    //  "idiv",
+    "idiv\t"
+    //  "cld",
+    "nop"                           
+    //  "call",
+    "jsr\t",                        
+    //  "ret\t",
+    "rts\t",                        
+    //  "jmp\t",
+    "jmp\t",                        
+    //  "jl\t",
+    "db\tSIZ\nblt\t",               
+    //  "jle\t",
+    "db\tSIZ\nble\t",               
+    //  "je\t",
+    "beq\t",                        
+    //  "jne\t",
+    "bne\t",                        
+    //  "jge\t",
+    "db\tSIZ\nbge\t",               
+    //  "jg\t",
+    "db\tSIZ\nbgt\t",               
+};

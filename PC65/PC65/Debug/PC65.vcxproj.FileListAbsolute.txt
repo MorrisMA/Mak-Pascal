@@ -1,0 +1,2 @@
+D:\MAM\Pascal\PC65\PC65\Debug\PC65.exe
+D:\MAM\Pascal\PC65\PC65\Debug\PC65.pdb

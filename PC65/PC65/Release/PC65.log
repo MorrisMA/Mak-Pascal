@@ -1,0 +1,13 @@
+﻿  COMPILE2.C
+  DECL.C
+  EMITASM.C
+  EMITCODE.C
+  ERROR.C
+  EXPR.C
+  ROUTINE.C
+  SCANNER.C
+  STANDARD.C
+  STMT.C
+  SYMTAB.C
+  Generating Code...
+  PC65.vcxproj -> D:\MAM\Pascal\PC65\PC65\.\Release\PC65.exe
