@@ -15,25 +15,31 @@ FUNCTION FIB(n : INTEGER) : INTEGER;
     END;
     
 BEGIN
-    fn[0] := 1;
+    fn[0] := 0;
     fn[1] := 1;
     FOR i := 2 to max DO fn[i] := 0;
+    
+    j := FIB(max);
 
-{     FOR i := 0 to max DO BEGIN
-        j := FIB(i);
+    FOR i := 0 to max DO BEGIN
         write('Fib[');
         write(i:2);
         write('] = ');
-        write(j:5);
+        write(fn[i]:5);
         writeln
-    END
- }
-    i := max;
-    j := FIB(22);
+    END;
+    
+    writeln;
+    write('*****************************');
+    writeln;
+    writeln;
     write('Fib[');
-    write(i:2);
+    write(max:2);
     write('] = ');
-    write(j:5);
+    write(FIB(max):5);
+    writeln;
+    writeln;
+    write('*****************************');
+    writeln;
     writeln
- 
- END.
+END.

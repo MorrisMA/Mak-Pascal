@@ -115,14 +115,14 @@ L_008
 _pc65_main .sub
 	phx.w
 	tsx.w
-;   18:     fn[0] := 1;
+;   18:     fn[0] := 0;
 	psh.w #fn_004
 	lda #0
 	asl.w a
 	clc
 	adc.w 1,S
 	sta.w 1,S
-	lda #1
+	lda #0
 	pli.s
 	sta.w 0,I++
 ;   19:     fn[1] := 1;
@@ -157,55 +157,121 @@ L_011
 	jmp L_010
 L_012
 	dec.w i_002
-;   21: 
-;   22: {     FOR i := 0 to max DO BEGIN
-;   23:         j := FIB(i);
-;   24:         write('Fib[');
-;   25:         write(i:2);
-;   26:         write('] = ');
-;   27:         write(j:5);
-;   28:         writeln
-;   29:     END
-;   30:  }
-;   31:     i := max;
+;   21:     
+;   22:     j := FIB(max);
 	lda #23
-	sta.w i_002
-;   32:     j := FIB(22);
-	lda #22
 	pha.w
 	phx.w
 	jsr fib_005
 	adj #4
 	sta.w j_003
-;   33:     write('Fib[');
-	psh.w #S_013
+;   23: 
+;   24:     FOR i := 0 to max DO BEGIN
+	lda #0
+	sta.w i_002
+L_013
+	lda #23
+	cmp.w i_002
+	bge L_014
+	jmp L_015
+L_014
+;   25:         write('Fib[');
+	psh.w #S_016
 	psh.w #0
 	psh.w #4
 	jsr _swrite
 	adj #6
-;   34:     write(i:2);
+;   26:         write(i:2);
 	lda.w i_002
 	pha.w
 	lda #2
 	pha.w
 	jsr _iwrite
 	adj #4
-;   35:     write('] = ');
-	psh.w #S_014
+;   27:         write('] = ');
+	psh.w #S_017
 	psh.w #0
 	psh.w #4
 	jsr _swrite
 	adj #6
-;   36:     write(j:5);
-	lda.w j_003
+;   28:         write(fn[i]:5);
+	psh.w #fn_004
+	lda.w i_002
+	asl.w a
+	clc
+	adc.w 1,S
+	sta.w 1,S
+	pli.s
+	lda.w 0,I++
 	pha.w
 	lda #5
 	pha.w
 	jsr _iwrite
 	adj #4
-;   37:     writeln
-;   38:  
-;   39:  END.
+;   29:         writeln
+;   30:     END;
+	jsr _writeln
+	inc.w i_002
+	jmp L_013
+L_015
+	dec.w i_002
+;   31:     
+;   32:     writeln;
+	jsr _writeln
+;   33:     write('*****************************');
+	psh.w #S_018
+	psh.w #0
+	psh.w #29
+	jsr _swrite
+	adj #6
+;   34:     writeln;
+	jsr _writeln
+;   35:     writeln;
+	jsr _writeln
+;   36:     write('Fib[');
+	psh.w #S_016
+	psh.w #0
+	psh.w #4
+	jsr _swrite
+	adj #6
+;   37:     write(max:2);
+	lda #23
+	pha.w
+	lda #2
+	pha.w
+	jsr _iwrite
+	adj #4
+;   38:     write('] = ');
+	psh.w #S_017
+	psh.w #0
+	psh.w #4
+	jsr _swrite
+	adj #6
+;   39:     write(FIB(max):5);
+	lda #23
+	pha.w
+	phx.w
+	jsr fib_005
+	adj #4
+	pha.w
+	lda #5
+	pha.w
+	jsr _iwrite
+	adj #4
+;   40:     writeln;
+	jsr _writeln
+;   41:     writeln;
+	jsr _writeln
+;   42:     write('*****************************');
+	psh.w #S_018
+	psh.w #0
+	psh.w #29
+	jsr _swrite
+	adj #6
+;   43:     writeln;
+	jsr _writeln
+;   44:     writeln
+;   45: END.
 	jsr _writeln
 	plx.w
 	rts
@@ -213,8 +279,9 @@ L_012
 
 	.dat
 
-S_014 .str "] = "
-S_013 .str "Fib["
+S_018 .str "*****************************"
+S_017 .str "] = "
+S_016 .str "Fib["
 _bss_start .byt 0
 i_002 .wrd 0
 j_003 .wrd 0
